@@ -8,11 +8,11 @@ Checklist:
 
 ```text
 - Tạo project Laravel
-- Cấu hình database
+- Cấu hình PostgreSQL database
 - Cài Laravel Breeze hoặc auth mặc định của Filament
 - Cài Filament Admin
 - Cài Spatie Permission nếu cần phân quyền chi tiết
-- Cấu hình layout frontend
+- Cấu hình layout frontend với Tailwind CSS
 - Cấu hình storage link
 ```
 
@@ -22,6 +22,16 @@ Lệnh tham khảo:
 composer create-project laravel/laravel bus-news-booking
 cd bus-news-booking
 php artisan storage:link
+```
+
+Cấu hình PostgreSQL trong .env:
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nhatduonglaravel
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
 ```
 
 ## Giai đoạn 2: Xây CMS admin

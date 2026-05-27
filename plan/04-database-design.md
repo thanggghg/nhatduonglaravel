@@ -1,5 +1,7 @@
 # Thiết kế Database
 
+**Database Engine:** PostgreSQL
+
 ## 1. Danh sách bảng chính
 
 ```text
@@ -24,17 +26,17 @@ booking_click_logs
 
 ```sql
 CREATE TABLE banners (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    subtitle VARCHAR(500) NULL,
-    image VARCHAR(255) NULL,
-    button_text VARCHAR(100) NULL,
-    button_url VARCHAR(500) NULL,
-    position VARCHAR(100) NULL,
-    sort_order INT DEFAULT 0,
+    subtitle VARCHAR(500),
+    image VARCHAR(255),
+    button_text VARCHAR(100),
+    button_url VARCHAR(500),
+    position VARCHAR(100),
+    sort_order INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -42,13 +44,13 @@ CREATE TABLE banners (
 
 ```sql
 CREATE TABLE post_categories (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
-    description TEXT NULL,
+    description TEXT,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -56,19 +58,19 @@ CREATE TABLE post_categories (
 
 ```sql
 CREATE TABLE posts (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    post_category_id BIGINT UNSIGNED NULL,
+    id BIGSERIAL PRIMARY KEY,
+    post_category_id BIGINT,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
-    thumbnail VARCHAR(255) NULL,
-    summary TEXT NULL,
-    content LONGTEXT NULL,
-    meta_title VARCHAR(255) NULL,
-    meta_description VARCHAR(500) NULL,
+    thumbnail VARCHAR(255),
+    summary TEXT,
+    content TEXT,
+    meta_title VARCHAR(255),
+    meta_description VARCHAR(500),
     status VARCHAR(50) DEFAULT 'draft',
-    published_at DATETIME NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    published_at TIMESTAMP,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (post_category_id) REFERENCES post_categories(id) ON DELETE SET NULL
 );
 ```
@@ -77,20 +79,20 @@ CREATE TABLE posts (
 
 ```sql
 CREATE TABLE routes (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     from_location VARCHAR(255) NOT NULL,
     to_location VARCHAR(255) NOT NULL,
-    distance VARCHAR(100) NULL,
-    estimated_time VARCHAR(100) NULL,
-    price_from DECIMAL(12,2) NULL,
-    image VARCHAR(255) NULL,
-    description LONGTEXT NULL,
-    booking_url VARCHAR(500) NULL,
+    distance VARCHAR(100),
+    estimated_time VARCHAR(100),
+    price_from DECIMAL(12,2),
+    image VARCHAR(255),
+    description TEXT,
+    booking_url VARCHAR(500),
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -98,17 +100,17 @@ CREATE TABLE routes (
 
 ```sql
 CREATE TABLE schedules (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    route_id BIGINT UNSIGNED NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    route_id BIGINT NOT NULL,
     departure_time TIME NOT NULL,
-    arrival_time TIME NULL,
-    bus_type VARCHAR(255) NULL,
-    price DECIMAL(12,2) NULL,
-    note VARCHAR(500) NULL,
-    sort_order INT DEFAULT 0,
+    arrival_time TIME,
+    bus_type VARCHAR(255),
+    price DECIMAL(12,2),
+    note VARCHAR(500),
+    sort_order INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE CASCADE
 );
 ```
@@ -117,17 +119,17 @@ CREATE TABLE schedules (
 
 ```sql
 CREATE TABLE pickup_points (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    route_id BIGINT UNSIGNED NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    route_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
-    address VARCHAR(500) NULL,
-    map_url VARCHAR(500) NULL,
-    phone VARCHAR(50) NULL,
-    note VARCHAR(500) NULL,
-    sort_order INT DEFAULT 0,
+    address VARCHAR(500),
+    map_url VARCHAR(500),
+    phone VARCHAR(50),
+    note VARCHAR(500),
+    sort_order INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE CASCADE
 );
 ```
@@ -136,17 +138,17 @@ CREATE TABLE pickup_points (
 
 ```sql
 CREATE TABLE dropoff_points (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    route_id BIGINT UNSIGNED NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    route_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
-    address VARCHAR(500) NULL,
-    map_url VARCHAR(500) NULL,
-    phone VARCHAR(50) NULL,
-    note VARCHAR(500) NULL,
-    sort_order INT DEFAULT 0,
+    address VARCHAR(500),
+    map_url VARCHAR(500),
+    phone VARCHAR(50),
+    note VARCHAR(500),
+    sort_order INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE CASCADE
 );
 ```
@@ -155,15 +157,15 @@ CREATE TABLE dropoff_points (
 
 ```sql
 CREATE TABLE pages (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
-    content LONGTEXT NULL,
-    meta_title VARCHAR(255) NULL,
-    meta_description VARCHAR(500) NULL,
+    content TEXT,
+    meta_title VARCHAR(255),
+    meta_description VARCHAR(500),
     status VARCHAR(50) DEFAULT 'published',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -171,13 +173,13 @@ CREATE TABLE pages (
 
 ```sql
 CREATE TABLE faqs (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     question VARCHAR(500) NOT NULL,
     answer TEXT NOT NULL,
-    sort_order INT DEFAULT 0,
+    sort_order INTEGER DEFAULT 0,
     status VARCHAR(50) DEFAULT 'active',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -185,14 +187,14 @@ CREATE TABLE faqs (
 
 ```sql
 CREATE TABLE contacts (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NULL,
-    email VARCHAR(255) NULL,
+    phone VARCHAR(50),
+    email VARCHAR(255),
     message TEXT NOT NULL,
     status VARCHAR(50) DEFAULT 'new',
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
 );
 ```
 
@@ -200,14 +202,14 @@ CREATE TABLE contacts (
 
 ```sql
 CREATE TABLE booking_click_logs (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    route_id BIGINT UNSIGNED NULL,
-    source_page VARCHAR(255) NULL,
-    booking_url VARCHAR(500) NULL,
-    ip_address VARCHAR(100) NULL,
-    user_agent TEXT NULL,
-    created_at TIMESTAMP NULL,
-    updated_at TIMESTAMP NULL,
+    id BIGSERIAL PRIMARY KEY,
+    route_id BIGINT,
+    source_page VARCHAR(255),
+    booking_url VARCHAR(500),
+    ip_address VARCHAR(100),
+    user_agent TEXT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE SET NULL
 );
 ```

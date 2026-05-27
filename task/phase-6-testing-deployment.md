@@ -176,10 +176,10 @@
 **Requirements:**
 - [ ] PHP 8.2+
 - [ ] Composer
-- [ ] MySQL/PostgreSQL
+- [ ] PostgreSQL 14+
 - [ ] Nginx/Apache
 - [ ] SSL certificate
-- [ ] Node.js & npm (nếu cần build assets)
+- [ ] Node.js & npm (để build assets)
 
 **Server Configuration:**
 - [ ] Setup web server (Nginx/Apache)
@@ -233,11 +233,21 @@ server {
 
 3. **Setup Environment**
    - [ ] Copy `.env.example` to `.env`
-   - [ ] Update `.env` với production credentials
+   - [ ] Update `.env` với production credentials (PostgreSQL)
    - [ ] `php artisan key:generate`
 
+**Example Production .env:**
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nhatduonglaravel_prod
+DB_USERNAME=postgres
+DB_PASSWORD=secure_password
+```
+
 4. **Database Setup**
-   - [ ] Create production database
+   - [ ] Create production PostgreSQL database: `CREATE DATABASE nhatduonglaravel_prod;`
    - [ ] `php artisan migrate --force`
    - [ ] `php artisan db:seed --force` (nếu có)
 

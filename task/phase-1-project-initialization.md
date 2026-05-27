@@ -8,7 +8,7 @@
 
 ### 1.1 Setup Laravel Project
 - [ ] Tạo project Laravel mới (Laravel 11+)
-- [ ] Cấu hình `.env` cho database
+- [ ] Cấu hình `.env` cho PostgreSQL database
 - [ ] Test kết nối database thành công
 - [ ] Tạo git repository và commit initial
 
@@ -18,6 +18,16 @@ composer create-project laravel/laravel nhatduonglaravel
 cd nhatduonglaravel
 php artisan storage:link
 git init
+```
+
+**Cấu hình Database (.env):**
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nhatduonglaravel
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
 ```
 
 ### 1.2 Install Required Packages
@@ -51,8 +61,14 @@ php artisan make:filament-user
 - [ ] Tạo layout `resources/views/layouts/app.blade.php`
 - [ ] Tạo header component `resources/views/layouts/header.blade.php`
 - [ ] Tạo footer component `resources/views/layouts/footer.blade.php`
-- [ ] Setup Tailwind CSS hoặc Bootstrap
+- [ ] Setup Tailwind CSS
 - [ ] Áp dụng màu brand: #0b7f42 và #fbb116
+
+**Install Tailwind:**
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
 
 ### 1.5 Configure Storage
 - [ ] Chạy `php artisan storage:link`
@@ -78,4 +94,6 @@ php artisan make:filament-user
 
 - Đảm bảo PHP >= 8.2
 - Đảm bảo Composer đã cài đặt
-- Đảm bảo Node.js và npm đã cài (nếu dùng Tailwind)
+- Đảm bảo Node.js và npm đã cài (cho Tailwind)
+- **Đảm bảo PostgreSQL đã cài đặt và chạy**
+- Tạo database trước khi chạy migration: `CREATE DATABASE nhatduonglaravel;`

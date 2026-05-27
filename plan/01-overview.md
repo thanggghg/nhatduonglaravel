@@ -51,9 +51,9 @@ Các nghiệp vụ trên sẽ nằm trong hệ thống của bên thứ ba.
 ## 5. Công nghệ đề xuất
 
 - Laravel 12/13
-- MySQL hoặc PostgreSQL
+- PostgreSQL
 - Laravel Blade
-- Tailwind CSS hoặc Bootstrap
+- Tailwind CSS
 - Filament Admin Panel
 - Spatie Laravel Permission
 - Spatie Media Library
