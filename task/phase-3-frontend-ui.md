@@ -4,6 +4,18 @@
 
 **Timeline:** 5-7 ngày
 
+**Design Reference:** Tất cả thiết kế phải tuân theo DESIGN.md
+
+## Design System Requirements
+
+Trước khi bắt đầu, đảm bảo nắm vững Design System:
+- **Colors:** Brand Green (#0b7f42), Brand Gold (#fbb116)
+- **Typography:** Inter font, weights 400-700
+- **Spacing:** Base unit 8px, Section gap 64px, Element gap 24px
+- **Border Radius:** 8px (buttons/inputs), 16px (cards), 999px (badges)
+- **Shadows:** Green-tinted rgba(11, 127, 66, 0.10)
+- **Layout:** Max-width 1200px, centered
+
 ## Tasks
 
 ### 3.1 Setup Routes
@@ -64,20 +76,25 @@
 - [ ] `resources/views/layouts/app.blade.php`: layout chính
 - [ ] `resources/views/layouts/header.blade.php`: header + navigation
 - [ ] `resources/views/layouts/footer.blade.php`: footer + links
-- [ ] Áp dụng màu brand: #0b7f42 (green), #fbb116 (gold)
+- [ ] **Áp dụng Design System theo DESIGN.md:**
+  - [ ] Brand colors: Green (#0b7f42), Gold (#fbb116)
+  - [ ] Inter font family
+  - [ ] Max-width 1200px container
+  - [ ] Sticky header với brand green button
+  - [ ] Section spacing 64px
 
 #### Home
 - [ ] `resources/views/home.blade.php`
-- [ ] Section: Hero banner slider
-- [ ] Section: Form tìm tuyến hoặc nút đặt vé nổi bật
-- [ ] Section: Tuyến xe nổi bật (4-6 cards)
+- [ ] Section: Hero banner slider (với green gradient background)
+- [ ] Section: Form tìm tuyến hoặc nút đặt vé nổi bật (green button)
+- [ ] Section: Tuyến xe nổi bật (4-6 cards với 16px radius)
 - [ ] Section: Lịch trình phổ biến
 - [ ] Section: Tin tức mới nhất (3-4 bài)
-- [ ] Section: Khuyến mãi banner
+- [ ] Section: Khuyến mãi banner (gold accent)
 - [ ] Section: Hướng dẫn đặt vé (4 bước)
-- [ ] Section: Vì sao chọn chúng tôi (features)
+- [ ] Section: Vì sao chọn chúng tôi (features với icons)
 - [ ] Section: Thông tin liên hệ
-- [ ] Sticky button: Gọi hotline | Zalo | Đặt vé (mobile)
+- [ ] Sticky button: Gọi hotline | Zalo | Đặt vé (mobile) - green primary button
 
 #### Posts
 - [ ] `resources/views/posts/index.blade.php`: danh sách bài viết
@@ -117,20 +134,43 @@
 
 ### 3.4 Components (Optional)
 
-- [ ] `resources/views/components/route-card.blade.php`
-- [ ] `resources/views/components/post-card.blade.php`
-- [ ] `resources/views/components/schedule-table.blade.php`
-- [ ] `resources/views/components/booking-button.blade.php`
+**Design theo DESIGN.md components:**
+- [ ] `resources/views/components/route-card.blade.php` (16px radius, elevated card style)
+- [ ] `resources/views/components/post-card.blade.php` (16px radius, subtle background)
+- [ ] `resources/views/components/schedule-table.blade.php` (responsive table)
+- [ ] `resources/views/components/booking-button.blade.php` (green primary, 8px radius)
+- [ ] `resources/views/components/badge.blade.php` (999px radius, success/promotional)
 
-### 3.5 Styling
+### 3.5 Styling với Tailwind CSS
 
-- [ ] Install Tailwind CSS hoặc Bootstrap
-- [ ] Áp dụng DESIGN.md với màu brand #0b7f42 và #fbb116
-- [ ] Setup font Inter hoặc font phù hợp
-- [ ] CSS cho buttons: primary (green), secondary (gold)
-- [ ] CSS cho cards với border radius 16px
-- [ ] CSS cho badges với border radius 999px
-- [ ] CSS responsive cho mobile
+**CRITICAL: Tất cả styling phải theo DESIGN.md**
+
+- [ ] Cấu hình Tailwind với brand colors từ DESIGN.md
+- [ ] Import Inter font từ Google Fonts
+- [ ] Setup CSS variables từ DESIGN.md
+- [ ] **Button Styles theo DESIGN.md:**
+  - [ ] Primary: bg-brand-green (#0b7f42), text white, 8px radius, hover #096b39
+  - [ ] Secondary: bg-brand-gold (#fbb116), text #8a6300, 8px radius, hover #e19f14
+  - [ ] Outlined: border-2 border-brand-green, text green, 8px radius
+  - [ ] Ghost: transparent, text muted-gray, hover green
+- [ ] **Card Styles:**
+  - [ ] Elevated: white bg, 16px radius, shadow-lg (green-tinted)
+  - [ ] Subtle: ghost-fog bg (#f8fdf9), 12px radius, no shadow
+- [ ] **Badge Styles:**
+  - [ ] Success: soft-green-background (#e8f8ef), success-green-text, 999px radius
+  - [ ] Promotional: light-gold (#fef3d7), gold-text, 999px radius
+- [ ] **Input Styles:**
+  - [ ] White bg, input-border (#d1ddd5), 8px radius
+  - [ ] Focus: 2px solid brand-green
+- [ ] **Typography Scale từ DESIGN.md:**
+  - [ ] body: 16px, leading 1.5
+  - [ ] heading: 28px, leading 1.2, tracking -0.56px
+  - [ ] display: 72px, leading 1.05, tracking -1.44px
+- [ ] **Spacing:**
+  - [ ] Section gap: 64px
+  - [ ] Element gap: 24px
+  - [ ] Card padding: 32px
+- [ ] CSS responsive cho mobile (mobile-first)
 - [ ] CSS cho sticky header
 - [ ] CSS cho floating buttons (mobile)
 
@@ -145,11 +185,13 @@
 
 ### 3.7 Assets & Images
 
-- [ ] Tạo logo với màu brand
+**Design Guidelines từ DESIGN.md:**
+- [ ] Tạo logo với màu brand green (#0b7f42) và gold (#fbb116)
 - [ ] Tạo favicon
-- [ ] Placeholder images cho tuyến xe
-- [ ] Icons cho features section
-- [ ] Optimize images
+- [ ] Placeholder images cho tuyến xe (professional, natural lighting)
+- [ ] Icons cho features section (duotone với green/gold accents)
+- [ ] Optimize images (WebP format preferred)
+- [ ] All images: professional, well-lit, convey trust and growth
 
 ## Acceptance Criteria
 
@@ -162,11 +204,20 @@
 - [ ] Navigation menu hoạt động đúng
 - [ ] Breadcrumb hiển thị đúng
 - [ ] SEO meta tags hiển thị đúng
-- [ ] Màu brand được áp dụng nhất quán
+- [ ] **Design System từ DESIGN.md được áp dụng nhất quán:**
+  - [ ] Màu brand green/gold đúng hex codes
+  - [ ] Inter font được sử dụng
+  - [ ] Border radius: 8px (buttons), 16px (cards)
+  - [ ] Shadows: green-tinted
+  - [ ] Spacing: 64px sections, 24px elements
+  - [ ] Typography scale đúng
 
 ## Notes
 
+- **CRITICAL: Tham khảo DESIGN.md cho mọi quyết định về design**
 - Ưu tiên mobile-first design
 - Test trên nhiều devices và browsers
 - Optimize performance (lazy loading images)
 - Cân nhắc dùng Alpine.js cho interactive components
+- Use Inter font family (download from Google Fonts)
+- Green (#0b7f42) for trust/primary, Gold (#fbb116) for highlights/secondary

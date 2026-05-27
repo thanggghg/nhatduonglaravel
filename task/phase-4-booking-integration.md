@@ -53,35 +53,48 @@ public function redirect(Request $request)
 
 ### 4.3 Add Booking Buttons
 
+**Design theo DESIGN.md - Primary Button Style:**
+
 #### Homepage
 - [ ] Thêm nút "Đặt vé ngay" trong hero banner
 - [ ] Link đến `/booking-redirect?source_page=home`
-- [ ] Style: background #0b7f42, text white, hover effect
+- [ ] **Style theo DESIGN.md:**
+  - Background: #0b7f42 (brand green)
+  - Text: #ffffff (white)
+  - Border radius: 8px
+  - Padding: 14px vertical, 28px horizontal
+  - Font: Inter, 16px, weight 600
+  - Hover: #096b39 (green-hover)
 
 #### Header
 - [ ] Thêm nút "Đặt vé" trên menu desktop
-- [ ] Nổi bật với màu brand green
+- [ ] Nổi bật với màu brand green (sticky header)
 - [ ] Link đến `/booking-redirect?source_page=header`
+- [ ] Style: Primary button theo DESIGN.md
 
 #### Route Index Page
 - [ ] Thêm nút "Đặt vé" cho mỗi tuyến xe trong card
 - [ ] Link: `/booking-redirect?route_id={id}&source_page=route_index`
+- [ ] Style: Primary button, size smaller cho cards
 
 #### Route Detail Page
 - [ ] Thêm nút "Đặt vé tuyến này" nổi bật
-- [ ] Sticky button trên mobile
+- [ ] Sticky button trên mobile (green primary)
 - [ ] Link: `/booking-redirect?route_id={id}&source_page=route_detail`
 - [ ] Nếu route có booking_url riêng, dùng URL đó
 
 #### Post Detail Page
 - [ ] Thêm CTA "Đặt vé ngay" ở cuối bài viết
 - [ ] Link: `/booking-redirect?source_page=post_{slug}`
+- [ ] Style: Primary green button
 
 #### Floating Buttons (Mobile)
 - [ ] Tạo floating action buttons ở bottom mobile
 - [ ] 3 buttons: Gọi hotline | Zalo | Đặt vé
-- [ ] Fixed position
+- [ ] Fixed position, z-index cao
 - [ ] Icons + text
+- [ ] **Đặt vé button: Primary green style theo DESIGN.md**
+- [ ] Shadow: xl (green-tinted)
 
 ### 4.4 Tracking Implementation
 
@@ -139,13 +152,20 @@ public function redirect(Request $request)
 - [ ] Admin xem được thống kê lượt click trong dashboard
 - [ ] Admin xem được chi tiết logs trong BookingClickLogResource
 - [ ] Nút đặt vé hiển thị nhất quán trên tất cả trang
-- [ ] Nút đặt vé nổi bật với màu brand #0b7f42
+- [ ] **Button style tuân theo DESIGN.md:**
+  - [ ] Primary green (#0b7f42) với white text
+  - [ ] Border radius 8px
+  - [ ] Hover state green-hover (#096b39)
+  - [ ] Proper spacing và padding
 - [ ] Floating buttons hoạt động tốt trên mobile
 - [ ] Không có lỗi 404 hoặc broken links
 
 ## Notes
 
+- **Tham khảo DESIGN.md cho button styles**
 - Đảm bảo URL booking tool bên thứ ba đã được cung cấp
 - Test kỹ trên mobile vì đây là platform chính
 - Có thể thêm UTM parameters để tracking tốt hơn
 - Cân nhắc thêm Google Analytics event tracking
+- Primary action buttons phải dùng brand green
+- Secondary actions (nếu có) dùng brand gold

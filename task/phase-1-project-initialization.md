@@ -57,17 +57,52 @@ php artisan filament:install --panels
 php artisan make:filament-user
 ```
 
-### 1.4 Configure Frontend Layout
+### 1.4 Configure Frontend Layout & Design System
 - [ ] Tạo layout `resources/views/layouts/app.blade.php`
 - [ ] Tạo header component `resources/views/layouts/header.blade.php`
 - [ ] Tạo footer component `resources/views/layouts/footer.blade.php`
 - [ ] Setup Tailwind CSS
-- [ ] Áp dụng màu brand: #0b7f42 và #fbb116
+- [ ] **Áp dụng Design System theo DESIGN.md**
+  - [ ] Colors: Brand Green (#0b7f42), Brand Gold (#fbb116)
+  - [ ] Typography: Inter font family
+  - [ ] Spacing: Base unit 8px
+  - [ ] Border Radius: 8px (buttons/inputs), 16px (cards)
+  - [ ] Shadows: Green-tinted shadows
 
 **Install Tailwind:**
 ```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
+```
+
+**Tailwind Config (tailwind.config.js):**
+```js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'brand-green': '#0b7f42',
+        'brand-gold': '#fbb116',
+        'green-hover': '#096b39',
+        'gold-hover': '#e19f14',
+        'slate-text': '#2c3e36',
+        'forest-deep': '#062d1c',
+        'ghost-fog': '#f8fdf9',
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
+      borderRadius: {
+        'card': '16px',
+        'button': '8px',
+      },
+      spacing: {
+        'section': '64px',
+        'element': '24px',
+      },
+    },
+  },
+}
 ```
 
 ### 1.5 Configure Storage
@@ -97,3 +132,4 @@ npx tailwindcss init -p
 - Đảm bảo Node.js và npm đã cài (cho Tailwind)
 - **Đảm bảo PostgreSQL đã cài đặt và chạy**
 - Tạo database trước khi chạy migration: `CREATE DATABASE nhatduonglaravel;`
+- **Tham khảo DESIGN.md để áp dụng Design System nhất quán**
