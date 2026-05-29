@@ -3,9 +3,17 @@
 @section('content')
 
 {{-- HERO --}}
-<section class="relative overflow-hidden bg-forest-deep text-white">
-    <div class="pointer-events-none absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-brand-green opacity-10 blur-3xl"></div>
-    <div class="pointer-events-none absolute bottom-0 -left-24 w-[360px] h-[360px] rounded-full bg-brand-gold opacity-10 blur-3xl"></div>
+<section class="relative overflow-hidden text-white" style="min-height: 520px;">
+    {{-- Background image --}}
+    <div class="absolute inset-0">
+        <img src="{{ asset('nha-xe-binh-minh-bus-2048x867.png') }}"
+             alt="Nhà Xe Nhật Dương"
+             class="w-full h-full object-cover object-center">
+        {{-- Dark overlay for text readability --}}
+        <div class="absolute inset-0 bg-forest-deep/75"></div>
+        {{-- Bottom gradient fade --}}
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
+    </div>
     <div class="relative container mx-auto px-4 py-20 md:py-28">
         <div class="max-w-3xl mx-auto text-center">
             <span class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-brand-gold text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
