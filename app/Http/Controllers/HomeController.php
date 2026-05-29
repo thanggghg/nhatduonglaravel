@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Route;
 use App\Models\Schedule;
@@ -33,6 +34,11 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
-        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules'));
+        $faqs = Faq::where('status', true)
+            ->orderBy('sort_order')
+            ->take(5)
+            ->get();
+
+        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs'));
     }
 }
