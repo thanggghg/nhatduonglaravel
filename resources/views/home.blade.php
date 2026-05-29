@@ -349,67 +349,100 @@
      SCHEDULES — Timeline-style layout
      ============================================================ --}}
 @if($popularSchedules->isNotEmpty())
-<section class="py-24 relative overflow-hidden" style="background: linear-gradient(135deg, #062d1c 0%, #0b4a2a 50%, #062d1c 100%)">
+<section class="py-24 relative overflow-hidden bg-ghost-fog">
   {{-- Decorative circles --}}
-  <div class="absolute top-0 left-0 w-80 h-80 rounded-full opacity-10" style="background: radial-gradient(circle, #fbb116, transparent); filter: blur(60px); transform: translate(-30%, -30%);"></div>
-  <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-5" style="background: radial-gradient(circle, #0b7f42, transparent); filter: blur(80px); transform: translate(30%, 30%);"></div>
+  <div class="absolute top-0 left-0 w-80 h-80 rounded-full opacity-30" style="background: radial-gradient(circle, #e8f8ef, transparent); filter: blur(60px); transform: translate(-30%, -30%);"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-40" style="background: radial-gradient(circle, #fef3d7, transparent); filter: blur(80px); transform: translate(30%, 30%);"></div>
 
   <div class="relative container mx-auto px-6">
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
 
-      {{-- Left: heading --}}
+      {{-- Left: refined schedule intro --}}
       <div class="lg:col-span-2">
-        <div class="flex items-center gap-3 mb-4">
-          <div class="w-8 h-8 bg-brand-gold/20 rounded-lg flex items-center justify-center">
-            <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+        <div class="relative overflow-hidden rounded-3xl border border-input-border bg-canvas-white p-8 md:p-10 shadow-xl shadow-brand-green/5">
+          <div class="absolute -top-20 -right-20 w-48 h-48 rounded-full bg-light-gold blur-3xl opacity-70"></div>
+          <div class="absolute -bottom-24 -left-20 w-56 h-56 rounded-full bg-soft-green-background blur-3xl opacity-80"></div>
+
+          <div class="relative">
+            <div class="inline-flex items-center gap-2 rounded-full border border-brand-green/20 bg-soft-green-background px-4 py-2 mb-7">
+              <span class="relative flex h-2.5 w-2.5">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-green opacity-30"></span>
+                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-green"></span>
+              </span>
+              <span class="text-brand-green text-xs font-bold uppercase tracking-widest">Lịch trình hôm nay</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold text-forest-deep leading-tight tracking-tight mb-5">
+              Chọn giờ<br>
+              <span class="relative inline-block text-brand-green">
+                khởi hành
+                <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 180 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 6 C42 1 86 8 128 4 C150 2 166 3 178 2" stroke="#0b7f42" stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+                </svg>
+              </span>
+              <br>phù hợp
+            </h2>
+
+            <p class="text-muted-gray text-sm leading-7 mb-8 max-w-sm">
+              Các chuyến được cập nhật theo ngày, ưu tiên giờ xuất bến ổn định, thông tin rõ ràng và dễ đặt vé.
+            </p>
+
+            <div class="grid grid-cols-2 gap-3 mb-8">
+              <div class="rounded-2xl border border-input-border bg-ghost-fog p-4">
+                <div class="text-2xl font-bold text-forest-deep">{{ $popularSchedules->count() }}+</div>
+                <div class="text-muted-gray text-xs mt-1">Chuyến đang mở</div>
+              </div>
+              <div class="rounded-2xl border border-input-border bg-light-gold p-4">
+                <div class="text-2xl font-bold text-gold-text">24/7</div>
+                <div class="text-gold-text/70 text-xs mt-1">Hỗ trợ đặt vé</div>
+              </div>
+            </div>
+
+            <a href="{{ route('schedules.index') }}"
+               class="group inline-flex items-center gap-3 bg-brand-green text-white font-bold px-6 py-3.5 rounded-2xl hover:bg-green-hover transition-all duration-300 text-sm shadow-lg shadow-brand-green/20">
+              Xem toàn bộ lịch trình
+              <span class="w-7 h-7 rounded-full bg-white/15 text-white flex items-center justify-center group-hover:bg-white/25 transition-colors">
+                <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </span>
+            </a>
           </div>
-          <span class="text-brand-gold text-xs font-bold uppercase tracking-widest">Lịch trình</span>
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-5">
-          Giờ Khởi<br>Hành<br><span class="text-brand-gold">Hôm Nay</span>
-        </h2>
-        <p class="text-white/50 text-sm leading-relaxed mb-8">Chọn giờ khởi hành phù hợp với lịch trình của bạn. Xe xuất bến đúng giờ, đảm bảo an toàn.</p>
-        <a href="{{ route('schedules.index') }}"
-           class="inline-flex items-center gap-2 bg-brand-gold text-gold-text font-bold px-6 py-3 rounded-xl hover:bg-gold-hover transition-all duration-200 text-sm">
-          Xem Toàn Bộ Lịch Trình
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
       </div>
 
       {{-- Right: schedule list --}}
       <div class="lg:col-span-3 space-y-3">
         @foreach($popularSchedules->take(6) as $idx => $schedule)
-        <div class="group relative bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-gold/30 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 cursor-pointer">
+        <div class="group relative bg-canvas-white hover:bg-white border border-input-border hover:border-brand-green/30 rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-lg hover:shadow-brand-green/5">
           {{-- Time badge --}}
-          <div class="w-16 h-16 bg-brand-gold/10 border border-brand-gold/20 rounded-xl flex flex-col items-center justify-center shrink-0 group-hover:bg-brand-gold/20 transition-colors">
-            <span class="text-brand-gold font-bold text-lg leading-none">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}</span>
-            <span class="text-white/30 text-xs mt-0.5">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('A') }}</span>
+          <div class="w-16 h-16 bg-soft-green-background border border-brand-green/10 rounded-xl flex flex-col items-center justify-center shrink-0 group-hover:bg-light-gold group-hover:border-brand-gold/20 transition-colors">
+            <span class="text-brand-green group-hover:text-gold-text font-bold text-lg leading-none transition-colors">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}</span>
+            <span class="text-muted-gray text-xs mt-0.5">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('A') }}</span>
           </div>
 
           {{-- Route info --}}
           <div class="flex-1 min-w-0">
-            <p class="font-semibold text-white text-sm truncate">{{ $schedule->route->name }}</p>
+            <p class="font-semibold text-forest-deep text-sm truncate">{{ $schedule->route->name }}</p>
             <div class="flex items-center gap-3 mt-1">
-              <span class="text-white/40 text-xs">{{ $schedule->bus_type ?? 'Xe khách' }}</span>
+              <span class="text-muted-gray text-xs">{{ $schedule->bus_type ?? 'Xe khách' }}</span>
               @if($schedule->available_seats ?? null)
-              <span class="text-xs text-brand-gold/70">{{ $schedule->available_seats }} chỗ còn</span>
+              <span class="text-xs text-brand-green/80">{{ $schedule->available_seats }} chỗ còn</span>
               @endif
             </div>
           </div>
 
           {{-- Price & CTA --}}
           <div class="text-right shrink-0">
-            <p class="font-bold text-white text-lg">{{ number_format($schedule->price) }}đ</p>
+            <p class="font-bold text-forest-deep text-lg">{{ number_format($schedule->price) }}đ</p>
             <a href="{{ route('routes.show', $schedule->route->slug) }}"
-               class="text-xs text-brand-gold font-semibold hover:text-gold-hover transition-colors">
+               class="text-xs text-brand-green font-semibold hover:text-green-hover transition-colors">
               Đặt vé →
             </a>
           </div>
 
           {{-- Hover indicator --}}
-          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-gold rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-brand-green rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         @endforeach
       </div>
