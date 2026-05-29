@@ -20,117 +20,117 @@ Trước khi bắt đầu, đảm bảo nắm vững Design System:
 
 ### 3.1 Setup Routes
 
-- [ ] Tạo route cho trang chủ: `/`
-- [ ] Tạo route cho tin tức: `/tin-tuc`, `/tin-tuc/{slug}`
-- [ ] Tạo route cho tuyến xe: `/tuyen-xe`, `/tuyen-xe/{slug}`
-- [ ] Tạo route cho lịch trình: `/lich-trinh`
-- [ ] Tạo route cho liên hệ: `/lien-he` (GET + POST)
-- [ ] Tạo route cho booking redirect: `/dat-ve`, `/booking-redirect`
-- [ ] Tạo route cho trang tĩnh: `/{slug}`
+- [x] Tạo route cho trang chủ: `/`
+- [x] Tạo route cho tin tức: `/tin-tuc`, `/tin-tuc/{slug}`
+- [x] Tạo route cho tuyến xe: `/tuyen-xe`, `/tuyen-xe/{slug}`
+- [x] Tạo route cho lịch trình: `/lich-trinh`
+- [x] Tạo route cho liên hệ: `/lien-he` (GET + POST)
+- [x] Tạo route cho booking redirect: `/dat-ve`, `/booking-redirect`
+- [x] Tạo route cho trang tĩnh: `/{slug}`
 
 **File:** `routes/web.php`
 
 ### 3.2 Create Controllers
 
 #### HomeController
-- [ ] `php artisan make:controller HomeController`
-- [ ] Method `index()`: lấy banners, featured routes, latest posts, schedules
-- [ ] Pass data sang view `home.blade.php`
+- [x] `php artisan make:controller HomeController`
+- [x] Method `index()`: lấy banners, featured routes, latest posts, schedules
+- [x] Pass data sang view `home.blade.php`
 
 #### PostController
-- [ ] `php artisan make:controller PostController`
-- [ ] Method `index()`: danh sách bài viết có phân trang
-- [ ] Method `show($slug)`: chi tiết bài viết
-- [ ] Lấy related posts
+- [x] `php artisan make:controller PostController`
+- [x] Method `index()`: danh sách bài viết có phân trang
+- [x] Method `show($slug)`: chi tiết bài viết
+- [x] Lấy related posts
 
 #### RouteController
-- [ ] `php artisan make:controller RouteController`
-- [ ] Method `index()`: danh sách tuyến xe
-- [ ] Method `show($slug)`: chi tiết tuyến xe kèm schedules, pickup/dropoff points
-- [ ] Hiển thị FAQs liên quan
+- [x] `php artisan make:controller RouteController`
+- [x] Method `index()`: danh sách tuyến xe
+- [x] Method `show($slug)`: chi tiết tuyến xe kèm schedules, pickup/dropoff points
+- [x] Hiển thị FAQs liên quan
 
 #### ScheduleController
-- [ ] `php artisan make:controller ScheduleController`
-- [ ] Method `index()`: bảng lịch trình tham khảo
+- [x] `php artisan make:controller ScheduleController`
+- [x] Method `index()`: bảng lịch trình tham khảo
 
 #### PageController
-- [ ] `php artisan make:controller PageController`
-- [ ] Method `show($slug)`: hiển thị trang tĩnh
+- [x] `php artisan make:controller PageController`
+- [x] Method `show($slug)`: hiển thị trang tĩnh
 
 #### ContactController
-- [ ] `php artisan make:controller ContactController`
-- [ ] Method `index()`: hiển thị trang liên hệ
-- [ ] Method `store()`: xử lý form liên hệ
-- [ ] Validation form
-- [ ] Lưu vào database
+- [x] `php artisan make:controller ContactController`
+- [x] Method `index()`: hiển thị trang liên hệ
+- [x] Method `store()`: xử lý form liên hệ
+- [x] Validation form
+- [x] Lưu vào database
 - [ ] Gửi email thông báo (optional)
 
 #### BookingRedirectController
-- [ ] `php artisan make:controller BookingRedirectController`
-- [ ] Method `index()`: hiển thị trang đặt vé (optional)
-- [ ] Method `redirect()`: ghi log và redirect sang tool bên thứ ba
+- [x] `php artisan make:controller BookingRedirectController`
+- [x] Method `index()`: hiển thị trang đặt vé (optional)
+- [x] Method `redirect()`: ghi log và redirect sang tool bên thứ ba
 
 ### 3.3 Create Views
 
 #### Layout
-- [ ] `resources/views/layouts/app.blade.php`: layout chính
-- [ ] `resources/views/layouts/header.blade.php`: header + navigation
-- [ ] `resources/views/layouts/footer.blade.php`: footer + links
-- [ ] **Áp dụng Design System theo DESIGN.md:**
-  - [ ] Brand colors: Green (#0b7f42), Gold (#fbb116)
-  - [ ] Inter font family
-  - [ ] Max-width 1200px container
-  - [ ] Sticky header với brand green button
-  - [ ] Section spacing 64px
+- [x] `resources/views/layouts/app.blade.php`: layout chính
+- [x] `resources/views/layouts/header.blade.php`: header + navigation
+- [x] `resources/views/layouts/footer.blade.php`: footer + links
+- [x] **Áp dụng Design System theo DESIGN.md:**
+  - [x] Brand colors: Green (#0b7f42), Gold (#fbb116)
+  - [x] Inter font family
+  - [x] Max-width 1200px container
+  - [x] Sticky header với brand green button
+  - [x] Section spacing 64px
 
 #### Home
-- [ ] `resources/views/home.blade.php`
-- [ ] Section: Hero banner slider (với green gradient background)
-- [ ] Section: Form tìm tuyến hoặc nút đặt vé nổi bật (green button)
-- [ ] Section: Tuyến xe nổi bật (4-6 cards với 16px radius)
-- [ ] Section: Lịch trình phổ biến
-- [ ] Section: Tin tức mới nhất (3-4 bài)
-- [ ] Section: Khuyến mãi banner (gold accent)
-- [ ] Section: Hướng dẫn đặt vé (4 bước)
-- [ ] Section: Vì sao chọn chúng tôi (features với icons)
-- [ ] Section: Thông tin liên hệ
-- [ ] Sticky button: Gọi hotline | Zalo | Đặt vé (mobile) - green primary button
+- [x] `resources/views/home.blade.php`
+- [x] Section: Hero banner slider (với green gradient background)
+- [x] Section: Form tìm tuyến hoặc nút đặt vé nổi bật (green button)
+- [x] Section: Tuyến xe nổi bật (4-6 cards với 16px radius)
+- [x] Section: Lịch trình phổ biến
+- [x] Section: Tin tức mới nhất (3-4 bài)
+- [x] Section: Khuyến mãi banner (gold accent)
+- [x] Section: Hướng dẫn đặt vé (4 bước)
+- [x] Section: Vì sao chọn chúng tôi (features với icons)
+- [x] Section: Thông tin liên hệ
+- [x] Sticky button: Gọi hotline | Zalo | Đặt vé (mobile) - green primary button
 
 #### Posts
-- [ ] `resources/views/posts/index.blade.php`: danh sách bài viết
-- [ ] `resources/views/posts/show.blade.php`: chi tiết bài viết
-- [ ] Sidebar: danh mục, bài viết liên quan
-- [ ] Breadcrumb navigation
-- [ ] SEO meta tags
+- [x] `resources/views/posts/index.blade.php`: danh sách bài viết
+- [x] `resources/views/posts/show.blade.php`: chi tiết bài viết
+- [x] Sidebar: danh mục, bài viết liên quan
+- [x] Breadcrumb navigation
+- [x] SEO meta tags
 
 #### Routes
-- [ ] `resources/views/routes/index.blade.php`: danh sách tuyến xe
-- [ ] `resources/views/routes/show.blade.php`: chi tiết tuyến xe
-- [ ] Hiển thị: thông tin tuyến, lịch trình, điểm đón/trả, FAQs
-- [ ] Nút đặt vé nổi bật
-- [ ] Breadcrumb navigation
-- [ ] SEO meta tags
+- [x] `resources/views/routes/index.blade.php`: danh sách tuyến xe
+- [x] `resources/views/routes/show.blade.php`: chi tiết tuyến xe
+- [x] Hiển thị: thông tin tuyến, lịch trình, điểm đón/trả, FAQs
+- [x] Nút đặt vé nổi bật
+- [x] Breadcrumb navigation
+- [x] SEO meta tags
 
 #### Schedules
-- [ ] `resources/views/schedules/index.blade.php`: bảng lịch trình
-- [ ] Table responsive
-- [ ] Filter theo tuyến
+- [x] `resources/views/schedules/index.blade.php`: bảng lịch trình
+- [x] Table responsive
+- [x] Filter theo tuyến
 
 #### Pages
-- [ ] `resources/views/pages/show.blade.php`: trang tĩnh
-- [ ] Hỗ trợ rich content
-- [ ] Breadcrumb navigation
+- [x] `resources/views/pages/show.blade.php`: trang tĩnh
+- [x] Hỗ trợ rich content
+- [x] Breadcrumb navigation
 
 #### Contact
-- [ ] `resources/views/contact/index.blade.php`: trang liên hệ
-- [ ] Form: họ tên, phone, email, nội dung
-- [ ] Thông tin: hotline, zalo, email, địa chỉ
-- [ ] Embed Google Map
-- [ ] Form validation và success message
+- [x] `resources/views/contact/index.blade.php`: trang liên hệ
+- [x] Form: họ tên, phone, email, nội dung
+- [x] Thông tin: hotline, zalo, email, địa chỉ
+- [x] Embed Google Map
+- [x] Form validation và success message
 
 #### Booking
-- [ ] `resources/views/booking/index.blade.php`: trang hướng dẫn đặt vé (optional)
-- [ ] Hoặc chỉ có button redirect trực tiếp
+- [x] `resources/views/booking/index.blade.php`: trang hướng dẫn đặt vé
+- [x] Hoặc chỉ có button redirect trực tiếp
 
 ### 3.4 Components (Optional)
 
@@ -176,9 +176,9 @@ Trước khi bắt đầu, đảm bảo nắm vững Design System:
 
 ### 3.6 SEO Integration
 
-- [ ] Cài artesaos/seotools
-- [ ] Setup SEO meta tags trong layouts
-- [ ] Dynamic title và description cho từng trang
+- [x] Cài artesaos/seotools (installed v1.4)
+- [x] Setup SEO meta tags trong layouts
+- [x] Dynamic title và description cho từng trang
 - [ ] Open Graph tags
 - [ ] Twitter Card tags
 - [ ] Structured data (Schema.org) cho routes

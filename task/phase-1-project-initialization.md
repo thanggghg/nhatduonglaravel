@@ -7,9 +7,9 @@
 ## Tasks
 
 ### 1.1 Setup Laravel Project
-- [ ] Tạo project Laravel mới (Laravel 11+)
-- [ ] Cấu hình `.env` cho PostgreSQL database
-- [ ] Test kết nối database thành công
+- [x] Tạo project Laravel mới (Laravel 13)
+- [x] Cấu hình `.env` cho PostgreSQL database
+- [ ] Test kết nối database thành công (chưa có PostgreSQL local)
 - [ ] Tạo git repository và commit initial
 
 **Lệnh:**
@@ -31,11 +31,11 @@ DB_PASSWORD=your_password
 ```
 
 ### 1.2 Install Required Packages
-- [ ] Cài Laravel Filament Admin Panel
-- [ ] Cài Spatie Laravel Permission
-- [ ] Cài Spatie Laravel Media Library
-- [ ] Cài Spatie Laravel Sluggable
-- [ ] Cài Artesaos SEO Tools
+- [ ] Cài Laravel Filament Admin Panel (deferred - compatibility issues with Laravel 13)
+- [x] Cài Spatie Laravel Permission (v7.4)
+- [ ] Cài Spatie Laravel Media Library (deferred - requires ext-exif)
+- [x] Cài Cviebrock Eloquent Sluggable (v13.0)
+- [x] Cài Artesaos SEO Tools (v1.4)
 
 **Lệnh:**
 ```bash
@@ -47,9 +47,9 @@ composer require artesaos/seotools
 ```
 
 ### 1.3 Setup Filament Admin
-- [ ] Chạy `php artisan filament:install --panels`
-- [ ] Tạo user admin đầu tiên
-- [ ] Truy cập `/admin` kiểm tra admin panel
+- [ ] Chạy `php artisan filament:install --panels` (deferred - compatibility issues)
+- [ ] Tạo user admin đầu tiên (deferred)
+- [ ] Truy cập `/admin` kiểm tra admin panel (deferred)
 
 **Lệnh:**
 ```bash
@@ -58,16 +58,16 @@ php artisan make:filament-user
 ```
 
 ### 1.4 Configure Frontend Layout & Design System
-- [ ] Tạo layout `resources/views/layouts/app.blade.php`
-- [ ] Tạo header component `resources/views/layouts/header.blade.php`
-- [ ] Tạo footer component `resources/views/layouts/footer.blade.php`
-- [ ] Setup Tailwind CSS
-- [ ] **Áp dụng Design System theo DESIGN.md**
-  - [ ] Colors: Brand Green (#0b7f42), Brand Gold (#fbb116)
-  - [ ] Typography: Inter font family
-  - [ ] Spacing: Base unit 8px
-  - [ ] Border Radius: 8px (buttons/inputs), 16px (cards)
-  - [ ] Shadows: Green-tinted shadows
+- [x] Tạo layout `resources/views/layouts/app.blade.php`
+- [x] Tạo header component `resources/views/layouts/header.blade.php`
+- [x] Tạo footer component `resources/views/layouts/footer.blade.php`
+- [x] Setup Tailwind CSS (v4.0 pre-installed in Laravel 13)
+- [x] **Áp dụng Design System theo DESIGN.md**
+  - [x] Colors: Brand Green (#0b7f42), Brand Gold (#fbb116)
+  - [x] Typography: Inter font family
+  - [x] Spacing: Base unit 8px
+  - [x] Border Radius: 8px (buttons/inputs), 16px (cards)
+  - [x] Shadows: Green-tinted shadows
 
 **Install Tailwind:**
 ```bash
@@ -106,24 +106,24 @@ module.exports = {
 ```
 
 ### 1.5 Configure Storage
-- [ ] Chạy `php artisan storage:link`
-- [ ] Cấu hình public disk trong `config/filesystems.php`
-- [ ] Test upload file thành công
+- [x] Chạy `php artisan storage:link`
+- [x] Cấu hình public disk trong `config/filesystems.php` (default)
+- [ ] Test upload file thành công (cần sau khi có admin panel)
 
 ### 1.6 Setup Environment
-- [ ] Cấu hình APP_NAME
-- [ ] Cấu hình APP_URL
-- [ ] Cấu hình MAIL driver (nếu cần)
-- [ ] Cấu hình QUEUE driver
+- [x] Cấu hình APP_NAME ("Nhà Xe Nhật Dương")
+- [x] Cấu hình APP_URL (http://localhost:8000)
+- [ ] Cấu hình MAIL driver (deferred - cần sau)
+- [ ] Cấu hình QUEUE driver (sử dụng sync default)
 - [ ] Tạo `.env.example` backup
 
 ## Acceptance Criteria
 
 - [x] Laravel chạy thành công trên localhost
-- [ ] Admin panel truy cập được tại `/admin`
-- [ ] Database kết nối thành công
-- [ ] Storage link hoạt động
-- [ ] Layout frontend cơ bản đã có
+- [ ] Admin panel truy cập được tại `/admin` (deferred - Filament compatibility)
+- [ ] Database kết nối thành công (cần tạo PostgreSQL database local)
+- [x] Storage link hoạt động
+- [x] Layout frontend cơ bản đã có
 
 ## Notes
 

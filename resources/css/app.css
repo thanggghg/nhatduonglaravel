@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    /* === SPACING SYSTEM === */
+    /* Set spacing to 1px so p-16 = 16px, mb-24 = 24px, etc. */
+    --spacing: 1px;
+
+    /* === DESIGN SYSTEM COLORS (DESIGN.md) === */
+
+    /* Brand */
+    --color-brand-green: #0b7f42;
+    --color-brand-gold: #fbb116;
+    --color-green-hover: #096b39;
+    --color-gold-hover: #e19f14;
+
+    /* Base surfaces */
+    --color-canvas-white: #ffffff;
+    --color-subtle-ash: #f0f4f1;
+    --color-ghost-fog: #f8fdf9;
+
+    /* Text */
+    --color-slate-text: #2c3e36;
+    --color-forest-deep: #062d1c;
+    --color-muted-gray: #5a6c62;
+    --color-hint-gray: #8a9c92;
+
+    /* Borders */
+    --color-input-border: #d1ddd5;
+
+    /* Accents */
+    --color-soft-green: #d4f4e2;
+    --color-deep-green-accent: #085d32;
+    --color-soft-green-background: #e8f8ef;
+    --color-success-green-text: #0a3d23;
+    --color-light-gold: #fef3d7;
+    --color-gold-text: #8a6300;
+
+    /* Font Family - Inter */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Shadows with green tint */
+    --shadow-sm: rgba(11, 127, 66, 0.05) 0px 1px 2px 0px;
+    --shadow-md: rgba(11, 127, 66, 0.08) 0px 2px 8px 0px;
+    --shadow-lg: rgba(11, 127, 66, 0.10) 0px 4px 16px 0px;
+    --shadow-xl: rgba(11, 127, 66, 0.12) 0px 8px 24px 0px;
+}

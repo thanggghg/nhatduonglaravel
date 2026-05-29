@@ -9,42 +9,42 @@
 ### 2.1 Create Models & Migrations
 
 #### Banner
-- [ ] `php artisan make:model Banner -m`
-- [ ] Tạo migration với các trường: title, subtitle, image, button_text, button_url, position, sort_order, status
-- [ ] Chạy migration
+- [x] `php artisan make:model Banner -m`
+- [x] Tạo migration với các trường: title, subtitle, image, button_text, button_url, position, sort_order, status
+- [ ] Chạy migration (cần PostgreSQL database)
 
 #### Post & PostCategory
-- [ ] `php artisan make:model PostCategory -m`
-- [ ] `php artisan make:model Post -m`
-- [ ] Tạo migration với các trường theo database design
-- [ ] Thiết lập relationship giữa Post và PostCategory
+- [x] `php artisan make:model PostCategory -m`
+- [x] `php artisan make:model Post -m`
+- [x] Tạo migration với các trường theo database design
+- [x] Thiết lập relationship giữa Post và PostCategory
 
 #### Route
-- [ ] `php artisan make:model Route -m`
-- [ ] Tạo migration với các trường: name, slug, from_location, to_location, distance, estimated_time, price_from, image, description, booking_url, status
+- [x] `php artisan make:model Route -m`
+- [x] Tạo migration với các trường: name, slug, from_location, to_location, distance, estimated_time, price_from, image, description, booking_url, status
 
 #### Schedule
-- [ ] `php artisan make:model Schedule -m`
-- [ ] Tạo migration với các trường: route_id, departure_time, arrival_time, bus_type, price, note, sort_order, status
-- [ ] Thiết lập foreign key với routes
+- [x] `php artisan make:model Schedule -m`
+- [x] Tạo migration với các trường: route_id, departure_time, arrival_time, bus_type, price, note, sort_order, status
+- [x] Thiết lập foreign key với routes
 
 #### Pickup & Dropoff Points
-- [ ] `php artisan make:model PickupPoint -m`
-- [ ] `php artisan make:model DropoffPoint -m`
-- [ ] Tạo migration với các trường: route_id, name, address, map_url, phone, note, sort_order, status
+- [x] `php artisan make:model PickupPoint -m`
+- [x] `php artisan make:model DropoffPoint -m`
+- [x] Tạo migration với các trường: route_id, name, address, map_url, phone, note, sort_order, status
 
 #### Page & FAQ
-- [ ] `php artisan make:model Page -m`
-- [ ] `php artisan make:model Faq -m`
-- [ ] Tạo migration theo database design
+- [x] `php artisan make:model Page -m`
+- [x] `php artisan make:model Faq -m`
+- [x] Tạo migration theo database design
 
 #### Contact
-- [ ] `php artisan make:model Contact -m`
-- [ ] Tạo migration với các trường: name, phone, email, message, status
+- [x] `php artisan make:model Contact -m`
+- [x] Tạo migration với các trường: name, phone, email, message, status
 
 #### BookingClickLog
-- [ ] `php artisan make:model BookingClickLog -m`
-- [ ] Tạo migration với các trường: route_id, source_page, booking_url, ip_address, user_agent
+- [x] `php artisan make:model BookingClickLog -m`
+- [x] Tạo migration với các trường: route_id, source_page, booking_url, ip_address, user_agent
 
 #### Run All Migrations
 - [ ] `php artisan migrate`
