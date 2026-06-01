@@ -117,11 +117,11 @@
         <h2 class="text-3xl md:text-4xl font-bold mb-4">Cần Hỗ Trợ?</h2>
         <p class="text-xl mb-8 text-gray-100">Liên hệ ngay với chúng tôi để được tư vấn và hỗ trợ đặt vé</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:0123456789" class="bg-brand-gold text-[#8a6300] px-8 py-4 rounded-lg font-semibold hover:bg-[#e19f14] transition-colors inline-flex items-center justify-center gap-2">
+            <a href="tel:1900 2879" class="bg-brand-gold text-[#8a6300] px-8 py-4 rounded-lg font-semibold hover:bg-[#e19f14] transition-colors inline-flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                 </svg>
-                Gọi Ngay: 0123 456 789
+                Gọi Ngay: 1900 2879
             </a>
             <a href="{{ route('contact') }}" class="bg-white text-brand-green px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
                 Liên Hệ Tư Vấn

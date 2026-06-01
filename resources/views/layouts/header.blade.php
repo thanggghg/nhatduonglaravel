@@ -1,103 +1,66 @@
-<header x-data="{ scrolled: false, mobileOpen: false }"
-        x-init="window.addEventListener('scroll', () => scrolled = window.scrollY > 40)"
-        :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-2' : 'bg-transparent py-4'"
-        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-    <div class="container mx-auto px-6">
-        <div class="flex items-center justify-between">
+{{-- HEADER: xanh solid, logo trắng, nav ngang, CTA vàng --}}
+<header style="position:sticky; top:0; z-index:1000; background:linear-gradient(180deg,#0b7f42,#096b39); box-shadow:0 4px 20px rgba(11,127,66,0.30);">
+  <div style="width:min(1280px,94%); margin:0 auto; min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 16px;">
 
-            {{-- Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}"
-                     alt="Nhà Xe Nhật Dương"
-                     class="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
-            </a>
+    {{-- Logo --}}
+    <a href="{{ route('home') }}" style="display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0;">
+      <img src="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}"
+           alt="Nhà Xe Nhật Dương"
+           style="height:42px; width:auto; object-fit:contain; filter:brightness(0) invert(1);">
+    </a>
 
-            {{-- Desktop Nav --}}
-            <nav class="hidden lg:flex items-center gap-1">
-                @foreach([
-                    ['Trang Chủ', 'home'],
-                    ['Tuyến Đường', 'routes.index'],
-                    ['Lịch Trình', 'schedules.index'],
-                    ['Tin Tức', 'posts.index'],
-                    ['Về Chúng Tôi', 'about'],
-                    ['Liên Hệ', 'contact'],
-                ] as [$label, $routeName])
-                <a href="{{ route($routeName) }}"
-                   :class="scrolled ? 'text-forest-deep hover:text-brand-green' : 'text-white/90 hover:text-white'"
-                   class="relative px-4 py-2 text-sm font-medium transition-colors duration-200 group {{ request()->routeIs($routeName) || request()->routeIs(rtrim($routeName, '.index') . '.*') ? 'font-semibold' : '' }}">
-                    {{ $label }}
-                    <span class="absolute bottom-0 left-4 right-4 h-0.5 bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left {{ request()->routeIs($routeName) || request()->routeIs(rtrim($routeName, '.index') . '.*') ? 'scale-x-100' : '' }}"></span>
-                </a>
-                @endforeach
-            </nav>
+    {{-- Desktop nav --}}
+    <nav style="display:flex; align-items:center; gap:4px;" class="hidden lg:flex">
+      @foreach([
+        ['Trang Chủ','home'],
+        ['Tuyến Đường','routes.index'],
+        ['Lịch Trình','schedules.index'],
+        ['Tin Tức','posts.index'],
+        ['Về Chúng Tôi','about'],
+        ['Liên Hệ','contact'],
+      ] as [$label,$route])
+      @php $active = request()->routeIs($route) || request()->routeIs(rtrim($route,'.index').'.*'); @endphp
+      <a href="{{ route($route) }}"
+         style="padding:8px 14px; border-radius:8px; font-size:14px; font-weight:{{ $active?'700':'600' }}; color:{{ $active?'#fbb116':'rgba(255,255,255,0.88)' }}; text-decoration:none; transition:all 0.15s; {{ $active?'background:rgba(255,255,255,0.12);':'' }}"
+         onmouseover="this.style.color='#fff';this.style.background='rgba(255,255,255,0.12)'"
+         onmouseout="this.style.color='{{ $active?'#fbb116':'rgba(255,255,255,0.88)' }}';this.style.background='{{ $active?'rgba(255,255,255,0.12)':'transparent' }}'">
+        {{ $label }}
+      </a>
+      @endforeach
+    </nav>
 
-            {{-- Right side --}}
-            <div class="hidden lg:flex items-center gap-3">
-                <a href="tel:0123456789"
-                   :class="scrolled ? 'text-forest-deep' : 'text-white/80'"
-                   class="flex items-center gap-2 text-sm font-medium transition-colors hover:text-brand-gold">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                    </svg>
-                    0123 456 789
-                </a>
-                <a href="{{ route('booking.index') }}"
-                   class="inline-flex items-center gap-2 bg-brand-gold text-gold-text font-bold px-5 py-2.5 rounded-full text-sm hover:bg-gold-hover transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                    Đặt Vé Ngay
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            {{-- Mobile toggle --}}
-            <button @click="mobileOpen = !mobileOpen"
-                    :class="scrolled ? 'text-forest-deep' : 'text-white'"
-                    class="lg:hidden p-2 transition-colors">
-                <svg x-show="!mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-                <svg x-show="mobileOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
+    {{-- Right actions --}}
+    <div style="display:flex; align-items:center; gap:10px;" class="hidden lg:flex">
+      <a href="tel:1900 2879"
+         style="display:flex; align-items:center; gap:6px; padding:9px 16px; border-radius:10px; background:#fff; color:#062d1c; font-size:14px; font-weight:800; text-decoration:none; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.12);">
+        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        1900 2879
+      </a>
+      <a href="{{ route('booking.index') }}"
+         style="display:flex; align-items:center; gap:6px; padding:9px 20px; border-radius:10px; background:linear-gradient(180deg,#ffdc47,#fbb116); color:#5a3e00; font-size:14px; font-weight:800; text-decoration:none; white-space:nowrap; box-shadow:0 4px 14px rgba(251,177,22,0.35); transition:all 0.15s;"
+         onmouseover="this.style.filter='brightness(1.05)';this.style.transform='translateY(-1px)'"
+         onmouseout="this.style.filter='none';this.style.transform='translateY(0)'">
+        Đặt Vé Ngay
+        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
     </div>
 
-    {{-- Mobile menu --}}
-    <div x-show="mobileOpen"
-         x-transition:enter="transition ease-out duration-200"
-         x-transition:enter-start="opacity-0 -translate-y-2"
-         x-transition:enter-end="opacity-100 translate-y-0"
-         x-transition:leave="transition ease-in duration-150"
-         x-transition:leave-start="opacity-100 translate-y-0"
-         x-transition:leave-end="opacity-0 -translate-y-2"
-         class="lg:hidden bg-white border-t border-gray-100 shadow-xl">
-        <div class="container mx-auto px-6 py-4 flex flex-col gap-1">
-            @foreach([
-                ['Trang Chủ', 'home'],
-                ['Tuyến Đường', 'routes.index'],
-                ['Lịch Trình', 'schedules.index'],
-                ['Tin Tức', 'posts.index'],
-                ['Về Chúng Tôi', 'about'],
-                ['Liên Hệ', 'contact'],
-            ] as [$label, $routeName])
-            <a href="{{ route($routeName) }}"
-               class="block py-3 px-4 text-forest-deep font-medium rounded-lg hover:bg-soft-green-background hover:text-brand-green transition-colors {{ request()->routeIs($routeName) ? 'bg-soft-green-background text-brand-green' : '' }}">
-                {{ $label }}
-            </a>
-            @endforeach
-            <div class="pt-3 mt-2 border-t border-gray-100 flex flex-col gap-2">
-                <a href="tel:0123456789" class="flex items-center gap-2 py-2 px-4 text-brand-green font-semibold">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                    </svg>
-                    Hotline: 0123 456 789
-                </a>
-                <a href="{{ route('booking.index') }}" class="flex items-center justify-center gap-2 bg-brand-gold text-gold-text font-bold py-3 rounded-xl text-sm">
-                    Đặt Vé Ngay
-                </a>
-            </div>
+    {{-- Mobile toggle --}}
+    <div x-data="{ open: false }" class="lg:hidden">
+      <button @click="open=!open" style="background:rgba(255,255,255,0.15); border:none; border-radius:8px; padding:8px; cursor:pointer; color:#fff;">
+        <svg x-show="!open" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg x-show="open" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div x-show="open" x-transition style="position:absolute; top:100%; left:0; right:0; background:#062d1c; border-top:1px solid rgba(255,255,255,0.10); padding:12px 16px; display:flex; flex-direction:column; gap:4px;">
+        @foreach([['Trang Chủ','home'],['Tuyến Đường','routes.index'],['Lịch Trình','schedules.index'],['Tin Tức','posts.index'],['Về Chúng Tôi','about'],['Liên Hệ','contact']] as [$label,$route])
+        <a href="{{ route($route) }}" style="padding:11px 14px; border-radius:8px; color:rgba(255,255,255,0.85); font-size:15px; font-weight:600; text-decoration:none; {{ request()->routeIs($route)?'background:rgba(255,255,255,0.10);color:#fbb116;':'' }}">{{ $label }}</a>
+        @endforeach
+        <div style="margin-top:8px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; gap:8px;">
+          <a href="tel:1900 2879" style="padding:11px 14px; border-radius:8px; background:#fff; color:#062d1c; font-weight:800; font-size:14px; text-decoration:none; text-align:center;">☎ 1900 2879</a>
+          <a href="{{ route('booking.index') }}" style="padding:11px 14px; border-radius:8px; background:linear-gradient(180deg,#ffdc47,#fbb116); color:#5a3e00; font-weight:800; font-size:14px; text-decoration:none; text-align:center;">Đặt Vé Ngay</a>
         </div>
+      </div>
     </div>
+
+  </div>
 </header>

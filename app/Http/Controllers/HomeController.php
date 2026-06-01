@@ -18,6 +18,10 @@ class HomeController extends Controller
             ->get();
 
         $featuredRoutes = Route::where('status', true)
+            ->where(function ($q) {
+                $q->where('to_location', 'like', '%Nha Trang%')
+                  ->orWhere('name', 'like', '%Nha Trang%');
+            })
             ->latest()
             ->take(6)
             ->get();
@@ -28,10 +32,16 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
+        $ntRoute = Route::where('status', true)
+            ->where(function ($q) {
+                $q->where('to_location', 'like', '%Nha Trang%')
+                  ->orWhere('name', 'like', '%Nha Trang%');
+            })->first();
+
         $popularSchedules = Schedule::where('status', true)
+            ->when($ntRoute, fn($q) => $q->where('route_id', $ntRoute->id))
             ->with('route')
-            ->orderBy('sort_order')
-            ->take(8)
+            ->orderBy('departure_time')
             ->get();
 
         $faqs = Faq::where('status', true)
@@ -39,6 +49,6 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs'));
+        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs', 'ntRoute'));
     }
 }

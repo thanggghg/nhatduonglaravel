@@ -1,0 +1,1 @@
+<?php chdir('/var/www'); require 'vendor/autoload.php'; $app=require 'bootstrap/app.php'; $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); try{$v=view('home',['banners'=>collect(),'featuredRoutes'=>collect(),'latestPosts'=>collect(),'popularSchedules'=>collect(),'faqs'=>collect()])->render();echo 'OK '.strlen($v);}catch(Throwable $e){echo $e->getMessage();}

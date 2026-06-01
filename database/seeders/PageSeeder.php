@@ -36,7 +36,7 @@ class PageSeeder extends Seeder
 <p>Toàn bộ đội xe của Nhà Xe Nhật Dương đều là xe mới, được trang bị đầy đủ tiện nghi: điều hòa, wifi, ghế massage, giường nằm cao cấp.</p>
 
 <h3>Liên Hệ</h3>
-<p>Hotline: 0123 456 789<br>Email: info@nhatduong.com<br>Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>',
+<p>Hotline: 1900 2879<br>Email: info@nhatduong.com<br>Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>',
             'status' => true,
         ]);
 

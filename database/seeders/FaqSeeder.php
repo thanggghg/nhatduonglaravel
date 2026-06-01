@@ -14,7 +14,7 @@ class FaqSeeder extends Seeder
     {
         Faq::create([
             'question' => 'Làm thế nào để đặt vé xe?',
-            'answer' => 'Bạn có thể đặt vé xe qua website, gọi điện hotline 0123 456 789, hoặc trực tiếp tại các điểm bán vé. Đặt vé online sẽ được ưu đãi giảm giá.',
+            'answer' => 'Bạn có thể đặt vé xe qua website, gọi điện hotline 1900 2879, hoặc trực tiếp tại các điểm bán vé. Đặt vé online sẽ được ưu đãi giảm giá.',
             'sort_order' => 1,
             'status' => true,
         ]);

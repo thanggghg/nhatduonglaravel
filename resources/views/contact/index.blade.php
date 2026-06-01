@@ -107,7 +107,7 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-gray-900 mb-1">Hotline</h3>
-                                <a href="tel:0123456789" class="text-brand-green hover:text-[#096b39] font-semibold text-lg">0123 456 789</a>
+                                <a href="tel:1900 2879" class="text-brand-green hover:text-[#096b39] font-semibold text-lg">1900 2879</a>
                                 <p class="text-gray-500 text-sm mt-1">Hỗ trợ 24/7</p>
                             </div>
                         </div>

@@ -36,8 +36,8 @@
 
     @stack('styles')
 </head>
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-white">
+<body class="font-sans antialiased" style="margin:0; background:#f5faf4;">
+    <div class="min-h-screen" style="background:#f5faf4;">
         <!-- Header -->
         @include('layouts.header')
 

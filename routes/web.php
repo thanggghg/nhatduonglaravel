@@ -8,6 +8,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookingRedirectController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminRouteController;
@@ -40,6 +41,7 @@ Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.stor
 
 // Booking
 Route::get('/dat-ve', [BookingRedirectController::class, 'index'])->name('booking.index');
+Route::get('/dat-ve-truc-tuyen', [BookingController::class, 'search'])->name('booking.search');
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
 
 // Admin Routes
