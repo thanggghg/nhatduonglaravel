@@ -4,8 +4,8 @@
   {{-- Background ảnh xe với overlay trắng nhẹ (không xanh) --}}
   @php
     $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
-    $heroImage = $heroBanner && $heroBanner->image
-        ? asset('storage/' . $heroBanner->image)
+    $heroImage = $heroBanner && $heroBanner->hasImage()
+        ? $heroBanner->image_url
         : asset('nha-xe-binh-minh-bus-2048x867.png');
   @endphp
   <div style="position:absolute; inset:0;">
@@ -13,8 +13,8 @@
          alt="{{ $heroBanner->title ?? '' }}" aria-hidden="true"
          style="width:100%; height:100%; object-fit:cover; object-position:center; animation:subtle-zoom 22s ease-in-out infinite alternate;">
     {{-- Overlay trắng nhẹ phía trên, xanh đậm phía dưới (giống file mẫu) --}}
-    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.32) 38%, rgba(255,255,255,0.10) 100%);"></div>
-    <div style="position:absolute; inset:0; background:radial-gradient(circle at 18% 18%, rgba(18,124,7,0.08), transparent 28%), radial-gradient(circle at 80% 22%, rgba(251,177,22,0.14), transparent 26%);"></div>
+    <!-- <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.32) 38%, rgba(255,255,255,0.10) 100%);"></div>
+    <div style="position:absolute; inset:0; background:radial-gradient(circle at 18% 18%, rgba(18,124,7,0.08), transparent 28%), radial-gradient(circle at 80% 22%, rgba(251,177,22,0.14), transparent 26%);"></div> -->
   </div>
 
   <div style="position:relative; z-index:2; width:min(1280px,94%); margin:0 auto; padding:40px 16px 0;">

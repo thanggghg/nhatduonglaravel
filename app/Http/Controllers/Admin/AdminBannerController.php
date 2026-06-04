@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminBannerController extends Controller
 {
+    /**
+     * Shared validation rules for store/update.
+     */
+    private function rules(): array
+    {
+        return [
+            'title'       => 'required|string|max:255',
+            'subtitle'    => 'nullable|string|max:500',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png,webp|max:4096',
+            'button_text' => 'nullable|string|max:100',
+            'button_url'  => 'nullable|string|max:500',
+            'position'    => 'nullable|string|max:50',
+            'sort_order'  => 'nullable|integer|min:0',
+            'status'      => 'nullable|boolean',
+        ];
+    }
+
     public function index()
     {
         $banners = Banner::orderBy('sort_order')->paginate(20);
@@ -22,23 +39,16 @@ class AdminBannerController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'subtitle'    => 'nullable|string|max:500',
-            'image'       => 'nullable|image|max:4096',
-            'button_text' => 'nullable|string|max:100',
-            'button_url'  => 'nullable|url',
-            'position'    => 'nullable|string|max:50',
-            'sort_order'  => 'integer|min:0',
-            'status'      => 'boolean',
-        ]);
+        $validated = $request->validate($this->rules());
+
+        unset($validated['image']);
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('banners', 'public');
         }
 
         $validated['status'] = $request->boolean('status');
-        $validated['sort_order'] = $request->input('sort_order', 0);
+        $validated['sort_order'] = (int) $request->input('sort_order', 0);
 
         Banner::create($validated);
 
@@ -55,26 +65,20 @@ class AdminBannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        $validated = $request->validate([
-            'title'       => 'required|string|max:255',
-            'subtitle'    => 'nullable|string|max:500',
-            'image'       => 'nullable|image|max:4096',
-            'button_text' => 'nullable|string|max:100',
-            'button_url'  => 'nullable|url',
-            'position'    => 'nullable|string|max:50',
-            'sort_order'  => 'integer|min:0',
-            'status'      => 'boolean',
-        ]);
+        $validated = $request->validate($this->rules());
+
+        // Don't overwrite the existing image unless a new file was uploaded.
+        unset($validated['image']);
 
         if ($request->hasFile('image')) {
-            if ($banner->image) {
+            if ($banner->hasImage()) {
                 Storage::disk('public')->delete($banner->image);
             }
             $validated['image'] = $request->file('image')->store('banners', 'public');
         }
 
         $validated['status'] = $request->boolean('status');
-        $validated['sort_order'] = $request->input('sort_order', 0);
+        $validated['sort_order'] = (int) $request->input('sort_order', 0);
 
         $banner->update($validated);
 
@@ -85,7 +89,7 @@ class AdminBannerController extends Controller
     {
         $banner = Banner::findOrFail($id);
 
-        if ($banner->image) {
+        if ($banner->hasImage()) {
             Storage::disk('public')->delete($banner->image);
         }
 

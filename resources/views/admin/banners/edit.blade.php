@@ -28,7 +28,7 @@
                     </ul>
                 </div>
                 <img id="imagePreview"
-                    src="{{ $banner->image ? Storage::url($banner->image) : asset('nha-xe-binh-minh-bus-2048x867.png') }}"
+                    src="{{ $banner->image_url ?? asset('nha-xe-binh-minh-bus-2048x867.png') }}"
                     class="w-full h-40 object-cover rounded-md mb-12 border border-input-border" alt="Xem trước">
                 <input type="file" name="image" accept="image/*" id="imageInput"
                     onchange="previewBanner(event)"

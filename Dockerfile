@@ -14,6 +14,9 @@ RUN docker-php-ext-install pdo pdo_pgsql pgsql
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Custom PHP configuration (upload limits, memory, etc.)
+COPY docker/php/local.ini /usr/local/etc/php/conf.d/zz-local.ini
+
 # Set working directory
 WORKDIR /var/www
 
