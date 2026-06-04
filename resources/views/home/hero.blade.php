@@ -2,9 +2,15 @@
 <section style="position:relative; overflow:hidden; background:#f5faf4;">
 
   {{-- Background ảnh xe với overlay trắng nhẹ (không xanh) --}}
+  @php
+    $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
+    $heroImage = $heroBanner && $heroBanner->image
+        ? asset('storage/' . $heroBanner->image)
+        : asset('nha-xe-binh-minh-bus-2048x867.png');
+  @endphp
   <div style="position:absolute; inset:0;">
-    <img src="{{ asset('nha-xe-binh-minh-bus-2048x867.png') }}"
-         alt="" aria-hidden="true"
+    <img src="{{ $heroImage }}"
+         alt="{{ $heroBanner->title ?? '' }}" aria-hidden="true"
          style="width:100%; height:100%; object-fit:cover; object-position:center; animation:subtle-zoom 22s ease-in-out infinite alternate;">
     {{-- Overlay trắng nhẹ phía trên, xanh đậm phía dưới (giống file mẫu) --}}
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.32) 38%, rgba(255,255,255,0.10) 100%);"></div>

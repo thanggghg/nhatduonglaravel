@@ -12,7 +12,7 @@
           <span style="color:#0b7f42; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;">Hỗ trợ nhanh</span>
         </div>
         <h2 style="margin:0; color:#172315; font-size:clamp(36px,4vw,56px); line-height:.95; letter-spacing:-1.5px; font-weight:900;">
-          Câu Hỏi<br> <span style="color:#0b7f42;">Thường Gặp</span>
+          Câu Hỏi <span style="color:#0b7f42;">Thường Gặp</span>
         </h2>
       </div>
       <p style="max-width:480px; margin:0; color:#62735e; font-size:15px; line-height:1.7; font-weight:700;">

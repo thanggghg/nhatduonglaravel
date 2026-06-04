@@ -18,10 +18,22 @@
                 <textarea name="subtitle" rows="2" class="w-full px-16 py-12 border border-input-border rounded-md text-body focus:outline-none focus:ring-2 focus:ring-brand-green" placeholder="Mô tả ngắn...">{{ old('subtitle') }}</textarea>
             </div>
             <div class="mb-24">
-                <label class="block text-body-sm font-medium text-slate-text mb-8">Ảnh banner</label>
-                <input type="file" name="image" accept="image/*"
+                <label class="block text-body-sm font-medium text-slate-text mb-8">Ảnh banner trang chủ</label>
+                <div class="mb-12 p-16 bg-soft-green-background rounded-md">
+                    <p class="text-body-sm font-semibold text-brand-green mb-4">Gợi ý ảnh banner chuẩn</p>
+                    <ul class="text-caption text-slate-text space-y-2 list-disc list-inside">
+                        <li>Kích thước lý tưởng: <strong>2048 × 867px</strong> (tỷ lệ 2.36:1, ảnh ngang)</li>
+                        <li>Định dạng: PNG hoặc JPG, dung lượng tối đa 4MB</li>
+                        <li>Ảnh sẽ hiển thị làm nền hero ở trang chủ — ưu tiên ảnh xe khách rõ nét, sáng</li>
+                        <li>Tránh đặt chữ quan trọng ở chính giữa (vùng này bị form tìm chuyến che)</li>
+                    </ul>
+                </div>
+                <img id="imagePreview" src="{{ asset('nha-xe-binh-minh-bus-2048x867.png') }}" alt="Xem trước"
+                    class="w-full h-40 object-cover rounded-md mb-12 border border-input-border">
+                <input type="file" name="image" accept="image/*" id="imageInput"
+                    onchange="previewBanner(event)"
                     class="w-full text-body-sm text-muted-gray file:mr-8 file:py-8 file:px-16 file:rounded-md file:border-0 file:text-body-sm file:font-semibold file:bg-soft-green-background file:text-brand-green">
-                <p class="mt-8 text-caption text-hint-gray">PNG, JPG tối đa 4MB. Khuyến nghị: 1920x600px</p>
+                <p class="mt-8 text-caption text-hint-gray">Ảnh xem trước phía trên là banner đang dùng. Chọn ảnh mới để thay thế.</p>
             </div>
             <div class="grid grid-cols-2 gap-24 mb-24">
                 <div>
@@ -40,9 +52,11 @@
             <div class="grid grid-cols-2 gap-24 mb-24">
                 <div>
                     <label class="block text-body-sm font-medium text-slate-text mb-8">Vị trí</label>
-                    <input type="text" name="position" value="{{ old('position', 'home') }}"
-                        class="w-full px-16 py-12 border border-input-border rounded-md text-body focus:outline-none focus:ring-2 focus:ring-brand-green"
-                        placeholder="home">
+                    <select name="position"
+                        class="w-full px-16 py-12 border border-input-border rounded-md text-body focus:outline-none focus:ring-2 focus:ring-brand-green">
+                        <option value="hero" {{ old('position', 'hero') === 'hero' ? 'selected' : '' }}>Hero (nền trang chủ)</option>
+                        <option value="home" {{ old('position') === 'home' ? 'selected' : '' }}>Home (khác)</option>
+                    </select>
                 </div>
                 <div>
                     <label class="block text-body-sm font-medium text-slate-text mb-8">Thứ tự</label>
@@ -63,4 +77,16 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+function previewBanner(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById('imagePreview').src = e.target.result; };
+    reader.readAsDataURL(file);
+}
+</script>
+@endpush
 @endsection
