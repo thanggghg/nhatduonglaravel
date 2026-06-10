@@ -77,15 +77,15 @@
       </div>
       <input type="hidden" name="is_round_trip" id="isRoundTripHidden" value="0">
 
-      <div style="padding:20px 24px;">
+      <div style="padding:16px 20px;">
         {{-- Single horizontal row with all fields --}}
-        <div style="display:grid; grid-template-columns:1.2fr auto 1.2fr 1fr 1fr 110px 150px; gap:12px; align-items:center;">
+        <div style="display:grid; grid-template-columns:1.2fr auto 1.2fr 1fr 1fr 100px 140px; gap:10px; align-items:center;">
           
           {{-- From --}}
-          <div style="position:relative; cursor:pointer; padding:12px 16px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
+          <div style="position:relative; cursor:pointer; padding:8px 12px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
                onmouseover="this.style.borderColor='#0b7f42'; this.style.boxShadow='0 2px 8px rgba(11,127,66,0.08)'"
                onmouseout="this.style.borderColor='#d1ddd5'; this.style.boxShadow='none'">
-            <label style="color:#5a6c62; font-size:12px; font-weight:600; text-transform:uppercase; margin-bottom:4px; display:block; font-family:'Inter',sans-serif;">Điểm đi</label>
+            <label style="color:#5a6c62; font-size:11px; font-weight:600; text-transform:uppercase; margin-bottom:3px; display:block; font-family:'Inter',sans-serif; line-height:1;">Điểm đi</label>
             <select name="from_location" id="fromLocation" required
                     style="position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; z-index:2; font-family:'Inter',sans-serif;"
                     onchange="updateLocationDisplay('from', this.value)">
@@ -94,14 +94,14 @@
                 <option value="{{ $loc }}" {{ $loc === 'TP. Hồ Chí Minh' ? 'selected' : '' }} data-icon="📍">{{ $loc }}</option>
               @endforeach
             </select>
-            <div style="display:flex; align-items:center; gap:8px; pointer-events:none;">
-              <div style="width:32px; height:32px; border-radius:8px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
-                <svg width="14" height="14" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
+            <div style="display:flex; align-items:center; gap:6px; pointer-events:none;">
+              <div style="width:28px; height:28px; border-radius:6px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
+                <svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
               </div>
               <div style="flex:1; min-width:0;">
-                <div id="fromDisplay" style="color:#2c3e36; font-size:16px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">TP. Hồ Chí Minh</div>
+                <div id="fromDisplay" style="color:#2c3e36; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">TP. Hồ Chí Minh</div>
               </div>
-              <svg width="16" height="16" fill="#5a6c62" viewBox="0 0 24 24" style="flex-shrink:0;">
+              <svg width="14" height="14" fill="#5a6c62" viewBox="0 0 24 24" style="flex-shrink:0;">
                 <path d="M7 10l5 5 5-5z"/>
               </svg>
             </div>
@@ -109,17 +109,17 @@
 
           {{-- Swap --}}
           <button type="button" onclick="swapLocations()" 
-                  style="width:40px; height:40px; display:grid; place-items:center; border:1px solid #d1ddd5; background:#f8fdf9; border-radius:8px; color:#0b7f42; font-size:18px; cursor:pointer; transition:all 0.15s;"
+                  style="width:36px; height:36px; display:grid; place-items:center; border:1px solid #d1ddd5; background:#f8fdf9; border-radius:8px; color:#0b7f42; font-size:16px; cursor:pointer; transition:all 0.15s;"
                   onmouseover="this.style.background='#0b7f42'; this.style.color='#fff'; this.style.borderColor='#0b7f42'"
                   onmouseout="this.style.background='#f8fdf9'; this.style.color='#0b7f42'; this.style.borderColor='#d1ddd5'">
             ⇄
           </button>
 
           {{-- To --}}
-          <div style="position:relative; cursor:pointer; padding:12px 16px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
+          <div style="position:relative; cursor:pointer; padding:8px 12px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
                onmouseover="this.style.borderColor='#0b7f42'; this.style.boxShadow='0 2px 8px rgba(11,127,66,0.08)'"
                onmouseout="this.style.borderColor='#d1ddd5'; this.style.boxShadow='none'">
-            <label style="color:#5a6c62; font-size:12px; font-weight:600; text-transform:uppercase; margin-bottom:4px; display:block; font-family:'Inter',sans-serif;">Điểm đến</label>
+            <label style="color:#5a6c62; font-size:11px; font-weight:600; text-transform:uppercase; margin-bottom:3px; display:block; font-family:'Inter',sans-serif; line-height:1;">Điểm đến</label>
             <select name="to_location" id="toLocation" required
                     style="position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; z-index:2; font-family:'Inter',sans-serif;"
                     onchange="updateLocationDisplay('to', this.value)">
@@ -128,71 +128,71 @@
                 <option value="{{ $loc }}" {{ $loc === 'Nha Trang' ? 'selected' : '' }} data-icon="🎯">{{ $loc }}</option>
               @endforeach
             </select>
-            <div style="display:flex; align-items:center; gap:8px; pointer-events:none;">
-              <div style="width:32px; height:32px; border-radius:8px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
-                <svg width="14" height="14" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <div style="display:flex; align-items:center; gap:6px; pointer-events:none;">
+              <div style="width:28px; height:28px; border-radius:6px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
+                <svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               </div>
               <div style="flex:1; min-width:0;">
-                <div id="toDisplay" style="color:#2c3e36; font-size:16px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">Nha Trang</div>
+                <div id="toDisplay" style="color:#2c3e36; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">Nha Trang</div>
               </div>
-              <svg width="16" height="16" fill="#5a6c62" viewBox="0 0 24 24" style="flex-shrink:0;">
+              <svg width="14" height="14" fill="#5a6c62" viewBox="0 0 24 24" style="flex-shrink:0;">
                 <path d="M7 10l5 5 5-5z"/>
               </svg>
             </div>
           </div>
 
           {{-- Depart date --}}
-          <div style="position:relative; cursor:pointer; padding:12px 16px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
+          <div style="position:relative; cursor:pointer; padding:8px 12px; border:1px solid #d1ddd5; border-radius:8px; background:#fff; transition:all 0.15s;"
                onmouseover="this.style.borderColor='#0b7f42'; this.style.boxShadow='0 2px 8px rgba(11,127,66,0.08)'"
                onmouseout="this.style.borderColor='#d1ddd5'; this.style.boxShadow='none'"
                onclick="document.getElementById('departDate_raw').showPicker()">
-            <label style="color:#5a6c62; font-size:12px; font-weight:600; text-transform:uppercase; margin-bottom:4px; display:block; font-family:'Inter',sans-serif; pointer-events:none;">Ngày đi</label>
+            <label style="color:#5a6c62; font-size:11px; font-weight:600; text-transform:uppercase; margin-bottom:3px; display:block; font-family:'Inter',sans-serif; pointer-events:none; line-height:1;">Ngày đi</label>
             <input type="date" name="departDate_raw" id="departDate_raw"
                    value="{{ now()->format('Y-m-d') }}"
                    min="{{ now()->format('Y-m-d') }}"
                    style="position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; z-index:2;"
                    onchange="syncDate(this.value, 'depart')">
-            <div style="display:flex; align-items:center; gap:8px; pointer-events:none;">
-              <div style="width:32px; height:32px; border-radius:8px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
-                <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <div style="display:flex; align-items:center; gap:6px; pointer-events:none;">
+              <div style="width:28px; height:28px; border-radius:6px; background:#0b7f42; display:grid; place-items:center; flex-shrink:0;">
+                <svg width="12" height="12" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               </div>
-              <div id="departDateDisplay" style="color:#2c3e36; font-size:16px; font-weight:600; font-family:'Inter',sans-serif;">{{ now()->format('d/m/Y') }}</div>
+              <div id="departDateDisplay" style="color:#2c3e36; font-size:14px; font-weight:600; font-family:'Inter',sans-serif;">{{ now()->format('d/m/Y') }}</div>
             </div>
             <input type="hidden" name="departDate" id="departDateHidden" value="{{ now()->format('d-m-Y') }}">
           </div>
 
           {{-- Return date (disabled/grayed out by default) --}}
-          <div id="returnDateWrapper" style="position:relative; cursor:not-allowed; padding:12px 16px; border:1px solid #d1ddd5; border-radius:8px; background:#f8fdf9; opacity:0.5; transition:all 0.2s;">
-            <label style="color:#8a9c92; font-size:12px; font-weight:600; text-transform:uppercase; margin-bottom:4px; display:block; font-family:'Inter',sans-serif; pointer-events:none;">Ngày về</label>
+          <div id="returnDateWrapper" style="position:relative; cursor:not-allowed; padding:8px 12px; border:1px solid #d1ddd5; border-radius:8px; background:#f8fdf9; opacity:0.5; transition:all 0.2s;">
+            <label style="color:#8a9c92; font-size:11px; font-weight:600; text-transform:uppercase; margin-bottom:3px; display:block; font-family:'Inter',sans-serif; pointer-events:none; line-height:1;">Ngày về</label>
             <input type="date" name="returnDate_raw" id="returnDate_raw"
                    value="{{ now()->addDays(2)->format('Y-m-d') }}"
                    min="{{ now()->addDay()->format('Y-m-d') }}"
                    disabled
                    style="position:absolute; inset:0; opacity:0; cursor:not-allowed; width:100%; height:100%; z-index:2;"
                    onchange="syncDate(this.value, 'return')">
-            <div style="display:flex; align-items:center; gap:8px; pointer-events:none;">
-              <div style="width:32px; height:32px; border-radius:8px; background:#d1ddd5; display:grid; place-items:center; flex-shrink:0;">
-                <svg width="14" height="14" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            <div style="display:flex; align-items:center; gap:6px; pointer-events:none;">
+              <div style="width:28px; height:28px; border-radius:6px; background:#d1ddd5; display:grid; place-items:center; flex-shrink:0;">
+                <svg width="12" height="12" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               </div>
-              <div id="returnDateDisplay" style="color:#8a9c92; font-size:16px; font-weight:600; font-family:'Inter',sans-serif;">{{ now()->addDays(2)->format('d/m/Y') }}</div>
+              <div id="returnDateDisplay" style="color:#8a9c92; font-size:14px; font-weight:600; font-family:'Inter',sans-serif;">{{ now()->addDays(2)->format('d/m/Y') }}</div>
             </div>
             <input type="hidden" name="returnDate" id="returnDateHidden" value="{{ now()->addDays(2)->format('d-m-Y') }}">
           </div>
 
           {{-- Seats --}}
-          <div style="padding:12px 16px; border:1px solid #d1ddd5; border-radius:8px; background:#fff;">
-            <label style="color:#5a6c62; font-size:12px; font-weight:600; text-transform:uppercase; margin-bottom:4px; display:block; font-family:'Inter',sans-serif;">Số ghế</label>
-            <div style="display:flex; align-items:center; gap:6px;">
+          <div style="padding:8px 10px; border:1px solid #d1ddd5; border-radius:8px; background:#fff;">
+            <label style="color:#5a6c62; font-size:11px; font-weight:600; text-transform:uppercase; margin-bottom:3px; display:block; font-family:'Inter',sans-serif; line-height:1;">Số ghế</label>
+            <div style="display:flex; align-items:center; gap:4px; justify-content:center;">
               <button type="button" onclick="changeSeats(-1)" 
-                      style="width:28px; height:28px; border:none; background:#e8f8ef; color:#0b7f42; font-size:16px; font-weight:700; cursor:pointer; display:grid; place-items:center; border-radius:8px; transition:all 0.15s; font-family:'Inter',sans-serif;"
+                      style="width:24px; height:24px; border:none; background:#e8f8ef; color:#0b7f42; font-size:14px; font-weight:700; cursor:pointer; display:grid; place-items:center; border-radius:6px; transition:all 0.15s; font-family:'Inter',sans-serif;"
                       onmouseover="this.style.background='#0b7f42'; this.style.color='#fff'"
                       onmouseout="this.style.background='#e8f8ef'; this.style.color='#0b7f42'">
                 −
               </button>
               <input type="number" name="seats" id="seatsInput" value="1" min="1" max="50" required
-                     style="width:35px; text-align:center; border:none; background:transparent; color:#2c3e36; font-size:16px; font-weight:600; outline:none; font-family:'Inter',sans-serif;">
+                     style="width:30px; text-align:center; border:none; background:transparent; color:#2c3e36; font-size:14px; font-weight:600; outline:none; font-family:'Inter',sans-serif;">
               <button type="button" onclick="changeSeats(1)" 
-                      style="width:28px; height:28px; border:none; background:#e8f8ef; color:#0b7f42; font-size:16px; font-weight:700; cursor:pointer; display:grid; place-items:center; border-radius:8px; transition:all 0.15s; font-family:'Inter',sans-serif;"
+                      style="width:24px; height:24px; border:none; background:#e8f8ef; color:#0b7f42; font-size:14px; font-weight:700; cursor:pointer; display:grid; place-items:center; border-radius:6px; transition:all 0.15s; font-family:'Inter',sans-serif;"
                       onmouseover="this.style.background='#0b7f42'; this.style.color='#fff'"
                       onmouseout="this.style.background='#e8f8ef'; this.style.color='#0b7f42'">
                 +
@@ -202,7 +202,7 @@
 
           {{-- Submit button --}}
           <button type="submit"
-                  style="padding:14px 28px; background:linear-gradient(135deg, #fbb116, #e19f14); color:#8a6300; font-size:16px; font-weight:600; border:none; border-radius:8px; cursor:pointer; box-shadow:0 8px 24px rgba(11,127,66,0.12); transition:all 0.15s; white-space:nowrap; height:64px; font-family:'Inter',sans-serif;"
+                  style="padding:10px 20px; background:linear-gradient(135deg, #fbb116, #e19f14); color:#8a6300; font-size:15px; font-weight:600; border:none; border-radius:8px; cursor:pointer; box-shadow:0 8px 24px rgba(11,127,66,0.12); transition:all 0.15s; white-space:nowrap; font-family:'Inter',sans-serif;"
                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 32px rgba(11,127,66,0.18)'"
                   onmouseout="this.style.transform='none'; this.style.boxShadow='0 8px 24px rgba(11,127,66,0.12)'">
             Tìm chuyến
