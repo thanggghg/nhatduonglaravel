@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Section</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f4ea;
+      padding: 40px;
+      color: #123c2c;
+    }
+
+    .travel-section {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.45fr 0.65fr 1.15fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .left-box {
+      display: grid;
+      grid-template-rows: 1fr 0.45fr;
+      gap: 14px;
+    }
+
+    .stats-card,
+    .pickup-card {
+      background: #fff9ed;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .stats-card {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 26px 18px;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 0 12px;
+      border-right: 1px solid #eee2cf;
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      color: #0f5132;
+      margin-bottom: 12px;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f5132;
+      margin-bottom: 8px;
+    }
+
+    .stat-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #144632;
+      margin-bottom: 8px;
+    }
+
+    .stat-desc {
+      font-size: 13px;
+      color: #415d51;
+      line-height: 1.5;
+    }
+
+    .pickup-card {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: #123c2c;
+    }
+
+    .review-card {
+      background: #064021;
+      color: #fff;
+      border-radius: 14px;
+      padding: 24px 22px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .review-card h3 {
+      font-size: 16px;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    .stars {
+      color: #f5b642;
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+
+    .rating {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .review-count {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 30px;
+    }
+
+    .quote-icon {
+      font-size: 50px;
+      color: #e5c168;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .review-text {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 26px;
+    }
+
+    .customer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3c9a6, #7d4a2f);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .customer-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .customer-role {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 3px;
+    }
+
+    .image-card {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #123c2c;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .bus-image {
+      height: 265px;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+        url("bus-interior.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: #103f25;
+      color: #fff;
+      padding: 18px 10px;
+      text-align: center;
+    }
+
+    .feature-item {
+      padding: 0 6px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .feature-item:last-child {
+      border-right: none;
+    }
+
+    .feature-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+      opacity: 0.95;
+    }
+
+    .feature-text {
+      font-size: 11px;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 20px;
+      }
+
+      .travel-section {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-card {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .stat-item {
+        border-right: none;
+      }
+
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .feature-item {
+        border-right: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="travel-section">
+    <div class="left-box">
+      <div class="stats-card">
+        <div class="stat-item">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number">10.000+</div>
+          <div class="stat-title">Hành khách</div>
+          <div class="stat-desc">mỗi tháng</div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">🚌</div>
+          <div class="stat-number">Nhiều chuyến</div>
+          <div class="stat-title">Mỗi ngày</div>
+          <div class="stat-desc">liên tục</div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">🌿</div>
+          <div class="stat-number">2 chiều</div>
+          <div class="stat-title">Sài Gòn ⇄ Nha Trang</div>
+          <div class="stat-desc">mỗi ngày</div>
+        </div>
+
+        <div class="stat-item">
+          <div class="stat-icon">🛡️</div>
+          <div class="stat-number">100%</div>
+          <div class="stat-title">Cam kết an toàn</div>
+          <div class="stat-desc">trên mọi hành trình</div>
+        </div>
+      </div>
+
+      <div class="pickup-card">
+        Đón trả tận nhiều điểm thuận tiện
+      </div>
+    </div>
+
+    <div class="review-card">
+      <h3>Đánh giá từ khách hàng</h3>
+
+      <div class="stars">★★★★★</div>
+      <div class="rating">4.9/5</div>
+      <div class="review-count">Từ hơn 2.500+ đánh giá</div>
+
+      <div class="quote-icon">“</div>
+      <p class="review-text">
+        Xe sạch sẽ, chạy êm, nhân viên nhiệt tình.
+        Sẽ tiếp tục ủng hộ Nhà Dương!
+      </p>
+
+      <div class="customer">
+        <div class="avatar"></div>
+        <div>
+          <div class="customer-name">Nguyễn Minh Anh</div>
+          <div class="customer-role">Khách hàng thường xuyên</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="image-card">
+      <div class="bus-image"></div>
+
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon">💺</div>
+          <div class="feature-text">Ghế nằm tiện nghi</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">❄️</div>
+          <div class="feature-text">Điều hòa mát lạnh</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">📶</div>
+          <div class="feature-text">Wifi miễn phí</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🔌</div>
+          <div class="feature-text">Ổ sạc USB</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🧴</div>
+          <div class="feature-text">Nước uống sẵn có</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

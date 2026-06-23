@@ -1,6 +1,6 @@
 {{-- TUYẾN ĐƯỜNG CỐ ĐỊNH --}}
-<section style="background:#f5faf4; padding:72px 0 80px;">
-  <div style="width:min(1600px,94%); margin:0 auto; padding:0 16px;">
+<section style="background:linear-gradient(180deg,#f6fbf5 0%,#f7fbf6 100%); padding:72px 0 120px; overflow:hidden;">
+  <div style="width:min(1920px,100%); margin:0 auto; padding:0 28px;">
 
     {{-- Section head --}}
     <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:40px; flex-wrap:wrap;">
@@ -21,110 +21,71 @@
       </a>
     </div>
 
-    {{-- Main layout: card ảnh + panel --}}
+    {{-- Main layout: stats + review + image --}}
     @php $route = $featuredRoutes->where('to_location','like','%Nha Trang%')->first() ?? $featuredRoutes->first(); @endphp
     @if($route)
-    <div style="display:grid; grid-template-columns:1fr 380px; gap:24px; align-items:stretch;" class="route-section-grid">
-
-      {{-- LEFT: card ảnh lớn --}}
-      <article style="position:relative; border-radius:28px; overflow:hidden; min-height:480px; background:#062d1c;">
-        {{-- Ảnh --}}
-        <img src="{{ $route->image ? asset('storage/'.$route->image) : asset('nha-xe-binh-minh-bus-2048x867.png') }}"
-             alt="{{ $route->name }}"
-             style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0.55; transition:transform 0.8s ease;"
-             onmouseover="this.style.transform='scale(1.04)'"
-             onmouseout="this.style.transform='scale(1)'">
-
-        {{-- Overlay gradient --}}
-        <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(4,28,17,0.97) 0%, rgba(4,28,17,0.55) 50%, rgba(4,28,17,0.10) 100%);"></div>
-
-        {{-- Shine effect --}}
-        <div style="position:absolute; inset:0; background:linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%); pointer-events:none;"></div>
-
-        {{-- Badge --}}
-        <div style="position:absolute; top:22px; left:22px; display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,0.12); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.20); border-radius:999px; padding:7px 14px;">
-          <span style="color:#fbb116; font-size:13px;">⭐</span>
-          <span style="color:#fff; font-size:12px; font-weight:800;">Tuyến duy nhất</span>
-        </div>
-
-        {{-- Arrow CTA --}}
-        <a href="{{ route('routes.show', $route->slug) }}"
-           style="position:absolute; top:22px; right:22px; width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.12); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.20); display:grid; place-items:center; color:#fff; font-size:18px; text-decoration:none; transition:all 0.2s;"
-           onmouseover="this.style.background='rgba(251,177,22,0.85)'; this.style.color='#5a3e00'"
-           onmouseout="this.style.background='rgba(255,255,255,0.12)'; this.style.color='#fff'">→</a>
-
-        {{-- Content bottom --}}
-        <div style="position:absolute; left:28px; right:28px; bottom:28px; padding:24px; border-radius:20px; background:linear-gradient(90deg, rgba(0,52,16,0.70), rgba(0,52,16,0.25)); border:1px solid rgba(255,255,255,0.14);">
-          <div style="color:rgba(255,255,255,0.80); font-size:14px; font-weight:800; margin-bottom:8px;">
-            TP. Hồ Chí Minh ↔ Nha Trang
-          </div>
-          <h3 style="margin:0 0 12px; color:#fff; font-size:clamp(28px,3.5vw,44px); font-weight:900; line-height:1.05; letter-spacing:-0.5px; text-shadow:0 6px 18px rgba(0,0,0,0.35);">
-            {{ $route->name }}
-          </h3>
-          @if($route->description)
-          <p style="color:rgba(255,255,255,0.75); font-size:14px; line-height:1.65; font-weight:600; margin:0 0 18px; max-width:560px;">
-            {{ Str::limit($route->description, 120) }}
-          </p>
-          @endif
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-            @if($route->estimated_time)
-            <div style="display:inline-flex; align-items:center; gap:8px; color:rgba(255,255,255,0.90); font-size:14px; font-weight:800;">
-              <span style="width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,0.90); display:grid; place-items:center; font-size:14px;">⏱</span>
-              {{ $route->estimated_time }}
-            </div>
-            @endif
-            <div style="display:flex; align-items:baseline; gap:5px; color:#fbb116; font-size:32px; font-weight:900; text-shadow:0 4px 12px rgba(0,0,0,0.30);">
-              <small style="color:rgba(255,255,255,0.80); font-size:13px; font-weight:800;">Từ</small>
-              {{ number_format($route->price_from) }}đ
-            </div>
-          </div>
-        </div>
-      </article>
-
-      {{-- RIGHT: info panel --}}
-      <aside style="border-radius:28px; padding:32px; background:linear-gradient(180deg,rgba(255,255,255,0.97),rgba(255,255,255,0.90)); border:1px solid rgba(11,127,66,0.14); box-shadow:0 22px 60px rgba(11,127,66,0.12); display:flex; flex-direction:column; gap:0; animation:floatPanel 5s ease-in-out infinite;">
-
-        <h3 style="margin:0 0 8px; color:#0b7f42; font-size:26px; font-weight:900; line-height:1.05;">Thông tin tuyến</h3>
-        <p style="margin:0 0 24px; color:#62735e; font-size:14px; line-height:1.7; font-weight:600;">
-          Tuyến xe chất lượng cao, phục vụ hành khách đi lại giữa Sài Gòn và Nha Trang với xe giường nằm VIP, đặt vé nhanh và hỗ trợ 24/7.
-        </p>
-
-        {{-- Animated route line --}}
-        <div style="position:relative; margin-bottom:28px; padding-top:16px;">
-          <div style="position:relative; height:6px; border-radius:999px; background:linear-gradient(90deg,#0b7f42,#fbb116,#0b7f42); box-shadow:0 6px 18px rgba(11,127,66,0.18);">
-            <div style="position:absolute; top:50%; width:16px; height:16px; border-radius:50%; background:#fbb116; box-shadow:0 0 0 6px rgba(251,177,22,0.20); transform:translateY(-50%); animation:routeDot 3s linear infinite alternate;"></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; margin-top:12px; color:#0a5d03; font-size:12px; font-weight:900;">
-            <span>Sài Gòn</span>
-            <span>Nha Trang</span>
-          </div>
-        </div>
-
-        {{-- Info list --}}
-        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:24px; flex:1;">
+    <div style="display:grid; gap:0;" class="route-section-grid">
+      <div style="display:grid; grid-template-columns:minmax(0,1.6fr) minmax(260px,.62fr) minmax(320px,.9fr); gap:10px; align-items:stretch;" class="route-match-grid">
+        <article style="border-radius:18px; background:linear-gradient(180deg,#fffef8,#fffdf6); box-shadow:0 18px 44px rgba(11,127,66,0.08); border:1px solid rgba(227,233,224,0.9); padding:28px 26px 20px; display:flex; flex-direction:column; min-height:258px;">
+          <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; flex:1;" class="route-metric-grid">
           @foreach([
-            ['📍', 'Sài Gòn ↔ Nha Trang'],
-            ['🚌', 'Xe giường nằm VIP chất lượng cao'],
-            ['☎', 'Hotline hỗ trợ 24/7'],
-            ['🎫', 'Đặt vé một chiều và khứ hồi'],
-          ] as [$icon, $text])
-          <div style="display:flex; align-items:center; gap:12px; padding:13px 15px; border-radius:14px; background:#eef9ec; border:1px solid rgba(11,127,66,0.12); font-weight:800; color:#173014; font-size:14px; transition:all 0.2s; cursor:default;"
-               onmouseover="this.style.transform='translateX(5px)'; this.style.background='#e0f5e0'"
-               onmouseout="this.style.transform='translateX(0)'; this.style.background='#eef9ec'">
-            <span style="width:32px; height:32px; border-radius:50%; background:#0b7f42; display:grid; place-items:center; font-size:14px; flex-shrink:0;">{{ $icon }}</span>
-            {{ $text }}
+            ['10.000+', 'Hành khách', 'mỗi tháng', '◔'],
+            ['Nhiều chuyến', 'Mỗi ngày', 'liên tục', '🚌'],
+            ['2 chiều', 'Sài Gòn - Nha Trang', 'mỗi ngày', '⇄'],
+            ['100%', 'Cam kết an toàn', 'trên mọi hành trình', '🛡'],
+          ] as [$value, $label, $sub, $icon])
+          <div style="padding:12px 10px; display:flex; flex-direction:column; align-items:center; text-align:center; justify-content:flex-start; min-height:150px;">
+            <div style="width:34px; height:34px; display:grid; place-items:center; color:#2c6452; font-size:18px; margin-bottom:12px;">{{ $icon }}</div>
+            <strong style="display:block; color:#13624a; font-size:16px; font-weight:900; line-height:1.2;">{{ $value }}</strong>
+            <span style="display:block; margin-top:10px; color:#234f43; font-size:13px; font-weight:800; line-height:1.35;">{{ $label }}</span>
+            <span style="display:block; margin-top:5px; color:#6e7d74; font-size:12px; font-weight:700; line-height:1.45;">{{ $sub }}</span>
           </div>
           @endforeach
-        </div>
+          </div>
+          <div style="margin-top:10px; padding-top:16px; border-top:1px solid rgba(11,127,66,0.08); color:#315e4f; font-size:13px; font-weight:800;">Đón trả tại nhiều điểm thuận tiện</div>
+        </article>
 
-        {{-- CTA --}}
-        <a href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => now()->format('d-m-Y')]) }}"
-           style="display:flex; align-items:center; justify-content:center; height:54px; border-radius:16px; background:linear-gradient(180deg,#ffdc47,#fbb116); color:#5a3e00; font-size:16px; font-weight:900; text-decoration:none; box-shadow:0 14px 32px rgba(251,177,22,0.26); transition:all 0.25s;"
-           onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 20px 40px rgba(251,177,22,0.34)'"
-           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 14px 32px rgba(251,177,22,0.26)'">
-          Đặt vé tuyến này →
-        </a>
-      </aside>
+        <article style="padding:18px 18px 16px; border-radius:18px; color:#fff; background:linear-gradient(180deg,#124c31,#0b3f28); box-shadow:0 18px 44px rgba(8,61,15,.16); min-height:258px; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; color:#fff; font-size:12px; font-weight:800;">
+              <span>Đánh giá từ khách hàng</span>
+              <span style="display:flex; align-items:center; gap:6px; white-space:nowrap;"><span style="color:#f7bf2b; letter-spacing:1px;">★★★★★</span> <span>4.9 / 5</span></span>
+            </div>
+            <div style="margin-top:12px; color:rgba(255,255,255,.68); font-size:12px; font-weight:700;">Từ hơn 2500+ đánh giá</div>
+            <p style="margin:20px 0 0; color:#fff; font-size:13px; line-height:1.75; font-weight:700;">❝ Xe sạch sẽ, chạy êm, nhân viên nhiệt tình. Sẽ tiếp tục ủng hộ Nhật Dương ❞</p>
+          </div>
+          <div style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.12); display:flex; align-items:center; gap:10px;">
+            <div style="width:34px; height:34px; border-radius:50%; background:linear-gradient(180deg,#ffe8a6,#f7bf2b); display:grid; place-items:center; color:#0b3f28; font-size:13px; font-weight:900;">N</div>
+            <div>
+              <strong style="display:block; font-size:12px; font-weight:900;">Nguyễn Minh Anh</strong>
+              <span style="display:block; margin-top:3px; color:rgba(255,255,255,.74); font-size:11px; font-weight:700;">Khách hàng trung thành</span>
+            </div>
+          </div>
+        </article>
+
+        <article style="border-radius:18px; overflow:hidden; background:#173014; box-shadow:0 18px 44px rgba(8,61,15,.16); min-height:258px; display:flex; flex-direction:column;">
+          <div style="flex:1; min-height:182px; position:relative; overflow:hidden;">
+            <img src="{{ $route->image ? asset('storage/'.$route->image) : asset('nha-xe-binh-minh-bus-2048x867.png') }}"
+                 alt="{{ $route->name }}"
+                 style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.12));"></div>
+          </div>
+          <div style="padding:14px 10px 12px; background:linear-gradient(180deg,#245b38,#163d28); display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px;">
+            @foreach([
+              ['🛏','Giường rộng'],
+              ['❄','Điều hoà mát'],
+              ['📶','Wifi mạnh'],
+              ['🔌','Cổng sạc USB'],
+              ['🧴','Nước uống miễn phí'],
+            ] as [$icon, $label])
+            <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:4px; color:#fff;">
+              <span style="font-size:16px; line-height:1;">{{ $icon }}</span>
+              <span style="font-size:9px; font-weight:700; line-height:1.3; color:rgba(255,255,255,.82);">{{ $label }}</span>
+            </div>
+            @endforeach
+          </div>
+        </article>
+      </div>
     </div>
     @endif
 
@@ -132,9 +93,14 @@
 </section>
 
 <style>
-  @keyframes routeDot { from { left: 0; } to { left: calc(100% - 16px); } }
-  @keyframes floatPanel { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-  @media (max-width: 900px) {
-    .route-section-grid { grid-template-columns: 1fr !important; }
+  @media (max-width: 1320px) {
+    .route-match-grid { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 760px) {
+    .route-metric-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 520px) {
+    section[style*="padding:72px 0 120px"] > div { padding: 0 16px !important; }
+    .route-metric-grid { grid-template-columns: 1fr !important; }
   }
 </style>
