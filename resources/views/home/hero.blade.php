@@ -27,11 +27,11 @@
     <div style="text-align:center; margin-bottom:40px;">
       {{-- Main Title with background --}}
       @if($heroBanner && $heroBanner->title)
-        <h1 style="color:#062d1c; font-size:clamp(32px,5vw,56px); font-weight:700; margin:0 0 16px; line-height:1.1; letter-spacing:-1.12px; font-family:'Inter',sans-serif; display:inline-block; background:rgba(255,255,255,0.96); padding:16px 32px; border-radius:16px; box-shadow:0 8px 24px rgba(11,127,66,0.12);">
+        <h1 style="color:#062d1c; font-size:clamp(32px,5vw,56px); font-weight:700; margin:0 0 16px; line-height:1.1; letter-spacing:-1.12px; font-family:'Inter',sans-serif; display:inline-block;  padding:16px 32px; border-radius:16px; box-shadow:0 8px 24px rgba(11,127,66,0.12);">
           {{ $heroBanner->title }}
         </h1>
       @else
-        <h1 style="color:#062d1c; font-size:clamp(32px,5vw,56px); font-weight:700; margin:0 0 16px; line-height:1.1; letter-spacing:-1.12px; font-family:'Inter',sans-serif; display:inline-block; background:rgba(255,255,255,0.96); padding:16px 32px; border-radius:16px; box-shadow:0 8px 24px rgba(11,127,66,0.12);">
+        <h1 style="color:#062d1c; font-size:clamp(32px,5vw,56px); font-weight:700; margin:0 0 16px; line-height:1.1; letter-spacing:-1.12px; font-family:'Inter',sans-serif; display:inline-block;  padding:16px 32px; border-radius:16px; box-shadow:0 8px 24px rgba(11,127,66,0.12);">
           Đặt vé xe Nhật Dương
         </h1>
       @endif
@@ -39,7 +39,7 @@
       {{-- Subtitle with background --}}
       @if($heroBanner && $heroBanner->subtitle)
         <div style="display:flex; justify-content:center;">
-          <p style="color:#2c3e36; font-size:clamp(16px,2vw,20px); font-weight:500; margin:0; line-height:1.4; letter-spacing:-0.4px; font-family:'Inter',sans-serif; max-width:700px; background:rgba(255,255,255,0.92); padding:12px 24px; border-radius:12px; box-shadow:0 4px 16px rgba(11,127,66,0.1);">
+          <p style="color:#2c3e36; font-size:clamp(16px,2vw,20px); font-weight:500; margin:0; line-height:1.4; letter-spacing:-0.4px; font-family:'Inter',sans-serif; max-width:700px; padding:12px 24px; border-radius:12px; box-shadow:0 4px 16px rgba(11,127,66,0.1);">
             {{ $heroBanner->subtitle }}
           </p>
         </div>

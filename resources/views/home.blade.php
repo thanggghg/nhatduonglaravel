@@ -25,8 +25,6 @@
 @include('home.schedules')
 @include('home.why-us')
 @include('home.news')
-@include('home.testimonials')
-@include('home.faq')
 @include('home.cta')
 @include('home.floating-actions')
 

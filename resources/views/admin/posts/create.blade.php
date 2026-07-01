@@ -100,7 +100,7 @@
                     <h3 class="text-heading font-semibold text-forest-deep mb-16">Ảnh đại diện</h3>
                     <input type="file" name="thumbnail" accept="image/*"
                         class="w-full text-body-sm text-muted-gray file:mr-8 file:py-8 file:px-16 file:rounded-md file:border-0 file:text-body-sm file:font-semibold file:bg-soft-green-background file:text-brand-green hover:file:bg-soft-green">
-                    <p class="mt-8 text-caption text-hint-gray">PNG, JPG tối đa 2MB</p>
+                    <p class="mt-8 text-caption text-hint-gray">PNG, JPG hoặc WEBP tối đa 20MB</p>
                 </div>
             </div>
         </div>

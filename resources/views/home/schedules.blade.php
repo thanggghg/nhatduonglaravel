@@ -1,195 +1,226 @@
-{{-- LỊCH TRÌNH 2 CHIỀU — layout từ index-nhat-duong-complete-with-testimonials-faq.html --}}
+{{-- LỊCH TRÌNH HÔM NAY — bám sát homepage/schedules.blade.php.html --}}
 @if($popularSchedules->isNotEmpty())
 @php
   $route = $ntRoute ?? $popularSchedules->first()->route;
-  $goSchedules = $popularSchedules;
-  $getTimeLabel = function(int $h): string {
-    if ($h < 12) return 'Buổi sáng';
-    if ($h < 14) return 'Buổi trưa';
-    if ($h < 18) return 'Buổi chiều';
-    if ($h < 21) return 'Buổi tối';
-    return 'Buổi đêm';
+  $setting = fn ($key, $default = '') => $settings[$key] ?? $default;
+  $goSchedules = $popularSchedules->values();
+  $returnSchedules = $popularSchedules
+      ->map(function ($schedule) {
+          $clone = clone $schedule;
+          $clone->departure_time = \Carbon\Carbon::parse($schedule->departure_time)->subMinutes(30)->format('H:i:s');
+          return $clone;
+      })
+      ->values();
+
+  $splitDayNight = function ($items) {
+      $day = collect();
+      $night = collect();
+
+      foreach ($items as $item) {
+          $hour = \Carbon\Carbon::parse($item->departure_time)->hour;
+          if ($hour < 18) {
+              $day->push($item);
+          } else {
+              $night->push($item);
+          }
+      }
+
+      return [$day->values(), $night->values()];
   };
+
+  [$goDaySchedules, $goNightSchedules] = $splitDayNight($goSchedules);
+  [$returnDaySchedules, $returnNightSchedules] = $splitDayNight($returnSchedules);
+
+  $describeRange = function ($items, $afterLabel = 'Khởi hành từ', $emptyLabel = 'Chưa có lịch') {
+      if ($items->isEmpty()) {
+          return $emptyLabel;
+      }
+
+      $first = \Carbon\Carbon::parse($items->first()->departure_time)->format('H:i');
+      $last = \Carbon\Carbon::parse($items->last()->departure_time)->format('H:i');
+
+      if ($first === $last) {
+          return $afterLabel . ' ' . $first . ' • ' . $items->count() . ' chuyến';
+      }
+
+      return $afterLabel . ' ' . $first . ' - ' . $last . ' • ' . $items->count() . ' chuyến';
+  };
+
+  $priceText = number_format($route->price_from) . 'đ';
+  $routeName = $setting('home_schedules_route_text', trim(($route->from_location ?? 'Sài Gòn') . ' ⇄ ' . ($route->to_location ?? 'Nha Trang')));
+  $scheduleImage = !empty($settings['home_schedules_image'])
+      ? \Illuminate\Support\Facades\Storage::disk('public')->url($settings['home_schedules_image'])
+      : null;
 @endphp
 
-<section style="position:relative; padding:86px 0 96px; overflow:hidden; background: radial-gradient(circle at 12% 20%,rgba(18,124,7,.10),transparent 22%), radial-gradient(circle at 88% 18%,rgba(249,178,26,.13),transparent 22%), linear-gradient(180deg,#f7fbf5 0%,#ffffff 100%);">
-  <div style="position:absolute; left:-120px; bottom:-160px; width:360px; height:360px; border-radius:50%; background:rgba(18,124,7,.08); pointer-events:none;"></div>
-
-  <div style="width:min(1280px,94%); margin:0 auto; padding:0 16px; position:relative; z-index:2;">
-
-    {{-- Head --}}
-    <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:28px; flex-wrap:wrap;">
-      <div>
-        <div style="display:inline-flex; align-items:center; gap:8px; background:#eaf8e8; border:1px solid rgba(11,127,66,0.18); border-radius:999px; padding:6px 14px; margin-bottom:12px;">
-          <span style="position:relative; display:flex; width:8px; height:8px;">
-            <span class="animate-ping" style="position:absolute; inset:0; border-radius:50%; background:#0b7f42; opacity:0.4;"></span>
-            <span style="position:relative; width:8px; height:8px; border-radius:50%; background:#0b7f42; display:block;"></span>
-          </span>
-          <span style="color:#0b7f42; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;">Khởi hành trong ngày</span>
-        </div>
-        <h2 style="margin:0; color:#172315; font-size:clamp(36px,4.5vw,56px); line-height:.95; letter-spacing:-1.5px; font-weight:900;">
-          Lịch trình <span style="color:#0b7f42;">hôm nay</span>
-        </h2>
+<section style="padding:86px 0 96px; background:#f4f8f1;">
+  <div style="width:min(1728px,90%); margin:0 auto; padding:0 28px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:22px; flex-wrap:wrap;" class="schedule-section-header">
+      <div style="min-width:0;">
+        <div style="display:inline-block; background:#e4f4df; color:#0a6b39; padding:7px 14px; border-radius:20px; font-size:13px; font-weight:800; margin-bottom:12px;">{{ $setting('home_schedules_badge', '● KHỞI HÀNH TRONG NGÀY') }}</div>
+        <h2 style="font-size:38px; color:#0b3d26; margin:0 0 8px; letter-spacing:-1px;">{{ $setting('home_schedules_title', 'Lịch trình hôm nay') }}</h2>
+        <p style="color:#5b6d63; font-size:15px; line-height:1.6; margin:0;">{{ $setting('home_schedules_description', 'Cập nhật liên tục các chuyến xe trong ngày, dễ dàng chọn giờ phù hợp với lịch trình của bạn.') }}</p>
       </div>
-      <div style="display:inline-flex; align-items:center; gap:10px; padding:13px 18px; border-radius:999px; color:#0a5d03; background:#fff; border:1px solid rgba(18,124,7,.16); box-shadow:0 14px 34px rgba(18,124,7,.10); font-size:14px; font-weight:900; white-space:nowrap;">
-        📅 Hôm nay · Tuyến Sài Gòn ↔ Nha Trang
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; min-width:460px;" class="schedule-info-box">
+        <div style="background:#fff; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+          <div style="width:34px; height:34px; border-radius:50%; background:#eef8ea; display:flex; align-items:center; justify-content:center; color:#0b6b3a; font-size:17px; flex-shrink:0;">⇄</div>
+          <div>
+            <span style="display:block; font-size:11px; color:#718075; margin-bottom:4px; font-weight:700;">Tuyến đường</span>
+            <strong style="font-size:13px; color:#143f2c;">{{ $routeName }}</strong>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+          <div style="width:34px; height:34px; border-radius:50%; background:#eef8ea; display:flex; align-items:center; justify-content:center; color:#0b6b3a; font-size:17px; flex-shrink:0;">⏱</div>
+          <div>
+            <span style="display:block; font-size:11px; color:#718075; margin-bottom:4px; font-weight:700;">Thời gian di chuyển</span>
+            <strong style="font-size:13px; color:#143f2c;">{{ $route->estimated_time ?? '9 - 10 giờ' }}</strong>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(0,0,0,0.06);">
+          <div style="width:34px; height:34px; border-radius:50%; background:#eef8ea; display:flex; align-items:center; justify-content:center; color:#0b6b3a; font-size:17px; flex-shrink:0;">🛡</div>
+          <div>
+            <span style="display:block; font-size:11px; color:#718075; margin-bottom:4px; font-weight:700;">Cam kết</span>
+            <strong style="font-size:13px; color:#143f2c;">Đúng giờ - An toàn</strong>
+          </div>
+        </div>
       </div>
     </div>
 
-    {{-- Layout: summary + direction grid --}}
-    <div style="display:grid; grid-template-columns:.9fr 1.1fr; gap:24px; align-items:stretch;" class="sched-main-layout">
-
-      {{-- Summary card xanh đậm --}}
-      <aside style="position:relative; overflow:hidden; border-radius:34px; padding:34px; color:#fff; background: linear-gradient(135deg,rgba(4,56,1,.94),rgba(18,124,7,.86)); box-shadow:0 26px 70px rgba(8,61,15,.20); border:1px solid rgba(255,255,255,.18); animation:floatCard 5.5s ease-in-out infinite;">
-        <div style="position:absolute; right:-80px; top:-80px; width:220px; height:220px; border-radius:50%; background:rgba(249,178,26,.18); filter:blur(1px); pointer-events:none;"></div>
-
-        <div style="position:relative; z-index:2;">
-          <span style="display:inline-flex; align-items:center; gap:8px; padding:9px 13px; border-radius:999px; color:#043801; background:linear-gradient(180deg,#ffe681,#f9b21a); font-size:12px; font-weight:900; box-shadow:0 12px 24px rgba(249,178,26,.22); margin-bottom:22px;">🚌 Đang mở bán vé</span>
-
-          <h3 style="position:relative; z-index:2; margin:0 0 12px; font-size:clamp(24px,2.5vw,34px); line-height:1.08; font-weight:900; letter-spacing:-0.8px;">Sài Gòn ↔ Nha Trang</h3>
-          <p style="position:relative; z-index:2; margin:0; color:rgba(255,255,255,.78); font-size:15px; line-height:1.7; font-weight:700;">
-            Lịch trình chia 2 chiều rõ ràng. Mỗi chiều hiển thị nhiều khung giờ, giúp khách chọn giờ đi nhanh hơn.
-          </p>
-
-          <div style="position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:28px;">
-            @foreach([
-              ['02','Chiều tuyến'],
-              [$route->estimated_time ?? '9-10h','Thời gian'],
-              [number_format($route->price_from/1000).'K','Giá vé từ'],
-              ['24/7','Hỗ trợ đặt vé'],
-            ] as [$val,$lbl])
-            <div style="padding:18px; border-radius:20px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.14);">
-              <strong style="display:block; color:#f9b21a; font-size:28px; font-weight:900; line-height:1;">{{ $val }}</strong>
-              <span style="display:block; margin-top:7px; color:rgba(255,255,255,.78); font-size:12px; font-weight:800;">{{ $lbl }}</span>
-            </div>
-            @endforeach
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;" class="schedule-route-grid">
+      <div style="background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 14px 34px rgba(7,56,34,0.12); border:1px solid #e3eee2;">
+        <div style="min-height:150px; padding:18px; position:relative; color:#fff; background:linear-gradient(90deg, rgba(2, 60, 31, 0.98), rgba(2, 84, 45, 0.82), rgba(2, 60, 31, 0.35)), url('{{ $scheduleImage ?: ($route->image ? asset('storage/'.$route->image) : asset('nha-xe-binh-minh-bus-2048x867.png')) }}'); background-size:cover; background-position:center right;">
+          <div style="content:''; position:absolute; right:18px; bottom:12px; width:230px; height:90px; background:linear-gradient(135deg,#062d19,#0e6b3a); border-radius:20px 20px 8px 8px; box-shadow:0 12px 30px rgba(0,0,0,0.35); opacity:0.95; clip-path:polygon(6% 18%, 84% 8%, 100% 36%, 95% 80%, 12% 86%, 0 58%);"></div>
+          <div style="content:''; position:absolute; right:115px; bottom:30px; width:230px; height:78px; background:linear-gradient(135deg,#08331d,#157647); border-radius:20px 20px 8px 8px; box-shadow:0 12px 24px rgba(0,0,0,0.28); opacity:0.75; clip-path:polygon(8% 20%, 82% 6%, 100% 34%, 93% 80%, 10% 86%, 0 56%);"></div>
+          <div style="position:relative; z-index:2; max-width:62%;" class="schedule-route-content">
+            <div style="display:inline-block; padding:5px 11px; border-radius:18px; background:#ffd25a; color:#06391f; font-size:12px; font-weight:900; margin-bottom:12px;">CHIỀU ĐI</div>
+            <h3 style="font-size:26px; margin:0 0 8px; line-height:1.2;">{{ $setting('home_schedules_go_title', 'Sài Gòn → Nha Trang') }}</h3>
+            <p style="font-size:13px; opacity:0.95; line-height:1.5; margin:0;">Xuất phát từ <strong>99 Nguyễn Cư Trinh, Quận 1</strong></p>
           </div>
         </div>
-      </aside>
 
-      {{-- 2 direction cards --}}
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;" class="direction-cards-grid">
-
-        {{-- CHIỀU ĐI --}}
-        <article style="position:relative; overflow:hidden; border-radius:32px; background:rgba(255,255,255,.96); border:1px solid rgba(18,124,7,.14); box-shadow:0 22px 60px rgba(18,124,7,.12); transition:.28s ease;"
-                 onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 30px 78px rgba(18,124,7,.18)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 22px 60px rgba(18,124,7,.12)'">
-          <div style="position:absolute; inset:0; background:radial-gradient(circle at 88% 12%,rgba(249,178,26,.17),transparent 22%),radial-gradient(circle at 12% 92%,rgba(18,124,7,.08),transparent 26%); pointer-events:none;"></div>
-
-          {{-- Header --}}
-          <div style="position:relative; padding:26px 26px 22px; color:#fff; background:linear-gradient(135deg,#0a5d03,#127c07); overflow:hidden;">
-            <div style="position:absolute; right:-45px; top:-65px; width:170px; height:170px; border-radius:50%; background:rgba(249,178,26,.22); pointer-events:none;"></div>
-            <span style="position:relative; z-index:2; display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; color:#043801; background:linear-gradient(180deg,#ffe681,#f9b21a); font-size:12px; font-weight:900; box-shadow:0 12px 24px rgba(249,178,26,.22);">🚀 Chiều đi</span>
-            <h3 style="position:relative; z-index:2; margin:18px 0 0; font-size:clamp(18px,2vw,26px); line-height:1.12; font-weight:900; letter-spacing:-.5px;">Sài Gòn → Nha Trang</h3>
-            <div style="position:relative; z-index:2; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:14px; color:rgba(255,255,255,.82); font-size:13px; font-weight:900;">
-              <span>Sài Gòn</span>
-              <span style="color:#f9b21a; font-weight:900;">→</span>
-              <span>Nha Trang</span>
-            </div>
-          </div>
-
-          {{-- Time list --}}
-          <div style="position:relative; z-index:2; padding:24px 26px 26px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:18px;">
-              <strong style="color:#172315; font-size:17px; font-weight:900;">Giờ khởi hành</strong>
-              <span style="color:#0b7f42; background:#eaf8e8; border:1px solid rgba(18,124,7,.12); border-radius:999px; padding:7px 10px; font-size:12px; font-weight:900; white-space:nowrap;">Còn vé hôm nay</span>
+        <div style="padding:14px;">
+          @foreach([
+            ['☀️ BAN NGÀY', $describeRange($goDaySchedules, 'Khởi hành từ', 'Ban ngày chưa có chuyến'), $goDaySchedules, '#fff6dc', '#7b5700'],
+            ['🌙 BAN ĐÊM', $describeRange($goNightSchedules, 'Khởi hành sau', 'Ban đêm chưa có chuyến'), $goNightSchedules, 'linear-gradient(90deg, #052b66, #063c8f)', '#fff'],
+          ] as [$groupLabel, $rangeLabel, $items, $groupBackground, $groupColor])
+          @if($items->isNotEmpty())
+          <div style="margin-bottom:14px; border:1px solid #e4efe2; border-radius:14px; overflow:hidden;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:13px; font-weight:900; background:{{ $groupBackground }}; color:{{ $groupColor }};">
+              <span>{{ $groupLabel }}</span>
+              <span style="font-size:12px; opacity:0.9;">{{ $rangeLabel }}</span>
             </div>
 
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-              @foreach($goSchedules as $s)
-              @php
-                $dep = \Carbon\Carbon::parse($s->departure_time);
-                $h = $dep->hour;
-                $lbl = $getTimeLabel($h);
-              @endphp
-              <a href="{{ route('booking.search', ['route_id' => $s->route_id, 'departDate' => now()->format('d-m-Y')]) }}"
-                 style="position:relative; min-height:72px; display:flex; flex-direction:column; justify-content:center; padding:13px 14px; border-radius:18px; color:#043801; background:linear-gradient(180deg,#fffdf4,#fff4c8); border:1px solid rgba(249,178,26,.36); box-shadow:inset 0 -8px 14px rgba(249,178,26,.08); text-decoration:none; transition:.24s ease;"
-                 onmouseover="this.style.transform='translateY(-3px)';this.style.background='linear-gradient(180deg,#ffffff,#ecfae9)';this.style.borderColor='rgba(18,124,7,.24)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.background='linear-gradient(180deg,#fffdf4,#fff4c8)';this.style.borderColor='rgba(249,178,26,.36)'">
-                <strong style="display:block; font-size:22px; line-height:1; font-weight:900;">{{ $dep->format('H:i') }}</strong>
-                <span style="display:block; margin-top:7px; color:#62735e; font-size:11px; font-weight:900;">{{ $lbl }}</span>
-              </a>
-              @endforeach
-            </div>
-
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:22px; padding-top:18px; border-top:1px solid rgba(18,124,7,.10); flex-wrap:wrap;">
-              <div style="color:#62735e; font-size:12px; line-height:1.5; font-weight:750;">Giường nằm chất lượng cao · Đặt vé một chiều / khứ hồi</div>
-              <a href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => now()->format('d-m-Y')]) }}"
-                 style="min-width:122px; height:42px; display:inline-flex; align-items:center; justify-content:center; border-radius:14px; color:#043801; background:linear-gradient(180deg,#ffdc47,#f9b21a); font-size:13px; font-weight:900; text-decoration:none; box-shadow:0 12px 26px rgba(249,178,26,.22); transition:.25s ease; white-space:nowrap;"
-                 onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 18px 34px rgba(249,178,26,.32)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 26px rgba(249,178,26,.22)'">
-                Đặt chiều đi
-              </a>
-            </div>
-          </div>
-        </article>
-
-        {{-- CHIỀU VỀ --}}
-        <article style="position:relative; overflow:hidden; border-radius:32px; background:rgba(255,255,255,.96); border:1px solid rgba(18,124,7,.14); box-shadow:0 22px 60px rgba(18,124,7,.12); transition:.28s ease;"
-                 onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 30px 78px rgba(18,124,7,.18)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 22px 60px rgba(18,124,7,.12)'">
-          <div style="position:absolute; inset:0; background:radial-gradient(circle at 88% 12%,rgba(249,178,26,.17),transparent 22%),radial-gradient(circle at 12% 92%,rgba(18,124,7,.08),transparent 26%); pointer-events:none;"></div>
-
-          <div style="position:relative; padding:26px 26px 22px; color:#fff; background:linear-gradient(135deg,#062d1c,#0b7f42); overflow:hidden;">
-            <div style="position:absolute; right:-45px; top:-65px; width:170px; height:170px; border-radius:50%; background:rgba(249,178,26,.22); pointer-events:none;"></div>
-            <span style="position:relative; z-index:2; display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; color:#043801; background:linear-gradient(180deg,#ffe681,#f9b21a); font-size:12px; font-weight:900; box-shadow:0 12px 24px rgba(249,178,26,.22);">🔄 Chiều về</span>
-            <h3 style="position:relative; z-index:2; margin:18px 0 0; font-size:clamp(18px,2vw,26px); line-height:1.12; font-weight:900; letter-spacing:-.5px;">Nha Trang → Sài Gòn</h3>
-            <div style="position:relative; z-index:2; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:14px; color:rgba(255,255,255,.82); font-size:13px; font-weight:900;">
-              <span>Nha Trang</span>
-              <span style="color:#f9b21a; font-weight:900;">→</span>
-              <span>Sài Gòn</span>
-            </div>
-          </div>
-
-          <div style="position:relative; z-index:2; padding:24px 26px 26px;">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:18px;">
-              <strong style="color:#172315; font-size:17px; font-weight:900;">Giờ khởi hành</strong>
-              <span style="color:#0b7f42; background:#eaf8e8; border:1px solid rgba(18,124,7,.12); border-radius:999px; padding:7px 10px; font-size:12px; font-weight:900; white-space:nowrap;">Còn vé hôm nay</span>
-            </div>
-
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
-              @foreach($goSchedules as $s)
-              @php
-                $dep = \Carbon\Carbon::parse($s->departure_time)->subMinutes(30);
-                $h = $dep->hour;
-                $lbl = $getTimeLabel($h);
-              @endphp
-              <div style="position:relative; min-height:72px; display:flex; flex-direction:column; justify-content:center; padding:13px 14px; border-radius:18px; color:#043801; background:linear-gradient(180deg,#fffdf4,#fff4c8); border:1px solid rgba(249,178,26,.36); box-shadow:inset 0 -8px 14px rgba(249,178,26,.08); transition:.24s ease; cursor:default;"
-                   onmouseover="this.style.transform='translateY(-3px)';this.style.background='linear-gradient(180deg,#ffffff,#ecfae9)';this.style.borderColor='rgba(18,124,7,.24)'"
-                   onmouseout="this.style.transform='translateY(0)';this.style.background='linear-gradient(180deg,#fffdf4,#fff4c8)';this.style.borderColor='rgba(249,178,26,.36)'">
-                <strong style="display:block; font-size:22px; line-height:1; font-weight:900;">{{ $dep->format('H:i') }}</strong>
-                <span style="display:block; margin-top:7px; color:#62735e; font-size:11px; font-weight:900;">{{ $lbl }}</span>
+            @foreach($items as $schedule)
+            <a href="{{ route('booking.search', ['route_id' => $schedule->route_id, 'departDate' => now()->format('d-m-Y')]) }}" style="display:grid; grid-template-columns:72px 1.1fr 1.2fr 0.9fr auto; align-items:center; gap:10px; padding:12px 14px; border-top:1px solid #edf3ec; background:#fff; text-decoration:none;" class="schedule-time-row">
+              <div style="font-size:22px; font-weight:900; color:#0d3c28;">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}</div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Loại xe</small>
+                <strong style="font-size:12px; color:#153f2d;">Limousine 24 phòng</strong>
               </div>
-              @endforeach
-            </div>
-
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:22px; padding-top:18px; border-top:1px solid rgba(18,124,7,.10); flex-wrap:wrap;">
-              <div style="color:#62735e; font-size:12px; line-height:1.5; font-weight:750;">Chuyến về trong ngày · Có thể đặt trước qua hotline</div>
-              <a href="tel:0123456789"
-                 style="min-width:122px; height:42px; display:inline-flex; align-items:center; justify-content:center; border-radius:14px; color:#043801; background:linear-gradient(180deg,#ffdc47,#f9b21a); font-size:13px; font-weight:900; text-decoration:none; box-shadow:0 12px 26px rgba(249,178,26,.22); transition:.25s ease; white-space:nowrap;"
-                 onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 18px 34px rgba(249,178,26,.32)'"
-                 onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 12px 26px rgba(249,178,26,.22)'">
-                Đặt chiều về
-              </a>
-            </div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Giường nằm</small>
+                <strong style="font-size:12px; color:#153f2d;">Cao cấp</strong>
+              </div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Giá vé từ</small>
+                <strong style="font-size:13px; color:#0b7a42; font-weight:900;">{{ $priceText }}</strong>
+              </div>
+              <span style="border:none; background:#073c24; color:#fff; border-radius:16px; padding:8px 13px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center;">Chọn chuyến</span>
+            </a>
+            @endforeach
           </div>
-        </article>
+          @endif
+          @endforeach
+        </div>
+      </div>
 
-      </div>{{-- /direction-cards-grid --}}
-    </div>{{-- /sched-main-layout --}}
+      <div style="background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 14px 34px rgba(7,56,34,0.12); border:1px solid #e3eee2;">
+        <div style="min-height:150px; padding:18px; position:relative; color:#fff; background:linear-gradient(90deg, rgba(2, 60, 31, 0.98), rgba(2, 84, 45, 0.82), rgba(2, 60, 31, 0.35)), url('{{ $scheduleImage ?: ($route->image ? asset('storage/'.$route->image) : asset('nha-xe-binh-minh-bus-2048x867.png')) }}'); background-size:cover; background-position:center right;">
+          <div style="content:''; position:absolute; right:18px; bottom:12px; width:230px; height:90px; background:linear-gradient(135deg,#062d19,#0e6b3a); border-radius:20px 20px 8px 8px; box-shadow:0 12px 30px rgba(0,0,0,0.35); opacity:0.95; clip-path:polygon(6% 18%, 84% 8%, 100% 36%, 95% 80%, 12% 86%, 0 58%);"></div>
+          <div style="content:''; position:absolute; right:115px; bottom:30px; width:230px; height:78px; background:linear-gradient(135deg,#08331d,#157647); border-radius:20px 20px 8px 8px; box-shadow:0 12px 24px rgba(0,0,0,0.28); opacity:0.75; clip-path:polygon(8% 20%, 82% 6%, 100% 34%, 93% 80%, 10% 86%, 0 56%);"></div>
+          <div style="position:relative; z-index:2; max-width:62%;" class="schedule-route-content">
+            <div style="display:inline-block; padding:5px 11px; border-radius:18px; background:#ffd25a; color:#06391f; font-size:12px; font-weight:900; margin-bottom:12px;">CHIỀU VỀ</div>
+            <h3 style="font-size:26px; margin:0 0 8px; line-height:1.2;">{{ $setting('home_schedules_return_title', 'Nha Trang → Sài Gòn') }}</h3>
+            <p style="font-size:13px; opacity:0.95; line-height:1.5; margin:0;">Xuất phát từ <strong>VP Nha Trang</strong></p>
+          </div>
+        </div>
+
+        <div style="padding:14px;">
+          @foreach([
+            ['☀️ BAN NGÀY', $describeRange($returnDaySchedules, 'Khởi hành từ', 'Ban ngày chưa có chuyến'), $returnDaySchedules, '#fff6dc', '#7b5700'],
+            ['🌙 BAN ĐÊM', $describeRange($returnNightSchedules, 'Khởi hành sau', 'Ban đêm chưa có chuyến'), $returnNightSchedules, 'linear-gradient(90deg, #052b66, #063c8f)', '#fff'],
+          ] as [$groupLabel, $rangeLabel, $items, $groupBackground, $groupColor])
+          @if($items->isNotEmpty())
+          <div style="margin-bottom:14px; border:1px solid #e4efe2; border-radius:14px; overflow:hidden;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; font-size:13px; font-weight:900; background:{{ $groupBackground }}; color:{{ $groupColor }};">
+              <span>{{ $groupLabel }}</span>
+              <span style="font-size:12px; opacity:0.9;">{{ $rangeLabel }}</span>
+            </div>
+
+            @foreach($items as $schedule)
+            <a href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => now()->format('d-m-Y')]) }}" style="display:grid; grid-template-columns:72px 1.1fr 1.2fr 0.9fr auto; align-items:center; gap:10px; padding:12px 14px; border-top:1px solid #edf3ec; background:#fff; text-decoration:none;" class="schedule-time-row">
+              <div style="font-size:22px; font-weight:900; color:#0d3c28;">{{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}</div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Loại xe</small>
+                <strong style="font-size:12px; color:#153f2d;">Limousine 24 phòng</strong>
+              </div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Giường nằm</small>
+                <strong style="font-size:12px; color:#153f2d;">Cao cấp</strong>
+              </div>
+              <div>
+                <small style="display:block; font-size:11px; color:#728277; margin-bottom:4px;">Giá vé từ</small>
+                <strong style="font-size:13px; color:#0b7a42; font-weight:900;">{{ $priceText }}</strong>
+              </div>
+              <span style="border:none; background:#073c24; color:#fff; border-radius:16px; padding:8px 13px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap; display:inline-flex; align-items:center; justify-content:center;">Chọn chuyến</span>
+            </a>
+            @endforeach
+          </div>
+          @endif
+          @endforeach
+        </div>
+      </div>
+    </div>
   </div>
 
   <style>
-    @media(max-width:992px){
-      .sched-main-layout{grid-template-columns:1fr!important}
-      .sched-main-layout aside{animation:none!important}
+    .schedule-time-row:nth-child(even) {
+      background: #fbfdf9 !important;
     }
-    @media(max-width:760px){
-      .direction-cards-grid{grid-template-columns:1fr!important}
+    .schedule-time-row:hover {
+      background: #f7fbf4 !important;
     }
-    @media(max-width:480px){
-      .direction-cards-grid article div[style*="grid-template-columns:repeat(3"]{
-        grid-template-columns:repeat(2,1fr)!important
+    @media (max-width: 1000px) {
+      .schedule-section-header {
+        flex-direction: column !important;
+      }
+      .schedule-info-box {
+        width: 100% !important;
+        min-width: unset !important;
+      }
+      .schedule-route-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+    @media (max-width: 650px) {
+      section[style*='padding:86px 0 96px'] > div {
+        padding: 0 16px !important;
+      }
+      .schedule-info-box {
+        grid-template-columns: 1fr !important;
+      }
+      .schedule-route-content {
+        max-width: 100% !important;
+      }
+      .schedule-time-row {
+        grid-template-columns: 1fr !important;
+        gap: 7px !important;
+      }
+      .schedule-time-row span[style*='background:#073c24'] {
+        width: 100%;
       }
     }
   </style>

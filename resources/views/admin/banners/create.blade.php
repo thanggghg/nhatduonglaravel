@@ -23,7 +23,7 @@
                     <p class="text-body-sm font-semibold text-brand-green mb-4">Gợi ý ảnh banner chuẩn</p>
                     <ul class="text-caption text-slate-text space-y-2 list-disc list-inside">
                         <li>Kích thước lý tưởng: <strong>2048 × 867px</strong> (tỷ lệ 2.36:1, ảnh ngang)</li>
-                        <li>Định dạng: PNG hoặc JPG, dung lượng tối đa 4MB</li>
+                        <li>Định dạng: PNG, JPG hoặc WEBP, dung lượng tối đa 20MB</li>
                         <li>Ảnh sẽ hiển thị làm nền hero ở trang chủ — ưu tiên ảnh xe khách rõ nét, sáng</li>
                         <li>Tránh đặt chữ quan trọng ở chính giữa (vùng này bị form tìm chuyến che)</li>
                     </ul>

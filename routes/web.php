@@ -46,11 +46,8 @@ Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])-
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Auth (guest only)
-    Route::middleware('guest')->group(function () {
-        Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-        Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
-    });
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
 
     // Protected admin routes
     Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->group(function () {

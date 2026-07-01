@@ -17,7 +17,7 @@ class AdminBannerController extends Controller
         return [
             'title'       => 'required|string|max:255',
             'subtitle'    => 'nullable|string|max:500',
-            'image'       => 'nullable|image|mimes:jpeg,jpg,png,webp|max:4096',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png,webp|max:20480',
             'button_text' => 'nullable|string|max:100',
             'button_url'  => 'nullable|string|max:500',
             'position'    => 'nullable|string|max:50',

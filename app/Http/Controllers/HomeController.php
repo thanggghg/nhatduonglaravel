@@ -7,6 +7,7 @@ use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Route;
 use App\Models\Schedule;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -49,6 +50,8 @@ class HomeController extends Controller
             ->take(5)
             ->get();
 
-        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs', 'ntRoute'));
+        $settings = Setting::pluck('value', 'key');
+
+        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs', 'ntRoute', 'settings'));
     }
 }
