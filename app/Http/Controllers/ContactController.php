@@ -8,12 +8,19 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 
 class ContactController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        SEOMeta::setTitle('Liên Hệ');
-        SEOMeta::setDescription('Liên hệ với Nhà Xe Nhật Dương để được hỗ trợ tư vấn và đặt vé');
+        $locale = $this->locale($request);
+        $titles = [
+            'vi' => ['Liên Hệ', 'Liên hệ với Nhà Xe Nhật Dương để được hỗ trợ tư vấn và đặt vé'],
+            'en' => ['Contact support', 'Contact Nhat Duong for booking support and travel information'],
+            'ru' => ['Связаться с поддержкой', 'Свяжитесь с Nhat Duong для помощи с бронированием и поездкой'],
+        ][$locale];
 
-        return view('contact.index');
+        SEOMeta::setTitle($titles[0]);
+        SEOMeta::setDescription($titles[1]);
+
+        return view('contact.index', compact('locale'));
     }
 
     public function store(Request $request)
@@ -27,6 +34,20 @@ class ContactController extends Controller
 
         Contact::create($validated);
 
-        return back()->with('success', 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.');
+        $locale = $this->locale($request);
+        $messages = [
+            'vi' => 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.',
+            'en' => 'Thank you for contacting us. Our team will respond as soon as possible.',
+            'ru' => 'Спасибо за обращение. Наша команда ответит вам как можно скорее.',
+        ];
+
+        return back()->with('success', $messages[$locale]);
+    }
+
+    private function locale(Request $request): string
+    {
+        $locale = $request->input('lang');
+
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
     }
 }

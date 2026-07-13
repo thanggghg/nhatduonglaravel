@@ -54,7 +54,12 @@ class HomeController extends Controller
             ->where(function ($q) {
                 $q->where('to_location', 'like', '%Nha Trang%')
                   ->orWhere('name', 'like', '%Nha Trang%');
-            })->first();
+            })
+            ->with([
+                'pickupPoints' => fn ($query) => $query->orderBy('sort_order'),
+                'dropoffPoints' => fn ($query) => $query->orderBy('sort_order'),
+            ])
+            ->first();
 
         $popularSchedules = Schedule::where('status', true)
             ->when($ntRoute, fn($q) => $q->where('route_id', $ntRoute->id))

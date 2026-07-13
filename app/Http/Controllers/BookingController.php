@@ -19,6 +19,19 @@ class BookingController extends Controller
         $isRoundTrip = $request->boolean('is_round_trip');
         $returnDate  = $request->input('returnDate'); // d-m-Y nếu khứ hồi
         $seats       = max(1, (int) $request->input('seats', 1));
+        $locale      = $request->input('lang');
+        $locale      = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+        $messages    = [
+            'vi' => 'Vui lòng chọn điểm đi và điểm đến khác nhau.',
+            'en' => 'Please choose different departure and arrival locations.',
+            'ru' => 'Пожалуйста, выберите разные пункты отправления и прибытия.',
+        ];
+
+        if ($fromLoc && $fromLoc === $toLoc) {
+            return redirect()->route('home', ['lang' => $locale])
+                ->withErrors(['route' => $messages[$locale]])
+                ->withInput();
+        }
 
         // Tìm route: ưu tiên route_id, nếu không có thì tìm theo from/to
         if ($routeId) {
@@ -27,7 +40,13 @@ class BookingController extends Controller
             $route = BusRoute::where('status', true)
                 ->where('from_location', $fromLoc)
                 ->where('to_location', $toLoc)
-                ->firstOrFail();
+                ->first();
+
+            if (!$route) {
+                return redirect()->route('home', ['lang' => $locale])
+                    ->withErrors(['route' => $messages[$locale]])
+                    ->withInput();
+            }
         } else {
             abort(404, 'Vui lòng chọn điểm đi và điểm đến');
         }
@@ -79,7 +98,8 @@ class BookingController extends Controller
             'isRoundTrip',
             'returnDateObj',
             'returnSchedules',
-            'seats'
+            'seats',
+            'locale'
         ));
     }
 }

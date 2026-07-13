@@ -1,13 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $locale = $locale ?? 'en';
+    $copy = [
+        'vi' => ['home' => 'Trang chủ', 'contact' => 'Liên hệ', 'title' => 'Liên Hệ Với Chúng Tôi', 'intro' => 'Hãy để lại thông tin, chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất', 'message' => 'Gửi Tin Nhắn', 'name' => 'Họ và tên', 'phone' => 'Số điện thoại', 'email' => 'Email', 'content' => 'Nội dung', 'send' => 'Gửi Tin Nhắn', 'details' => 'Thông Tin Liên Hệ', 'address' => 'Địa Chỉ', 'hours' => 'Giờ Làm Việc', 'available' => 'Hỗ trợ khách hàng mọi lúc'],
+        'en' => ['home' => 'Home', 'contact' => 'Contact support', 'title' => 'Contact Our Support Team', 'intro' => 'Leave your details and our team will respond as soon as possible.', 'message' => 'Send a message', 'name' => 'Full name', 'phone' => 'Phone number', 'email' => 'Email', 'content' => 'Message', 'send' => 'Send message', 'details' => 'Contact details', 'address' => 'Address', 'hours' => 'Working hours', 'available' => 'Customer support is available 24/7'],
+        'ru' => ['home' => 'Главная', 'contact' => 'Связаться с поддержкой', 'title' => 'Связаться с нашей поддержкой', 'intro' => 'Оставьте свои данные, и наша команда ответит вам как можно скорее.', 'message' => 'Отправить сообщение', 'name' => 'Имя и фамилия', 'phone' => 'Номер телефона', 'email' => 'Email', 'content' => 'Сообщение', 'send' => 'Отправить сообщение', 'details' => 'Контактная информация', 'address' => 'Адрес', 'hours' => 'Часы работы', 'available' => 'Поддержка клиентов доступна 24/7'],
+    ][$locale];
+@endphp
 <!-- Breadcrumb -->
 <div class="bg-[#f8fdf9] py-6">
     <div class="container mx-auto px-4">
         <nav class="text-sm">
-            <a href="{{ route('home') }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
+            <a href="{{ route('home', ['lang' => $locale]) }}" class="text-gray-600 hover:text-brand-green">{{ $copy['home'] }}</a>
             <span class="text-gray-400 mx-2">/</span>
-            <span class="text-gray-900 font-semibold">Liên Hệ</span>
+            <span class="text-gray-900 font-semibold">{{ $copy['contact'] }}</span>
         </nav>
     </div>
 </div>
@@ -15,8 +23,8 @@
 <!-- Page Header -->
 <section class="py-12 bg-white">
     <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Liên Hệ Với Chúng Tôi</h1>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">Hãy để lại thông tin, chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{{ $copy['title'] }}</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{{ $copy['intro'] }}</p>
     </div>
 </section>
 
@@ -26,7 +34,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Contact Form -->
             <div class="bg-white rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">Gửi Tin Nhắn</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $copy['message'] }}</h2>
                 
                 @if(session('success'))
                     <div class="mb-6 bg-[#e8f8ef] border-l-4 border-brand-green text-brand-green p-4 rounded">
@@ -41,9 +49,10 @@
 
                 <form method="POST" action="{{ route('contact.store') }}" class="space-y-6">
                     @csrf
+                    <input type="hidden" name="lang" value="{{ $locale }}">
                     
                     <div>
-                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Họ và tên <span class="text-red-500">*</span></label>
+                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['name'] }} <span class="text-red-500">*</span></label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('name') border-red-500 @enderror">
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -51,7 +60,7 @@
                     </div>
 
                     <div>
-                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">Số điện thoại <span class="text-red-500">*</span></label>
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['phone'] }} <span class="text-red-500">*</span></label>
                         <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('phone') border-red-500 @enderror">
                         @error('phone')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -59,7 +68,7 @@
                     </div>
 
                     <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['email'] }}</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('email') border-red-500 @enderror">
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -67,7 +76,7 @@
                     </div>
 
                     <div>
-                        <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">Nội dung <span class="text-red-500">*</span></label>
+                        <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['content'] }} <span class="text-red-500">*</span></label>
                         <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
                         @error('message')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -75,7 +84,7 @@
                     </div>
 
                     <button type="submit" class="w-full bg-brand-green text-white py-4 rounded-lg font-semibold hover:bg-[#096b39] transition-colors">
-                        Gửi Tin Nhắn
+                        {{ $copy['send'] }}
                     </button>
                 </form>
             </div>
@@ -83,7 +92,7 @@
             <!-- Contact Info -->
             <div>
                 <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Thông Tin Liên Hệ</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $copy['details'] }}</h2>
                     
                     <div class="space-y-6">
                         <div class="flex items-start gap-4">
@@ -94,7 +103,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Địa Chỉ</h3>
+                                <h3 class="font-semibold text-gray-900 mb-1">{{ $copy['address'] }}</h3>
                                 <p class="text-gray-600">123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
                             </div>
                         </div>
@@ -131,8 +140,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Giờ Làm Việc</h3>
-                                <p class="text-gray-600">24/7 - Hỗ trợ khách hàng mọi lúc</p>
+                                <h3 class="font-semibold text-gray-900 mb-1">{{ $copy['hours'] }}</h3>
+                                <p class="text-gray-600">{{ $copy['available'] }}</p>
                             </div>
                         </div>
                     </div>
