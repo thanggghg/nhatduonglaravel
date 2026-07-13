@@ -89,8 +89,10 @@
   $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
   $routeDuration = $route?->estimated_time ?? '9-10 hours';
-  if ($locale !== 'vi') {
+  if ($locale === 'en') {
     $routeDuration = str_replace('giờ', 'h', $routeDuration);
+  } elseif ($locale === 'ru') {
+    $routeDuration = str_replace('giờ', 'ч.', $routeDuration);
   }
   $locations = [
     'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
