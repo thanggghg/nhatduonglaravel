@@ -12,7 +12,24 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
+    {
+        return view('home-new', $this->homeData() + ['locale' => $this->locale($request)]);
+    }
+
+    public function homeNew(Request $request)
+    {
+        return redirect()->route('home', ['lang' => $this->locale($request)]);
+    }
+
+    private function locale(Request $request): string
+    {
+        $locale = $request->string('lang')->lower()->value();
+
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+    }
+
+    private function homeData(): array
     {
         $banners = Banner::where('status', true)
             ->orderBy('sort_order')
@@ -52,6 +69,6 @@ class HomeController extends Controller
 
         $settings = Setting::pluck('value', 'key');
 
-        return view('home', compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs', 'ntRoute', 'settings'));
+        return compact('banners', 'featuredRoutes', 'latestPosts', 'popularSchedules', 'faqs', 'ntRoute', 'settings');
     }
 }

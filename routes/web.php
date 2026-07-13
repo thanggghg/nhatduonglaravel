@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\AdminContactController;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home-new', [HomeController::class, 'homeNew'])->name('home.new');
 
 // Posts
 Route::get('/tin-tuc', [PostController::class, 'index'])->name('posts.index');
