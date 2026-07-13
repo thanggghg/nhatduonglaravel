@@ -22,7 +22,7 @@
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
       'view_departures' => 'Xem giờ khởi hành', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Lịch khởi hành hôm nay', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
-      'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'price' => 'Giá vé', 'choose' => 'Chọn chuyến',
+      'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'choose' => 'Chọn chuyến',
       'pickup_kicker' => 'Đón trả minh bạch', 'pickup_title' => 'Biết rõ nơi lên xe trước khi khởi hành', 'pickup_text' => 'Xác nhận điểm đón, điểm trả và thời gian có mặt với đội ngũ hỗ trợ trước ngày đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
@@ -45,7 +45,7 @@
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
       'view_departures' => 'View departures', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Today’s departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
-      'departure' => 'Departure', 'vehicle' => 'Vehicle', 'price' => 'Fare', 'choose' => 'Select departure',
+      'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'choose' => 'Select departure',
       'pickup_kicker' => 'Clear pickup details', 'pickup_title' => 'Know where to board before you travel', 'pickup_text' => 'Confirm your pickup, drop-off, and check-in time with our support team before departure.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
@@ -68,7 +68,7 @@
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
       'view_departures' => 'Посмотреть рейсы', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Рейсы сегодня', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
-      'departure' => 'Отправление', 'vehicle' => 'Автобус', 'price' => 'Цена', 'choose' => 'Выбрать рейс',
+      'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'choose' => 'Выбрать рейс',
       'pickup_kicker' => 'Понятная посадка', 'pickup_title' => 'Знайте место посадки до начала поездки', 'pickup_text' => 'Подтвердите место посадки, высадки и время регистрации у команды поддержки до отправления.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
@@ -88,6 +88,10 @@
   $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
   $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
+  $routeDuration = $route?->estimated_time ?? '9-10 hours';
+  if ($locale !== 'vi') {
+    $routeDuration = str_replace('giờ', 'h', $routeDuration);
+  }
   $locations = [
     'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
     'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
@@ -182,7 +186,7 @@
       <div class="hn-route-card__content">
         <dl>
           <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($route?->price_from ?? 220000) }} VND</dd></div>
-          <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $route?->estimated_time ?? '9-10 hours' }}</dd></div>
+          <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
           <div><dt>{{ $copy['daily'] }}</dt><dd>{{ $copy['support'] }}</dd></div>
         </dl>
         <ul class="hn-check-list">
@@ -205,7 +209,7 @@
         @forelse($popularSchedules->take(6) as $schedule)
         <article class="hn-schedule__row">
           <strong>{{ $schedule->departure_time->format('H:i') }}</strong>
-          <span>{{ $schedule->vehicle_type ?: 'Sleeper cabin' }}</span>
+          <span>{{ $schedule->vehicle_type ?: $copy['vehicle_default'] }}</span>
           <span>{{ number_format($schedule->price ?: $route?->price_from ?? 220000) }} VND</span>
           <a href="{{ route('booking.search', ['route_id' => $schedule->route_id, 'departDate' => now()->format('d-m-Y')]) }}">{{ $copy['choose'] }}</a>
         </article>
