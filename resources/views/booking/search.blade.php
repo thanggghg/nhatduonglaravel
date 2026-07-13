@@ -9,6 +9,15 @@
     'en' => ['home' => 'Home', 'booking' => 'Booking', 'round' => 'Round trip', 'departures' => 'departures', 'passengers' => 'passengers', 'outbound' => 'Outbound trip', 'return' => 'Return trip', 'departure' => 'Departure', 'arrival' => 'Arrival', 'vehicle' => 'Sleeper cabin', 'book' => 'Book now', 'call' => 'Contact support', 'empty' => 'No departures available', 'empty_text' => 'Please choose another date or contact support.', 'support' => 'Need booking help?', 'support_text' => 'Contact support to confirm pickup, luggage, and change policy.', 'per_person' => 'per person'],
     'ru' => ['home' => 'Главная', 'booking' => 'Бронирование', 'round' => 'Туда и обратно', 'departures' => 'рейсов', 'passengers' => 'пассажиров', 'outbound' => 'Поездка туда', 'return' => 'Поездка обратно', 'departure' => 'Отправление', 'arrival' => 'Прибытие', 'vehicle' => 'Спальный салон', 'book' => 'Забронировать', 'call' => 'Связаться с поддержкой', 'empty' => 'Нет доступных рейсов', 'empty_text' => 'Выберите другую дату или свяжитесь с поддержкой.', 'support' => 'Нужна помощь с бронированием?', 'support_text' => 'Свяжитесь с поддержкой, чтобы подтвердить посадку, багаж и условия изменения билета.', 'per_person' => 'за человека'],
   ][$locale];
+  $locationLabels = [
+    'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
+    'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
+    'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
+  ];
+  $location = fn ($value) => $locationLabels[$value][$locale] ?? $value;
+  $duration = $route->estimated_time ?? '';
+  if ($locale === 'en') $duration = str_replace('giờ', 'h', $duration);
+  if ($locale === 'ru') $duration = str_replace('giờ', 'ч.', $duration);
 @endphp
 
 {{-- Header --}}
@@ -20,7 +29,7 @@
       <span style="color:#fff;">{{ $bookingCopy['booking'] }}</span>
     </nav>
     <h1 style="color:#fff; font-size:clamp(20px,3vw,28px); font-weight:800; margin:0;">
-      {{ $route->from_location }} → {{ $route->to_location }}
+       {{ $location($route->from_location) }} → {{ $location($route->to_location) }}
       @if($isRoundTrip ?? false)
           <span style="opacity:0.8;"> ({{ $bookingCopy['round'] }})</span>
       @endif
@@ -64,7 +73,7 @@
     <div style="margin-bottom:32px;">
       <h2 style="color:#173014; font-size:20px; font-weight:900; margin:0 0 16px; display:flex; align-items:center; gap:8px;">
         <span style="display:inline-block; width:8px; height:24px; background:#0b7f42; border-radius:4px;"></span>
-        {{ $bookingCopy['outbound'] }}: {{ $route->from_location }} → {{ $route->to_location }}
+        {{ $bookingCopy['outbound'] }}: {{ $location($route->from_location) }} → {{ $location($route->to_location) }}
       </h2>
 
       @if($schedules->isEmpty())
@@ -91,11 +100,11 @@
 
             {{-- Arrow + duration --}}
             <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:120px;">
-              <div style="font-size:11px; color:#62735e; font-weight:700;">{{ $route->estimated_time ?? '' }}</div>
+              <div style="font-size:11px; color:#62735e; font-weight:700;">{{ $duration }}</div>
               <div style="width:100%; height:2px; background:linear-gradient(90deg,#0b7f42,#fbb116); border-radius:2px; position:relative;">
                 <div style="position:absolute; right:-4px; top:-4px; width:10px; height:10px; border-radius:50%; background:#fbb116;"></div>
               </div>
-              <div style="font-size:11px; color:#0b7f42; font-weight:700;">{{ $route->from_location }} → {{ $route->to_location }}</div>
+              <div style="font-size:11px; color:#0b7f42; font-weight:700;">{{ $location($route->from_location) }} → {{ $location($route->to_location) }}</div>
             </div>
 
             {{-- Giờ đến --}}
@@ -128,7 +137,7 @@
                 @if(($seats ?? 1) > 1)
                   {{ number_format($schedule->price) }}đ × {{ $seats }} ghế
                 @else
-                  /người
+                   {{ $bookingCopy['per_person'] }}
                 @endif
               </div>
               @if($route->booking_url && $route->booking_url !== 'https://example.com/book')
@@ -155,7 +164,7 @@
       <div style="margin-bottom:32px;">
         <h2 style="color:#173014; font-size:20px; font-weight:900; margin:0 0 16px; display:flex; align-items:center; gap:8px;">
           <span style="display:inline-block; width:8px; height:24px; background:#ef5423; border-radius:4px;"></span>
-          {{ $bookingCopy['return'] }}: {{ $route->to_location }} → {{ $route->from_location }}
+          {{ $bookingCopy['return'] }}: {{ $location($route->to_location) }} → {{ $location($route->from_location) }}
           <span style="color:#62735e; font-size:14px; font-weight:700;">({{ $returnDateObj->isoFormat('DD/MM/YYYY') }})</span>
         </h2>
 

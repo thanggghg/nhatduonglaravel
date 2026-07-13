@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOMeta;
 
@@ -20,7 +21,9 @@ class ContactController extends Controller
         SEOMeta::setTitle($titles[0]);
         SEOMeta::setDescription($titles[1]);
 
-        return view('contact.index', compact('locale'));
+        $settings = Setting::pluck('value', 'key');
+
+        return view('contact.index', compact('locale', 'settings'));
     }
 
     public function store(Request $request)

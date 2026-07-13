@@ -2,9 +2,9 @@
   $locale = request('lang');
   $locale = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
   $footerCopy = [
-    'vi' => ['intro' => 'Dịch vụ vận chuyển hành khách tuyến Sài Gòn ↔ Nha Trang. An toàn, đúng giờ, phục vụ tận tâm.', 'quick' => 'Liên kết nhanh', 'services' => 'Dịch vụ', 'contact' => 'Thông tin liên hệ', 'route' => 'Tuyến: Sài Gòn ↔ Nha Trang', 'support' => 'Hỗ trợ 24/7', 'rights' => 'Nhà xe Nhật Dương. All rights reserved.', 'privacy' => 'Chính Sách Bảo Mật', 'terms' => 'Điều Khoản Sử Dụng'],
-    'en' => ['intro' => 'Passenger service between Ho Chi Minh City and Nha Trang. Safe, punctual, and attentive.', 'quick' => 'Quick links', 'services' => 'Services', 'contact' => 'Contact details', 'route' => 'Route: Ho Chi Minh City ↔ Nha Trang', 'support' => 'Support 24/7', 'rights' => 'Nhat Duong. All rights reserved.', 'privacy' => 'Privacy policy', 'terms' => 'Terms of use'],
-    'ru' => ['intro' => 'Пассажирские перевозки между Хошимином и Нячангом. Безопасно, вовремя и с заботой о пассажирах.', 'quick' => 'Быстрые ссылки', 'services' => 'Услуги', 'contact' => 'Контакты', 'route' => 'Маршрут: Хошимин ↔ Нячанг', 'support' => 'Поддержка 24/7', 'rights' => 'Nhat Duong. Все права защищены.', 'privacy' => 'Политика конфиденциальности', 'terms' => 'Условия использования'],
+    'vi' => ['intro' => 'Dịch vụ vận chuyển hành khách tuyến Sài Gòn ↔ Nha Trang. An toàn, đúng giờ, phục vụ tận tâm.', 'quick' => 'Liên kết nhanh', 'services' => 'Dịch vụ', 'service_items' => ['Đặt vé một chiều','Đặt vé khứ hồi','Hỗ trợ giữ chỗ','Tư vấn điểm đón','Xe giường nằm VIP'], 'contact' => 'Thông tin liên hệ', 'route' => 'Tuyến: Sài Gòn ↔ Nha Trang', 'support' => 'Hỗ trợ 24/7', 'rights' => 'Nhà xe Nhật Dương. All rights reserved.', 'privacy' => 'Chính Sách Bảo Mật', 'terms' => 'Điều Khoản Sử Dụng'],
+    'en' => ['intro' => 'Passenger service between Ho Chi Minh City and Nha Trang. Safe, punctual, and attentive.', 'quick' => 'Quick links', 'services' => 'Services', 'service_items' => ['One-way booking','Round-trip booking','Reservation support','Pickup guidance','VIP sleeper bus'], 'contact' => 'Contact details', 'route' => 'Route: Ho Chi Minh City ↔ Nha Trang', 'support' => 'Support 24/7', 'rights' => 'Nhat Duong. All rights reserved.', 'privacy' => 'Privacy policy', 'terms' => 'Terms of use'],
+    'ru' => ['intro' => 'Пассажирские перевозки между Хошимином и Нячангом. Безопасно, вовремя и с заботой о пассажирах.', 'quick' => 'Быстрые ссылки', 'services' => 'Услуги', 'service_items' => ['Бронирование в одну сторону','Бронирование туда и обратно','Помощь с бронированием','Информация о посадке','VIP спальный автобус'], 'contact' => 'Контакты', 'route' => 'Маршрут: Хошимин ↔ Нячанг', 'support' => 'Поддержка 24/7', 'rights' => 'Nhat Duong. Все права защищены.', 'privacy' => 'Политика конфиденциальности', 'terms' => 'Условия использования'],
   ][$locale];
   $footerNav = [
     'vi' => [['Trang chủ','home'],['Tuyến đường','routes.index'],['Lịch trình','schedules.index'],['Tin tức','posts.index'],['Về chúng tôi','about'],['Liên hệ','contact']],
@@ -59,7 +59,7 @@
       <div>
         <h4 style="margin:0 0 16px; color:#f9b21a; font-size:16px; font-weight:900;">{{ $footerCopy['services'] }}</h4>
         <div style="display:grid; gap:10px;">
-          @foreach(['Đặt vé một chiều','Đặt vé khứ hồi','Hỗ trợ giữ chỗ','Tư vấn điểm đón','Xe giường nằm VIP'] as $item)
+          @foreach($footerCopy['service_items'] as $item)
           <span style="color:rgba(255,255,255,.70); font-size:14px; font-weight:650;">{{ $item }}</span>
           @endforeach
         </div>

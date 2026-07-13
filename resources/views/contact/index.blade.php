@@ -4,9 +4,9 @@
 @php
     $locale = $locale ?? 'en';
     $copy = [
-        'vi' => ['home' => 'Trang chủ', 'contact' => 'Liên hệ', 'title' => 'Liên Hệ Với Chúng Tôi', 'intro' => 'Hãy để lại thông tin, chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất', 'message' => 'Gửi Tin Nhắn', 'name' => 'Họ và tên', 'phone' => 'Số điện thoại', 'email' => 'Email', 'content' => 'Nội dung', 'send' => 'Gửi Tin Nhắn', 'details' => 'Thông Tin Liên Hệ', 'address' => 'Địa Chỉ', 'hours' => 'Giờ Làm Việc', 'available' => 'Hỗ trợ khách hàng mọi lúc'],
-        'en' => ['home' => 'Home', 'contact' => 'Contact support', 'title' => 'Contact Our Support Team', 'intro' => 'Leave your details and our team will respond as soon as possible.', 'message' => 'Send a message', 'name' => 'Full name', 'phone' => 'Phone number', 'email' => 'Email', 'content' => 'Message', 'send' => 'Send message', 'details' => 'Contact details', 'address' => 'Address', 'hours' => 'Working hours', 'available' => 'Customer support is available 24/7'],
-        'ru' => ['home' => 'Главная', 'contact' => 'Связаться с поддержкой', 'title' => 'Связаться с нашей поддержкой', 'intro' => 'Оставьте свои данные, и наша команда ответит вам как можно скорее.', 'message' => 'Отправить сообщение', 'name' => 'Имя и фамилия', 'phone' => 'Номер телефона', 'email' => 'Email', 'content' => 'Сообщение', 'send' => 'Отправить сообщение', 'details' => 'Контактная информация', 'address' => 'Адрес', 'hours' => 'Часы работы', 'available' => 'Поддержка клиентов доступна 24/7'],
+        'vi' => ['home' => 'Trang chủ', 'contact' => 'Liên hệ', 'title' => 'Liên Hệ Với Chúng Tôi', 'intro' => 'Hãy để lại thông tin, chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất', 'message' => 'Gửi Tin Nhắn', 'name' => 'Họ và tên', 'phone' => 'Số điện thoại', 'email' => 'Email', 'content' => 'Nội dung', 'send' => 'Gửi Tin Nhắn', 'details' => 'Thông Tin Liên Hệ', 'address' => 'Địa Chỉ', 'hours' => 'Giờ Làm Việc', 'available' => 'Hỗ trợ khách hàng mọi lúc', 'social' => 'Kết nối với chúng tôi', 'social_text' => 'Theo dõi để cập nhật tin tức và khuyến mãi mới nhất', 'map' => 'Bản đồ sẽ được hiển thị tại đây'],
+        'en' => ['home' => 'Home', 'contact' => 'Contact support', 'title' => 'Contact Our Support Team', 'intro' => 'Leave your details and our team will respond as soon as possible.', 'message' => 'Send a message', 'name' => 'Full name', 'phone' => 'Phone number', 'email' => 'Email', 'content' => 'Message', 'send' => 'Send message', 'details' => 'Contact details', 'address' => 'Address', 'hours' => 'Working hours', 'available' => 'Customer support is available 24/7', 'social' => 'Connect with us', 'social_text' => 'Follow us for service news and latest offers', 'map' => 'Map details will be available here'],
+        'ru' => ['home' => 'Главная', 'contact' => 'Связаться с поддержкой', 'title' => 'Связаться с нашей поддержкой', 'intro' => 'Оставьте свои данные, и наша команда ответит вам как можно скорее.', 'message' => 'Отправить сообщение', 'name' => 'Имя и фамилия', 'phone' => 'Номер телефона', 'email' => 'Email', 'content' => 'Сообщение', 'send' => 'Отправить сообщение', 'details' => 'Контактная информация', 'address' => 'Адрес', 'hours' => 'Часы работы', 'available' => 'Поддержка клиентов доступна 24/7', 'social' => 'Связаться с нами', 'social_text' => 'Следите за новостями сервиса и актуальными предложениями', 'map' => 'Здесь будет доступна информация о карте'],
     ][$locale];
 @endphp
 <!-- Breadcrumb -->
@@ -104,7 +104,7 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-gray-900 mb-1">{{ $copy['address'] }}</h3>
-                                <p class="text-gray-600">123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh</p>
+                                <p class="text-gray-600">{{ $settings['address'] ?? '' }}</p>
                             </div>
                         </div>
 
@@ -116,8 +116,8 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-gray-900 mb-1">Hotline</h3>
-                                <a href="tel:1900 2879" class="text-brand-green hover:text-[#096b39] font-semibold text-lg">1900 2879</a>
-                                <p class="text-gray-500 text-sm mt-1">Hỗ trợ 24/7</p>
+                                <a href="tel:{{ preg_replace('/\s+/', '', $settings['hotline'] ?? '') }}" class="text-brand-green hover:text-[#096b39] font-semibold text-lg">{{ $settings['hotline'] ?? '' }}</a>
+                                <p class="text-gray-500 text-sm mt-1">{{ $copy['available'] }}</p>
                             </div>
                         </div>
 
@@ -129,7 +129,7 @@
                             </div>
                             <div>
                                 <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
-                                <a href="mailto:info@nhatduong.com" class="text-brand-green hover:text-[#096b39]">info@nhatduong.com</a>
+                                <a href="mailto:{{ $settings['email'] ?? '' }}" class="text-brand-green hover:text-[#096b39]">{{ $settings['email'] ?? '' }}</a>
                             </div>
                         </div>
 
@@ -149,8 +149,8 @@
 
                 <!-- Social Links -->
                 <div class="bg-gradient-to-br from-[--color-brand-green] to-[#096b39] rounded-2xl shadow-lg p-8 text-white">
-                    <h3 class="text-xl font-bold mb-4">Kết Nối Với Chúng Tôi</h3>
-                    <p class="text-gray-100 mb-6">Theo dõi để cập nhật tin tức và khuyến mãi mới nhất</p>
+                    <h3 class="text-xl font-bold mb-4">{{ $copy['social'] }}</h3>
+                    <p class="text-gray-100 mb-6">{{ $copy['social_text'] }}</p>
                     <div class="flex gap-3">
                         <a href="#" class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors">
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -179,7 +179,7 @@
                     <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
                     </svg>
-                    <p class="text-gray-600">Google Map sẽ được hiển thị tại đây</p>
+                    <p class="text-gray-600">{{ $copy['map'] }}</p>
                 </div>
             </div>
         </div>
