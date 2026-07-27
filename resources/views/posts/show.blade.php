@@ -1,144 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Breadcrumb -->
-<div class="bg-[#f8fdf9] py-6">
-    <div class="container mx-auto px-4">
-        <nav class="text-sm">
-            <a href="{{ route('home') }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
-            <span class="text-gray-400 mx-2">/</span>
-            <a href="{{ route('posts.index') }}" class="text-gray-600 hover:text-brand-green">Tin tức</a>
-            <span class="text-gray-400 mx-2">/</span>
-            <span class="text-gray-900 font-semibold">{{ $post->title }}</span>
-        </nav>
-    </div>
-</div>
+@php
+    $copy = [
+        'vi' => ['home' => 'Trang chủ', 'journal' => 'Tin tức', 'kicker' => 'NHAT DUONG JOURNAL', 'published' => 'Đăng ngày', 'readTime' => 'phút đọc', 'share' => 'Chia sẻ bài viết', 'copy' => 'Sao chép liên kết', 'copied' => 'Đã sao chép', 'contents' => 'Trong bài viết', 'related' => 'Đọc thêm', 'read' => 'Đọc bài viết', 'bookingTitle' => 'Sẵn sàng cho hành trình tiếp theo?', 'bookingText' => 'Xem lịch chạy trực tuyến và chọn chuyến phù hợp.', 'booking' => 'Đặt vé ngay', 'back' => 'Xem tất cả tin tức'],
+        'en' => ['home' => 'Home', 'journal' => 'News', 'kicker' => 'NHAT DUONG JOURNAL', 'published' => 'Published', 'readTime' => 'min read', 'share' => 'Share this article', 'copy' => 'Copy link', 'copied' => 'Copied', 'contents' => 'In this article', 'related' => 'Keep reading', 'read' => 'Read article', 'bookingTitle' => 'Ready for the next journey?', 'bookingText' => 'See live departures and choose a trip that fits your plans.', 'booking' => 'Book a trip', 'back' => 'View all news'],
+        'ru' => ['home' => 'Главная', 'journal' => 'Новости', 'kicker' => 'ЖУРНАЛ NHAT DUONG', 'published' => 'Опубликовано', 'readTime' => 'мин. чтения', 'share' => 'Поделиться статьей', 'copy' => 'Скопировать ссылку', 'copied' => 'Скопировано', 'contents' => 'В этой статье', 'related' => 'Читайте также', 'read' => 'Читать статью', 'bookingTitle' => 'Готовы к следующей поездке?', 'bookingText' => 'Посмотрите актуальные рейсы и выберите удобную поездку.', 'booking' => 'Забронировать', 'back' => 'Все новости'],
+    ][$locale];
+    $categoryLabels = ['tin-tuc' => ['vi' => 'Tin tức', 'en' => 'News', 'ru' => 'Новости'], 'khuyen-mai' => ['vi' => 'Khuyến mãi', 'en' => 'Offers', 'ru' => 'Предложения'], 'huong-dan' => ['vi' => 'Hướng dẫn', 'en' => 'Guides', 'ru' => 'Инструкции'], 'kinh-nghiem-du-lich' => ['vi' => 'Kinh nghiệm', 'en' => 'Travel tips', 'ru' => 'Советы']];
+    $categoryName = fn ($category) => $category ? ($categoryLabels[$category->slug][$locale] ?? $category->name) : $copy['journal'];
+    $articleUrl = route('posts.show', ['slug' => $post->slug, 'lang' => $locale]);
+    $wordCount = str_word_count(strip_tags($post->content));
+    $minutes = max(1, (int) ceil($wordCount / 190));
+@endphp
 
-<!-- Post Content -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Main Content -->
-            <article class="lg:col-span-3">
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                    <!-- Post Header -->
-                    <div class="p-8 md:p-12">
-                        <div class="flex items-center gap-4 mb-6">
-                            @if($post->category)
-                                <span class="inline-block bg-[#e8f8ef] text-brand-green text-sm font-semibold px-4 py-2 rounded-full">
-                                    {{ $post->category->name }}
-                                </span>
-                            @endif
-                            <time class="text-gray-500">{{ $post->published_at->format('d/m/Y') }}</time>
-                        </div>
+<style>
+    .article-page{min-height:70vh;background:#f6f8f5;color:#173d2b}.article-shell{width:min(1120px,calc(100% - 40px));margin:auto}.article-hero{position:relative;overflow:hidden;padding:18px 0 70px;background:radial-gradient(circle at 83% 23%,rgba(249,178,26,.22),transparent 20%),radial-gradient(circle at 74% 87%,rgba(89,190,129,.18),transparent 28%),linear-gradient(125deg,#042a19,#087944);color:#fff}.article-hero:after{position:absolute;right:-110px;bottom:-240px;width:430px;height:430px;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 36px rgba(255,255,255,.035),0 0 0 72px rgba(255,255,255,.02);content:''}.article-crumb{position:relative;z-index:1;display:flex;gap:8px;overflow:hidden;color:rgba(255,255,255,.67);font-size:13px;white-space:nowrap}.article-crumb a{color:#fff;font-weight:750;text-decoration:none}.article-crumb span:last-child{overflow:hidden;text-overflow:ellipsis}.article-hero__content{position:relative;z-index:1;max-width:830px;margin-top:64px}.article-kicker{display:inline-flex;align-items:center;gap:9px;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.article-kicker:before{width:27px;height:2px;background:#f9b21a;content:''}.article-category{display:inline-flex;margin-left:10px;padding:5px 9px;border-radius:99px;color:#dbf4e3;background:rgba(255,255,255,.1);font-size:11px;font-weight:800;letter-spacing:0;text-transform:none}.article-hero h1{margin:18px 0;color:#fff;font-size:clamp(39px,5.5vw,66px);font-weight:900;letter-spacing:-.06em;line-height:.99}.article-hero__summary{max-width:690px;margin:0;color:rgba(255,255,255,.78);font-size:18px;line-height:1.65}.article-meta{display:flex;flex-wrap:wrap;gap:13px;margin-top:25px;color:#c4dfcc;font-size:13px;font-weight:700}.article-meta i{width:4px;height:4px;margin:auto 0;border-radius:50%;background:#f9b21a}.article-feature{position:relative;z-index:2;max-width:1020px;margin:-37px auto 0}.article-feature img{display:block;width:100%;max-height:520px;object-fit:cover;border:7px solid #fff;border-radius:18px;box-shadow:0 18px 40px rgba(4,47,27,.17)}.article-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:58px;padding:58px 0 78px}.article-body{min-width:0}.article-body__lead{margin:0 0 28px;color:#506e5e;font-size:17px;line-height:1.75}.article-prose{color:#294a3a;font-size:17px;line-height:1.82}.article-prose>*:first-child{margin-top:0}.article-prose h2,.article-prose h3{margin:1.9em 0 .55em;color:#153e2a;letter-spacing:-.035em;line-height:1.16}.article-prose h2{font-size:31px}.article-prose h3{font-size:23px}.article-prose p,.article-prose ul,.article-prose ol{margin:0 0 1.2em}.article-prose a{color:#087841;font-weight:750}.article-prose img{width:100%;height:auto;margin:28px 0;border-radius:13px}.article-prose blockquote{margin:28px 0;padding:18px 22px;border-left:4px solid #f9b21a;background:#fff9e8;color:#426353;font-size:18px;font-weight:650}.article-prose li{margin-bottom:7px}.article-share{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:46px;padding-top:25px;border-top:1px solid #dce8df}.article-share strong{display:block;color:#193e2d;font-size:14px}.article-share span{display:block;margin-top:3px;color:#70877a;font-size:12px}.article-share__actions{display:flex;gap:8px}.article-share__actions a,.article-share__actions button{display:grid;place-items:center;width:40px;height:40px;border:1px solid #cfe0d4;border-radius:9px;color:#087841;background:#fff;font:800 12px Inter,sans-serif;text-decoration:none;cursor:pointer}.article-share__actions a:hover,.article-share__actions button:hover{color:#fff;background:#087841}.article-rail{display:grid;align-content:start;gap:17px}.article-rail__card{padding:18px;border:1px solid #dbe8de;border-radius:13px;background:#fff}.article-rail__card h2{margin:0 0 13px;color:#193e2d;font-size:14px}.article-rail__card ul{display:grid;gap:9px;padding:0;margin:0;list-style:none}.article-rail__card a{color:#557264;font-size:13px;font-weight:700;text-decoration:none}.article-rail__card a:hover{color:#087841}.article-rail__cta{padding:22px;border-radius:13px;color:#fff;background:linear-gradient(150deg,#06371f,#087b43)}.article-rail__cta h2{margin:0 0 8px;font-size:21px;letter-spacing:-.035em}.article-rail__cta p{margin:0 0 16px;color:#c6e3ce;font-size:13px;line-height:1.55}.article-rail__cta a{display:block;padding:11px;border-radius:8px;color:#594100;background:#f9b21a;font-size:13px;font-weight:900;text-align:center;text-decoration:none}.article-related{padding:57px 0 70px;border-top:1px solid #dce8df}.article-section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.article-section-head h2{margin:0;color:#173d2b;font-size:31px;letter-spacing:-.045em}.article-section-head a{color:#087841;font-size:13px;font-weight:850;text-decoration:none}.article-related__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.article-card{overflow:hidden;border:1px solid #d8e6dc;border-radius:14px;background:#fff;box-shadow:0 7px 18px rgba(9,70,38,.05)}.article-card__image{display:grid;height:158px;place-items:center;color:#8a6500;background:linear-gradient(135deg,#e7f4ea,#fdf1d0);text-decoration:none}.article-card__image img{width:100%;height:100%;object-fit:cover}.article-card__body{padding:17px}.article-card__meta{margin:0 0 8px;color:#72897b;font-size:11px;font-weight:800}.article-card h3{margin:0 0 8px;font-size:17px;line-height:1.32}.article-card h3 a{color:#1a402e;text-decoration:none}.article-card p{display:-webkit-box;overflow:hidden;margin:0;color:#678071;font-size:13px;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:2}.article-card__read{display:inline-block;margin-top:13px;color:#087841;font-size:12px;font-weight:850;text-decoration:none}@media(max-width:850px){.article-layout{grid-template-columns:1fr;gap:30px}.article-rail{grid-template-columns:1fr 1fr}.article-hero__content{margin-top:45px}.article-related__grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.article-shell{width:min(100% - 28px,1120px)}.article-hero{padding-bottom:54px}.article-hero__content{margin-top:35px}.article-hero h1{font-size:40px}.article-feature{margin-top:-25px}.article-feature img{border-width:4px;border-radius:12px}.article-layout{padding:39px 0 52px}.article-prose{font-size:16px}.article-prose h2{font-size:27px}.article-rail,.article-related__grid{grid-template-columns:1fr}.article-share{align-items:flex-start;flex-direction:column}.article-section-head{align-items:flex-start;flex-direction:column}.article-related{padding:43px 0 55px}}
+</style>
 
-                        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 leading-tight">{{ $post->title }}</h1>
+<div class="article-page"><header class="article-hero"><div class="article-shell"><nav class="article-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span>/</span><a href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['journal'] }}</a><span>/</span><span>{{ $post->title }}</span></nav><div class="article-hero__content"><div class="article-kicker">{{ $copy['kicker'] }}<span class="article-category">{{ $categoryName($post->category) }}</span></div><h1>{{ $post->title }}</h1>@if($post->summary)<p class="article-hero__summary">{{ $post->summary }}</p>@endif<div class="article-meta"><span>{{ $copy['published'] }} {{ $post->published_at->format('d/m/Y') }}</span><i></i><span>{{ $minutes }} {{ $copy['readTime'] }}</span></div></div></div></header>@if($post->thumbnail)<figure class="article-feature article-shell"><img src="{{ asset('storage/'.$post->thumbnail) }}" alt="{{ $post->title }}"></figure>@endif<main class="article-shell article-layout"><article class="article-body"><div class="article-prose">{!! $post->content !!}</div><div class="article-share"><div><strong>{{ $copy['share'] }}</strong><span>{{ $post->title }}</span></div><div class="article-share__actions"><a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($articleUrl) }}" aria-label="Share on Facebook">f</a><button id="article-copy-link" type="button" data-copy="{{ $copy['copy'] }}" data-copied="{{ $copy['copied'] }}">↗</button></div></div></article><aside class="article-rail"><section class="article-rail__card"><h2>{{ $copy['contents'] }}</h2><ul>@foreach($categories as $category)<li><a href="{{ route('posts.index', ['category' => $category->slug, 'lang' => $locale]) }}">{{ $categoryName($category) }}</a></li>@endforeach</ul></section><section class="article-rail__cta"><h2>{{ $copy['bookingTitle'] }}</h2><p>{{ $copy['bookingText'] }}</p><a href="{{ route('home', ['lang' => $locale]) }}#booking">{{ $copy['booking'] }} →</a></section></aside></main>@if($relatedPosts->isNotEmpty())<section class="article-shell article-related"><div class="article-section-head"><h2>{{ $copy['related'] }}</h2><a href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['back'] }} →</a></div><div class="article-related__grid">@foreach($relatedPosts as $relatedPost)<article class="article-card"><a class="article-card__image" href="{{ route('posts.show', ['slug' => $relatedPost->slug, 'lang' => $locale]) }}">@if($relatedPost->thumbnail)<img src="{{ asset('storage/'.$relatedPost->thumbnail) }}" alt="{{ $relatedPost->title }}">@else<span>{{ $categoryName($relatedPost->category) }}</span>@endif</a><div class="article-card__body"><p class="article-card__meta">{{ $relatedPost->published_at->format('d/m/Y') }} · {{ $categoryName($relatedPost->category) }}</p><h3><a href="{{ route('posts.show', ['slug' => $relatedPost->slug, 'lang' => $locale]) }}">{{ $relatedPost->title }}</a></h3><p>{{ $relatedPost->summary }}</p><a class="article-card__read" href="{{ route('posts.show', ['slug' => $relatedPost->slug, 'lang' => $locale]) }}">{{ $copy['read'] }} →</a></div></article>@endforeach</div></section>@endif</div>
 
-                        @if($post->summary)
-                            <p class="text-xl text-gray-600 mb-8 leading-relaxed">{{ $post->summary }}</p>
-                        @endif
-
-                        @if($post->thumbnail)
-                            <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}" class="w-full rounded-2xl mb-8">
-                        @endif
-
-                        <!-- Post Content -->
-                        <div class="prose prose-lg max-w-none">
-                            {!! $post->content !!}
-                        </div>
-
-                        <!-- Tags or Share Buttons (Optional) -->
-                        <div class="mt-12 pt-8 border-t border-gray-200">
-                            <div class="flex flex-wrap items-center justify-between gap-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-gray-600 font-semibold">Chia sẻ:</span>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('posts.show', $post->slug)) }}" target="_blank" class="w-10 h-10 bg-[#e8f8ef] rounded-lg flex items-center justify-center hover:bg-brand-green hover:text-white transition-colors">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                                <a href="{{ route('posts.index') }}" class="text-brand-green hover:text-[#096b39] font-semibold">
-                                    ← Quay lại tin tức
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Related Posts -->
-                @if($relatedPosts->isNotEmpty())
-                    <div class="mt-12">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Bài Viết Liên Quan</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            @foreach($relatedPosts as $relatedPost)
-                                <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                                    @if($relatedPost->thumbnail)
-                                        <a href="{{ route('posts.show', $relatedPost->slug) }}">
-                                            <img src="{{ asset('storage/' . $relatedPost->thumbnail) }}" alt="{{ $relatedPost->title }}" class="w-full h-48 object-cover">
-                                        </a>
-                                    @else
-                                        <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200"></div>
-                                    @endif
-                                    <div class="p-6">
-                                        <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-brand-green">
-                                            <a href="{{ route('posts.show', $relatedPost->slug) }}">{{ $relatedPost->title }}</a>
-                                        </h3>
-                                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">{{ $relatedPost->summary }}</p>
-                                        <span class="text-xs text-gray-500">{{ $relatedPost->published_at->format('d/m/Y') }}</span>
-                                    </div>
-                                </article>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </article>
-
-            <!-- Sidebar -->
-            <aside class="lg:col-span-1">
-                <!-- Categories -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Danh Mục</h3>
-                    <ul class="space-y-2">
-                        @foreach($categories as $category)
-                            <li>
-                                <a href="{{ route('posts.index', ['category' => $category->slug]) }}" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-[#f8fdf9] transition-colors {{ $post->category && $post->category->id == $category->id ? 'bg-[#e8f8ef] text-brand-green font-semibold' : 'text-gray-700' }}">
-                                    <span>{{ $category->name }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- CTA Box -->
-                <div class="bg-gradient-to-br from-[--color-brand-green] to-[#096b39] rounded-2xl shadow-lg p-6 text-white">
-                    <h3 class="text-xl font-bold mb-3">Đặt Vé Ngay</h3>
-                    <p class="mb-4 text-gray-100">Dịch vụ xe khách chất lượng cao với giá cả hợp lý</p>
-                    <a href="{{ route('booking.index') }}" class="block w-full bg-brand-gold text-[#8a6300] text-center py-3 rounded-lg font-semibold hover:bg-[#e19f14] transition-colors">
-                        Xem Tuyến Xe
-                    </a>
-                </div>
-
-                <!-- Contact Box -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 mt-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Liên Hệ</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                            </svg>
-                            <a href="tel:1900 2879" class="text-gray-700 hover:text-brand-green font-semibold">1900 2879</a>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <svg class="w-5 h-5 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            <a href="mailto:info@nhatduong.com" class="text-gray-700 hover:text-brand-green">info@nhatduong.com</a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-    </div>
-</section>
+@push('scripts')
+<script>(() => { const button = document.getElementById('article-copy-link'); if (!button || !navigator.clipboard) return; button.addEventListener('click', async () => { await navigator.clipboard.writeText(@json($articleUrl)); button.textContent = '✓'; button.setAttribute('aria-label', button.dataset.copied); window.setTimeout(() => { button.textContent = '↗'; button.setAttribute('aria-label', button.dataset.copy); }, 1800); }); })();</script>
+@endpush
 @endsection

@@ -19,6 +19,83 @@ class VexereTripService
         ]], $date, $locale)[0] ?? [];
     }
 
+    public function findTrip(string $from, string $to, Carbon $date, string $locale, string $tripCode): ?array
+    {
+        return collect($this->search($from, $to, $date, $locale))->firstWhere('code', $tripCode);
+    }
+
+    public function seatMap(string $from, string $to, string $tripCode, string $locale): array
+    {
+        $areas = config('services.vexere.areas', []);
+        $fromId = $areas[$from] ?? null;
+        $toId = $areas[$to] ?? null;
+        if (!$fromId || !$toId) {
+            throw new RuntimeException('This route is not configured with the live booking provider.');
+        }
+
+        $response = Http::acceptJson()
+            ->withHeaders($this->headers($locale))
+            ->withToken($this->token($locale))
+            ->timeout(15)
+            ->get(rtrim(config('services.vexere.trip_url'), '/').'/'.rawurlencode($tripCode), [
+                'from' => $fromId,
+                'to' => $toId,
+            ]);
+
+        if (!$response->successful()) {
+            throw new RuntimeException('Live seat availability is temporarily unavailable.');
+        }
+
+        $templates = $response->json('data.online_info.coach_seat_template', []);
+        if (!$templates) {
+            $templates = $response->json('data.default_info.coach_seat_template', []);
+        }
+
+        $coaches = [];
+        foreach ($templates as $coach) {
+            $seats = [];
+            foreach ($coach['seats'] ?? [] as $seat) {
+                $seatCode = $seat['seat_code'] ?? null;
+                $coachNumber = $seat['coach_num'] ?? $coach['coach_num'] ?? 1;
+                $row = $seat['row_num'] ?? 1;
+                $column = $seat['col_num'] ?? 1;
+                if (!$seatCode) {
+                    continue;
+                }
+
+                $seats[] = [
+                    'key' => implode('|', [$seatCode, $coachNumber, $row, $column]),
+                    'code' => $seatCode,
+                    'coach' => $coachNumber,
+                    'row' => (int) $row,
+                    'column' => (int) $column,
+                    'row_span' => max(1, (int) ($seat['row_span'] ?? 1)),
+                    'column_span' => max(1, (int) ($seat['col_span'] ?? 1)),
+                    'type' => $seat['seat_type'] ?? null,
+                    'fare' => (int) ($seat['fare'] ?? 0),
+                    'available' => (bool) ($seat['is_available'] ?? false),
+                    'locked' => (bool) ($seat['is_locked_seat'] ?? false),
+                ];
+            }
+
+            if ($seats) {
+                $coaches[] = [
+                    'number' => $coach['coach_num'] ?? $coach['coach_number'] ?? count($coaches) + 1,
+                    'name' => $coach['coach_name'] ?? null,
+                    'rows' => (int) ($coach['num_rows'] ?? 0),
+                    'columns' => (int) ($coach['num_cols'] ?? 0),
+                    'seats' => $seats,
+                ];
+            }
+        }
+
+        if (!$coaches) {
+            throw new RuntimeException('Live seat availability is temporarily unavailable.');
+        }
+
+        return $coaches;
+    }
+
     public function searchMany(array $queries, Carbon $date, string $locale): array
     {
         $areas = config('services.vexere.areas', []);

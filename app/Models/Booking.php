@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -12,6 +13,10 @@ class Booking extends Model
         'reference',
         'route_id',
         'schedule_id',
+        'trip_code',
+        'departure_at',
+        'arrival_at',
+        'vehicle_type',
         'travel_date',
         'return_schedule_id',
         'return_travel_date',
@@ -22,22 +27,35 @@ class Booking extends Model
         'pickup_point',
         'dropoff_point',
         'seat_preference',
+        'selected_seats',
         'notes',
         'outbound_fare',
         'return_fare',
         'total_amount',
         'currency',
         'status',
+        'payment_code',
+        'payment_status',
+        'payment_provider',
+        'payment_transaction_id',
+        'payment_reference',
+        'payment_payload',
+        'paid_at',
         'locale',
     ];
 
     protected $casts = [
         'travel_date' => 'date',
         'return_travel_date' => 'date',
+        'departure_at' => 'datetime',
+        'arrival_at' => 'datetime',
         'outbound_fare' => 'integer',
         'return_fare' => 'integer',
         'total_amount' => 'integer',
         'passenger_count' => 'integer',
+        'selected_seats' => 'array',
+        'payment_payload' => 'array',
+        'paid_at' => 'datetime',
     ];
 
     public function getRouteKeyName(): string
@@ -63,5 +81,10 @@ class Booking extends Model
     public function returnSchedule(): BelongsTo
     {
         return $this->belongsTo(Schedule::class, 'return_schedule_id');
+    }
+
+    public function seatReservations(): HasMany
+    {
+        return $this->hasMany(BookingSeat::class);
     }
 }

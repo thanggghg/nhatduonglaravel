@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\BookingSeat;
 use App\Models\Route as BusRoute;
 use App\Models\Schedule;
 use App\Services\VexereTripService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
@@ -54,6 +57,39 @@ class BookingController extends Controller
         $context = $this->checkoutContext($request);
 
         return view('booking.checkout', $context);
+    }
+
+    public function checkoutLive(Request $request)
+    {
+        $context = $this->liveCheckoutContext($request);
+        extract($context);
+        $route->load(['pickupPoints', 'dropoffPoints']);
+        $reservedSeats = $this->reservedSeats($trip['code'], $date);
+        try {
+            $seatMap = $this->vexere->seatMap($route->from_location, $route->to_location, $trip['code'], $locale);
+            $seatError = false;
+        } catch (\Throwable $exception) {
+            report($exception);
+            $seatMap = [];
+            $seatError = true;
+        }
+        $pickupOptions = $route->pickupPoints->isNotEmpty() ? $route->pickupPoints : collect([(object) ['name' => $trip['pickup'], 'time' => null]]);
+        $dropoffOptions = $route->dropoffPoints->isNotEmpty() ? $route->dropoffPoints : collect([(object) ['name' => $trip['dropoff'], 'time' => null]]);
+
+        return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions'));
+    }
+
+    public function liveSeats(Request $request): JsonResponse
+    {
+        $context = $this->liveCheckoutContext($request);
+        $seatMap = $this->vexere->seatMap($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
+        $availableSeats = count($this->availableSeatKeys($seatMap));
+
+        return response()->json([
+            'reserved_seats' => $this->reservedSeats($context['trip']['code'], $context['date']),
+            'available_seats' => $availableSeats,
+            'coaches' => $seatMap,
+        ]);
     }
 
     public function store(Request $request)
@@ -132,11 +168,95 @@ class BookingController extends Controller
                 'return_fare' => $returnFare,
                 'total_amount' => ($outboundFare + ($returnFare ?? 0)) * $validated['passenger_count'],
                 'status' => 'pending',
+                'payment_code' => $this->paymentCode(),
+                'payment_status' => 'awaiting_payment',
                 'locale' => $validated['lang'] ?? 'en',
             ]);
         });
 
-        return redirect()->route('booking.success', ['booking' => $booking, 'lang' => $booking->locale]);
+        return redirect()->route('booking.payment.show', ['booking' => $booking, 'lang' => $booking->locale]);
+    }
+
+    public function storeLive(Request $request)
+    {
+        $validated = $request->validate([
+            'route_id' => 'required|integer|exists:routes,id',
+            'trip_code' => 'required|string|max:100',
+            'travel_date' => 'required|date_format:Y-m-d',
+            'passenger_count' => 'required|integer|min:1|max:6',
+            'passenger_name' => 'required|string|max:120',
+            'passenger_email' => 'nullable|email:rfc,dns|max:120|required_without:passenger_phone',
+            'passenger_phone' => 'nullable|string|max:50|required_without:passenger_email',
+            'pickup_point' => 'nullable|string|max:255',
+            'dropoff_point' => 'nullable|string|max:255',
+            'seat_preference' => 'nullable|in:any,lower,upper',
+            'selected_seats' => 'required|array|min:1|max:6',
+            'selected_seats.*' => 'required|string|max:100|distinct',
+            'notes' => 'nullable|string|max:1500',
+            'terms' => 'accepted',
+            'lang' => 'nullable|in:vi,en,ru',
+        ]);
+
+        $route = BusRoute::where('status', true)->findOrFail($validated['route_id']);
+        $date = $this->dateFromRequest($validated['travel_date'], 'travel_date', 'Y-m-d');
+        $locale = $validated['lang'] ?? 'en';
+        $trip = $this->vexere->findTrip($route->from_location, $route->to_location, $date, $locale, $validated['trip_code']);
+
+        if (!$trip || $trip['available_seats'] < $validated['passenger_count']) {
+            throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
+        }
+
+        $seatMap = $this->vexere->seatMap($route->from_location, $route->to_location, $trip['code'], $locale);
+        $selectedSeats = array_values($validated['selected_seats']);
+        $availableSeatKeys = $this->availableSeatKeys($seatMap);
+        $invalidSeat = collect($selectedSeats)->contains(fn (string $seat) => !in_array($seat, $availableSeatKeys, true));
+        if (count($selectedSeats) !== (int) $validated['passenger_count'] || count(array_unique($selectedSeats)) !== count($selectedSeats) || $invalidSeat) {
+            throw ValidationException::withMessages(['selected_seats' => 'Please select one available seat for each passenger.']);
+        }
+
+        try {
+            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale) {
+                $booking = Booking::create([
+                    'reference' => $this->reference(),
+                    'route_id' => $route->id,
+                    'trip_code' => $trip['code'],
+                    'departure_at' => $trip['departure'],
+                    'arrival_at' => $trip['arrival'],
+                    'vehicle_type' => $trip['vehicle_type'],
+                    'travel_date' => $date->toDateString(),
+                    'passenger_count' => $validated['passenger_count'],
+                    'passenger_name' => $validated['passenger_name'],
+                    'passenger_email' => $validated['passenger_email'] ?? null,
+                    'passenger_phone' => $validated['passenger_phone'] ?? null,
+                    'pickup_point' => $validated['pickup_point'] ?? $trip['pickup'],
+                    'dropoff_point' => $validated['dropoff_point'] ?? $trip['dropoff'],
+                    'seat_preference' => $validated['seat_preference'] ?? 'any',
+                    'selected_seats' => $selectedSeats,
+                    'notes' => $validated['notes'] ?? null,
+                    'outbound_fare' => $trip['fare'],
+                    'total_amount' => $trip['fare'] * $validated['passenger_count'],
+                    'status' => 'pending',
+                    'payment_code' => $this->paymentCode(),
+                    'payment_status' => 'awaiting_payment',
+                    'locale' => $locale,
+                ]);
+
+                BookingSeat::insert(collect($selectedSeats)->map(fn (string $seat) => [
+                    'booking_id' => $booking->id,
+                    'trip_code' => $trip['code'],
+                    'travel_date' => $date->toDateString(),
+                    'seat' => $seat,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ])->all());
+
+                return $booking;
+            });
+        } catch (QueryException) {
+            throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
+        }
+
+        return redirect()->route('booking.payment.show', ['booking' => $booking, 'lang' => $booking->locale]);
     }
 
     public function success(Booking $booking)
@@ -215,6 +335,40 @@ class BookingController extends Controller
         return compact('route', 'date', 'schedule', 'passengerCount', 'locale', 'isRoundTrip', 'returnDate', 'returnSchedules');
     }
 
+    private function liveCheckoutContext(Request $request): array
+    {
+        $locale = $this->locale($request);
+        $route = BusRoute::where('status', true)->findOrFail($request->integer('route_id'));
+        $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
+        $passengerCount = min(6, max(1, $request->integer('passenger_count', 1)));
+        $tripCode = $request->string('trip_code')->value();
+        $trip = $this->vexere->findTrip($route->from_location, $route->to_location, $date, $locale, $tripCode);
+
+        if (!$trip || $trip['available_seats'] < $passengerCount) {
+            throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
+        }
+
+        return compact('route', 'date', 'passengerCount', 'locale', 'trip');
+    }
+
+    private function reservedSeats(string $tripCode, Carbon $date): array
+    {
+        return BookingSeat::where('trip_code', $tripCode)
+            ->whereDate('travel_date', $date)
+            ->whereHas('booking', fn ($query) => $query->whereIn('status', ['pending', 'confirmed']))
+            ->pluck('seat')
+            ->all();
+    }
+
+    private function availableSeatKeys(array $seatMap): array
+    {
+        return collect($seatMap)
+            ->flatMap(fn (array $coach) => $coach['seats'])
+            ->filter(fn (array $seat) => $seat['available'] && !$seat['locked'])
+            ->pluck('key')
+            ->all();
+    }
+
     private function withAvailability($schedules, Carbon $date, bool $returnLeg = false)
     {
         $ids = $schedules->pluck('id');
@@ -285,6 +439,15 @@ class BookingController extends Controller
         } while (Booking::where('reference', $reference)->exists());
 
         return $reference;
+    }
+
+    private function paymentCode(): string
+    {
+        do {
+            $code = 'ND'.Str::upper(Str::random(8));
+        } while (Booking::where('payment_code', $code)->exists());
+
+        return $code;
     }
 
 }

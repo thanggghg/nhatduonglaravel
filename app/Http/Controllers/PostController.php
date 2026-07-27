@@ -36,8 +36,9 @@ class PostController extends Controller
         return view('posts.index', compact('posts', 'categories', 'locale'));
     }
 
-    public function show($slug)
+    public function show(Request $request, string $slug)
     {
+        $locale = $this->locale($request);
         $post = Post::where('slug', $slug)
             ->where('status', true)
             ->where('published_at', '<=', now())
@@ -48,6 +49,7 @@ class PostController extends Controller
             ->where('published_at', '<=', now())
             ->where('post_category_id', $post->post_category_id)
             ->where('id', '!=', $post->id)
+            ->with('category')
             ->latest('published_at')
             ->take(3)
             ->get();
@@ -57,7 +59,7 @@ class PostController extends Controller
         SEOMeta::setTitle($post->meta_title ?? $post->title);
         SEOMeta::setDescription($post->meta_description ?? $post->summary);
 
-        return view('posts.show', compact('post', 'relatedPosts', 'categories'));
+        return view('posts.show', compact('post', 'relatedPosts', 'categories', 'locale'));
     }
 
     private function locale(Request $request): string

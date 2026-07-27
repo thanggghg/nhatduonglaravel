@@ -100,7 +100,7 @@
                         </div>
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span></div>
                         <div class="departure-action"><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
-                            @if($canBook)<a href="{{ $trip['booking_url'] }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
+                            @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
                     </article>
                 @empty

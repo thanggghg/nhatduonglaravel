@@ -28,6 +28,9 @@ class AdminBookingController extends Controller
         ]);
 
         $booking->update($validated);
+        if ($booking->status === 'cancelled') {
+            $booking->seatReservations()->delete();
+        }
 
         return back()->with('success', 'Booking status updated.');
     }

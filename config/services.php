@@ -38,6 +38,7 @@ return [
     'vexere' => [
         'oauth_url' => env('VEXERE_OAUTH_URL', 'https://account-service.nhaxenhatduong.com/v1/oauth/token'),
         'route_url' => env('VEXERE_ROUTE_URL', 'https://vroute.nhaxenhatduong.com/v2/route'),
+        'trip_url' => env('VEXERE_TRIP_URL', 'https://api.nhaxenhatduong.com/v3/trip'),
         'client_id' => env('VEXERE_CLIENT_ID'),
         'client_secret' => env('VEXERE_CLIENT_SECRET'),
         'company_id' => env('VEXERE_COMPANY_ID', 39221),
@@ -46,6 +47,12 @@ return [
             'Nha Trang' => 417,
             'Cam Ranh' => 32,
         ],
+    ],
+
+    'sepay' => [
+        'base_url' => env('SEPAY_API_URL', 'https://userapi-sandbox.sepay.vn'),
+        'api_token' => env('SEPAY_API_TOKEN'),
+        'webhook_secret' => env('SEPAY_WEBHOOK_SECRET'),
     ],
 
 ];

@@ -9,6 +9,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookingRedirectController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -46,7 +47,14 @@ Route::get('/dat-ve', [BookingRedirectController::class, 'index'])->name('bookin
 Route::get('/dat-ve-truc-tuyen', [BookingController::class, 'search'])->name('booking.search');
 Route::get('/dat-ve/checkout', [BookingController::class, 'checkout'])->name('booking.checkout');
 Route::post('/dat-ve', [BookingController::class, 'store'])->name('booking.store');
+Route::get('/dat-ve/checkout-live', [BookingController::class, 'checkoutLive'])->name('booking.live.checkout');
+Route::get('/dat-ve/checkout-live/seats', [BookingController::class, 'liveSeats'])->name('booking.live.seats');
+Route::post('/dat-ve/live', [BookingController::class, 'storeLive'])->name('booking.live.store');
 Route::get('/dat-ve/hoan-tat/{booking:reference}', [BookingController::class, 'success'])->name('booking.success');
+Route::get('/dat-ve/thanh-toan/{booking:reference}', [PaymentController::class, 'show'])->name('booking.payment.show');
+Route::post('/dat-ve/thanh-toan/{booking:reference}/kiem-tra', [PaymentController::class, 'check'])->name('booking.payment.check');
+Route::get('/dat-ve/thanh-toan/{booking:reference}/trang-thai', [PaymentController::class, 'status'])->name('booking.payment.status');
+Route::post('/payments/sepay/ipn', [PaymentController::class, 'webhook'])->name('payments.sepay.webhook');
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
 
 // Admin Routes

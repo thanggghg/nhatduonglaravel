@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="icon" type="image/png" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
+  <link rel="apple-touch-icon" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
   <title>Nhat Duong | {{ $locale === 'ru' ? 'Автобусы Хошимин - Нячанг' : ($locale === 'vi' ? 'Xe khách Sài Gòn - Nha Trang' : 'Ho Chi Minh City to Nha Trang buses') }}</title>
   <meta name="description" content="{{ $locale === 'ru' ? 'Расписание, места посадки и бронирование автобусов между Хошимином и Нячангом.' : ($locale === 'vi' ? 'Lịch chạy, điểm đón trả và đặt vé xe tuyến Sài Gòn - Nha Trang.' : 'Departures, pickup details, and online booking for buses between Ho Chi Minh City and Nha Trang.') }}">
   <link rel="canonical" href="{{ route('home', ['lang' => $locale]) }}">
