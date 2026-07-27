@@ -10,13 +10,18 @@ class BookingRedirectController extends Controller
 {
     public function redirect(Request $request)
     {
-        $routeId = $request->input('route_id');
-        $bookingUrl = $request->input('booking_url');
-        $sourcePage = $request->input('source_page', 'unknown');
+        $route = Route::findOrFail($request->integer('route_id'));
+        $bookingUrl = $route->booking_url;
+        $sourcePage = $request->string('source_page', 'unknown')->limit(100)->value();
+
+        if (!$bookingUrl || $bookingUrl === 'https://example.com/book' || !filter_var($bookingUrl, FILTER_VALIDATE_URL)) {
+            return redirect()->route('booking.search', ['route_id' => $route->id])
+                ->withErrors(['booking' => 'Online booking is not configured for this route.']);
+        }
 
         // Log booking click
         BookingClickLog::create([
-            'route_id' => $routeId,
+            'route_id' => $route->id,
             'source_page' => $sourcePage,
             'booking_url' => $bookingUrl,
             'ip_address' => $request->ip(),
@@ -29,10 +34,6 @@ class BookingRedirectController extends Controller
 
     public function index()
     {
-        $routes = Route::where('status', true)
-            ->whereNotNull('booking_url')
-            ->get();
-
-        return view('booking.index', compact('routes'));
+        return redirect()->to(route('home', ['lang' => 'en']).'#booking');
     }
 }

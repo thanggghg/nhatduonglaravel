@@ -13,6 +13,7 @@ class Schedule extends Model
         'departure_time',
         'arrival_time',
         'vehicle_type',
+        'bus_type',
         'seat_count',
         'price',
         'status',
@@ -34,5 +35,10 @@ class Schedule extends Model
     public function bookingClickLogs(): HasMany
     {
         return $this->hasMany(BookingClickLog::class);
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 }

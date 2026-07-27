@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'vexere' => [
+        'oauth_url' => env('VEXERE_OAUTH_URL', 'https://account-service.nhaxenhatduong.com/v1/oauth/token'),
+        'route_url' => env('VEXERE_ROUTE_URL', 'https://vroute.nhaxenhatduong.com/v2/route'),
+        'client_id' => env('VEXERE_CLIENT_ID'),
+        'client_secret' => env('VEXERE_CLIENT_SECRET'),
+        'company_id' => env('VEXERE_COMPANY_ID', 39221),
+        'areas' => [
+            'TP. Hồ Chí Minh' => 29,
+            'Nha Trang' => 417,
+            'Cam Ranh' => 32,
+        ],
+    ],
+
 ];

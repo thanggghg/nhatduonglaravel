@@ -19,7 +19,7 @@
 @php
   $copy = [
     'vi' => [
-      'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_pickup' => 'Điểm đón trả', 'nav_help' => 'Hỗ trợ',
+      'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
       'book' => 'Đặt vé', 'hero_kicker' => 'Tuyến xe chất lượng cao', 'hero_title' => 'Đi Sài Gòn - Nha Trang một cách thoải mái, rõ ràng và đúng giờ.',
       'hero_text' => 'Chọn chuyến, xem thông tin minh bạch và nhận xác nhận đặt vé trực tuyến.', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
@@ -27,7 +27,7 @@
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
       'view_departures' => 'Xem giờ khởi hành', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
-      'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'choose' => 'Chọn chuyến',
+      'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'choose' => 'Chọn chuyến', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.',
       'pickup_kicker' => 'Đón trả minh bạch', 'pickup_title' => 'Biết rõ nơi lên xe trước khi khởi hành', 'pickup_text' => 'Xác nhận điểm đón, điểm trả và thời gian có mặt với đội ngũ hỗ trợ trước ngày đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
@@ -38,11 +38,12 @@
       'faq_kicker' => 'Cần hỗ trợ?', 'faq_title' => 'Thông tin trước khi đặt vé', 'faq_1_q' => 'Tôi nên đến điểm đón lúc nào?', 'faq_1_a' => 'Nên có mặt sớm để kiểm tra thông tin và lên xe thuận tiện.',
       'faq_2_q' => 'Tôi có thể hỏi về hành lý hoặc điểm đón không?', 'faq_2_a' => 'Có. Vui lòng liên hệ đội ngũ hỗ trợ trước ngày khởi hành.',
       'faq_3_q' => 'Tôi nhận xác nhận đặt vé ở đâu?', 'faq_3_a' => 'Thông tin xác nhận sẽ được gửi theo phương thức đặt vé của bạn.',
+      'news_kicker' => 'Tin tức mới', 'news_title' => 'Cập nhật cho hành trình tiếp theo', 'news_text' => 'Ưu đãi, thông tin dịch vụ và kinh nghiệm di chuyển từ Nhật Dương.', 'read_news' => 'Xem tất cả tin tức', 'read_article' => 'Đọc bài viết',
       'final_title' => 'Sẵn sàng chọn chuyến đi?', 'final_text' => 'Xem giờ chạy phù hợp và hoàn tất đặt vé trực tuyến.', 'contact' => 'Liên hệ hỗ trợ',
       'footer' => 'Tuyến vận chuyển hành khách Sài Gòn - Nha Trang.',
     ],
     'en' => [
-      'nav_routes' => 'Route', 'nav_schedule' => 'Departures', 'nav_pickup' => 'Pickup & drop-off', 'nav_help' => 'Help',
+      'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
       'book' => 'Book now', 'hero_kicker' => 'Comfort sleeper bus service', 'hero_title' => 'Travel between Ho Chi Minh City and Nha Trang with clarity and comfort.',
       'hero_text' => 'Choose a departure, see the essential trip details, and receive your booking confirmation online.', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
@@ -50,7 +51,7 @@
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
       'view_departures' => 'View departures', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
-      'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'choose' => 'Select departure',
+      'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'choose' => 'Select departure', 'live_unavailable' => 'Live departures are temporarily unavailable.',
       'pickup_kicker' => 'Clear pickup details', 'pickup_title' => 'Know where to board before you travel', 'pickup_text' => 'Confirm your pickup, drop-off, and check-in time with our support team before departure.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
@@ -61,11 +62,12 @@
       'faq_kicker' => 'Need help?', 'faq_title' => 'Before you book', 'faq_1_q' => 'When should I arrive at the pickup point?', 'faq_1_a' => 'Arrive early to check your details and board comfortably.',
       'faq_2_q' => 'Can I ask about luggage or pickup?', 'faq_2_a' => 'Yes. Please contact our support team before your departure date.',
       'faq_3_q' => 'Where will I receive my confirmation?', 'faq_3_a' => 'Your confirmation is sent through the booking method you use.',
+      'news_kicker' => 'Latest news', 'news_title' => 'Updates for your next journey', 'news_text' => 'Offers, service updates, and practical travel guidance from Nhat Duong.', 'read_news' => 'View all news', 'read_article' => 'Read article',
       'final_title' => 'Ready to choose your departure?', 'final_text' => 'See available times and complete your booking online.', 'contact' => 'Contact support',
       'footer' => 'Passenger service between Ho Chi Minh City and Nha Trang.',
     ],
     'ru' => [
-      'nav_routes' => 'Маршрут', 'nav_schedule' => 'Расписание', 'nav_pickup' => 'Посадка и высадка', 'nav_help' => 'Помощь',
+      'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
       'book' => 'Забронировать', 'hero_kicker' => 'Комфортные спальные автобусы', 'hero_title' => 'Путешествуйте между Хошимином и Нячангом комфортно и без лишних вопросов.',
       'hero_text' => 'Выберите рейс, заранее посмотрите основные детали поездки и получите подтверждение онлайн.', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
@@ -73,7 +75,7 @@
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
       'view_departures' => 'Посмотреть рейсы', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
-      'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'choose' => 'Выбрать рейс',
+      'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'choose' => 'Выбрать рейс', 'live_unavailable' => 'Актуальное расписание временно недоступно.',
       'pickup_kicker' => 'Понятная посадка', 'pickup_title' => 'Знайте место посадки до начала поездки', 'pickup_text' => 'Подтвердите место посадки, высадки и время регистрации у команды поддержки до отправления.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
@@ -84,6 +86,7 @@
       'faq_kicker' => 'Нужна помощь?', 'faq_title' => 'Перед бронированием', 'faq_1_q' => 'Когда нужно приехать к месту посадки?', 'faq_1_a' => 'Приезжайте заранее, чтобы спокойно проверить данные и сесть в автобус.',
       'faq_2_q' => 'Можно уточнить багаж или место посадки?', 'faq_2_a' => 'Да. Пожалуйста, свяжитесь с поддержкой до даты отправления.',
       'faq_3_q' => 'Где я получу подтверждение?', 'faq_3_a' => 'Подтверждение отправляется способом, выбранным при бронировании.',
+      'news_kicker' => 'Новые материалы', 'news_title' => 'Обновления для следующей поездки', 'news_text' => 'Предложения, новости сервиса и полезные советы от Nhat Duong.', 'read_news' => 'Все новости', 'read_article' => 'Читать статью',
       'final_title' => 'Готовы выбрать рейс?', 'final_text' => 'Посмотрите доступное время и завершите бронирование онлайн.', 'contact' => 'Связаться с поддержкой',
       'footer' => 'Пассажирские перевозки между Хошимином и Нячангом.',
     ],
@@ -125,20 +128,21 @@
 
 <header class="hn-header">
   <div class="hn-shell hn-nav-wrap">
-    <a class="hn-brand" href="{{ route('home.new', ['lang' => $locale]) }}" aria-label="Nhat Duong home">
+    <a class="hn-brand" href="{{ route('home', ['lang' => $locale]) }}" aria-label="Nhat Duong home">
       <img src="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}" alt="Nhat Duong">
       <span>Nhat Duong</span>
     </a>
     <nav id="hn-desktop-nav" class="hn-nav" aria-label="Primary navigation">
-      <a href="#route">{{ $copy['nav_routes'] }}</a>
-      <a href="#departures">{{ $copy['nav_schedule'] }}</a>
-      <a href="#pickup">{{ $copy['nav_pickup'] }}</a>
-      <a href="#help">{{ $copy['nav_help'] }}</a>
+      <a href="{{ route('routes.index', ['lang' => $locale]) }}">{{ $copy['nav_routes'] }}</a>
+      <a href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['nav_schedule'] }}</a>
+      <a href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['nav_news'] }}</a>
+      <a href="{{ route('about', ['lang' => $locale]) }}">{{ $copy['nav_about'] }}</a>
+      <a href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['nav_contact'] }}</a>
     </nav>
     <div class="hn-actions">
       <div class="hn-locale" aria-label="Language">
         @foreach(['vi' => 'VI', 'en' => 'EN', 'ru' => 'RU'] as $code => $label)
-          <a href="{{ route('home.new', ['lang' => $code]) }}" aria-current="{{ $locale === $code ? 'page' : 'false' }}">{{ $label }}</a>
+          <a href="{{ route('home', ['lang' => $code]) }}" aria-current="{{ $locale === $code ? 'page' : 'false' }}">{{ $label }}</a>
         @endforeach
       </div>
       <a class="hn-button hn-button--primary" href="#booking">{{ $copy['book'] }}</a>
@@ -147,7 +151,7 @@
   </div>
   <nav id="hn-mobile-nav" class="hn-mobile-nav" aria-label="Mobile navigation" hidden>
     <div class="hn-shell">
-      <a href="#route">{{ $copy['nav_routes'] }}</a><a href="#departures">{{ $copy['nav_schedule'] }}</a><a href="#pickup">{{ $copy['nav_pickup'] }}</a><a href="#help">{{ $copy['nav_help'] }}</a><a href="#booking">{{ $copy['book'] }}</a>
+      <a href="{{ route('routes.index', ['lang' => $locale]) }}">{{ $copy['nav_routes'] }}</a><a href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['nav_schedule'] }}</a><a href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['nav_news'] }}</a><a href="{{ route('about', ['lang' => $locale]) }}">{{ $copy['nav_about'] }}</a><a href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['nav_contact'] }}</a><a href="#booking">{{ $copy['book'] }}</a>
     </div>
   </nav>
 </header>
@@ -219,7 +223,7 @@
         <ul class="hn-check-list">
           <li>{{ $copy['daily'] }}</li><li>{{ $copy['luggage'] }}</li><li>{{ $copy['support'] }}</li>
         </ul>
-        <a class="hn-button hn-button--primary" href="#departures">{{ $copy['view_departures'] }}</a>
+        <a class="hn-button hn-button--primary" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['view_departures'] }}</a>
       </div>
     </article>
   </section>
@@ -233,15 +237,15 @@
       </div>
       <div class="hn-schedule" role="region" aria-label="Available departures">
         <div class="hn-schedule__head"><span>{{ $copy['departure'] }}</span><span>{{ $copy['vehicle'] }}</span><span>{{ $copy['price'] }}</span><span></span></div>
-        @forelse($popularSchedules->take(6) as $schedule)
+        @forelse(array_slice($liveSchedules, 0, 6) as $schedule)
         <article class="hn-schedule__row">
-          <strong>{{ $schedule->departure_time->format('H:i') }}</strong>
-          <span>{{ $schedule->vehicle_type ?: $copy['vehicle_default'] }}</span>
-          <span>{{ number_format($schedule->price ?: $route?->price_from ?? 220000) }} VND</span>
-          <a href="{{ route('booking.search', ['route_id' => $schedule->route_id, 'departDate' => now()->format('d-m-Y'), 'lang' => $locale]) }}">{{ $copy['choose'] }}</a>
+          <strong>{{ $schedule['departure']->format('H:i') }}</strong>
+          <span>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</span>
+          <span>{{ number_format($schedule['fare']) }} VND</span>
+          <a href="{{ $schedule['booking_url'] }}">{{ $copy['choose'] }}</a>
         </article>
         @empty
-        <p class="hn-empty">{{ $copy['schedule_text'] }}</p>
+        <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
         @endforelse
       </div>
     </div>
@@ -306,6 +310,36 @@
     </div>
   </section>
 
+  @if($latestPosts->isNotEmpty())
+  <section class="hn-section hn-section--mist" aria-labelledby="news-title">
+    <div class="hn-shell">
+      <div class="hn-section-heading hn-news-heading">
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['news_kicker'] }}</p><h2 id="news-title">{{ $copy['news_title'] }}</h2><p>{{ $copy['news_text'] }}</p></div>
+        <a class="hn-button hn-button--primary" href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['read_news'] }}</a>
+      </div>
+      <div class="hn-news-grid">
+        @foreach($latestPosts as $post)
+        <article class="hn-news-card">
+          <a class="hn-news-card__image" href="{{ route('posts.show', ['slug' => $post->slug, 'lang' => $locale]) }}" aria-label="{{ $post->title }}">
+            @if($post->thumbnail)
+            <img src="{{ asset('storage/'.$post->thumbnail) }}" alt="{{ $post->title }}" loading="lazy">
+            @else
+            <span>{{ $post->category?->name ?? $copy['news_kicker'] }}</span>
+            @endif
+          </a>
+          <div class="hn-news-card__body">
+            <p>{{ $post->published_at?->format('d/m/Y') }}@if($post->category) <span>{{ $post->category->name }}</span>@endif</p>
+            <h3><a href="{{ route('posts.show', ['slug' => $post->slug, 'lang' => $locale]) }}">{{ $post->title }}</a></h3>
+            @if($post->summary)<div>{{ $post->summary }}</div>@endif
+            <a class="hn-news-card__link" href="{{ route('posts.show', ['slug' => $post->slug, 'lang' => $locale]) }}">{{ $copy['read_article'] }}</a>
+          </div>
+        </article>
+        @endforeach
+      </div>
+    </div>
+  </section>
+  @endif
+
   <section class="hn-final" aria-labelledby="final-title">
     <div class="hn-shell hn-final__content"><div><h2 id="final-title">{{ $copy['final_title'] }}</h2><p>{{ $copy['final_text'] }}</p></div><div><a class="hn-button hn-button--gold" href="#booking">{{ $copy['book'] }}</a><a class="hn-contact" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div></div>
   </section>
@@ -331,11 +365,12 @@
   .hn-pickup { display:grid; grid-template-columns:.85fr 1.15fr; gap:72px; align-items:center; } .hn-pickup__visual { min-height:430px; overflow:hidden; border-radius:16px; } .hn-pickup__visual img { width:100%; height:100%; object-fit:cover; } .hn-pickup .hn-lead { color:var(--hn-muted); font-size:16px; } .hn-info-list { display:grid; gap:18px; padding:0; margin:30px 0 0; list-style:none; counter-reset:info; } .hn-info-list li { position:relative; padding-left:52px; counter-increment:info; } .hn-info-list li::before { content:'0' counter(info); position:absolute; left:0; top:0; display:grid; place-items:center; width:34px; height:34px; color:#7b5a00; background:#fef3d7; border-radius:50%; font-size:11px; font-weight:800; } .hn-info-list strong,.hn-info-list span { display:block; } .hn-info-list strong { margin-bottom:4px; color:var(--hn-deep); } .hn-info-list span { color:var(--hn-muted); font-size:14px; line-height:1.55; }
   .hn-stop-groups { display:grid; gap:18px; margin-top:28px; } .hn-stop-group { padding:18px; border:1px solid var(--hn-line); border-radius:12px; background:#fff; } .hn-stop-group h3 { margin-bottom:12px; color:var(--hn-deep); font-size:15px; } .hn-stop-group ul { display:grid; gap:12px; padding:0; margin:0; list-style:none; } .hn-stop-group li { display:grid; gap:3px; } .hn-stop-group strong { color:var(--hn-deep); font-size:14px; } .hn-stop-group span { color:var(--hn-muted); font-size:13px; line-height:1.5; } .hn-stop-group a { color:var(--hn-green); font-size:12px; font-weight:800; text-decoration:none; }
   .hn-policy { padding:34px 0; background:#fef8e8; border-block:1px solid #f0dfb7; } .hn-policy__content { display:grid; grid-template-columns:1fr 1.3fr auto; gap:28px; align-items:center; } .hn-policy p { margin:0; color:var(--hn-muted); font-size:14px; line-height:1.6; } .hn-policy ul { display:grid; gap:8px; padding:0; margin:0; list-style:none; color:#365145; font-size:13px; line-height:1.5; } .hn-policy li::before { content:'✓'; margin-right:8px; color:#9a7000; font-weight:900; }
-  .hn-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:0; margin:0; list-style:none; } .hn-steps li { padding:28px; background:#fff; border:1px solid var(--hn-line); border-radius:16px; } .hn-steps span { color:#9a7000; font-size:12px; font-weight:800; letter-spacing:.1em; } .hn-steps h3 { margin:20px 0 9px; color:var(--hn-deep); font-size:20px; } .hn-steps p { margin:0; color:var(--hn-muted); font-size:14px; line-height:1.6; }
-  .hn-faq { border-top:1px solid var(--hn-line); } .hn-faq details { padding:20px 0; border-bottom:1px solid var(--hn-line); } .hn-faq summary { cursor:pointer; color:var(--hn-deep); font-size:16px; font-weight:700; } .hn-faq p { max-width:750px; margin:12px 0 0; color:var(--hn-muted); line-height:1.6; }
-  .hn-final { padding:68px 0; color:#fff; background:var(--hn-deep); } .hn-final__content { display:flex; align-items:center; justify-content:space-between; gap:28px; } .hn-final h2 { margin-bottom:10px; color:#fff; } .hn-final p { margin:0; color:rgba(255,255,255,.75); } .hn-final__content>div:last-child { display:flex; align-items:center; gap:18px; } .hn-final .hn-contact { color:#fff; font-weight:700; } .hn-footer { padding:24px 0; color:#6c7f74; background:#fff; font-size:13px; } .hn-footer .hn-shell { display:flex; justify-content:space-between; gap:16px; }
-  @media (max-width:900px) { .hn-nav { display:none; } .hn-menu-button { display:block; } .hn-booking__fields { grid-template-columns:1fr 1fr; } .hn-booking__fields .hn-button { grid-column:span 2; } .hn-route-card,.hn-pickup { grid-template-columns:1fr; } .hn-route-card>img { min-height:280px; } .hn-pickup { gap:32px; } .hn-pickup__visual { min-height:280px; } .hn-steps { grid-template-columns:1fr; } .hn-policy__content { grid-template-columns:1fr; } }
-  @media (max-width:620px) { .hn-shell { width:min(100% - 28px, 1160px); } .hn-nav-wrap { min-height:62px; } .hn-actions .hn-button { display:none; } .hn-brand span { display:none; } .hn-hero { min-height:640px; } .hn-hero__overlay { background:rgba(4,35,22,.72); } .hn-hero__content { padding:66px 0 32px; } h1 { font-size:38px; } .hn-booking fieldset { padding:15px; } .hn-booking__fields { grid-template-columns:1fr; } .hn-booking__fields .hn-button { grid-column:auto; } .hn-trust { gap:12px; font-size:12px; } .hn-section { padding:68px 0; } .hn-route-card__content { padding:25px; } .hn-route-card dl { grid-template-columns:1fr; gap:14px; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; padding:17px; } .hn-schedule__row a { grid-column:span 2; } .hn-footer .hn-shell,.hn-final__content,.hn-final__content>div:last-child { align-items:flex-start; flex-direction:column; } }
+   .hn-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; padding:0; margin:0; list-style:none; } .hn-steps li { padding:28px; background:#fff; border:1px solid var(--hn-line); border-radius:16px; } .hn-steps span { color:#9a7000; font-size:12px; font-weight:800; letter-spacing:.1em; } .hn-steps h3 { margin:20px 0 9px; color:var(--hn-deep); font-size:20px; } .hn-steps p { margin:0; color:var(--hn-muted); font-size:14px; line-height:1.6; }
+   .hn-faq { border-top:1px solid var(--hn-line); } .hn-faq details { padding:20px 0; border-bottom:1px solid var(--hn-line); } .hn-faq summary { cursor:pointer; color:var(--hn-deep); font-size:16px; font-weight:700; } .hn-faq p { max-width:750px; margin:12px 0 0; color:var(--hn-muted); line-height:1.6; }
+   .hn-news-heading { display:flex; align-items:end; justify-content:space-between; gap:24px; max-width:none; } .hn-news-heading>div { max-width:700px; } .hn-news-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; } .hn-news-card { overflow:hidden; background:#fff; border:1px solid var(--hn-line); border-radius:14px; box-shadow:0 8px 22px rgba(11,127,66,.06); } .hn-news-card__image { display:grid; height:170px; place-items:center; overflow:hidden; color:#7b5a00; background:linear-gradient(135deg,#e7f4e9,#fdf1ce); text-align:center; text-decoration:none; } .hn-news-card__image img { width:100%; height:100%; object-fit:cover; transition:transform .2s ease; } .hn-news-card:hover .hn-news-card__image img { transform:scale(1.04); } .hn-news-card__image span { padding:18px; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; } .hn-news-card__body { display:flex; min-height:224px; flex-direction:column; padding:18px; } .hn-news-card__body>p { display:flex; justify-content:space-between; gap:8px; margin:0 0 9px; color:var(--hn-muted); font-size:11px; font-weight:700; } .hn-news-card__body>p span { color:var(--hn-green); } .hn-news-card h3 { margin:0 0 9px; font-size:17px; line-height:1.3; } .hn-news-card h3 a { color:var(--hn-deep); text-decoration:none; } .hn-news-card__body>div { display:-webkit-box; overflow:hidden; margin:0 0 14px; color:var(--hn-muted); font-size:13px; line-height:1.55; -webkit-box-orient:vertical; -webkit-line-clamp:2; } .hn-news-card__link { margin-top:auto; color:var(--hn-green); font-size:13px; font-weight:800; text-decoration:none; }
+   .hn-final { padding:68px 0; color:#fff; background:var(--hn-deep); } .hn-final__content { display:flex; align-items:center; justify-content:space-between; gap:28px; } .hn-final h2 { margin-bottom:10px; color:#fff; } .hn-final p { margin:0; color:rgba(255,255,255,.75); } .hn-final__content>div:last-child { display:flex; align-items:center; gap:18px; } .hn-final .hn-contact { color:#fff; font-weight:700; } .hn-footer { padding:24px 0; color:#6c7f74; background:#fff; font-size:13px; } .hn-footer .hn-shell { display:flex; justify-content:space-between; gap:16px; }
+   @media (max-width:900px) { .hn-nav { display:none; } .hn-menu-button { display:block; } .hn-booking__fields { grid-template-columns:1fr 1fr; } .hn-booking__fields .hn-button { grid-column:span 2; } .hn-route-card,.hn-pickup { grid-template-columns:1fr; } .hn-route-card>img { min-height:280px; } .hn-pickup { gap:32px; } .hn-pickup__visual { min-height:280px; } .hn-steps { grid-template-columns:1fr; } .hn-policy__content { grid-template-columns:1fr; } .hn-news-grid { grid-template-columns:repeat(2,1fr); } }
+   @media (max-width:620px) { .hn-shell { width:min(100% - 28px, 1160px); } .hn-nav-wrap { min-height:62px; } .hn-actions .hn-button { display:none; } .hn-brand span { display:none; } .hn-hero { min-height:640px; } .hn-hero__overlay { background:rgba(4,35,22,.72); } .hn-hero__content { padding:66px 0 32px; } h1 { font-size:38px; } .hn-booking fieldset { padding:15px; } .hn-booking__fields { grid-template-columns:1fr; } .hn-booking__fields .hn-button { grid-column:auto; } .hn-trust { gap:12px; font-size:12px; } .hn-section { padding:68px 0; } .hn-route-card__content { padding:25px; } .hn-route-card dl { grid-template-columns:1fr; gap:14px; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; padding:17px; } .hn-schedule__row a { grid-column:span 2; } .hn-news-heading { align-items:flex-start; flex-direction:column; } .hn-news-grid { grid-template-columns:1fr; } .hn-news-card__image { height:200px; } .hn-footer .hn-shell,.hn-final__content,.hn-final__content>div:last-child { align-items:flex-start; flex-direction:column; } }
   @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; animation-duration:.01ms!important; animation-iteration-count:1!important; } }
 </style>
 <script>

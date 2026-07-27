@@ -4,185 +4,39 @@
 @php
     $locale = $locale ?? 'en';
     $copy = [
-        'vi' => ['home' => 'Trang chủ', 'contact' => 'Liên hệ', 'title' => 'Liên Hệ Với Chúng Tôi', 'intro' => 'Hãy để lại thông tin, chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất', 'message' => 'Gửi Tin Nhắn', 'name' => 'Họ và tên', 'phone' => 'Số điện thoại', 'email' => 'Email', 'content' => 'Nội dung', 'send' => 'Gửi Tin Nhắn', 'details' => 'Thông Tin Liên Hệ', 'address' => 'Địa Chỉ', 'hours' => 'Giờ Làm Việc', 'available' => 'Hỗ trợ khách hàng mọi lúc', 'social' => 'Kết nối với chúng tôi', 'social_text' => 'Theo dõi để cập nhật tin tức và khuyến mãi mới nhất', 'map' => 'Bản đồ sẽ được hiển thị tại đây'],
-        'en' => ['home' => 'Home', 'contact' => 'Contact support', 'title' => 'Contact Our Support Team', 'intro' => 'Leave your details and our team will respond as soon as possible.', 'message' => 'Send a message', 'name' => 'Full name', 'phone' => 'Phone number', 'email' => 'Email', 'content' => 'Message', 'send' => 'Send message', 'details' => 'Contact details', 'address' => 'Address', 'hours' => 'Working hours', 'available' => 'Customer support is available 24/7', 'social' => 'Connect with us', 'social_text' => 'Follow us for service news and latest offers', 'map' => 'Map details will be available here'],
-        'ru' => ['home' => 'Главная', 'contact' => 'Связаться с поддержкой', 'title' => 'Связаться с нашей поддержкой', 'intro' => 'Оставьте свои данные, и наша команда ответит вам как можно скорее.', 'message' => 'Отправить сообщение', 'name' => 'Имя и фамилия', 'phone' => 'Номер телефона', 'email' => 'Email', 'content' => 'Сообщение', 'send' => 'Отправить сообщение', 'details' => 'Контактная информация', 'address' => 'Адрес', 'hours' => 'Часы работы', 'available' => 'Поддержка клиентов доступна 24/7', 'social' => 'Связаться с нами', 'social_text' => 'Следите за новостями сервиса и актуальными предложениями', 'map' => 'Здесь будет доступна информация о карте'],
+        'vi' => ['home' => 'Trang chủ', 'crumb' => 'Liên hệ', 'eyebrow' => 'HỖ TRỢ NHẬT DƯƠNG', 'title' => 'Chúng tôi luôn sẵn sàng hỗ trợ.', 'intro' => 'Bạn cần hỏi về lịch chạy, điểm đón hay đặt vé? Gọi hotline hoặc gửi thông tin để đội ngũ liên hệ lại.', 'formTitle' => 'Gửi yêu cầu hỗ trợ', 'formText' => 'Điền thông tin bên dưới. Chúng tôi sẽ phản hồi sớm nhất có thể.', 'name' => 'Họ và tên', 'phone' => 'Số điện thoại', 'email' => 'Email', 'message' => 'Nội dung cần hỗ trợ', 'send' => 'Gửi yêu cầu', 'sending' => 'Đang gửi yêu cầu...', 'required' => 'Bắt buộc', 'details' => 'Liên hệ trực tiếp', 'hotline' => 'Hotline đặt vé', 'hotlineText' => 'Hỗ trợ khách hàng mỗi ngày', 'emailLabel' => 'Email hỗ trợ', 'offices' => 'Văn phòng', 'officesText' => 'Điểm hỗ trợ tại TP. Hồ Chí Minh, Nha Trang và Cam Ranh', 'successTitle' => 'Yêu cầu đã được gửi', 'call' => 'Gọi 1900 2879'],
+        'en' => ['home' => 'Home', 'crumb' => 'Contact', 'eyebrow' => 'NHAT DUONG SUPPORT', 'title' => 'We are ready to help.', 'intro' => 'Questions about departures, pickup points, or booking? Call our hotline or send your details and our team will get back to you.', 'formTitle' => 'Send a support request', 'formText' => 'Share your details below and we will respond as soon as possible.', 'name' => 'Full name', 'phone' => 'Phone number', 'email' => 'Email', 'message' => 'How can we help?', 'send' => 'Send request', 'sending' => 'Sending request...', 'required' => 'Required', 'details' => 'Contact us directly', 'hotline' => 'Booking hotline', 'hotlineText' => 'Customer support every day', 'emailLabel' => 'Support email', 'offices' => 'Our offices', 'officesText' => 'Support points in Ho Chi Minh City, Nha Trang, and Cam Ranh', 'successTitle' => 'Your request was sent', 'call' => 'Call 1900 2879'],
+        'ru' => ['home' => 'Главная', 'crumb' => 'Контакты', 'eyebrow' => 'ПОДДЕРЖКА NHAT DUONG', 'title' => 'Мы готовы помочь.', 'intro' => 'Нужна информация о расписании, посадке или бронировании? Позвоните на горячую линию или оставьте заявку.', 'formTitle' => 'Отправить запрос', 'formText' => 'Оставьте свои данные, и мы ответим как можно скорее.', 'name' => 'Имя и фамилия', 'phone' => 'Номер телефона', 'email' => 'Email', 'message' => 'Чем можем помочь?', 'send' => 'Отправить запрос', 'sending' => 'Отправляем запрос...', 'required' => 'Обязательное поле', 'details' => 'Свяжитесь с нами', 'hotline' => 'Горячая линия', 'hotlineText' => 'Поддержка клиентов каждый день', 'emailLabel' => 'Email поддержки', 'offices' => 'Наши офисы', 'officesText' => 'Пункты поддержки в Хошимине, Нячанге и Камрани', 'successTitle' => 'Запрос отправлен', 'call' => 'Позвонить: 1900 2879'],
     ][$locale];
+    $hotline = $settings['hotline'] ?? '1900 2879';
+    $email = $settings['email'] ?? '';
+    $addressLines = array_filter(array_map(fn ($line) => trim(str_replace('▪️', '', $line)), preg_split('/\r\n|\r|\n/', $settings['address'] ?? '')));
 @endphp
-<!-- Breadcrumb -->
-<div class="bg-[#f8fdf9] py-6">
-    <div class="container mx-auto px-4">
-        <nav class="text-sm">
-            <a href="{{ route('home', ['lang' => $locale]) }}" class="text-gray-600 hover:text-brand-green">{{ $copy['home'] }}</a>
-            <span class="text-gray-400 mx-2">/</span>
-            <span class="text-gray-900 font-semibold">{{ $copy['contact'] }}</span>
-        </nav>
-    </div>
+
+<style>
+    .contact-page{min-height:70vh;background:#f5f8f4;color:#173d2b}.contact-container{width:min(1080px,calc(100% - 40px));margin:0 auto}.contact-hero{position:relative;overflow:hidden;padding:18px 0 57px;background:radial-gradient(circle at 81% 18%,rgba(249,178,26,.23),transparent 22%),linear-gradient(125deg,#052b1a,#087a44);color:#fff}.contact-hero:after{position:absolute;right:-104px;bottom:-192px;width:400px;height:400px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.035),0 0 0 76px rgba(255,255,255,.025);content:''}.contact-crumb{position:relative;z-index:1;display:flex;gap:8px;color:rgba(255,255,255,.66);font-size:13px}.contact-crumb a{color:#fff;font-weight:750;text-decoration:none}.contact-hero__content{position:relative;z-index:1;max-width:675px;margin-top:45px}.contact-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.contact-eyebrow:before{width:27px;height:2px;background:#f9b21a;content:''}.contact-hero h1{margin:14px 0 12px;color:#fff;font-size:clamp(38px,5.5vw,61px);font-weight:900;letter-spacing:-.06em;line-height:1}.contact-hero p{margin:0;color:rgba(255,255,255,.78);font-size:17px;line-height:1.65}.contact-main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:22px;padding:48px 0 67px}.contact-form-card,.contact-details{padding:28px;border:1px solid #d9e7dd;border-radius:16px;background:#fff;box-shadow:0 8px 21px rgba(10,71,40,.05)}.contact-form-card h2,.contact-details h2{margin:0;color:#173d2b;font-size:25px;font-weight:900;letter-spacing:-.035em}.contact-form-card>p{margin:8px 0 25px;color:#648071;line-height:1.55}.contact-form{display:grid;gap:16px}.contact-field{display:grid;gap:7px}.contact-field label{display:flex;justify-content:space-between;gap:12px;color:#385b4a;font-size:12px;font-weight:900}.contact-field label span{color:#73887c;font-size:10px;font-weight:800;text-transform:uppercase}.contact-field input,.contact-field textarea{width:100%;box-sizing:border-box;border:1px solid #cbdacf;border-radius:8px;background:#fff;color:#173d2b;font:600 14px Inter,sans-serif;transition:border-color .18s,box-shadow .18s}.contact-field input{height:45px;padding:0 12px}.contact-field textarea{min-height:125px;padding:12px;resize:vertical}.contact-field input:focus,.contact-field textarea:focus{border-color:#0b7f42;outline:none;box-shadow:0 0 0 3px rgba(11,127,66,.13)}.contact-error{margin:0;color:#b42318;font-size:12px;font-weight:750}.contact-submit{display:inline-flex;align-items:center;justify-content:center;min-height:47px;margin-top:4px;border:0;border-radius:9px;background:#0b7f42;color:#fff;font:900 14px Inter,sans-serif;cursor:pointer;transition:background .18s,transform .18s}.contact-submit:hover{background:#075d35;transform:translateY(-1px)}.contact-submit:disabled{cursor:not-allowed;opacity:.72;transform:none}.contact-submit:focus-visible,.contact-phone:focus-visible,.contact-email:focus-visible{outline:3px solid #f9b21a;outline-offset:3px}.contact-success{margin:0 0 20px;padding:13px 14px;border:1px solid #cce5d3;border-radius:9px;background:#e9f6ed;color:#087841}.contact-success strong,.contact-success span{display:block}.contact-success strong{margin-bottom:3px;font-size:13px}.contact-success span{font-size:13px;line-height:1.5}.contact-side{display:grid;align-content:start;gap:14px}.contact-details h2{margin-bottom:21px}.contact-item{display:grid;grid-template-columns:42px minmax(0,1fr);gap:13px;padding:15px 0;border-top:1px solid #e3ede6}.contact-item:first-of-type{padding-top:0;border-top:0}.contact-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#e7f5ea;color:#087841}.contact-icon svg{width:20px;height:20px}.contact-item h3{margin:0 0 4px;color:#173d2b;font-size:14px;font-weight:900}.contact-item p{margin:0;color:#668073;font-size:13px;line-height:1.55}.contact-phone,.contact-email{color:#087841;font-size:18px;font-weight:900;text-decoration:none}.contact-email{font-size:13px;word-break:break-word}.contact-offices{padding:22px;border-radius:16px;background:linear-gradient(145deg,#063c25,#0b7f42);color:#fff}.contact-offices h2{margin:0 0 7px;font-size:20px;font-weight:900}.contact-offices>p{margin:0 0 15px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.5}.contact-office-list{display:grid;gap:9px}.contact-office-list span{padding:10px 11px;border:1px solid rgba(255,255,255,.13);border-radius:8px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.88);font-size:12px;line-height:1.45}.contact-callout{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:2px;padding:17px 19px;border:1px solid #d7e9dc;border-radius:12px;background:#edf7ef}.contact-callout strong{display:block;font-size:14px}.contact-callout span{display:block;margin-top:3px;color:#638071;font-size:12px}.contact-callout a{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;min-height:40px;padding:0 13px;border-radius:8px;background:#f9b21a;color:#483100;font-size:12px;font-weight:900;text-decoration:none}@media(max-width:780px){.contact-main{grid-template-columns:1fr}.contact-side{grid-template-columns:1fr 1fr}.contact-callout{grid-column:1/-1}}@media(max-width:560px){.contact-container{width:min(100% - 28px,1080px)}.contact-hero{padding-bottom:48px}.contact-hero__content{margin-top:34px}.contact-hero h1{font-size:42px}.contact-main{gap:14px;padding:35px 0 48px}.contact-form-card,.contact-details{padding:21px}.contact-side{grid-template-columns:1fr}.contact-callout{display:grid}.contact-callout a{width:100%;box-sizing:border-box}.contact-offices{padding:21px}}@media(prefers-reduced-motion:reduce){.contact-field input,.contact-field textarea,.contact-submit{transition:none}.contact-submit:hover{transform:none}}
+</style>
+
+<div class="contact-page">
+    <header class="contact-hero"><div class="contact-container"><nav class="contact-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="contact-hero__content"><span class="contact-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div></div></header>
+    <main class="contact-container contact-main"><section class="contact-form-card" aria-labelledby="contact-form-title"><h2 id="contact-form-title">{{ $copy['formTitle'] }}</h2><p>{{ $copy['formText'] }}</p>@if(session('success'))<div class="contact-success" role="status"><strong>{{ $copy['successTitle'] }}</strong><span>{{ session('success') }}</span></div>@endif<form id="contact-form" method="POST" action="{{ route('contact.store') }}" class="contact-form">@csrf<input type="hidden" name="lang" value="{{ $locale }}"><div class="contact-field"><label for="name">{{ $copy['name'] }} <span>{{ $copy['required'] }}</span></label><input id="name" name="name" value="{{ old('name') }}" autocomplete="name" required>@error('name')<p class="contact-error">{{ $message }}</p>@enderror</div><div class="contact-field"><label for="phone">{{ $copy['phone'] }} <span>{{ $copy['required'] }}</span></label><input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel" required>@error('phone')<p class="contact-error">{{ $message }}</p>@enderror</div><div class="contact-field"><label for="email">{{ $copy['email'] }}</label><input id="email" type="email" name="email" value="{{ old('email') }}" autocomplete="email">@error('email')<p class="contact-error">{{ $message }}</p>@enderror</div><div class="contact-field"><label for="message">{{ $copy['message'] }} <span>{{ $copy['required'] }}</span></label><textarea id="message" name="message" required>{{ old('message') }}</textarea>@error('message')<p class="contact-error">{{ $message }}</p>@enderror</div><button class="contact-submit" type="submit" data-sending="{{ $copy['sending'] }}">{{ $copy['send'] }}</button></form></section>
+        <aside class="contact-side"><section class="contact-details"><h2>{{ $copy['details'] }}</h2><div class="contact-item"><span class="contact-icon" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></span><div><h3>{{ $copy['hotline'] }}</h3><a class="contact-phone" href="tel:{{ preg_replace('/\s+/', '', $hotline) }}">{{ $hotline }}</a><p>{{ $copy['hotlineText'] }}</p></div></div><div class="contact-item"><span class="contact-icon" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span><div><h3>{{ $copy['emailLabel'] }}</h3>@if($email)<a class="contact-email" href="mailto:{{ $email }}">{{ $email }}</a>@endif</div></div></section><section class="contact-offices"><h2>{{ $copy['offices'] }}</h2><p>{{ $copy['officesText'] }}</p><div class="contact-office-list">@foreach($addressLines as $line)<span>{{ $line }}</span>@endforeach</div></section><div class="contact-callout"><div><strong>{{ $copy['hotline'] }}</strong><span>{{ $copy['hotlineText'] }}</span></div><a href="tel:{{ preg_replace('/\s+/', '', $hotline) }}">{{ $copy['call'] }}</a></div></aside>
+    </main>
 </div>
-
-<!-- Page Header -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{{ $copy['title'] }}</h1>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">{{ $copy['intro'] }}</p>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section class="py-12 bg-[#f8fdf9]">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Contact Form -->
-            <div class="bg-white rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $copy['message'] }}</h2>
-                
-                @if(session('success'))
-                    <div class="mb-6 bg-[#e8f8ef] border-l-4 border-brand-green text-brand-green p-4 rounded">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <span class="font-semibold">{{ session('success') }}</span>
-                        </div>
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('contact.store') }}" class="space-y-6">
-                    @csrf
-                    <input type="hidden" name="lang" value="{{ $locale }}">
-                    
-                    <div>
-                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['name'] }} <span class="text-red-500">*</span></label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('name') border-red-500 @enderror">
-                        @error('name')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['phone'] }} <span class="text-red-500">*</span></label>
-                        <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('phone') border-red-500 @enderror">
-                        @error('phone')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['email'] }}</label>
-                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('email') border-red-500 @enderror">
-                        @error('email')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">{{ $copy['content'] }} <span class="text-red-500">*</span></label>
-                        <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent @error('message') border-red-500 @enderror">{{ old('message') }}</textarea>
-                        @error('message')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="w-full bg-brand-green text-white py-4 rounded-lg font-semibold hover:bg-[#096b39] transition-colors">
-                        {{ $copy['send'] }}
-                    </button>
-                </form>
-            </div>
-
-            <!-- Contact Info -->
-            <div>
-                <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $copy['details'] }}</h2>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">{{ $copy['address'] }}</h3>
-                                <p class="text-gray-600">{{ $settings['address'] ?? '' }}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Hotline</h3>
-                                <a href="tel:{{ preg_replace('/\s+/', '', $settings['hotline'] ?? '') }}" class="text-brand-green hover:text-[#096b39] font-semibold text-lg">{{ $settings['hotline'] ?? '' }}</a>
-                                <p class="text-gray-500 text-sm mt-1">{{ $copy['available'] }}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
-                                <a href="mailto:{{ $settings['email'] ?? '' }}" class="text-brand-green hover:text-[#096b39]">{{ $settings['email'] ?? '' }}</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-brand-green rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-gray-900 mb-1">{{ $copy['hours'] }}</h3>
-                                <p class="text-gray-600">{{ $copy['available'] }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Social Links -->
-                <div class="bg-gradient-to-br from-[--color-brand-green] to-[#096b39] rounded-2xl shadow-lg p-8 text-white">
-                    <h3 class="text-xl font-bold mb-4">{{ $copy['social'] }}</h3>
-                    <p class="text-gray-100 mb-6">{{ $copy['social_text'] }}</p>
-                    <div class="flex gap-3">
-                        <a href="#" class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition-colors">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Map Section (Optional) -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-        <div class="bg-gray-200 rounded-2xl overflow-hidden" style="height: 400px;">
-            <!-- Embed Google Map here -->
-            <div class="w-full h-full flex items-center justify-center text-gray-500">
-                <div class="text-center">
-                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                    </svg>
-                    <p class="text-gray-600">{{ $copy['map'] }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 @endsection
+
+@push('scripts')
+<script>
+    (() => {
+        const form = document.getElementById('contact-form');
+        if (!form) return;
+        form.addEventListener('submit', () => {
+            const button = form.querySelector('button[type="submit"]');
+            if (button && !button.disabled) {
+                button.disabled = true;
+                button.textContent = button.dataset.sending;
+            }
+        });
+    })();
+</script>
+@endpush

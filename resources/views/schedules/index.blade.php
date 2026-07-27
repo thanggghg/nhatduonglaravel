@@ -1,132 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Breadcrumb -->
-<div class="bg-[#f8fdf9] py-6">
-    <div class="container mx-auto px-4">
-        <nav class="text-sm">
-            <a href="{{ route('home') }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
-            <span class="text-gray-400 mx-2">/</span>
-            <span class="text-gray-900 font-semibold">Lịch Trình</span>
-        </nav>
-    </div>
-</div>
+@php
+    $copy = [
+        'vi' => ['home' => 'Trang chủ', 'crumb' => 'Lịch trình', 'eyebrow' => 'CẬP NHẬT TRỰC TUYẾN', 'title' => 'Lịch chạy hôm nay', 'intro' => 'Giờ chạy, giá vé và số ghế được lấy trực tiếp từ hệ thống đặt vé.', 'date' => 'Ngày khởi hành', 'route' => 'Tuyến xe', 'allRoutes' => 'Tất cả các tuyến', 'search' => 'Xem lịch chạy', 'live' => 'Dữ liệu trực tuyến', 'departure' => 'Khởi hành', 'arrival' => 'Đến nơi', 'duration' => 'Thời gian', 'vehicle' => 'Loại xe', 'seats' => 'chỗ trống', 'fare' => 'Giá vé', 'book' => 'Đặt chuyến này', 'soldOut' => 'Hết chỗ', 'emptyTitle' => 'Chưa có chuyến phù hợp', 'emptyText' => 'Hãy đổi ngày hoặc tuyến xe để xem lịch chạy trực tuyến.', 'apiError' => 'Hiện chưa thể tải lịch chạy trực tuyến. Vui lòng thử lại sau.', 'notice' => 'Lịch chạy và giá vé được cập nhật trực tiếp. Số ghế được xác nhận khi bạn tiếp tục đặt vé.', 'to' => 'đến', 'hours' => 'giờ', 'minutes' => 'phút'],
+        'en' => ['home' => 'Home', 'crumb' => 'Schedule', 'eyebrow' => 'LIVE AVAILABILITY', 'title' => 'Live departure schedule', 'intro' => 'Departure times, fares, and seat availability come directly from our booking provider.', 'date' => 'Departure date', 'route' => 'Route', 'allRoutes' => 'All routes', 'search' => 'View departures', 'live' => 'Live data', 'departure' => 'Departure', 'arrival' => 'Arrival', 'duration' => 'Duration', 'vehicle' => 'Vehicle', 'seats' => 'seats available', 'fare' => 'Fare', 'book' => 'Book this trip', 'soldOut' => 'Sold out', 'emptyTitle' => 'No matching departures', 'emptyText' => 'Try another date or route to see live departures.', 'apiError' => 'Live departures are temporarily unavailable. Please try again shortly.', 'notice' => 'Departure times and fares are updated live. Availability is confirmed when you continue to booking.', 'to' => 'to', 'hours' => 'hr', 'minutes' => 'min'],
+        'ru' => ['home' => 'Главная', 'crumb' => 'Расписание', 'eyebrow' => 'АКТУАЛЬНЫЕ ДАННЫЕ', 'title' => 'Актуальное расписание', 'intro' => 'Время отправления, стоимость и наличие мест поступают напрямую из системы бронирования.', 'date' => 'Дата отправления', 'route' => 'Маршрут', 'allRoutes' => 'Все маршруты', 'search' => 'Посмотреть рейсы', 'live' => 'Актуальные данные', 'departure' => 'Отправление', 'arrival' => 'Прибытие', 'duration' => 'В пути', 'vehicle' => 'Автобус', 'seats' => 'мест доступно', 'fare' => 'Стоимость', 'book' => 'Забронировать', 'soldOut' => 'Нет мест', 'emptyTitle' => 'Подходящих рейсов нет', 'emptyText' => 'Выберите другую дату или маршрут, чтобы увидеть актуальные рейсы.', 'apiError' => 'Актуальное расписание временно недоступно. Попробуйте позже.', 'notice' => 'Расписание и цены обновляются напрямую. Наличие мест подтверждается при переходе к бронированию.', 'to' => 'в', 'hours' => 'ч', 'minutes' => 'мин'],
+    ][$locale];
+    $places = ['TP. Hồ Chí Minh' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'], 'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань']];
+    $place = fn (string $name) => $locale === 'vi' ? $name : ($places[$name][$locale] ?? $name);
+    $routeName = fn (array $route) => $place($route['from']).' '.$copy['to'].' '.$place($route['to']);
+    $duration = function ($minutes) use ($copy): string {
+        $minutes = (int) $minutes;
+        if (!$minutes) return '---';
+        if ($minutes < 60) return $minutes.' '.$copy['minutes'];
+        return intdiv($minutes, 60).' '.$copy['hours'].($minutes % 60 ? ' '.($minutes % 60).' '.$copy['minutes'] : '');
+    };
+@endphp
 
-<!-- Page Header -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Lịch Trình Tham Khảo</h1>
-        <p class="text-xl text-gray-600">Xem lịch trình các chuyến xe để lựa chọn giờ khởi hành phù hợp</p>
-    </div>
-</section>
+<style>
+    .live-schedule{min-height:70vh;background:#f4f8f5;color:#153d2b}.schedule-container{width:min(1100px,calc(100% - 32px));margin:0 auto}.schedule-hero{padding:18px 0 44px;background:radial-gradient(circle at 83% 18%,rgba(249,178,26,.2),transparent 23%),linear-gradient(125deg,#052b1a,#087943);color:#fff}.schedule-crumb{display:flex;gap:8px;color:rgba(255,255,255,.66);font-size:13px}.schedule-crumb a{color:#fff;font-weight:750;text-decoration:none}.schedule-hero__content{display:flex;align-items:end;justify-content:space-between;gap:26px;margin-top:40px}.schedule-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.schedule-eyebrow:before{width:24px;height:2px;background:#f9b21a;content:''}.schedule-hero h1{margin:12px 0 9px;color:#fff;font-size:clamp(34px,5vw,53px);font-weight:900;letter-spacing:-.05em;line-height:1.03}.schedule-hero p{max-width:610px;margin:0;color:rgba(255,255,255,.76);font-size:16px;line-height:1.6}.schedule-live-badge{display:grid;gap:4px;min-width:150px;padding:13px 15px;border:1px solid rgba(255,255,255,.2);border-radius:11px;background:rgba(255,255,255,.08)}.schedule-live-badge span{color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.schedule-live-badge strong{font-size:13px}.schedule-filter{position:relative;margin-top:-20px}.schedule-filter form{display:grid;grid-template-columns:minmax(145px,.65fr) minmax(180px,1fr) auto;gap:12px;align-items:end;padding:17px;border:1px solid #d8e7dc;border-radius:14px;background:#fff;box-shadow:0 12px 26px rgba(5,54,31,.1)}.schedule-field{display:grid;gap:6px}.schedule-field label{color:#567162;font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.schedule-field input,.schedule-field select{width:100%;height:44px;padding:0 11px;border:1px solid #c9d9ce;border-radius:8px;background:#fff;color:#173d2b;font:700 14px Inter,sans-serif}.schedule-filter button,.schedule-card__action{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 17px;border:0;border-radius:8px;background:#0b7f42;color:#fff;font:900 13px Inter,sans-serif;text-decoration:none;cursor:pointer;transition:background .18s,transform .18s}.schedule-filter button:hover,.schedule-card__action:hover{background:#075d35;transform:translateY(-1px)}.schedule-filter button:focus-visible,.schedule-card__action:focus-visible{outline:3px solid #f9b21a;outline-offset:3px}.schedule-results{padding:42px 0 62px}.schedule-results__head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}.schedule-results__head h2{margin:0;font-size:25px;font-weight:900;letter-spacing:-.03em}.schedule-results__head span{display:inline-flex;align-items:center;gap:7px;color:#087841;font-size:12px;font-weight:900}.schedule-results__head span:before{width:7px;height:7px;border-radius:50%;background:#0b7f42;content:''}.schedule-notice{margin:0 0 18px;padding:12px 14px;border:1px solid #cfe5d4;border-radius:10px;background:#e9f5eb;color:#486c57;font-size:13px;line-height:1.5}.schedule-alert{margin:0 0 18px;padding:13px 14px;border:1px solid #f2c8b3;border-radius:10px;background:#fff4ef;color:#9a3412;font-size:14px;font-weight:750}.schedule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.schedule-card{display:grid;grid-template-columns:92px minmax(0,1fr);gap:17px;padding:18px;border:1px solid #d8e7dc;border-radius:15px;background:#fff;box-shadow:0 5px 16px rgba(10,71,40,.045)}.schedule-time{display:grid;align-content:start;justify-items:center;gap:4px;padding-right:15px;border-right:1px solid #e2ede5}.schedule-time strong{font-size:25px;letter-spacing:-.05em}.schedule-time span{color:#668073;font-size:10px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.schedule-card__main{min-width:0}.schedule-card__route{margin:0;color:#163d2b;font-size:16px;font-weight:900;line-height:1.3}.schedule-card__route span{color:#0b7f42;font-weight:700}.schedule-card__stops{overflow:hidden;margin:6px 0 13px;color:#668073;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.schedule-card__stops b{color:#0b7f42}.schedule-card__facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:15px}.schedule-card__fact label{display:block;margin-bottom:3px;color:#768b7f;font-size:9px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.schedule-card__fact span{color:#315846;font-size:12px;font-weight:850}.schedule-card__fact--seats span{color:#087841}.schedule-card__bottom{display:flex;align-items:center;justify-content:space-between;gap:12px}.schedule-card__fare{display:grid;gap:1px}.schedule-card__fare span{color:#72877a;font-size:10px;font-weight:800;text-transform:uppercase}.schedule-card__fare strong{color:#087841;font-size:17px;letter-spacing:-.02em}.schedule-card__action{min-height:38px;padding:0 12px;font-size:12px}.schedule-card__sold{padding:9px 11px;border-radius:8px;background:#fff1eb;color:#9a3412;font-size:12px;font-weight:900}.schedule-empty{padding:52px 22px;border:1px dashed #bcd6c4;border-radius:15px;background:#fff;text-align:center}.schedule-empty h2{margin:0 0 8px;font-size:21px}.schedule-empty p{margin:0;color:#61796a}.schedule-empty__icon{display:grid;place-items:center;width:44px;height:44px;margin:0 auto 13px;border-radius:50%;background:#e6f3e9;color:#087841;font-size:20px;font-weight:900}@media(max-width:760px){.schedule-hero__content{display:block;margin-top:29px}.schedule-live-badge{display:none}.schedule-filter form{grid-template-columns:1fr;padding:14px}.schedule-filter button{width:100%}.schedule-grid{grid-template-columns:1fr}.schedule-results{padding-top:31px}}@media(max-width:440px){.schedule-container{width:min(100% - 24px,1100px)}.schedule-hero{padding-bottom:36px}.schedule-card{grid-template-columns:68px minmax(0,1fr);gap:12px;padding:14px}.schedule-time{padding-right:11px}.schedule-time strong{font-size:21px}.schedule-card__facts{grid-template-columns:1fr 1fr}.schedule-card__facts>:last-child{grid-column:1/-1}.schedule-card__bottom{align-items:end;flex-direction:column}.schedule-card__fare{align-self:stretch}.schedule-card__action,.schedule-card__sold{width:100%;box-sizing:border-box}.schedule-card__sold{text-align:center}}@media(prefers-reduced-motion:reduce){.schedule-filter button,.schedule-card__action{transition:none}.schedule-filter button:hover,.schedule-card__action:hover{transform:none}}
+</style>
 
-<!-- Filter Section -->
-<section class="py-8 bg-[#f8fdf9]">
-    <div class="container mx-auto px-4">
-        <form method="GET" action="{{ route('schedules.index') }}" class="max-w-2xl">
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <label for="route_id" class="block text-sm font-semibold text-gray-700 mb-2">Lọc theo tuyến xe:</label>
-                <div class="flex gap-4">
-                    <select name="route_id" id="route_id" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--color-brand-green] focus:border-transparent">
-                        <option value="">Tất cả tuyến</option>
-                        @foreach($routes as $route)
-                            <option value="{{ $route->id }}" {{ request('route_id') == $route->id ? 'selected' : '' }}>
-                                {{ $route->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="bg-brand-green text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#096b39] transition-colors">
-                        Lọc
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</section>
+<div class="live-schedule">
+    <header class="schedule-hero"><div class="schedule-container"><nav class="schedule-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="schedule-hero__content"><div><span class="schedule-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div><div class="schedule-live-badge"><span>{{ $copy['live'] }}</span><strong>{{ $date->format('d/m/Y') }}</strong></div></div></div></header>
 
-<!-- Schedules Table -->
-<section class="py-12 bg-[#f8fdf9]">
-    <div class="container mx-auto px-4">
+    <div class="schedule-container schedule-filter"><form method="GET" action="{{ route('schedules.index') }}"><input type="hidden" name="lang" value="{{ $locale }}"><div class="schedule-field"><label for="schedule-date">{{ $copy['date'] }}</label><input id="schedule-date" type="date" name="date" min="{{ today()->toDateString() }}" value="{{ $date->toDateString() }}"></div><div class="schedule-field"><label for="schedule-route">{{ $copy['route'] }}</label><select id="schedule-route" name="route"><option value="">{{ $copy['allRoutes'] }}</option>@foreach($routes as $route)<option value="{{ $route['key'] }}" @selected(request('route') === $route['key'])>{{ $routeName($route) }}</option>@endforeach</select></div><button type="submit">{{ $copy['search'] }}</button></form></div>
+
+    <main class="schedule-container schedule-results"><div class="schedule-results__head"><h2>{{ $date->format('d/m/Y') }}</h2><span>{{ $copy['live'] }}</span></div>
+        @if($apiError)<p class="schedule-alert" role="alert">{{ $copy['apiError'] }}</p>@endif
+        <p class="schedule-notice">{{ $copy['notice'] }}</p>
         @if($schedules->isNotEmpty())
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-brand-green text-white">
-                            <tr>
-                                <th class="px-6 py-4 text-left">Tuyến Đường</th>
-                                <th class="px-6 py-4 text-left">Giờ Xuất Bến</th>
-                                <th class="px-6 py-4 text-left">Giờ Đến Dự Kiến</th>
-                                <th class="px-6 py-4 text-left">Loại Xe</th>
-                                <th class="px-6 py-4 text-right">Giá Vé</th>
-                                <th class="px-6 py-4 text-center">Ghi Chú</th>
-                                <th class="px-6 py-4 text-center">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            @foreach($schedules as $schedule)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4">
-                                        <div class="font-semibold text-gray-900">{{ $schedule->route->name }}</div>
-                                        <div class="text-sm text-gray-600">{{ $schedule->route->from_location }} → {{ $schedule->route->to_location }}</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="font-semibold text-gray-900">{{ $schedule->departure_time }}</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-700">{{ $schedule->arrival_time }}</td>
-                                    <td class="px-6 py-4">
-                                        <span class="inline-block bg-[#e8f8ef] text-brand-green text-xs font-semibold px-3 py-1 rounded-full">
-                                            {{ $schedule->bus_type }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-right">
-                                        <span class="font-bold text-brand-green">{{ number_format($schedule->price) }}đ</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center text-sm text-gray-600">
-                                        {{ $schedule->note ?? '—' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <a href="{{ route('routes.show', $schedule->route->slug) }}" class="inline-block bg-brand-green text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#096b39] transition-colors">
-                                            Đặt Vé
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            <div class="schedule-grid">
+                @foreach($schedules as $schedule)
+                    @php $route = $schedule['route']; $canBook = $schedule['available_seats'] > 0; @endphp
+                    <article class="schedule-card"><div class="schedule-time"><strong>{{ $schedule['departure']->format('H:i') }}</strong><span>{{ $copy['departure'] }}</span></div><div class="schedule-card__main"><h3 class="schedule-card__route">{{ $routeName($route) }}</h3><p class="schedule-card__stops">{{ $schedule['pickup'] }} <b aria-hidden="true">→</b> {{ $schedule['dropoff'] }}</p><div class="schedule-card__facts"><div class="schedule-card__fact"><label>{{ $copy['arrival'] }}</label><span>{{ $schedule['arrival']->format('H:i') }}</span></div><div class="schedule-card__fact"><label>{{ $copy['duration'] }}</label><span>{{ $duration($schedule['duration']) }}</span></div><div class="schedule-card__fact schedule-card__fact--seats"><label>{{ $copy['vehicle'] }}</label><span>{{ $schedule['vehicle_type'] }} · {{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span></div></div><div class="schedule-card__bottom"><div class="schedule-card__fare"><span>{{ $copy['fare'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong></div>@if($canBook)<a class="schedule-card__action" href="{{ $schedule['booking_url'] }}">{{ $copy['book'] }} <span aria-hidden="true">→</span></a>@else<span class="schedule-card__sold">{{ $copy['soldOut'] }}</span>@endif</div></div></article>
+                @endforeach
             </div>
-            <p class="text-sm text-gray-500 mt-6 text-center">* Lịch trình có thể thay đổi tùy theo tình hình thực tế. Vui lòng liên hệ để xác nhận trước khi di chuyển.</p>
         @else
-            <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
-                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Không tìm thấy lịch trình</h3>
-                <p class="text-gray-600 mb-6">Vui lòng chọn tuyến xe khác hoặc liên hệ với chúng tôi</p>
-                <a href="{{ route('routes.index') }}" class="inline-block bg-brand-green text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#096b39] transition-colors">
-                    Xem Tuyến Xe
-                </a>
-            </div>
+            <div class="schedule-empty"><div class="schedule-empty__icon" aria-hidden="true">×</div><h2>{{ $copy['emptyTitle'] }}</h2><p>{{ $copy['emptyText'] }}</p></div>
         @endif
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-16 bg-gradient-to-br from-[--color-brand-green] to-[#096b39] text-white">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">Cần Hỗ Trợ?</h2>
-        <p class="text-xl mb-8 text-gray-100">Liên hệ ngay với chúng tôi để được tư vấn và hỗ trợ đặt vé</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:1900 2879" class="bg-brand-gold text-[#8a6300] px-8 py-4 rounded-lg font-semibold hover:bg-[#e19f14] transition-colors inline-flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                </svg>
-                Gọi Ngay: 1900 2879
-            </a>
-            <a href="{{ route('contact') }}" class="bg-white text-brand-green px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Liên Hệ Tư Vấn
-            </a>
-        </div>
-    </div>
-</section>
+    </main>
+</div>
 @endsection

@@ -11,6 +11,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
+        $locale = $this->locale($request);
         $query = Post::where('status', true)
             ->where('published_at', '<=', now())
             ->with('category');
@@ -24,10 +25,15 @@ class PostController extends Controller
         $posts = $query->latest('published_at')->paginate(12);
         $categories = PostCategory::where('status', true)->get();
 
-        SEOMeta::setTitle('Tin Tức');
-        SEOMeta::setDescription('Tin tức và bài viết mới nhất từ Nhà Xe Nhật Dương');
+        $metadata = [
+            'vi' => ['Tin Tức', 'Tin tức, ưu đãi và hướng dẫn di chuyển từ Nhà Xe Nhật Dương.'],
+            'en' => ['Travel Journal', 'News, offers, and travel guidance from Nhat Duong.'],
+            'ru' => ['Новости и статьи', 'Новости, предложения и советы для поездок с Nhat Duong.'],
+        ][$locale];
+        SEOMeta::setTitle($metadata[0]);
+        SEOMeta::setDescription($metadata[1]);
 
-        return view('posts.index', compact('posts', 'categories'));
+        return view('posts.index', compact('posts', 'categories', 'locale'));
     }
 
     public function show($slug)
@@ -52,5 +58,12 @@ class PostController extends Controller
         SEOMeta::setDescription($post->meta_description ?? $post->summary);
 
         return view('posts.show', compact('post', 'relatedPosts', 'categories'));
+    }
+
+    private function locale(Request $request): string
+    {
+        $locale = $request->string('lang')->lower()->value();
+
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
     }
 }

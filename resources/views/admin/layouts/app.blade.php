@@ -37,6 +37,11 @@
                     Lịch trình
                 </a>
 
+                <a href="{{ route('admin.bookings.index') }}" class="flex items-center px-24 py-12 text-body-sm {{ request()->routeIs('admin.bookings.*') ? 'bg-brand-green text-canvas-white' : 'text-soft-green hover:bg-deep-green-accent' }}">
+                    <svg class="w-18 h-18 mr-12 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 11h14M6 5h12a1 1 0 011 1v12a1 1 0 01-1 1H6a1 1 0 01-1-1V6a1 1 0 011-1z"></path></svg>
+                    Đặt vé
+                </a>
+
                 <a href="{{ route('admin.banners.index') }}" class="flex items-center px-24 py-12 text-body-sm {{ request()->routeIs('admin.banners.*') ? 'bg-brand-green text-canvas-white' : 'text-soft-green hover:bg-deep-green-accent' }}">
                     <svg class="w-18 h-18 mr-12 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     Banners

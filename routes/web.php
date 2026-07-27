@@ -9,6 +9,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookingRedirectController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminRouteController;
@@ -43,6 +44,9 @@ Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.stor
 // Booking
 Route::get('/dat-ve', [BookingRedirectController::class, 'index'])->name('booking.index');
 Route::get('/dat-ve-truc-tuyen', [BookingController::class, 'search'])->name('booking.search');
+Route::get('/dat-ve/checkout', [BookingController::class, 'checkout'])->name('booking.checkout');
+Route::post('/dat-ve', [BookingController::class, 'store'])->name('booking.store');
+Route::get('/dat-ve/hoan-tat/{booking:reference}', [BookingController::class, 'success'])->name('booking.success');
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
 
 // Admin Routes
@@ -61,6 +65,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('post-categories', AdminPostCategoryController::class)->except(['show']);
         Route::resource('banners', AdminBannerController::class)->except(['show']);
         Route::resource('schedules', AdminScheduleController::class)->except(['show']);
+        Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::patch('/bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
         Route::resource('faqs', AdminFaqController::class)->except(['show']);
         Route::resource('pages', AdminPageController::class)->except(['show']);
 

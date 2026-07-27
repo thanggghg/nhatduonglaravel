@@ -1,255 +1,134 @@
 @extends('layouts.app')
 
-@section('content')
-
 @php
-  $locale = $locale ?? 'en';
-  $bookingCopy = [
-    'vi' => ['home' => 'Trang chủ', 'booking' => 'Đặt vé', 'round' => 'Khứ hồi', 'departures' => 'chuyến', 'passengers' => 'hành khách', 'outbound' => 'Chuyến đi', 'return' => 'Chuyến về', 'departure' => 'Khởi hành', 'arrival' => 'Đến nơi', 'vehicle' => 'Xe phòng', 'book' => 'Đặt vé', 'call' => 'Gọi đặt vé', 'empty' => 'Không có chuyến nào', 'empty_text' => 'Vui lòng chọn ngày khác hoặc liên hệ hỗ trợ.', 'support' => 'Cần hỗ trợ đặt vé?', 'support_text' => 'Liên hệ hỗ trợ để xác nhận điểm đón, hành lý và chính sách đổi vé.', 'per_person' => '/người'],
-    'en' => ['home' => 'Home', 'booking' => 'Booking', 'round' => 'Round trip', 'departures' => 'departures', 'passengers' => 'passengers', 'outbound' => 'Outbound trip', 'return' => 'Return trip', 'departure' => 'Departure', 'arrival' => 'Arrival', 'vehicle' => 'Sleeper cabin', 'book' => 'Book now', 'call' => 'Contact support', 'empty' => 'No departures available', 'empty_text' => 'Please choose another date or contact support.', 'support' => 'Need booking help?', 'support_text' => 'Contact support to confirm pickup, luggage, and change policy.', 'per_person' => 'per person'],
-    'ru' => ['home' => 'Главная', 'booking' => 'Бронирование', 'round' => 'Туда и обратно', 'departures' => 'рейсов', 'passengers' => 'пассажиров', 'outbound' => 'Поездка туда', 'return' => 'Поездка обратно', 'departure' => 'Отправление', 'arrival' => 'Прибытие', 'vehicle' => 'Спальный салон', 'book' => 'Забронировать', 'call' => 'Связаться с поддержкой', 'empty' => 'Нет доступных рейсов', 'empty_text' => 'Выберите другую дату или свяжитесь с поддержкой.', 'support' => 'Нужна помощь с бронированием?', 'support_text' => 'Свяжитесь с поддержкой, чтобы подтвердить посадку, багаж и условия изменения билета.', 'per_person' => 'за человека'],
-  ][$locale];
-  $locationLabels = [
-    'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
-    'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
-    'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
-  ];
-  $location = fn ($value) => $locationLabels[$value][$locale] ?? $value;
-  $duration = $route->estimated_time ?? '';
-  if ($locale === 'en') $duration = str_replace('giờ', 'h', $duration);
-  if ($locale === 'ru') $duration = str_replace('giờ', 'ч.', $duration);
+    $copy = [
+        'vi' => [
+            'home' => 'Trang chủ', 'title' => 'Chọn chuyến đi', 'outbound' => 'Chiều đi', 'return' => 'Chiều về',
+            'departure' => 'Khởi hành', 'arrival' => 'Đến nơi', 'passengers' => 'hành khách', 'available' => 'chỗ trống',
+            'confirm' => 'Nhà xe xác nhận chỗ khi bạn tiếp tục đặt vé', 'continue' => 'Chọn chuyến này', 'sold_out' => 'Không đủ chỗ',
+            'empty' => 'Chưa có chuyến phù hợp', 'empty_text' => 'Vui lòng chọn ngày khác hoặc liên hệ đội ngũ hỗ trợ.',
+            'pickup' => 'Điểm đón và trả sẽ được chọn ở bước tiếp theo.', 'support' => 'Cần hỗ trợ đặt vé?', 'support_link' => 'Liên hệ hỗ trợ',
+            'per_person' => 'mỗi khách', 'date' => 'Ngày đi', 'live' => 'Lịch chạy trực tuyến', 'route' => 'Tuyến đường',
+            'fare' => 'Tổng tiền', 'api_error' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng. Vui lòng thử lại sau.',
+            'estimated' => 'Dự kiến', 'minutes' => 'phút', 'hours' => 'giờ', 'to' => 'đến',
+        ],
+        'en' => [
+            'home' => 'Home', 'title' => 'Choose a departure', 'outbound' => 'Outbound', 'return' => 'Return',
+            'departure' => 'Departure', 'arrival' => 'Arrival', 'passengers' => 'passengers', 'available' => 'seats available',
+            'confirm' => 'The operator confirms availability when you continue to booking', 'continue' => 'Choose this departure', 'sold_out' => 'Not enough seats',
+            'empty' => 'No matching departures', 'empty_text' => 'Try another travel date or contact our team.',
+            'pickup' => 'You will choose pickup and drop-off details in the next step.', 'support' => 'Need booking help?', 'support_link' => 'Contact support',
+            'per_person' => 'per passenger', 'date' => 'Travel date', 'live' => 'Live departure times', 'route' => 'Route',
+            'fare' => 'Total fare', 'api_error' => 'Live departures are temporarily unavailable. Please try again shortly.',
+            'estimated' => 'Estimated', 'minutes' => 'min', 'hours' => 'hr', 'to' => 'to',
+        ],
+        'ru' => [
+            'home' => 'Главная', 'title' => 'Выберите рейс', 'outbound' => 'Туда', 'return' => 'Обратно',
+            'departure' => 'Отправление', 'arrival' => 'Прибытие', 'passengers' => 'пассажиров', 'available' => 'мест доступно',
+            'confirm' => 'Перевозчик подтверждает наличие мест при переходе к бронированию', 'continue' => 'Выбрать этот рейс', 'sold_out' => 'Недостаточно мест',
+            'empty' => 'Подходящих рейсов нет', 'empty_text' => 'Выберите другую дату или свяжитесь с поддержкой.',
+            'pickup' => 'Место посадки и высадки выбирается на следующем шаге.', 'support' => 'Нужна помощь?', 'support_link' => 'Связаться с поддержкой',
+            'per_person' => 'за пассажира', 'date' => 'Дата поездки', 'live' => 'Актуальное расписание', 'route' => 'Маршрут',
+            'fare' => 'Сумма', 'api_error' => 'Актуальное расписание временно недоступно. Попробуйте позже.',
+            'estimated' => 'Ориентировочно', 'minutes' => 'мин', 'hours' => 'ч', 'to' => 'в',
+        ],
+    ][$locale];
+    $places = [
+        'TP. Hồ Chí Minh' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'], 'Sài Gòn' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
+        'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань'],
+    ];
+    $place = fn (string $name) => $locale === 'vi' ? $name : ($places[$name][$locale] ?? $name);
+    $from = $place($route->from_location);
+    $to = $place($route->to_location);
+    $startDate = $date->copy()->subDays(2)->max(today());
+    $weekdays = [
+        'vi' => ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+        'en' => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        'ru' => ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+    ][$locale];
+    $duration = function ($minutes) use ($copy): string {
+        if (!$minutes) return $copy['estimated'];
+        $minutes = (int) $minutes;
+        if ($minutes < 60) return $minutes.' '.$copy['minutes'];
+        $hours = intdiv($minutes, 60);
+        $remaining = $minutes % 60;
+        return $hours.' '.$copy['hours'].($remaining ? ' '.$remaining.' '.$copy['minutes'] : '');
+    };
 @endphp
 
-{{-- Header --}}
-<div style="background:#0b7f42; padding:20px 0;">
-  <div style="width:min(1280px,94%); margin:0 auto; padding:0 16px;">
-    <nav style="font-size:13px; color:rgba(255,255,255,0.65); margin-bottom:10px;">
-      <a href="{{ route('home', ['lang' => $locale]) }}" style="color:rgba(255,255,255,0.65); text-decoration:none;">{{ $bookingCopy['home'] }}</a>
-      <span style="margin:0 8px;">›</span>
-      <span style="color:#fff;">{{ $bookingCopy['booking'] }}</span>
-    </nav>
-    <h1 style="color:#fff; font-size:clamp(20px,3vw,28px); font-weight:800; margin:0;">
-       {{ $location($route->from_location) }} → {{ $location($route->to_location) }}
-      @if($isRoundTrip ?? false)
-          <span style="opacity:0.8;"> ({{ $bookingCopy['round'] }})</span>
-      @endif
-    </h1>
-    <p style="color:rgba(255,255,255,0.70); font-size:14px; margin:6px 0 0;">
-      {{ $date->format('d/m/Y') }} · {{ $schedules->count() }} {{ $bookingCopy['departures'] }}
-      @if(isset($seats) && $seats > 1)
-          · {{ $seats }} {{ $bookingCopy['passengers'] }}
-      @endif
-    </p>
-  </div>
-</div>
-
-{{-- Date picker bar --}}
-<div style="background:#fff; border-bottom:1px solid #e4f0e2; position:sticky; top:68px; z-index:10;">
-  <div style="width:min(1280px,94%); margin:0 auto; padding:0 16px; display:flex; align-items:center; gap:8px; overflow-x:auto; scrollbar-width:none;">
-    @for($i = 0; $i < 7; $i++)
-      @php $d = \Carbon\Carbon::today()->addDays($i); $active = $d->isSameDay($date); @endphp
-      <a href="{{ route('booking.search', [
-            'from_location' => $route->from_location,
-            'to_location' => $route->to_location,
-            'departDate' => $d->format('d-m-Y'),
-            'is_round_trip' => $isRoundTrip ?? false,
-            'returnDate' => $returnDateObj?->format('d-m-Y'),
-            'seats' => $seats ?? 1,
-            'lang' => $locale
-          ]) }}"
-         style="flex-shrink:0; padding:12px 18px; text-align:center; text-decoration:none; border-bottom:3px solid {{ $active ? '#0b7f42' : 'transparent' }}; color:{{ $active ? '#0b7f42' : '#62735e' }}; font-weight:{{ $active ? '800' : '600' }}; font-size:13px; white-space:nowrap;">
-        <div>{{ $d->isoFormat('ddd') }}</div>
-        <div style="font-size:15px; font-weight:900;">{{ $d->format('d/m') }}</div>
-      </a>
-    @endfor
-  </div>
-</div>
-
-{{-- Content --}}
-<div style="background:#f5faf4; min-height:60vh; padding:24px 0 48px;">
-  <div style="width:min(1280px,94%); margin:0 auto; padding:0 16px;">
-
-    {{-- CHUYẾN ĐI --}}
-    <div style="margin-bottom:32px;">
-      <h2 style="color:#173014; font-size:20px; font-weight:900; margin:0 0 16px; display:flex; align-items:center; gap:8px;">
-        <span style="display:inline-block; width:8px; height:24px; background:#0b7f42; border-radius:4px;"></span>
-        {{ $bookingCopy['outbound'] }}: {{ $location($route->from_location) }} → {{ $location($route->to_location) }}
-      </h2>
-
-      @if($schedules->isEmpty())
-        <div style="background:#fff; border-radius:16px; padding:48px; text-align:center; border:1px solid #e4f0e2;">
-          <div style="font-size:48px; margin-bottom:12px;">🚌</div>
-          <h3 style="color:#173014; font-size:18px; font-weight:800; margin:0 0 8px;">{{ $bookingCopy['empty'] }}</h3>
-          <p style="color:#62735e; margin:0 0 20px;">{{ $bookingCopy['empty_text'] }}</p>
-          <a href="{{ route('contact', ['lang' => $locale]) }}" style="display:inline-flex; align-items:center; gap:8px; background:#0b7f42; color:#fff; padding:12px 24px; border-radius:10px; font-weight:700; text-decoration:none;">
-            {{ $bookingCopy['call'] }}
-          </a>
+@section('content')
+<section class="booking-page">
+    <header class="booking-hero">
+        <div class="booking-shell">
+            <nav class="booking-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['title'] }}</span></nav>
+            <div class="booking-hero__content">
+                <div><span class="booking-kicker">{{ $copy['live'] }}</span><h1>{{ $from }} <span>{{ $copy['to'] }}</span> {{ $to }}</h1><p>{{ $date->format('d/m/Y') }} <i aria-hidden="true"></i> {{ $passengerCount }} {{ $copy['passengers'] }}</p></div>
+                <div class="booking-hero__route"><span>{{ $copy['route'] }}</span><strong>{{ $from }} <b aria-hidden="true">→</b> {{ $to }}</strong></div>
+            </div>
         </div>
-      @else
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          @foreach($schedules as $schedule)
-          <div style="background:#fff; border-radius:16px; border:1px solid #e4f0e2; padding:20px 24px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(11,127,66,0.06);">
+    </header>
 
-            {{-- Giờ --}}
-            <div style="min-width:90px; text-align:center;">
-              <div style="font-size:26px; font-weight:900; color:#173014; line-height:1;">
-                {{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}
-              </div>
-              <div style="font-size:12px; color:#62735e; margin-top:2px;">{{ $bookingCopy['departure'] }}</div>
-            </div>
-
-            {{-- Arrow + duration --}}
-            <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:120px;">
-              <div style="font-size:11px; color:#62735e; font-weight:700;">{{ $duration }}</div>
-              <div style="width:100%; height:2px; background:linear-gradient(90deg,#0b7f42,#fbb116); border-radius:2px; position:relative;">
-                <div style="position:absolute; right:-4px; top:-4px; width:10px; height:10px; border-radius:50%; background:#fbb116;"></div>
-              </div>
-              <div style="font-size:11px; color:#0b7f42; font-weight:700;">{{ $location($route->from_location) }} → {{ $location($route->to_location) }}</div>
-            </div>
-
-            {{-- Giờ đến --}}
-            <div style="min-width:90px; text-align:center;">
-              <div style="font-size:26px; font-weight:900; color:#173014; line-height:1;">
-                {{ \Carbon\Carbon::parse($schedule->arrival_time)->format('H:i') }}
-              </div>
-              <div style="font-size:12px; color:#62735e; margin-top:2px;">{{ $bookingCopy['arrival'] }}</div>
-            </div>
-
-            {{-- Loại xe --}}
-            <div style="flex:1; min-width:140px;">
-              <div style="display:inline-block; background:#eaf8e8; color:#0b7f42; font-size:12px; font-weight:800; padding:4px 10px; border-radius:999px; margin-bottom:6px;">
-                {{ $schedule->vehicle_type ?? $bookingCopy['vehicle'] }}
-              </div>
-              @if($schedule->note)
-              <div style="font-size:12px; color:#62735e;">{{ $schedule->note }}</div>
-              @endif
-            </div>
-
-            {{-- Giá + CTA --}}
-            <div style="text-align:right; min-width:140px;">
-              @php
-                $totalPrice = $schedule->price * ($seats ?? 1);
-              @endphp
-              <div style="font-size:22px; font-weight:900; color:#0b7f42; line-height:1;">
-                {{ number_format($totalPrice) }}đ
-              </div>
-              <div style="font-size:11px; color:#62735e; margin-bottom:10px;">
-                @if(($seats ?? 1) > 1)
-                  {{ number_format($schedule->price) }}đ × {{ $seats }} ghế
-                @else
-                   {{ $bookingCopy['per_person'] }}
-                @endif
-              </div>
-              @if($route->booking_url && $route->booking_url !== 'https://example.com/book')
-                <a href="{{ route('booking.redirect', ['route_id' => $route->id, 'booking_url' => $route->booking_url, 'source_page' => 'search']) }}"
-                   style="display:inline-block; background:linear-gradient(180deg,#ffdc47,#fbb116); color:#5a3e00; font-weight:800; font-size:14px; padding:10px 22px; border-radius:10px; text-decoration:none; box-shadow:0 4px 12px rgba(251,177,22,0.30);">
-                   {{ $bookingCopy['book'] }}
-                </a>
-              @else
-                <a href="{{ route('contact', ['lang' => $locale]) }}"
-                   style="display:inline-block; background:#0b7f42; color:#fff; font-weight:800; font-size:14px; padding:10px 22px; border-radius:10px; text-decoration:none;">
-                   {{ $bookingCopy['call'] }}
-                </a>
-              @endif
-            </div>
-
-          </div>
-          @endforeach
-        </div>
-      @endif
-    </div>
-
-    {{-- CHUYẾN VỀ (nếu khứ hồi) --}}
-    @if(($isRoundTrip ?? false) && $returnDateObj)
-      <div style="margin-bottom:32px;">
-        <h2 style="color:#173014; font-size:20px; font-weight:900; margin:0 0 16px; display:flex; align-items:center; gap:8px;">
-          <span style="display:inline-block; width:8px; height:24px; background:#ef5423; border-radius:4px;"></span>
-          {{ $bookingCopy['return'] }}: {{ $location($route->to_location) }} → {{ $location($route->from_location) }}
-          <span style="color:#62735e; font-size:14px; font-weight:700;">({{ $returnDateObj->isoFormat('DD/MM/YYYY') }})</span>
-        </h2>
-
-        @if($returnSchedules->isEmpty())
-          <div style="background:#fff; border-radius:16px; padding:48px; text-align:center; border:1px solid #e4f0e2;">
-            <div style="font-size:48px; margin-bottom:12px;">⚠️</div>
-            <h3 style="color:#173014; font-size:18px; font-weight:800; margin:0 0 8px;">Chưa có tuyến ngược lại</h3>
-            <p style="color:#62735e; margin:0 0 20px;">Chuyến về từ {{ $route->to_location }} về {{ $route->from_location }} chưa có sẵn trong hệ thống. Vui lòng liên hệ hotline để đặt vé.</p>
-            <a href="tel:0123456789" style="display:inline-flex; align-items:center; gap:8px; background:#0b7f42; color:#fff; padding:12px 24px; border-radius:10px; font-weight:700; text-decoration:none;">
-              Gọi 1900 2879
-            </a>
-          </div>
-        @else
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            @foreach($returnSchedules as $schedule)
-            <div style="background:#fff; border-radius:16px; border:1px solid #e4f0e2; padding:20px 24px; display:flex; align-items:center; gap:20px; flex-wrap:wrap; box-shadow:0 2px 8px rgba(239,84,35,0.06);">
-
-              <div style="min-width:90px; text-align:center;">
-                <div style="font-size:26px; font-weight:900; color:#173014; line-height:1;">
-                  {{ \Carbon\Carbon::parse($schedule->departure_time)->format('H:i') }}
-                </div>
-                <div style="font-size:12px; color:#62735e; margin-top:2px;">Khởi hành</div>
-              </div>
-
-              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:120px;">
-                <div style="font-size:11px; color:#62735e; font-weight:700;">{{ $schedule->route->estimated_time ?? '' }}</div>
-                <div style="width:100%; height:2px; background:linear-gradient(90deg,#ef5423,#fbb116); border-radius:2px; position:relative;">
-                  <div style="position:absolute; right:-4px; top:-4px; width:10px; height:10px; border-radius:50%; background:#fbb116;"></div>
-                </div>
-                <div style="font-size:11px; color:#ef5423; font-weight:700;">{{ $route->to_location }} → {{ $route->from_location }}</div>
-              </div>
-
-              <div style="min-width:90px; text-align:center;">
-                <div style="font-size:26px; font-weight:900; color:#173014; line-height:1;">
-                  {{ \Carbon\Carbon::parse($schedule->arrival_time)->format('H:i') }}
-                </div>
-                <div style="font-size:12px; color:#62735e; margin-top:2px;">Đến nơi</div>
-              </div>
-
-              <div style="flex:1; min-width:140px;">
-                <div style="display:inline-block; background:#fff5f2; color:#ef5423; font-size:12px; font-weight:800; padding:4px 10px; border-radius:999px; margin-bottom:6px;">
-                  {{ $schedule->bus_type ?? 'Xe khách' }}
-                </div>
-                @if($schedule->note)
-                <div style="font-size:12px; color:#62735e;">{{ $schedule->note }}</div>
-                @endif
-              </div>
-
-              <div style="text-align:right; min-width:140px;">
+    <nav class="booking-date-nav" aria-label="{{ $copy['date'] }}">
+        <div class="booking-shell booking-date-nav__inner">
+            @for($i = 0; $i < 7; $i++)
                 @php
-                  $totalPriceReturn = $schedule->price * ($seats ?? 1);
+                    $day = $startDate->copy()->addDays($i);
+                    $returnForDay = $isRoundTrip && $returnDate && $returnDate->gte($day) ? $returnDate : $day->copy()->addDay();
                 @endphp
-                <div style="font-size:22px; font-weight:900; color:#ef5423; line-height:1;">
-                  {{ number_format($totalPriceReturn) }}đ
-                </div>
-                <div style="font-size:11px; color:#62735e; margin-bottom:10px;">
-                  @if(($seats ?? 1) > 1)
-                    {{ number_format($schedule->price) }}đ × {{ $seats }} ghế
-                  @else
-                    /người
-                  @endif
-                </div>
-                <a href="tel:0123456789"
-                   style="display:inline-block; background:#ef5423; color:#fff; font-weight:800; font-size:14px; padding:10px 22px; border-radius:10px; text-decoration:none;">
-                  Gọi đặt vé
+                <a class="booking-date {{ $day->isSameDay($date) ? 'is-active' : '' }}" href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => $day->format('d-m-Y'), 'is_round_trip' => $isRoundTrip ? 1 : 0, 'returnDate' => $isRoundTrip ? $returnForDay->format('d-m-Y') : null, 'seats' => $passengerCount, 'lang' => $locale]) }}" @if($day->isSameDay($date)) aria-current="date" @endif>
+                    <span>{{ $weekdays[$day->dayOfWeek] }}</span><strong>{{ $day->format('d/m') }}</strong>
                 </a>
-              </div>
+            @endfor
+        </div>
+    </nav>
 
+    <div class="booking-shell booking-content">
+        @if($apiError)<p class="booking-alert" role="alert">{{ $copy['api_error'] }}</p>@endif
+
+        <section aria-labelledby="outbound-title">
+            <div class="booking-section-heading"><div><p>{{ $copy['outbound'] }}</p><h2 id="outbound-title">{{ $from }} {{ $copy['to'] }} {{ $to }}</h2></div><span>{{ $date->format('d/m/Y') }}</span></div>
+            <div class="booking-confirm"><span aria-hidden="true">✓</span>{{ $copy['confirm'] }}</div>
+            <div class="departure-list">
+                @forelse($trips as $trip)
+                    @php $canBook = $trip['available_seats'] >= $passengerCount; @endphp
+                    <article class="departure-card {{ $canBook ? '' : 'is-unavailable' }}">
+                        <img class="departure-image" src="{{ $trip['image'] ?: asset('nha-xe-binh-minh-bus-2048x867.png') }}" alt="Nhat Duong {{ $trip['vehicle_type'] }}" loading="lazy">
+                        <div class="departure-journey">
+                            <div class="departure-time"><strong>{{ $trip['departure']->format('H:i') }}</strong><span>{{ $copy['departure'] }}</span></div>
+                            <div class="departure-line"><span>{{ $duration($trip['duration']) }}</span><i aria-hidden="true"></i><small>{{ $trip['pickup'] }} <b aria-hidden="true">→</b> {{ $trip['dropoff'] }}</small></div>
+                            <div class="departure-time"><strong>{{ $trip['arrival']->format('H:i') }}</strong><span>{{ $copy['arrival'] }}</span></div>
+                        </div>
+                        <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span></div>
+                        <div class="departure-action"><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
+                            @if($canBook)<a href="{{ $trip['booking_url'] }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
+                        </div>
+                    </article>
+                @empty
+                    <div class="booking-empty"><h3>{{ $copy['empty'] }}</h3><p>{{ $copy['empty_text'] }}</p></div>
+                @endforelse
             </div>
-            @endforeach
-          </div>
+        </section>
+
+        @if($isRoundTrip)
+            <section class="booking-return" aria-labelledby="return-title">
+                <div class="booking-section-heading"><div><p>{{ $copy['return'] }}</p><h2 id="return-title">{{ $to }} {{ $copy['to'] }} {{ $from }}</h2></div><span>{{ $returnDate?->format('d/m/Y') }}</span></div>
+                <div class="return-list">
+                    @forelse($returnTrips as $trip)
+                        <article class="return-preview"><strong>{{ $trip['departure']->format('H:i') }}</strong><span>{{ $trip['vehicle_type'] }}</span><span>{{ $duration($trip['duration']) }}</span><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span><b>{{ number_format($trip['fare']) }} VND</b></article>
+                    @empty
+                        <div class="booking-empty"><h3>{{ $copy['empty'] }}</h3><p>{{ $copy['empty_text'] }}</p></div>
+                    @endforelse
+                </div>
+            </section>
         @endif
-      </div>
-    @endif
 
-    {{-- Info box --}}
-    <div style="background:#fff; border-radius:16px; border:1px solid #e4f0e2; padding:20px 24px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-      <svg width="32" height="32" fill="none" stroke="#0b7f42" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      <div>
-          <div style="font-weight:800; color:#173014; font-size:14px; margin-bottom:4px;">{{ $bookingCopy['support'] }}</div>
-          <div style="color:#62735e; font-size:13px;">{{ $bookingCopy['support_text'] }} <a href="{{ route('contact', ['lang' => $locale]) }}" style="color:#0b7f42; font-weight:800;">{{ $bookingCopy['call'] }}</a>.</div>
-      </div>
+        <aside class="booking-help"><div><strong>{{ $copy['support'] }}</strong><span>{{ $copy['pickup'] }}</span></div><a href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['support_link'] }} <b aria-hidden="true">→</b></a></aside>
     </div>
-
-  </div>
-</div>
-
+</section>
 @endsection
+
+@push('styles')
+<style>
+    .booking-page{min-height:70vh;background:#f4f8f5;padding-bottom:64px;color:#173014}.booking-shell{width:min(1100px,calc(100% - 32px));margin:auto}.booking-hero{padding:32px 0;background:radial-gradient(circle at 84% 20%,rgba(249,178,26,.21),transparent 25%),linear-gradient(125deg,#052b1a,#087841);color:#fff}.booking-crumb{display:flex;gap:8px;color:#c5dacb;font-size:13px}.booking-crumb a{color:inherit;font-weight:700}.booking-hero__content{display:flex;align-items:end;justify-content:space-between;gap:26px;margin-top:22px}.booking-kicker{display:inline-block;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.11em;text-transform:uppercase}.booking-hero h1{margin:8px 0;color:#fff;font-size:clamp(27px,4vw,42px);letter-spacing:-.035em;line-height:1.08}.booking-hero h1 span{font-weight:500;opacity:.74}.booking-hero p{display:flex;align-items:center;gap:9px;margin:0;color:#d6e9db;font-size:15px}.booking-hero p i{width:4px;height:4px;border-radius:50%;background:#f9b21a}.booking-hero__route{display:grid;gap:5px;min-width:220px;padding:14px 17px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.08)}.booking-hero__route span{color:#c4d9ca;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.booking-hero__route strong{font-size:14px}.booking-hero__route b{color:#f9b21a}.booking-date-nav{position:sticky;top:68px;z-index:10;background:#fff;border-bottom:1px solid #d7e5dc;box-shadow:0 4px 14px rgba(12,54,31,.05)}.booking-date-nav__inner{display:flex;gap:6px;overflow:auto;padding:8px 0}.booking-date{display:grid;gap:3px;min-width:78px;padding:9px 12px;border:1px solid transparent;border-radius:9px;color:#62776a;font-size:12px;text-align:center;text-decoration:none;transition:.18s ease}.booking-date strong{font-size:15px}.booking-date:hover{border-color:#b9ddc5;background:#f2faf4;color:#087841}.booking-date.is-active{border-color:#0b7f42;background:#e8f6ec;color:#087841}.booking-date:focus-visible,.departure-action a:focus-visible,.booking-help a:focus-visible{outline:3px solid #f9b21a;outline-offset:2px}.booking-content{padding-top:36px}.booking-section-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:12px}.booking-section-heading p{margin:0 0 5px;color:#087841;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.booking-section-heading h2{margin:0;font-size:clamp(20px,3vw,25px);letter-spacing:-.025em}.booking-section-heading>span{color:#607568;font-size:14px;font-weight:800}.booking-confirm{display:flex;align-items:center;gap:8px;margin:0 0 13px;color:#406250;font-size:13px}.booking-confirm span{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#dff4e6;color:#087841;font-size:11px;font-weight:900}.departure-list{display:grid;gap:12px}.departure-card{display:grid;grid-template-columns:130px minmax(270px,1.35fr) minmax(130px,.7fr) minmax(180px,.8fr);gap:20px;align-items:center;padding:15px;border:1px solid #d9e6dd;border-radius:16px;background:#fff;box-shadow:0 5px 18px rgba(10,73,39,.05);transition:transform .18s,box-shadow .18s}.departure-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(10,73,39,.1)}.departure-card.is-unavailable{opacity:.62}.departure-image{width:130px;height:104px;object-fit:cover;border-radius:11px;background:#e7f0e9}.departure-journey{display:grid;grid-template-columns:64px minmax(110px,1fr) 64px;align-items:center;gap:9px}.departure-time{text-align:center}.departure-time strong{display:block;font-size:25px;letter-spacing:-.04em}.departure-time span,.departure-action small{color:#688071;font-size:11px;font-weight:700}.departure-line{display:grid;justify-items:center;gap:7px;min-width:0}.departure-line>span{color:#315747;font-size:12px;font-weight:800}.departure-line i{width:100%;height:2px;background:linear-gradient(90deg,#0b7f42,#0b7f42 44%,#bfd6c5 44%,#bfd6c5 56%,#0b7f42 56%);position:relative}.departure-line i:after{content:'';position:absolute;right:0;top:-3px;width:8px;height:8px;border-top:2px solid #0b7f42;border-right:2px solid #0b7f42;transform:rotate(45deg)}.departure-line small{max-width:100%;overflow:hidden;color:#668071;font-size:10px;line-height:1.3;text-align:center;text-overflow:ellipsis;white-space:nowrap}.departure-line small b{color:#0b7f42}.departure-meta{display:grid;gap:8px}.departure-meta strong{font-size:14px;line-height:1.35}.departure-meta span{width:max-content;max-width:100%;padding:5px 8px;border-radius:99px;background:#e8f6ec;color:#087841;font-size:11px;font-weight:900}.departure-action{display:grid;gap:3px;justify-items:start;padding-left:20px;border-left:1px solid #e2ebe5}.departure-action__label{color:#6a8173;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.departure-action>strong{font-size:19px;letter-spacing:-.02em}.departure-action a,.departure-action em{display:inline-flex;align-items:center;gap:7px;min-height:38px;margin-top:8px;padding:0 12px;border-radius:8px;font-size:12px;font-style:normal;font-weight:900;text-decoration:none}.departure-action a{background:#0b7f42;color:#fff;transition:background .18s}.departure-action a:hover{background:#075d35}.departure-action em{color:#9a3412;background:#fff1eb}.booking-return{margin-top:38px}.return-list{display:grid;gap:8px}.return-preview{display:grid;grid-template-columns:90px 1.2fr .8fr 1fr auto;gap:14px;align-items:center;padding:15px 18px;border:1px solid #dce8df;border-radius:12px;background:#fff;color:#4c6858;font-size:13px}.return-preview strong{color:#173014;font-size:18px}.return-preview b{color:#087841;white-space:nowrap}.booking-empty{padding:45px 20px;border:1px dashed #b9d4c0;border-radius:15px;background:#fff;text-align:center}.booking-empty h3{margin:0 0 7px;font-size:18px}.booking-empty p{margin:0;color:#637969}.booking-alert{margin:0 0 20px;padding:13px 15px;border:1px solid #f1c8b5;border-radius:10px;background:#fff6f1;color:#9a3412;font-size:14px;font-weight:700}.booking-help{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:32px;padding:20px 22px;border-radius:14px;background:#e8f5eb}.booking-help div{display:grid;gap:4px}.booking-help strong{font-size:15px}.booking-help span{color:#567262;font-size:13px}.booking-help a{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border:1px solid #0b7f42;border-radius:8px;color:#087841;font-size:13px;font-weight:900;text-decoration:none}.booking-help a:hover{background:#fff}@media(max-width:900px){.departure-card{grid-template-columns:115px minmax(220px,1fr) minmax(170px,.7fr)}.departure-image{width:115px;height:92px}.departure-meta{display:none}.departure-action{padding-left:16px}.return-preview{grid-template-columns:80px 1fr auto;gap:8px}.return-preview span:nth-of-type(2){display:none}}@media(max-width:640px){.booking-shell{width:min(100% - 24px,1100px)}.booking-hero{padding:24px 0}.booking-hero__content{display:block;margin-top:18px}.booking-hero__route{display:none}.booking-date-nav{top:0}.booking-date-nav__inner{gap:4px}.booking-date{min-width:66px;padding:8px 7px}.booking-content{padding-top:25px}.booking-section-heading{align-items:start}.booking-section-heading>span{padding-top:4px;font-size:12px}.departure-card{grid-template-columns:88px minmax(0,1fr);gap:14px;padding:12px}.departure-image{width:88px;height:100%;min-height:112px}.departure-journey{grid-column:2;grid-template-columns:52px minmax(70px,1fr) 52px;gap:5px}.departure-time strong{font-size:21px}.departure-line small{font-size:9px}.departure-action{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:2px;padding:12px 0 0;border-top:1px solid #e2ebe5;border-left:0}.departure-action__label{grid-column:1}.departure-action>strong{font-size:18px}.departure-action small{grid-column:1}.departure-action a,.departure-action em{grid-column:2;grid-row:1/4;align-self:center;justify-self:end;margin:0;text-align:center}.booking-help{display:grid;gap:14px;padding:18px}.booking-help a{justify-content:center}.return-preview{grid-template-columns:65px 1fr auto;padding:13px}.return-preview span:nth-of-type(1){font-weight:800}.return-preview span:nth-of-type(2){display:none}}@media(prefers-reduced-motion:reduce){.departure-card,.booking-date,.departure-action a{transition:none}.departure-card:hover{transform:none}}
+</style>
+@endpush

@@ -1,112 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Breadcrumb -->
-<div class="bg-[#f8fdf9] py-6">
-    <div class="container mx-auto px-4">
-        <nav class="text-sm">
-            <a href="{{ route('home') }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
-            <span class="text-gray-400 mx-2">/</span>
-            <span class="text-gray-900 font-semibold">Tin Tức</span>
-        </nav>
-    </div>
+@php
+    $copy = [
+        'vi' => ['home' => 'Trang chủ', 'crumb' => 'Tin tức', 'eyebrow' => 'NHẬT DƯƠNG JOURNAL', 'title' => 'Câu chuyện trên mọi hành trình.', 'intro' => 'Tin tức, ưu đãi và những kinh nghiệm giúp chuyến đi của bạn nhẹ nhàng hơn.', 'latest' => 'Bài viết mới nhất', 'all' => 'Tất cả', 'read' => 'Đọc bài viết', 'bookingTitle' => 'Bạn đã sẵn sàng cho chuyến đi?', 'bookingText' => 'Xem lịch chạy trực tuyến và đặt vé chỉ trong vài phút.', 'booking' => 'Đặt vé ngay', 'emptyTitle' => 'Chưa có bài viết', 'emptyText' => 'Hãy quay lại sau để xem các bài viết mới nhất.', 'updates' => 'Tin tức', 'promotion' => 'Khuyến mãi', 'guide' => 'Hướng dẫn', 'travel' => 'Kinh nghiệm du lịch'],
+        'en' => ['home' => 'Home', 'crumb' => 'News', 'eyebrow' => 'NHAT DUONG JOURNAL', 'title' => 'Stories for every journey.', 'intro' => 'News, offers, and practical guidance for travelling with greater ease.', 'latest' => 'Latest stories', 'all' => 'All stories', 'read' => 'Read article', 'bookingTitle' => 'Ready for your next trip?', 'bookingText' => 'See live departures and begin booking in just a few minutes.', 'booking' => 'Book a trip', 'emptyTitle' => 'No articles yet', 'emptyText' => 'Please check back soon for new stories.', 'updates' => 'News', 'promotion' => 'Offers', 'guide' => 'Guides', 'travel' => 'Travel tips'],
+        'ru' => ['home' => 'Главная', 'crumb' => 'Новости', 'eyebrow' => 'ЖУРНАЛ NHAT DUONG', 'title' => 'Истории для каждой поездки.', 'intro' => 'Новости, предложения и полезные советы для спокойных путешествий.', 'latest' => 'Новые статьи', 'all' => 'Все статьи', 'read' => 'Читать статью', 'bookingTitle' => 'Готовы к следующей поездке?', 'bookingText' => 'Посмотрите актуальное расписание и начните бронирование за несколько минут.', 'booking' => 'Забронировать', 'emptyTitle' => 'Статей пока нет', 'emptyText' => 'Пожалуйста, зайдите позже за новыми материалами.', 'updates' => 'Новости', 'promotion' => 'Предложения', 'guide' => 'Инструкции', 'travel' => 'Советы путешественникам'],
+    ][$locale];
+    $categoryLabels = ['tin-tuc' => $copy['updates'], 'khuyen-mai' => $copy['promotion'], 'huong-dan' => $copy['guide'], 'kinh-nghiem-du-lich' => $copy['travel']];
+    $postUrl = fn ($post) => route('posts.show', ['slug' => $post->slug, 'lang' => $locale]);
+    $categoryUrl = fn (?string $slug = null) => route('posts.index', array_filter(['category' => $slug, 'lang' => $locale]));
+    $featured = $posts->first();
+@endphp
+
+<style>
+    .journal-page{min-height:70vh;background:#f7f8f4;color:#183d2c}.journal-container{width:min(1120px,calc(100% - 40px));margin:0 auto}.journal-hero{position:relative;overflow:hidden;padding:18px 0 61px;background:radial-gradient(circle at 82% 19%,rgba(249,178,26,.23),transparent 21%),linear-gradient(125deg,#052d1b,#087a43);color:#fff}.journal-hero:after{position:absolute;right:-80px;bottom:-164px;width:355px;height:355px;border:1px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:0 0 0 35px rgba(255,255,255,.035),0 0 0 70px rgba(255,255,255,.025);content:''}.journal-crumb{position:relative;z-index:1;display:flex;gap:8px;color:rgba(255,255,255,.67);font-size:13px}.journal-crumb a{color:#fff;font-weight:750;text-decoration:none}.journal-hero__content{position:relative;z-index:1;max-width:690px;margin-top:46px}.journal-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.journal-eyebrow:before{width:28px;height:2px;background:#f9b21a;content:''}.journal-hero h1{margin:14px 0 12px;font-size:clamp(38px,5.5vw,63px);font-weight:900;letter-spacing:-.06em;line-height:1}.journal-hero p{max-width:570px;margin:0;color:rgba(255,255,255,.77);font-size:17px;line-height:1.65}.journal-categories{position:relative;z-index:2;margin-top:-24px}.journal-categories__inner{display:flex;gap:8px;overflow:auto;padding:13px;border:1px solid #dce9df;border-radius:13px;background:#fff;box-shadow:0 11px 25px rgba(6,57,33,.1)}.journal-category{display:inline-flex;flex:0 0 auto;align-items:center;min-height:38px;padding:0 13px;border-radius:8px;color:#587263;font-size:13px;font-weight:850;text-decoration:none;transition:background .18s,color .18s}.journal-category:hover{background:#eff8f1;color:#087841}.journal-category.is-active{background:#0b7f42;color:#fff}.journal-content{padding:51px 0 68px}.journal-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:21px}.journal-heading h2{margin:0;font-size:clamp(27px,4vw,38px);font-weight:900;letter-spacing:-.045em}.journal-featured{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);overflow:hidden;margin-bottom:19px;border:1px solid #d8e7dc;border-radius:18px;background:#fff;box-shadow:0 10px 25px rgba(10,71,40,.06)}.journal-featured__visual{position:relative;min-height:320px;overflow:hidden;background:linear-gradient(145deg,#095636,#0d8c4d);color:#fff}.journal-featured__visual img{width:100%;height:100%;object-fit:cover}.journal-featured__visual:has(img){background:#e4eee7}.journal-featured__graphic{position:absolute;inset:0;padding:26px;background:radial-gradient(circle at 76% 25%,rgba(249,178,26,.36),transparent 19%)}.journal-featured__graphic:after{position:absolute;right:-60px;bottom:-63px;width:240px;height:240px;border:1px solid rgba(255,255,255,.23);border-radius:50%;box-shadow:0 0 0 33px rgba(255,255,255,.05);content:''}.journal-featured__graphic span{position:relative;z-index:1;display:inline-flex;padding:6px 9px;border:1px solid rgba(255,255,255,.24);border-radius:99px;background:rgba(255,255,255,.11);font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.journal-featured__body{display:flex;flex-direction:column;justify-content:center;padding:36px}.journal-meta{display:flex;align-items:center;gap:10px;color:#637e6d;font-size:12px;font-weight:750}.journal-meta__category{color:#087841;font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.journal-featured h3{margin:13px 0;color:#173d2b;font-size:clamp(25px,3vw,35px);font-weight:900;letter-spacing:-.045em;line-height:1.12}.journal-featured p{margin:0 0 20px;color:#5b7567;line-height:1.65}.journal-read{display:inline-flex;align-items:center;gap:8px;width:max-content;min-height:40px;color:#087841;font-size:13px;font-weight:900;text-decoration:none}.journal-read:hover{color:#075d35}.journal-read b{font-size:18px}.journal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.journal-card{display:flex;flex-direction:column;overflow:hidden;border:1px solid #d9e7dd;border-radius:15px;background:#fff;box-shadow:0 6px 17px rgba(10,71,40,.045);transition:transform .18s,box-shadow .18s}.journal-card:hover{transform:translateY(-3px);box-shadow:0 14px 27px rgba(10,71,40,.11)}.journal-card__media{position:relative;height:139px;overflow:hidden;background:linear-gradient(135deg,#e4f2e7,#cce7d4)}.journal-card:nth-child(3n+2) .journal-card__media{background:linear-gradient(135deg,#f8ebbd,#f1d37d)}.journal-card:nth-child(3n) .journal-card__media{background:linear-gradient(135deg,#cce7df,#98d2be)}.journal-card__media img{width:100%;height:100%;object-fit:cover}.journal-card__media:has(img){background:#e5eee7}.journal-card__media:before{position:absolute;z-index:1;top:19px;left:20px;width:52px;height:2px;background:rgba(18,78,48,.55);box-shadow:0 9px 0 rgba(18,78,48,.35),0 18px 0 rgba(18,78,48,.23);content:''}.journal-card__media:has(img):before{display:none}.journal-card__body{display:flex;flex:1;flex-direction:column;padding:19px}.journal-card h3{margin:10px 0;color:#173d2b;font-size:18px;font-weight:900;letter-spacing:-.025em;line-height:1.28}.journal-card h3 a{color:inherit;text-decoration:none}.journal-card h3 a:hover{color:#087841}.journal-card p{display:-webkit-box;overflow:hidden;margin:0 0 15px;color:#647c6e;font-size:13px;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:3}.journal-card .journal-read{margin-top:auto}.journal-empty{padding:52px 22px;border:1px dashed #bcd6c4;border-radius:15px;background:#fff;text-align:center}.journal-empty h2{margin:0 0 8px;font-size:21px}.journal-empty p{margin:0;color:#637a6c}.journal-cta{padding:45px 0;background:#e4f2e7}.journal-cta__inner{display:flex;align-items:center;justify-content:space-between;gap:26px}.journal-cta h2{margin:0 0 7px;font-size:27px;font-weight:900;letter-spacing:-.035em}.journal-cta p{max-width:590px;margin:0;color:#597363;line-height:1.6}.journal-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:0 17px;border-radius:9px;background:#0b7f42;color:#fff;font-size:13px;font-weight:900;text-decoration:none;white-space:nowrap}.journal-cta a:hover{background:#075d35}.journal-category:focus-visible,.journal-read:focus-visible,.journal-cta a:focus-visible{outline:3px solid #f9b21a;outline-offset:3px}@media(max-width:850px){.journal-featured{grid-template-columns:1fr}.journal-featured__visual{min-height:220px}.journal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.journal-cta__inner{align-items:start;flex-direction:column}}@media(max-width:560px){.journal-container{width:min(100% - 28px,1120px)}.journal-hero{padding-bottom:49px}.journal-hero__content{margin-top:34px}.journal-hero h1{font-size:42px}.journal-content{padding-top:39px}.journal-featured__body{padding:24px}.journal-featured__visual{min-height:185px}.journal-grid{grid-template-columns:1fr}.journal-card__media{height:128px}.journal-cta{padding:36px 0}.journal-cta h2{font-size:24px}}@media(prefers-reduced-motion:reduce){.journal-card,.journal-category{transition:none}.journal-card:hover{transform:none}}
+</style>
+
+<div class="journal-page">
+    <header class="journal-hero"><div class="journal-container"><nav class="journal-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="journal-hero__content"><span class="journal-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div></div></header>
+    <nav class="journal-categories" aria-label="{{ $copy['crumb'] }}"><div class="journal-container"><div class="journal-categories__inner"><a class="journal-category {{ !request('category') ? 'is-active' : '' }}" href="{{ $categoryUrl() }}">{{ $copy['all'] }}</a>@foreach($categories as $category)<a class="journal-category {{ request('category') === $category->slug ? 'is-active' : '' }}" href="{{ $categoryUrl($category->slug) }}">{{ $categoryLabels[$category->slug] ?? $category->name }}</a>@endforeach</div></div></nav>
+    <main class="journal-container journal-content"><div class="journal-heading"><h2>{{ $copy['latest'] }}</h2></div>
+        @if($posts->isNotEmpty())
+            @if($featured)
+                @php $featuredCategory = $featured->category?->slug; @endphp
+                <article class="journal-featured"><div class="journal-featured__visual">@if($featured->thumbnail)<img src="{{ asset('storage/'.$featured->thumbnail) }}" alt="{{ $featured->title }}">@else<div class="journal-featured__graphic"><span>{{ $categoryLabels[$featuredCategory] ?? $featured->category?->name ?? $copy['updates'] }}</span></div>@endif</div><div class="journal-featured__body"><div class="journal-meta"><span class="journal-meta__category">{{ $categoryLabels[$featuredCategory] ?? $featured->category?->name ?? $copy['updates'] }}</span><span>{{ $featured->published_at->format('d/m/Y') }}</span></div><h3><a href="{{ $postUrl($featured) }}">{{ $featured->title }}</a></h3><p>{{ $featured->summary }}</p><a class="journal-read" href="{{ $postUrl($featured) }}">{{ $copy['read'] }} <b aria-hidden="true">→</b></a></div></article>
+            @endif
+            <div class="journal-grid">@foreach($posts->skip(1) as $post)@php $postCategory = $post->category?->slug; @endphp<article class="journal-card"><div class="journal-card__media">@if($post->thumbnail)<img src="{{ asset('storage/'.$post->thumbnail) }}" alt="{{ $post->title }}" loading="lazy">@endif</div><div class="journal-card__body"><div class="journal-meta"><span class="journal-meta__category">{{ $categoryLabels[$postCategory] ?? $post->category?->name ?? $copy['updates'] }}</span><span>{{ $post->published_at->format('d/m/Y') }}</span></div><h3><a href="{{ $postUrl($post) }}">{{ $post->title }}</a></h3><p>{{ $post->summary }}</p><a class="journal-read" href="{{ $postUrl($post) }}">{{ $copy['read'] }} <b aria-hidden="true">→</b></a></div></article>@endforeach</div>
+            <div style="margin-top:30px;">{{ $posts->appends(request()->query())->links() }}</div>
+        @else
+            <div class="journal-empty"><h2>{{ $copy['emptyTitle'] }}</h2><p>{{ $copy['emptyText'] }}</p></div>
+        @endif
+    </main>
+    <section class="journal-cta"><div class="journal-container journal-cta__inner"><div><h2>{{ $copy['bookingTitle'] }}</h2><p>{{ $copy['bookingText'] }}</p></div><a href="{{ route('home', ['lang' => $locale]) }}#booking">{{ $copy['booking'] }} <span aria-hidden="true">→</span></a></div></section>
 </div>
-
-<!-- Page Header -->
-<section class="py-12 bg-white">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Tin Tức & Bài Viết</h1>
-        <p class="text-xl text-gray-600">Cập nhật thông tin mới nhất về dịch vụ và khuyến mãi</p>
-    </div>
-</section>
-
-<!-- Posts List -->
-<section class="py-12 bg-[#f8fdf9]">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-3">
-                @if($posts->isNotEmpty())
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        @foreach($posts as $post)
-                            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                                @if($post->thumbnail)
-                                    <a href="{{ route('posts.show', $post->slug) }}">
-                                        <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}" class="w-full h-56 object-cover">
-                                    </a>
-                                @else
-                                    <div class="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200"></div>
-                                @endif
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        @if($post->category)
-                                            <span class="inline-block bg-[#e8f8ef] text-brand-green text-xs font-semibold px-3 py-1 rounded-full">
-                                                {{ $post->category->name }}
-                                            </span>
-                                        @endif
-                                        <span class="text-sm text-gray-500">{{ $post->published_at->format('d/m/Y') }}</span>
-                                    </div>
-                                    <h2 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-brand-green">
-                                        <a href="{{ route('posts.show', $post->slug) }}">{{ $post->title }}</a>
-                                    </h2>
-                                    <p class="text-gray-600 mb-4 line-clamp-3">{{ $post->summary }}</p>
-                                    <a href="{{ route('posts.show', $post->slug) }}" class="inline-flex items-center text-brand-green hover:text-[#096b39] font-semibold">
-                                        Đọc thêm
-                                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </article>
-                        @endforeach
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="mt-8">
-                        {{ $posts->links() }}
-                    </div>
-                @else
-                    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
-                        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Chưa có bài viết</h3>
-                        <p class="text-gray-600">Hãy quay lại sau để xem tin tức mới nhất</p>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Sidebar -->
-            <aside class="lg:col-span-1">
-                <!-- Categories -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Danh Mục</h3>
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="{{ route('posts.index') }}" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-[#f8fdf9] transition-colors {{ !request('category') ? 'bg-[#e8f8ef] text-brand-green font-semibold' : 'text-gray-700' }}">
-                                <span>Tất cả</span>
-                            </a>
-                        </li>
-                        @foreach($categories as $category)
-                            <li>
-                                <a href="{{ route('posts.index', ['category' => $category->slug]) }}" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-[#f8fdf9] transition-colors {{ request('category') == $category->slug ? 'bg-[#e8f8ef] text-brand-green font-semibold' : 'text-gray-700' }}">
-                                    <span>{{ $category->name }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <!-- CTA Box -->
-                <div class="bg-gradient-to-br from-[--color-brand-green] to-[#096b39] rounded-2xl shadow-lg p-6 text-white">
-                    <h3 class="text-xl font-bold mb-3">Cần Đặt Vé?</h3>
-                    <p class="mb-4 text-gray-100">Liên hệ ngay để được tư vấn và hỗ trợ đặt vé</p>
-                    <a href="{{ route('booking.index') }}" class="block w-full bg-brand-gold text-[#8a6300] text-center py-3 rounded-lg font-semibold hover:bg-[#e19f14] transition-colors">
-                        Đặt Vé Ngay
-                    </a>
-                </div>
-            </aside>
-        </div>
-    </div>
-</section>
 @endsection
