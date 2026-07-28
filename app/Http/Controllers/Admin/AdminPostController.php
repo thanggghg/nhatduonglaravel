@@ -42,6 +42,7 @@ class AdminPostController extends Controller
 
         $validated['status'] = $request->boolean('status');
         $validated['published_at'] = $validated['published_at'] ?? now();
+        $validated['content'] = $this->sanitizeContent($validated['content']);
 
         Post::create($validated);
 
@@ -85,6 +86,7 @@ class AdminPostController extends Controller
         }
 
         $validated['status'] = $request->boolean('status');
+        $validated['content'] = $this->sanitizeContent($validated['content']);
 
         $post->update($validated);
 
@@ -102,5 +104,58 @@ class AdminPostController extends Controller
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', 'Bài viết đã được xóa!');
+    }
+
+    private function sanitizeContent(string $content): string
+    {
+        $document = new \DOMDocument();
+        $previousInternalErrors = libxml_use_internal_errors(true);
+        $document->loadHTML('<div id="article-content">'.$content.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+        libxml_use_internal_errors($previousInternalErrors);
+
+        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'h2', 'h3', 'h4', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
+        $container = $document->getElementById('article-content');
+        if (!$container) {
+            return '';
+        }
+
+        foreach (iterator_to_array($container->getElementsByTagName('*')) as $element) {
+            if (!in_array($element->tagName, $allowedTags, true)) {
+                if (in_array($element->tagName, ['script', 'style'], true)) {
+                    $element->parentNode?->removeChild($element);
+                    continue;
+                }
+
+                while ($element->firstChild) {
+                    $element->parentNode?->insertBefore($element->firstChild, $element);
+                }
+                $element->parentNode?->removeChild($element);
+                continue;
+            }
+
+            foreach (iterator_to_array($element->attributes) as $attribute) {
+                if ($element->tagName !== 'a' || !in_array($attribute->name, ['href', 'target', 'rel'], true)) {
+                    $element->removeAttribute($attribute->name);
+                }
+            }
+
+            if ($element->tagName === 'a') {
+                $href = $element->getAttribute('href');
+                if ($href && !preg_match('/^(https?:|mailto:|tel:|#|\/)/i', $href)) {
+                    $element->removeAttribute('href');
+                }
+                if ($element->getAttribute('target') === '_blank') {
+                    $element->setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+        }
+
+        $html = '';
+        foreach ($container->childNodes as $node) {
+            $html .= $document->saveHTML($node);
+        }
+
+        return trim($html);
     }
 }
