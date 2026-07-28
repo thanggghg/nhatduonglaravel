@@ -7,6 +7,7 @@
     'en' => ['nav' => [['Home','home'],['Routes','routes.index'],['Schedule','schedules.index'],['News','posts.index'],['About','about'],['Contact','contact']], 'book' => 'Book now'],
     'ru' => ['nav' => [['Главная','home'],['Маршруты','routes.index'],['Расписание','schedules.index'],['Новости','posts.index'],['О компании','about'],['Контакты','contact']], 'book' => 'Забронировать'],
   ][$locale];
+  $languageUrl = fn (string $language) => request()->fullUrlWithQuery(['lang' => $language]);
 @endphp
 <header style="position:sticky; top:0; z-index:1000; background:linear-gradient(180deg,#0b7f42,#096b39); box-shadow:0 4px 20px rgba(11,127,66,0.30);">
   <div style="width:min(1280px,94%); margin:0 auto; min-height:68px; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 16px;">
@@ -33,6 +34,11 @@
 
     {{-- Right actions --}}
     <div style="display:flex; align-items:center; gap:10px;" class="hidden lg:flex">
+      <div aria-label="Language" style="display:flex; align-items:center; gap:2px; padding:3px; border:1px solid rgba(255,255,255,0.30); border-radius:9px;">
+        @foreach(['vi' => 'VI', 'en' => 'EN', 'ru' => 'RU'] as $code => $label)
+        <a href="{{ $languageUrl($code) }}" aria-current="{{ $locale === $code ? 'page' : 'false' }}" style="padding:5px 6px; border-radius:6px; color:{{ $locale === $code ? '#062d1c' : 'rgba(255,255,255,0.88)' }}; background:{{ $locale === $code ? '#fbb116' : 'transparent' }}; font-size:10px; font-weight:900; text-decoration:none;">{{ $label }}</a>
+        @endforeach
+      </div>
       <a href="tel:1900 2879"
          style="display:flex; align-items:center; gap:6px; padding:9px 16px; border-radius:10px; background:#fff; color:#062d1c; font-size:14px; font-weight:800; text-decoration:none; white-space:nowrap; box-shadow:0 4px 12px rgba(0,0,0,0.12);">
         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
@@ -58,6 +64,11 @@
         <a href="{{ route($route, ['lang' => $locale]) }}" style="padding:11px 14px; border-radius:8px; color:rgba(255,255,255,0.85); font-size:15px; font-weight:600; text-decoration:none; {{ request()->routeIs($route)?'background:rgba(255,255,255,0.10);color:#fbb116;':'' }}">{{ $label }}</a>
         @endforeach
         <div style="margin-top:8px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.10); display:flex; flex-direction:column; gap:8px;">
+          <div aria-label="Language" style="display:flex; gap:7px;">
+            @foreach(['vi' => 'VI', 'en' => 'EN', 'ru' => 'RU'] as $code => $label)
+            <a href="{{ $languageUrl($code) }}" aria-current="{{ $locale === $code ? 'page' : 'false' }}" style="flex:1; padding:9px; border-radius:7px; color:{{ $locale === $code ? '#062d1c' : '#fff' }}; background:{{ $locale === $code ? '#fbb116' : 'rgba(255,255,255,0.12)' }}; font-size:12px; font-weight:900; text-align:center; text-decoration:none;">{{ $label }}</a>
+            @endforeach
+          </div>
           <a href="tel:1900 2879" style="padding:11px 14px; border-radius:8px; background:#fff; color:#062d1c; font-weight:800; font-size:14px; text-decoration:none; text-align:center;">☎ 1900 2879</a>
           <a href="{{ route('home', ['lang' => $locale]) }}#booking" style="padding:11px 14px; border-radius:8px; background:linear-gradient(180deg,#ffdc47,#fbb116); color:#5a3e00; font-weight:800; font-size:14px; text-decoration:none; text-align:center;">{{ $headerCopy['book'] }}</a>
         </div>
