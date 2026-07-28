@@ -38,6 +38,30 @@ class NhatDuongPublicBookingService
         return $this->validateOrderResponse($response['body'], 'PAID', false);
     }
 
+    public function getOrder(string $orderId): array
+    {
+        if ($orderId === '') {
+            throw new RuntimeException('A Public Booking API order ID is required.');
+        }
+
+        [$baseUrl, $apiKey] = $this->configuration();
+        try {
+            $response = Http::acceptJson()
+                ->withHeaders(['X-Internal-Booking-Key' => $apiKey])
+                ->connectTimeout(5)
+                ->timeout(15)
+                ->get($baseUrl.'/orders/'.rawurlencode($orderId));
+        } catch (ConnectionException) {
+            throw new RuntimeException('Public Booking API could not be reached. Please try again later.');
+        }
+
+        if (!$response->successful() || !is_array($response->json())) {
+            throw new RuntimeException('Public Booking API returned an invalid order response.');
+        }
+
+        return $response->json();
+    }
+
     private function post(string $path, array $payload, array $headers = []): array
     {
         [$baseUrl, $apiKey] = $this->configuration();

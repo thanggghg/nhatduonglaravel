@@ -72,6 +72,32 @@ class VexereTripService
                     continue;
                 }
 
+                $roomOptions = collect($seat['seat_groups'] ?? [[
+                    'seat_group_id' => $seat['seat_group_id'] ?? null,
+                    'seat_group_code' => $seat['seat_group_code'] ?? null,
+                    'seat_group' => $seat['seat_group'] ?? null,
+                    'seat_group_english' => $seat['seat_group_english'] ?? null,
+                    'fare' => $seat['fare'] ?? 0,
+                    'seat_color' => $seat['seat_color'] ?? null,
+                ]])->map(function (array $group) use ($locale) {
+                    return [
+                        'id' => is_numeric($group['seat_group_id'] ?? null) ? (int) $group['seat_group_id'] : null,
+                        'code' => $group['seat_group_code'] ?? null,
+                        'name' => $locale !== 'vi' && filled($group['seat_group_english'] ?? null)
+                            ? $group['seat_group_english']
+                            : ($group['seat_group'] ?? null),
+                        'fare' => (int) ($group['fare'] ?? 0),
+                        'color' => $group['seat_color'] ?? null,
+                    ];
+                })->values();
+                $lowestRoomFare = $roomOptions->min('fare');
+                $roomOptions = $roomOptions->map(fn (array $group) => $group + [
+                    'customer_amount' => $group['fare'] === $lowestRoomFare ? 1 : 2,
+                ])->all();
+                $selectedRoom = collect($roomOptions)->firstWhere('code', $seat['seat_group_code'] ?? null) ?? $roomOptions[0] ?? [];
+                $roomName = $selectedRoom['name'] ?? null;
+                $roomCode = $seat['seat_group_code'] ?? '';
+
                 $seats[] = [
                     'key' => implode('|', [$seatCode, $coachNumber, $row, $column]),
                     'code' => $seatCode,
@@ -82,7 +108,11 @@ class VexereTripService
                     'column_span' => max(1, (int) ($seat['col_span'] ?? 1)),
                     'type' => $seat['seat_type'] ?? null,
                     'seat_type' => $seat['seat_type'] ?? null,
-                    'fare' => (int) ($seat['fare'] ?? 0),
+                    'fare' => (int) ($selectedRoom['fare'] ?? $seat['fare'] ?? 0),
+                    'room_name' => $roomName,
+                    'room_code' => $roomCode,
+                    'room_color' => $selectedRoom['color'] ?? $seat['seat_color'] ?? null,
+                    'room_options' => $roomOptions,
                     'available' => (bool) ($seat['is_available'] ?? false),
                     'locked' => (bool) ($seat['is_locked_seat'] ?? false),
                 ];

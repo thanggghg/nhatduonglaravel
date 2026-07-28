@@ -68,6 +68,7 @@ class BookingController extends Controller
         $context = $this->liveCheckoutContext($request);
         extract($context);
         $route->load(['pickupPoints', 'dropoffPoints']);
+        $this->syncCancelledProviderBookings($trip['code'], $date);
         $reservedSeats = $this->reservedSeats($trip['code'], $date);
         try {
             $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
@@ -90,6 +91,7 @@ class BookingController extends Controller
         $context = $this->liveCheckoutContext($request);
         $tripDetails = $this->vexere->tripDetails($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
         $seatMap = $tripDetails['coaches'];
+        $this->syncCancelledProviderBookings($context['trip']['code'], $context['date']);
         $reservedSeats = $this->reservedSeats($context['trip']['code'], $context['date']);
         $availableSeats = count(array_diff($this->availableSeatKeys($seatMap), $reservedSeats));
 
@@ -200,6 +202,8 @@ class BookingController extends Controller
             'seat_preference' => 'nullable|in:any,lower,upper',
             'selected_seats' => 'required|array|min:1|max:6',
             'selected_seats.*' => 'required|string|max:100|distinct',
+            'selected_room_options' => 'nullable|array|max:6',
+            'selected_room_options.*' => 'required|string|max:1000',
             'notes' => 'nullable|string|max:1500',
             'terms' => 'accepted',
             'lang' => 'nullable|in:vi,en,ru',
@@ -217,10 +221,11 @@ class BookingController extends Controller
         $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
         $seatMap = $tripDetails['coaches'];
         $selectedSeats = array_values($validated['selected_seats']);
+        $seatDetails = collect($seatMap)->flatMap(fn (array $coach) => $coach['seats'])->keyBy('key');
         $availableSeatKeys = $this->availableSeatKeys($seatMap);
         $invalidSeat = collect($selectedSeats)->contains(fn (string $seat) => !in_array($seat, $availableSeatKeys, true));
-        if (count($selectedSeats) !== (int) $validated['passenger_count'] || count(array_unique($selectedSeats)) !== count($selectedSeats) || $invalidSeat) {
-            throw ValidationException::withMessages(['selected_seats' => 'Please select one available seat for each passenger.']);
+        if (count(array_unique($selectedSeats)) !== count($selectedSeats) || $invalidSeat) {
+            throw ValidationException::withMessages(['selected_seats' => 'Please select available rooms.']);
         }
 
         $pickupPoint = $this->pointByKey($tripDetails['pickup_points'], $validated['pickup_point'], $validated['passenger_count']);
@@ -247,8 +252,17 @@ class BookingController extends Controller
             throw ValidationException::withMessages(['dropoff_point' => 'The selected drop-off point is missing canonical provider details.']);
         }
 
-        $seatDetails = collect($seatMap)->flatMap(fn (array $coach) => $coach['seats'])->keyBy('key');
         $apiSeats = [];
+        $roomOptionsBySeat = collect($validated['selected_room_options'] ?? [])
+            ->map(function (string $option) {
+                try {
+                    return json_decode($option, true, flags: JSON_THROW_ON_ERROR);
+                } catch (\JsonException) {
+                    return null;
+                }
+            })
+            ->filter(fn ($option) => is_array($option) && filled($option['seatCode'] ?? null))
+            ->keyBy('seatCode');
         foreach ($selectedSeats as $seatKey) {
             $seat = $seatDetails->get($seatKey);
             $seatType = $seat['seat_type'] ?? null;
@@ -256,7 +270,24 @@ class BookingController extends Controller
                 throw ValidationException::withMessages(['selected_seats' => 'A selected seat is missing its canonical provider seat type.']);
             }
 
-            $apiSeats[] = ['seatCode' => $seatKey, 'seatType' => (int) $seatType];
+            $roomOption = $roomOptionsBySeat->get($seatKey) ?? collect($seat['room_options'] ?? [])->first();
+            $roomOption = collect($seat['room_options'] ?? [])->first(fn (array $option) => (int) ($option['id'] ?? 0) === (int) ($roomOption['id'] ?? 0));
+            if (!$roomOption || !is_numeric($roomOption['id'] ?? null) || !filled($roomOption['code'] ?? null)) {
+                throw ValidationException::withMessages(['selected_seats' => 'A selected room is missing its provider room type.']);
+            }
+
+            $apiSeats[] = [
+                'seatCode' => $seatKey,
+                'seatType' => (int) $seatType,
+                'seatGroupId' => (int) $roomOption['id'],
+                'seatGroupCode' => $roomOption['code'],
+                'seatGroupName' => $roomOption['name'],
+                'customerAmount' => (int) ($roomOption['customer_amount'] ?? 1),
+            ];
+        }
+
+        if (collect($apiSeats)->sum('customerAmount') !== (int) $validated['passenger_count']) {
+            throw ValidationException::withMessages(['selected_seats' => 'Please select room options for exactly the number of passengers.']);
         }
 
         $departure = $trip['departure'];
@@ -472,6 +503,41 @@ class BookingController extends Controller
             ->whereHas('booking', fn ($query) => $query->reserving())
             ->pluck('seat')
             ->all();
+    }
+
+    private function syncCancelledProviderBookings(string $tripCode, Carbon $date): void
+    {
+        Booking::where('trip_code', $tripCode)
+            ->whereDate('travel_date', $date)
+            ->whereIn('status', ['pending', 'external_pending'])
+            ->whereNotNull('public_booking_order_id')
+            ->get()
+            ->each(function (Booking $booking) {
+                try {
+                    $order = $this->publicBooking->getOrder((string) $booking->public_booking_order_id);
+                } catch (\Throwable $exception) {
+                    report($exception);
+                    return;
+                }
+
+                $status = $order['status'] ?? null;
+                $cancelledSeats = collect($order['seats'] ?? [])
+                    ->filter(fn (array $seat) => in_array($seat['status'] ?? null, ['CANCELLED'], true))
+                    ->pluck('seatCode')
+                    ->all();
+
+                if ($cancelledSeats) {
+                    $booking->seatReservations()->whereIn('seat', $cancelledSeats)->delete();
+                }
+
+                if (in_array($status, ['CANCELLED', 'EXPIRED'], true) || !$booking->seatReservations()->exists()) {
+                    $booking->update([
+                        'status' => 'failed',
+                        'payment_status' => $status === 'EXPIRED' ? 'external_order_expired' : 'external_order_cancelled',
+                        'public_booking_status' => $status,
+                    ]);
+                }
+            });
     }
 
     private function availableSeatKeys(array $seatMap): array
