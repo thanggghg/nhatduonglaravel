@@ -260,6 +260,7 @@ class BookingController extends Controller
         }
 
         $departure = $trip['departure'];
+        $providerTripDeparture = $trip['provider_trip_departure'] ?? $departure;
         $orderPayload = [
             'tripId' => (int) $onlineInfo['trip_id'],
             'fromId' => (int) $trip['booking_from_id'],
@@ -269,6 +270,8 @@ class BookingController extends Controller
             'customerPhone' => $validated['passenger_phone'],
             'departureDate' => $departure->toDateString(),
             'departureTime' => $departure->format('H:i'),
+            'tripDate' => $providerTripDeparture->toDateString(),
+            'tripTime' => $providerTripDeparture->format('H:i'),
             'pickupName' => $pickupPoint['provider_name'],
             'pickupInfo' => $pickupPoint['pickup_info'],
             'dropOffInfo' => $dropoffPoint['dropoff_info'],

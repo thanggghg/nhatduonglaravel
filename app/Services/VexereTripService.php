@@ -183,9 +183,12 @@ class VexereTripService
         foreach ($results as $result) {
             $route = $result['route'] ?? [];
             $company = $result['company'] ?? [];
-            $idIndex = array_values(array_filter(explode('_', (string) ($result['idIndex'] ?? '')), 'is_numeric'));
+            $idIndexParts = explode('_', (string) ($result['idIndex'] ?? ''));
+            $idIndex = array_values(array_filter($idIndexParts, 'is_numeric'));
             $bookingFromId = count($idIndex) >= 2 ? $idIndex[count($idIndex) - 2] : data_get($route, 'pickup_points.0.area_id');
             $bookingToId = count($idIndex) >= 1 ? $idIndex[count($idIndex) - 1] : data_get($route, 'dropoff_points.0.area_id');
+            $tripDatePart = collect($idIndexParts)->first(fn (string $part) => preg_match('/^\d{4}-\d{2}-\d{2}$/', $part));
+            $tripTimePart = collect($idIndexParts)->first(fn (string $part) => preg_match('/^\d{2}:\d{2}$/', $part));
             $image = data_get($company, 'images.0.files.1000x600');
             $image = $image ? (str_starts_with($image, '//') ? 'https://'.ltrim($image, '/') : $image) : null;
 
@@ -195,10 +198,14 @@ class VexereTripService
                 $fare = (int) (data_get($schedule, 'fare.discount') ?: data_get($schedule, 'fare.original'));
                 $departure = Carbon::parse($schedule['pickup_date']);
                 $arrival = Carbon::parse($schedule['arrival_time']);
+                $tripDeparture = $tripDatePart && $tripTimePart
+                    ? Carbon::createFromFormat('Y-m-d H:i', $tripDatePart.' '.$tripTimePart, 'Asia/Ho_Chi_Minh')
+                    : $departure->copy();
 
                 $trips[] = [
                     'code' => $schedule['trip_code'],
                     'departure' => $departure,
+                    'provider_trip_departure' => $tripDeparture,
                     'arrival' => $arrival,
                     'fare' => $fare,
                     'available_seats' => (int) ($schedule['available_seats'] ?? 0),
