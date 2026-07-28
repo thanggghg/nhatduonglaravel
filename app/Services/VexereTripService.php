@@ -183,6 +183,9 @@ class VexereTripService
         foreach ($results as $result) {
             $route = $result['route'] ?? [];
             $company = $result['company'] ?? [];
+            $idIndex = array_values(array_filter(explode('_', (string) ($result['idIndex'] ?? '')), 'is_numeric'));
+            $bookingFromId = count($idIndex) >= 2 ? $idIndex[count($idIndex) - 2] : data_get($route, 'pickup_points.0.area_id');
+            $bookingToId = count($idIndex) >= 1 ? $idIndex[count($idIndex) - 1] : data_get($route, 'dropoff_points.0.area_id');
             $image = data_get($company, 'images.0.files.1000x600');
             $image = $image ? (str_starts_with($image, '//') ? 'https://'.ltrim($image, '/') : $image) : null;
 
@@ -203,6 +206,8 @@ class VexereTripService
                     'duration' => (int) ($route['duration'] ?? 0),
                     'pickup' => $this->placeName($pickup, $locale, $from),
                     'dropoff' => $this->placeName($dropoff, $locale, $to),
+                    'booking_from_id' => is_numeric($bookingFromId) ? (int) $bookingFromId : null,
+                    'booking_to_id' => is_numeric($bookingToId) ? (int) $bookingToId : null,
                     'image' => $image,
                     'booking_url' => $this->bookingUrl($fromId, $toId, $date, $from, $to, $returnDate),
                 ];
@@ -303,6 +308,7 @@ class VexereTripService
                 $providerAddress = $point['address'] ?? null;
                 $providerId = $point['id'] ?? null;
                 $pointId = $point['point_id'] ?? null;
+                $bookingAreaId = $point['area_id'] ?? data_get($point, 'areaDetail.id');
 
                 return [
                     'key' => implode(':', [$point['point_id'] ?? '', $point['id'] ?? '', $point['index'] ?? '']),
@@ -314,6 +320,7 @@ class VexereTripService
                     'provider_address' => $providerAddress,
                     'provider_id' => $providerId,
                     'point_id' => $pointId,
+                    'booking_area_id' => is_numeric($bookingAreaId) ? (int) $bookingAreaId : null,
                     'pickup_info' => $isPickup && filled($providerAddress) && filled($providerId)
                         ? $providerAddress.'||0|'.$providerId.'|'
                         : null,

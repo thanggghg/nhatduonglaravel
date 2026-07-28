@@ -230,8 +230,8 @@ class BookingController extends Controller
         }
 
         $onlineInfo = $tripDetails['online_info'] ?? [];
-        if (!is_numeric($onlineInfo['trip_id'] ?? null) || !is_numeric($onlineInfo['search_from'] ?? null) || !is_numeric($onlineInfo['search_to'] ?? null)) {
-            throw ValidationException::withMessages(['trip_code' => 'The live provider did not return the canonical trip identifiers required to book this departure.']);
+        if (!is_numeric($onlineInfo['trip_id'] ?? null) || !is_numeric($trip['booking_from_id'] ?? null) || !is_numeric($trip['booking_to_id'] ?? null)) {
+            throw ValidationException::withMessages(['trip_code' => 'The live provider did not return the canonical booking identifiers required to book this departure.']);
         }
 
         if (!$trip['departure'] instanceof Carbon) {
@@ -262,8 +262,8 @@ class BookingController extends Controller
         $departure = $trip['departure'];
         $orderPayload = [
             'tripId' => (int) $onlineInfo['trip_id'],
-            'fromId' => (int) $onlineInfo['search_from'],
-            'toId' => (int) $onlineInfo['search_to'],
+            'fromId' => (int) $trip['booking_from_id'],
+            'toId' => (int) $trip['booking_to_id'],
             'seats' => $apiSeats,
             'customerName' => $validated['passenger_name'],
             'customerPhone' => $validated['passenger_phone'],
