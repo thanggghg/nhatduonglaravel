@@ -66,8 +66,6 @@ class VexereTripService
                 $response->json('data', []),
                 $query['from'],
                 $query['to'],
-                $query['fromId'],
-                $query['toId'],
                 $date,
                 $locale,
                 $query['returnDate']
@@ -81,7 +79,7 @@ class VexereTripService
         return $trips;
     }
 
-    private function normalizeTrips(array $results, string $from, string $to, int $fromId, int $toId, Carbon $date, string $locale, ?Carbon $returnDate): array
+    private function normalizeTrips(array $results, string $from, string $to, Carbon $date, string $locale, ?Carbon $returnDate): array
     {
         $trips = [];
         foreach ($results as $result) {
@@ -108,7 +106,7 @@ class VexereTripService
                     'pickup' => $this->placeName($pickup, $locale, $from),
                     'dropoff' => $this->placeName($dropoff, $locale, $to),
                     'image' => $image,
-                    'booking_url' => $this->bookingUrl($fromId, $toId, $date, $from, $to, $returnDate),
+                    'booking_url' => $this->bookingUrl($date, $from, $to, $returnDate, $locale),
                 ];
             }
         }
@@ -159,15 +157,15 @@ class VexereTripService
         });
     }
 
-    private function bookingUrl(int $fromId, int $toId, Carbon $date, string $from, string $to, ?Carbon $returnDate): string
+    private function bookingUrl(Carbon $date, string $from, string $to, ?Carbon $returnDate, string $locale): string
     {
-        return 'https://nhaxenhatduong.com/dat-ve-truc-tuyen?'.http_build_query([
-            'from' => $fromId,
-            'to' => $toId,
+        return route('booking.search', [
+            'from_location' => $from,
+            'to_location' => $to,
             'departDate' => $date->format('d-m-Y'),
-            'fromLabel' => $from,
-            'toLabel' => $to,
             'returnDate' => $returnDate?->format('d-m-Y'),
+            'is_round_trip' => $returnDate ? 1 : 0,
+            'lang' => $locale,
         ]);
     }
 
