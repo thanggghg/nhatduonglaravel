@@ -86,10 +86,11 @@ class BookingController extends Controller
         $context = $this->liveCheckoutContext($request);
         $tripDetails = $this->vexere->tripDetails($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
         $seatMap = $tripDetails['coaches'];
-        $availableSeats = count($this->availableSeatKeys($seatMap));
+        $reservedSeats = $this->reservedSeats($context['trip']['code'], $context['date']);
+        $availableSeats = count(array_diff($this->availableSeatKeys($seatMap), $reservedSeats));
 
         return response()->json([
-            'reserved_seats' => $this->reservedSeats($context['trip']['code'], $context['date']),
+            'reserved_seats' => $reservedSeats,
             'available_seats' => $availableSeats,
             'coaches' => $seatMap,
         ]);

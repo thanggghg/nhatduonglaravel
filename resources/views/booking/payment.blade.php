@@ -8,6 +8,11 @@
         'en' => ['kicker' => 'SECURE PAYMENT', 'title' => 'Scan to pay', 'intro' => 'The QR code contains the exact amount and transfer reference. Your ticket is confirmed automatically after SePay receives the transfer.', 'amount' => 'Payment amount', 'code' => 'Transfer reference', 'account' => 'Receiving account', 'waiting' => 'Awaiting payment', 'check' => 'I have transferred', 'checking' => 'Checking...', 'secure' => 'Payment is reconciled automatically through SePay Sandbox.', 'unavailable' => 'Unable to create the payment QR right now. Please try again.', 'pending' => 'Payment has not been received yet. Please wait a moment and check again.', 'back' => 'Back to booking details'],
         'ru' => ['kicker' => 'БЕЗОПАСНАЯ ОПЛАТА', 'title' => 'Отсканируйте QR для оплаты', 'intro' => 'QR-код уже содержит точную сумму и назначение платежа. Билет подтверждается автоматически после получения перевода SePay.', 'amount' => 'Сумма к оплате', 'code' => 'Назначение перевода', 'account' => 'Счет получателя', 'waiting' => 'Ожидание оплаты', 'check' => 'Я перевел деньги', 'checking' => 'Проверяем...', 'secure' => 'Платеж сверяется автоматически через SePay Sandbox.', 'unavailable' => 'Сейчас не удается создать QR для оплаты. Повторите попытку позже.', 'pending' => 'Платеж еще не получен. Подождите немного и проверьте снова.', 'back' => 'Назад к данным бронирования'],
     ][$locale];
+    $paymentUi = [
+        'vi' => ['status_help' => 'Chúng tôi tự động kiểm tra xác nhận. Nếu giao dịch chưa cập nhật sau khi chuyển khoản, hãy dùng nút kiểm tra bên dưới.', 'booking_reference' => 'Mã đặt vé', 'support' => 'Cần hỗ trợ thanh toán?'],
+        'en' => ['status_help' => 'We check for confirmation automatically. If your transfer has not updated yet, use the check button below.', 'booking_reference' => 'Booking reference', 'support' => 'Need payment support?'],
+        'ru' => ['status_help' => 'Мы автоматически проверяем подтверждение. Если перевод еще не отобразился, используйте кнопку проверки ниже.', 'booking_reference' => 'Код бронирования', 'support' => 'Нужна помощь с оплатой?'],
+    ][$locale];
 @endphp
 
 @section('content')
@@ -16,10 +21,11 @@
     <a class="payment-back" href="{{ url()->previous() }}">&larr; {{ $copy['back'] }}</a>
     <div class="payment-card">
       <div class="payment-copy">
-        <p>{{ $copy['kicker'] }}</p><h1>{{ $copy['title'] }}</h1><span class="payment-status">{{ $copy['waiting'] }}</span><p class="payment-intro">{{ $copy['intro'] }}</p>
+        <p>{{ $copy['kicker'] }}</p><h1>{{ $copy['title'] }}</h1><span id="payment-status" class="payment-status" role="status" aria-live="polite">{{ $copy['waiting'] }}</span><p class="payment-intro">{{ $copy['intro'] }}</p>
         <dl>
-          <div><dt>{{ $copy['amount'] }}</dt><dd>{{ number_format($booking->total_amount) }} VND</dd></div>
-          <div><dt>{{ $copy['code'] }}</dt><dd>{{ $booking->payment_code }}</dd></div>
+          <div><dt>{{ $copy['amount'] }}</dt><dd class="payment-amount">{{ number_format($booking->total_amount) }} VND</dd></div>
+          <div><dt>{{ $copy['code'] }}</dt><dd class="payment-code">{{ $booking->payment_code }}</dd></div>
+          <div><dt>{{ $paymentUi['booking_reference'] }}</dt><dd>{{ $booking->reference }}</dd></div>
           @if($payment)
           <div><dt>{{ $copy['account'] }}</dt><dd>{{ $payment['bank_name'] }} · {{ $payment['account_number'] }}<br>{{ $payment['account_name'] }}</dd></div>
           @endif
@@ -32,7 +38,7 @@
           @csrf
           <button type="submit" data-checking="{{ $copy['checking'] }}">{{ $copy['check'] }}</button>
         </form>
-        <p>{{ $copy['secure'] }}</p>
+        <p>{{ $copy['secure'] }}</p><p class="payment-auto-check">{{ $paymentUi['status_help'] }}</p><a class="payment-support" href="tel:19002879">{{ $paymentUi['support'] }} · 1900 2879</a>
         @else
         <p class="payment-error">{{ $copy['unavailable'] }}</p>
         @endif
@@ -49,7 +55,7 @@
 @endsection
 
 @push('styles')
-<style>.payment-page{min-height:70vh;padding:40px 0 70px;background:#f3f8f4}.payment-shell{width:min(900px,calc(100% - 32px));margin:auto}.payment-back{display:inline-block;margin-bottom:18px;color:#087841;font-size:14px;font-weight:800;text-decoration:none}.payment-card{display:grid;grid-template-columns:1fr minmax(290px,.75fr);gap:28px;padding:32px;border:1px solid #d5e4d9;border-radius:18px;background:#fff;box-shadow:0 16px 36px rgba(11,127,66,.1)}.payment-copy>p:first-child{margin:0;color:#087841;font-size:11px;font-weight:900;letter-spacing:.12em}.payment-copy h1{margin:9px 0;color:#173014;font-size:34px;letter-spacing:-.04em}.payment-status{display:inline-flex;padding:6px 10px;border-radius:99px;color:#725d14;background:#fef3d7;font-size:12px;font-weight:850}.payment-intro{max-width:490px;margin:20px 0;color:#60776a;line-height:1.65}.payment-copy dl{display:grid;gap:0;margin:0;border-top:1px solid #e2ece5}.payment-copy dl div{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px solid #e2ece5}.payment-copy dt{color:#6d8377;font-size:12px;font-weight:700}.payment-copy dd{margin:0;color:#173014;font-size:13px;font-weight:850;text-align:right}.payment-qr{display:grid;align-content:start;justify-items:center;gap:15px;padding:18px;border-radius:14px;background:#f6faf6;text-align:center}.payment-qr img{width:min(100%,280px);border-radius:10px;background:#fff}.payment-qr form{width:100%}.payment-qr button{width:100%;min-height:46px;border:0;border-radius:9px;color:#fff;background:#0b7f42;font:800 14px Inter,sans-serif;cursor:pointer}.payment-qr button:disabled{opacity:.6}.payment-qr>p{margin:0;color:#657d6e;font-size:12px;line-height:1.5}.payment-error{padding:11px!important;color:#991b1b!important;border:1px solid #f1c5bd;border-radius:8px;background:#fff5f2}@media(max-width:650px){.payment-card{grid-template-columns:1fr;padding:22px}.payment-copy h1{font-size:29px}.payment-copy dl div{display:grid}.payment-copy dd{text-align:left}}</style>
+<style>.payment-page{min-height:70vh;padding:40px 0 70px;background:#f3f8f4}.payment-shell{width:min(900px,calc(100% - 32px));margin:auto}.payment-back{display:inline-block;margin-bottom:18px;color:#087841;font-size:14px;font-weight:800;text-decoration:none}.payment-card{display:grid;grid-template-columns:1fr minmax(290px,.75fr);gap:28px;padding:32px;border:1px solid #d5e4d9;border-radius:18px;background:#fff;box-shadow:0 16px 36px rgba(11,127,66,.1)}.payment-copy>p:first-child{margin:0;color:#087841;font-size:11px;font-weight:900;letter-spacing:.12em}.payment-copy h1{margin:9px 0;color:#173014;font-size:34px;letter-spacing:-.04em}.payment-status{display:inline-flex;padding:6px 10px;border-radius:99px;color:#725d14;background:#fef3d7;font-size:12px;font-weight:850}.payment-intro{max-width:490px;margin:20px 0;color:#60776a;line-height:1.65}.payment-copy dl{display:grid;gap:0;margin:0;border-top:1px solid #e2ece5}.payment-copy dl div{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px solid #e2ece5}.payment-copy dt{color:#6d8377;font-size:12px;font-weight:700}.payment-copy dd{margin:0;color:#173014;font-size:13px;font-weight:850;text-align:right}.payment-amount{color:#087841!important;font-size:18px!important}.payment-code{overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.04em}.payment-qr{display:grid;align-content:start;justify-items:center;gap:15px;padding:18px;border-radius:14px;background:#f6faf6;text-align:center}.payment-qr img{width:min(100%,280px);border-radius:10px;background:#fff}.payment-qr form{width:100%}.payment-qr button{width:100%;min-height:46px;border:0;border-radius:9px;color:#fff;background:#0b7f42;font:800 14px Inter,sans-serif;cursor:pointer}.payment-qr button:disabled{opacity:.6}.payment-qr>p{margin:0;color:#657d6e;font-size:12px;line-height:1.5}.payment-auto-check{padding:10px;color:#365145!important;background:#eaf6ed;border-radius:8px}.payment-support{color:#087841;font-size:12px;font-weight:800;text-decoration:none}.payment-error{padding:11px!important;color:#991b1b!important;border:1px solid #f1c5bd;border-radius:8px;background:#fff5f2}@media(max-width:650px){.payment-card{grid-template-columns:1fr;padding:22px}.payment-copy h1{font-size:29px}.payment-copy dl div{display:grid}.payment-copy dd{text-align:left}}</style>
 @endpush
 
 @push('scripts')
