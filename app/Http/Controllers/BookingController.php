@@ -66,15 +66,17 @@ class BookingController extends Controller
         $route->load(['pickupPoints', 'dropoffPoints']);
         $reservedSeats = $this->reservedSeats($trip['code'], $date);
         try {
-            $seatMap = $this->vexere->seatMap($route->from_location, $route->to_location, $trip['code'], $locale);
+            $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
+            $seatMap = $tripDetails['coaches'];
             $seatError = false;
         } catch (\Throwable $exception) {
             report($exception);
             $seatMap = [];
+            $tripDetails = ['pickup_points' => [], 'dropoff_points' => []];
             $seatError = true;
         }
-        $pickupOptions = $route->pickupPoints->isNotEmpty() ? $route->pickupPoints : collect([(object) ['name' => $trip['pickup'], 'time' => null]]);
-        $dropoffOptions = $route->dropoffPoints->isNotEmpty() ? $route->dropoffPoints : collect([(object) ['name' => $trip['dropoff'], 'time' => null]]);
+        $pickupOptions = collect($tripDetails['pickup_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
+        $dropoffOptions = collect($tripDetails['dropoff_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
 
         return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions'));
     }
@@ -82,7 +84,8 @@ class BookingController extends Controller
     public function liveSeats(Request $request): JsonResponse
     {
         $context = $this->liveCheckoutContext($request);
-        $seatMap = $this->vexere->seatMap($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
+        $tripDetails = $this->vexere->tripDetails($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
+        $seatMap = $tripDetails['coaches'];
         $availableSeats = count($this->availableSeatKeys($seatMap));
 
         return response()->json([
@@ -105,8 +108,8 @@ class BookingController extends Controller
             'passenger_name' => 'required|string|max:120',
             'passenger_email' => 'nullable|email:rfc,dns|max:120|required_without:passenger_phone',
             'passenger_phone' => 'nullable|string|max:50|required_without:passenger_email',
-            'pickup_point' => 'nullable|string|max:255',
-            'dropoff_point' => 'nullable|string|max:255',
+            'pickup_point' => 'required|string|max:255',
+            'dropoff_point' => 'required|string|max:255',
             'seat_preference' => 'nullable|in:any,lower,upper',
             'notes' => 'nullable|string|max:1500',
             'terms' => 'accepted',
@@ -206,7 +209,8 @@ class BookingController extends Controller
             throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
         }
 
-        $seatMap = $this->vexere->seatMap($route->from_location, $route->to_location, $trip['code'], $locale);
+        $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
+        $seatMap = $tripDetails['coaches'];
         $selectedSeats = array_values($validated['selected_seats']);
         $availableSeatKeys = $this->availableSeatKeys($seatMap);
         $invalidSeat = collect($selectedSeats)->contains(fn (string $seat) => !in_array($seat, $availableSeatKeys, true));
@@ -214,8 +218,14 @@ class BookingController extends Controller
             throw ValidationException::withMessages(['selected_seats' => 'Please select one available seat for each passenger.']);
         }
 
+        $pickupPoint = $this->pointByKey($tripDetails['pickup_points'], $validated['pickup_point'], $validated['passenger_count']);
+        $dropoffPoint = $this->pointByKey($tripDetails['dropoff_points'], $validated['dropoff_point'], $validated['passenger_count']);
+        if (!$pickupPoint || !$dropoffPoint) {
+            throw ValidationException::withMessages(['pickup_point' => 'Please select a valid pickup and drop-off point.']);
+        }
+
         try {
-            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale) {
+            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale, $pickupPoint, $dropoffPoint) {
                 $booking = Booking::create([
                     'reference' => $this->reference(),
                     'route_id' => $route->id,
@@ -228,8 +238,8 @@ class BookingController extends Controller
                     'passenger_name' => $validated['passenger_name'],
                     'passenger_email' => $validated['passenger_email'] ?? null,
                     'passenger_phone' => $validated['passenger_phone'] ?? null,
-                    'pickup_point' => $validated['pickup_point'] ?? $trip['pickup'],
-                    'dropoff_point' => $validated['dropoff_point'] ?? $trip['dropoff'],
+                    'pickup_point' => $this->pointLabel($pickupPoint),
+                    'dropoff_point' => $this->pointLabel($dropoffPoint),
                     'seat_preference' => $validated['seat_preference'] ?? 'any',
                     'selected_seats' => $selectedSeats,
                     'notes' => $validated['notes'] ?? null,
@@ -367,6 +377,16 @@ class BookingController extends Controller
             ->filter(fn (array $seat) => $seat['available'] && !$seat['locked'])
             ->pluck('key')
             ->all();
+    }
+
+    private function pointByKey(array $points, string $key, int $passengerCount): ?array
+    {
+        return collect($points)->first(fn (array $point) => ($point['key'] === $key || $point['name'] === $key) && (!$point['min_customers'] || $point['min_customers'] <= $passengerCount));
+    }
+
+    private function pointLabel(array $point): string
+    {
+        return trim($point['name'].($point['address'] ? ' - '.$point['address'] : ''));
     }
 
     private function withAvailability($schedules, Carbon $date, bool $returnLeg = false)

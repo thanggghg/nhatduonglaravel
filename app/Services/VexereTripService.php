@@ -26,6 +26,11 @@ class VexereTripService
 
     public function seatMap(string $from, string $to, string $tripCode, string $locale): array
     {
+        return $this->tripDetails($from, $to, $tripCode, $locale)['coaches'];
+    }
+
+    public function tripDetails(string $from, string $to, string $tripCode, string $locale): array
+    {
         $areas = config('services.vexere.areas', []);
         $fromId = $areas[$from] ?? null;
         $toId = $areas[$to] ?? null;
@@ -93,7 +98,11 @@ class VexereTripService
             throw new RuntimeException('Live seat availability is temporarily unavailable.');
         }
 
-        return $coaches;
+        return [
+            'coaches' => $coaches,
+            'pickup_points' => $this->normalizePoints($response->json('data.online_info.pickup_points', []), $locale),
+            'dropoff_points' => $this->normalizePoints($response->json('data.online_info.drop_off_points_at_arrive', []), $locale),
+        ];
     }
 
     public function searchMany(array $queries, Carbon $date, string $locale): array
@@ -270,5 +279,26 @@ class VexereTripService
         }
 
         return $place['name'] ?? $fallback;
+    }
+
+    private function normalizePoints(array $points, string $locale): array
+    {
+        return collect($points)
+            ->filter(fn (array $point) => (int) ($point['hidden'] ?? 0) === 0 && ($point['is_vxr_display'] ?? true) !== false)
+            ->sortBy(fn (array $point) => (int) ($point['index'] ?? 0))
+            ->map(function (array $point) use ($locale) {
+                $name = $locale !== 'vi' && filled($point['english_name'] ?? null) ? $point['english_name'] : ($point['name'] ?? '');
+                $address = $locale !== 'vi' && filled($point['english_address'] ?? null) ? $point['english_address'] : ($point['address'] ?? '');
+
+                return [
+                    'key' => implode(':', [$point['point_id'] ?? '', $point['id'] ?? '', $point['index'] ?? '']),
+                    'name' => $name,
+                    'address' => $address,
+                    'time' => $point['real_time'] ?? (string) ($point['time'] ?? ''),
+                    'min_customers' => (int) ($point['min_customer'] ?? 0),
+                ];
+            })
+            ->values()
+            ->all();
     }
 }
