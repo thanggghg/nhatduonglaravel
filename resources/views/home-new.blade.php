@@ -126,6 +126,17 @@
     'en' => ['Confirm the fare and payment method before completing your booking.', 'Ask about luggage, changes, or cancellations before your travel date.', 'Keep your booking confirmation and arrive early at pickup.'],
     'ru' => ['Подтвердите стоимость и способ оплаты до завершения бронирования.', 'Уточните багаж, изменение или отмену билета до даты поездки.', 'Сохраните подтверждение и приезжайте к месту посадки заранее.'],
   ][$locale];
+  $productCopy = [
+    'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
+    'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
+    'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
+  ][$locale];
+  $fleetTrips = collect($liveSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
+  $supportPhone = preg_replace('/\D+/', '', $settings['hotline'] ?? '');
+  $supportHref = $supportPhone ? 'tel:+'.$supportPhone : route('contact', ['lang' => $locale]);
+  $reviewQuote = $settings['home_routes_review_quote'] ?? $productCopy['review_fallback'];
+  $reviewName = $settings['home_routes_review_name'] ?? 'Nhat Duong passenger';
+  $reviewRole = $settings['home_routes_review_role'] ?? $productCopy['support_online'];
 @endphp
 
 <header class="hn-header">
@@ -165,6 +176,7 @@
     <div class="hn-shell hn-hero__content">
       <div class="hn-hero__copy">
         <p class="hn-eyebrow">{{ $copy['hero_kicker'] }}</p>
+        <p class="hn-live-proof"><i></i>{{ $productCopy['live'] }}</p>
         <h1 id="hero-title">{{ $copy['hero_title'] }}</h1>
         <p>{{ $copy['hero_text'] }}</p>
       </div>
@@ -230,6 +242,33 @@
     </article>
   </section>
 
+  <section class="hn-section hn-fleet" aria-labelledby="fleet-title">
+    <div class="hn-shell">
+      <div class="hn-section-heading hn-fleet__heading">
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2></div>
+        <p>{{ $productCopy['fleet_text'] }}</p>
+      </div>
+      <div class="hn-fleet__grid">
+        @forelse($fleetTrips as $trip)
+        <article class="hn-fleet-card">
+          <img src="{{ $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
+          <div><p>{{ $trip['departure']->format('H:i') }}</p><h3>{{ $trip['vehicle_type'] }}</h3><span>{{ number_format($trip['fare']) }} VND</span><a href="{{ $trip['booking_url'] }}">{{ $copy['choose'] }} <b>→</b></a></div>
+        </article>
+        @empty
+        <article class="hn-fleet-card hn-fleet-card--fallback"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><span>{{ number_format($route?->price_from ?? 220000) }} VND</span><a href="#booking">{{ $copy['search'] }} <b>→</b></a></div></article>
+        @endforelse
+      </div>
+    </div>
+  </section>
+
+  <section class="hn-proof" aria-label="{{ $copy['book'] }}">
+    <div class="hn-shell hn-proof__grid">
+      @foreach([['01', $productCopy['seat_map'], $productCopy['seat_map_text']], ['02', $productCopy['stops'], $productCopy['stops_text']], ['03', $productCopy['payment'], $productCopy['payment_text']]] as [$number, $title, $text])
+      <article><span>{{ $number }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
+      @endforeach
+    </div>
+  </section>
+
   <section id="departures" class="hn-section hn-section--mist" aria-labelledby="departure-title">
     <div class="hn-shell">
       <div class="hn-section-heading">
@@ -292,6 +331,11 @@
     </div>
   </aside>
 
+  <section class="hn-review hn-shell" aria-labelledby="review-title">
+    <div class="hn-review__quote"><span>“</span><blockquote>{{ $reviewQuote }}</blockquote><footer><strong>{{ $reviewName }}</strong><small>{{ $reviewRole }}</small></footer></div>
+    <div class="hn-review__aside"><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['review_kicker'] }}</p><h2 id="review-title">{{ $copy['support'] }}</h2><p>{{ $pickupLabels['support_text'] }}</p><a class="hn-button hn-button--primary" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div>
+  </section>
+
   <section class="hn-section hn-section--mist" aria-labelledby="steps-title">
     <div class="hn-shell">
       <div class="hn-section-heading hn-section-heading--center"><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['how_kicker'] }}</p><h2 id="steps-title">{{ $copy['how_title'] }}</h2></div>
@@ -347,6 +391,8 @@
   </section>
 </main>
 
+<a class="hn-support-float" href="{{ $supportHref }}" aria-label="{{ $productCopy['support_call'] }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l1.5 4-2.2 1.6a14 14 0 0 0 6.8 6.8L17.7 13l4 1.5v3c0 1.1-.9 2-2 2C10.5 19.5 4.5 13.5 4.5 4.3c0-.7.5-1.3 1.2-1.3H7Z"/></svg><span>{{ $productCopy['support_online'] }}</span></a>
+
 <footer class="hn-footer"><div class="hn-shell"><span>© {{ now()->year }} Nhat Duong</span><span>{{ $copy['footer'] }}</span></div></footer>
 
 <style>
@@ -373,7 +419,8 @@
    .hn-final { padding:68px 0; color:#fff; background:var(--hn-deep); } .hn-final__content { display:flex; align-items:center; justify-content:space-between; gap:28px; } .hn-final h2 { margin-bottom:10px; color:#fff; } .hn-final p { margin:0; color:rgba(255,255,255,.75); } .hn-final__content>div:last-child { display:flex; align-items:center; gap:18px; } .hn-final .hn-contact { color:#fff; font-weight:700; } .hn-footer { padding:24px 0; color:#6c7f74; background:#fff; font-size:13px; } .hn-footer .hn-shell { display:flex; justify-content:space-between; gap:16px; }
    @media (max-width:900px) { .hn-nav { display:none; } .hn-menu-button { display:block; } .hn-booking__fields { grid-template-columns:1fr 1fr; } .hn-booking__fields .hn-button { grid-column:span 2; } .hn-route-card,.hn-pickup { grid-template-columns:1fr; } .hn-route-card>img { min-height:280px; } .hn-pickup { gap:32px; } .hn-pickup__visual { min-height:280px; } .hn-steps { grid-template-columns:1fr; } .hn-policy__content { grid-template-columns:1fr; } .hn-news-grid { grid-template-columns:repeat(2,1fr); } }
    @media (max-width:620px) { .hn-shell { width:min(100% - 28px, 1160px); } .hn-nav-wrap { min-height:62px; } .hn-actions .hn-button { display:none; } .hn-brand span { display:none; } .hn-hero { min-height:640px; } .hn-hero__overlay { background:rgba(4,35,22,.72); } .hn-hero__content { padding:66px 0 32px; } h1 { font-size:38px; } .hn-booking fieldset { padding:15px; } .hn-booking__fields { grid-template-columns:1fr; } .hn-booking__fields .hn-button { grid-column:auto; } .hn-trust { gap:12px; font-size:12px; } .hn-section { padding:68px 0; } .hn-route-card__content { padding:25px; } .hn-route-card dl { grid-template-columns:1fr; gap:14px; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; padding:17px; } .hn-schedule__row a { grid-column:span 2; } .hn-news-heading { align-items:flex-start; flex-direction:column; } .hn-news-grid { grid-template-columns:1fr; } .hn-news-card__image { height:200px; } .hn-footer .hn-shell,.hn-final__content,.hn-final__content>div:last-child { align-items:flex-start; flex-direction:column; } }
-  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; animation-duration:.01ms!important; animation-iteration-count:1!important; } }
+   .hn-live-proof{display:inline-flex;align-items:center;gap:8px;max-width:none!important;margin:0 0 14px!important;padding:7px 10px;color:#d8f4df!important;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:10px!important;font-weight:800;letter-spacing:.08em;line-height:1!important}.hn-live-proof i{width:7px;height:7px;background:#fbb116;border-radius:50%;box-shadow:0 0 0 4px rgba(251,177,22,.18)}.hn-fleet{padding-bottom:72px;background:#fff}.hn-fleet__heading{display:flex;align-items:end;justify-content:space-between;gap:30px;max-width:none}.hn-fleet__heading>div{max-width:620px}.hn-fleet__heading>p{max-width:360px;margin:0 0 4px}.hn-fleet__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.hn-fleet-card{position:relative;min-height:385px;overflow:hidden;background:#062d1c;border-radius:16px;isolation:isolate}.hn-fleet-card:after{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,45,28,.06),rgba(6,45,28,.93));content:''}.hn-fleet-card img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}.hn-fleet-card:hover img{transform:scale(1.04)}.hn-fleet-card>div{position:absolute;right:0;bottom:0;left:0;padding:25px;color:#fff}.hn-fleet-card p{margin:0 0 8px;color:#fbb116;font-size:12px;font-weight:800;letter-spacing:.08em}.hn-fleet-card h3{max-width:250px;margin:0 0 12px;font-size:21px;line-height:1.2}.hn-fleet-card span{display:block;color:#d4f4e2;font-size:13px;font-weight:700}.hn-fleet-card a{display:inline-flex;gap:8px;margin-top:20px;color:#fff;font-size:13px;font-weight:800;text-decoration:none}.hn-fleet-card a b{color:#fbb116;font-size:16px}.hn-proof{background:#062d1c}.hn-proof__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}.hn-proof article{display:flex;gap:16px;padding:28px 26px;border-right:1px solid rgba(212,244,226,.16)}.hn-proof article:first-child{padding-left:0}.hn-proof article:last-child{padding-right:0;border-right:0}.hn-proof article>span{color:#fbb116;font-size:12px;font-weight:900;letter-spacing:.1em}.hn-proof h3{margin:0 0 6px;color:#fff;font-size:15px}.hn-proof p{margin:0;color:#b9d9c2;font-size:13px;line-height:1.55}.hn-review{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;padding:96px 0}.hn-review__quote{position:relative;padding:38px;background:#f8fdf9;border:1px solid #d9e5dc;border-radius:16px}.hn-review__quote>span{position:absolute;top:-26px;left:27px;color:#fbb116;font:900 78px/1 Georgia,serif}.hn-review blockquote{max-width:600px;margin:0;color:#173d2b;font-size:22px;font-weight:700;letter-spacing:-.025em;line-height:1.45}.hn-review footer{display:grid;gap:3px;margin-top:24px;color:#062d1c;font-size:13px}.hn-review footer small{color:#62766c;font-size:12px}.hn-review__aside>p:not(.hn-eyebrow){max-width:420px;color:#62766c;line-height:1.65}.hn-support-float{position:fixed;right:20px;bottom:20px;z-index:30;display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:10px 15px;color:#fff;background:#0b7f42;border:1px solid rgba(255,255,255,.22);border-radius:999px;box-shadow:0 10px 26px rgba(6,45,28,.24);font-size:12px;font-weight:800;text-decoration:none;transition:transform .18s ease,background .18s ease}.hn-support-float:hover{background:#096b39;transform:translateY(-2px)}.hn-support-float svg{width:18px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}@media(max-width:900px){.hn-fleet__grid{grid-template-columns:repeat(2,1fr)}.hn-proof__grid{grid-template-columns:1fr}.hn-proof article,.hn-proof article:first-child,.hn-proof article:last-child{padding:22px 0;border-right:0;border-bottom:1px solid rgba(212,244,226,.16)}.hn-proof article:last-child{border-bottom:0}.hn-review{gap:36px;grid-template-columns:1fr}}@media(max-width:620px){.hn-fleet__heading{align-items:start;flex-direction:column}.hn-fleet__grid{grid-template-columns:1fr}.hn-fleet-card{min-height:310px}.hn-review{padding:68px 0}.hn-review__quote{padding:30px 22px}.hn-review blockquote{font-size:19px}.hn-support-float{right:14px;bottom:14px;padding:11px}.hn-support-float span{display:none}}
+   @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; animation-duration:.01ms!important; animation-iteration-count:1!important; } }
 </style>
 <script>
   (() => {
@@ -407,10 +454,10 @@
     const formatDate = (value) => value ? value.split('-').reverse().join('-') : '';
 
     const syncDates = () => {
-      departValue.value = formatDate(depart.value);
-      returnValue.value = formatDate(returned.value);
       returned.min = depart.value;
       if (returned.value < depart.value) returned.value = depart.value;
+      departValue.value = formatDate(depart.value);
+      returnValue.value = formatDate(returned.value);
     };
 
     form.querySelectorAll('input[name="trip_type"]').forEach((input) => {
