@@ -12,7 +12,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $locale = $this->locale($request);
-        $query = Post::where('status', true)
+        $query = Post::where('locale', $locale)
+            ->where('status', true)
             ->where('published_at', '<=', now())
             ->with('category');
 
@@ -39,13 +40,15 @@ class PostController extends Controller
     public function show(Request $request, string $slug)
     {
         $locale = $this->locale($request);
-        $post = Post::where('slug', $slug)
+        $post = Post::where('locale', $locale)
+            ->where('slug', $slug)
             ->where('status', true)
             ->where('published_at', '<=', now())
             ->with('category')
             ->firstOrFail();
 
-        $relatedPosts = Post::where('status', true)
+        $relatedPosts = Post::where('locale', $locale)
+            ->where('status', true)
             ->where('published_at', '<=', now())
             ->where('post_category_id', $post->post_category_id)
             ->where('id', '!=', $post->id)
@@ -66,6 +69,6 @@ class PostController extends Controller
     {
         $locale = $request->string('lang')->lower()->value();
 
-        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     }
 }

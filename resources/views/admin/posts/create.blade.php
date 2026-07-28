@@ -55,6 +55,16 @@
 
             <!-- Sidebar -->
             <div class="space-y-24">
+                <div class="bg-canvas-white rounded-lg shadow-md p-24">
+                    <h3 class="text-heading font-semibold text-forest-deep mb-16">Ngôn ngữ <span class="text-red-500">*</span></h3>
+                    <select name="locale" required class="w-full px-16 py-12 border border-input-border rounded-md text-body focus:outline-none focus:ring-2 focus:ring-brand-green @error('locale') border-red-500 @enderror">
+                        <option value="vi" @selected(old('locale', 'vi') === 'vi')>Tiếng Việt</option>
+                        <option value="en" @selected(old('locale') === 'en')>English</option>
+                        <option value="ru" @selected(old('locale') === 'ru')>Русский</option>
+                    </select>
+                    @error('locale')<p class="mt-4 text-body-sm text-red-500">{{ $message }}</p>@enderror
+                </div>
+
                 <!-- Publish -->
                 <div class="bg-canvas-white rounded-lg shadow-md p-24">
                     <h3 class="text-heading font-semibold text-forest-deep mb-16">Xuất bản</h3>

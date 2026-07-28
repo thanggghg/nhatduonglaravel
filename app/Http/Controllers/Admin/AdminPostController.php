@@ -10,10 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminPostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('category')->orderBy('created_at', 'desc')->paginate(20);
-        return view('admin.posts.index', compact('posts'));
+        $locale = $request->string('locale')->lower()->value();
+        $posts = Post::with('category')
+            ->when(in_array($locale, ['vi', 'en', 'ru'], true), fn ($query) => $query->where('locale', $locale))
+            ->orderBy('created_at', 'desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('admin.posts.index', compact('posts', 'locale'));
     }
 
     public function create()
@@ -26,6 +32,7 @@ class AdminPostController extends Controller
     {
         $validated = $request->validate([
             'post_category_id' => 'required|exists:post_categories,id',
+            'locale'           => 'required|in:vi,en,ru',
             'title'            => 'required|string|max:255',
             'summary'          => 'nullable|string|max:500',
             'content'          => 'required|string',
@@ -68,6 +75,7 @@ class AdminPostController extends Controller
 
         $validated = $request->validate([
             'post_category_id' => 'required|exists:post_categories,id',
+            'locale'           => 'required|in:vi,en,ru',
             'title'            => 'required|string|max:255',
             'summary'          => 'nullable|string|max:500',
             'content'          => 'required|string',

@@ -32,7 +32,7 @@ class HomeController extends Controller
     {
         $locale = $request->string('lang')->lower()->value();
 
-        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     }
 
     private function homeData(string $locale): array
@@ -50,7 +50,8 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        $latestPosts = Post::where('status', true)
+        $latestPosts = Post::where('locale', $locale)
+            ->where('status', true)
             ->where('published_at', '<=', now())
             ->with('category')
             ->latest('published_at')

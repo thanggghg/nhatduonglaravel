@@ -109,6 +109,15 @@
             <section class="post-editor__side-card">
                 <header><p>PHÂN LOẠI</p><h2>Danh mục</h2></header>
                 <div class="post-editor__field">
+                    <label for="locale">Ngôn ngữ hiển thị <em>*</em></label>
+                    <select id="locale" name="locale" required class="@error('locale') post-editor__input--error @enderror">
+                        <option value="vi" @selected(old('locale', $post->locale) === 'vi')>Tiếng Việt</option>
+                        <option value="en" @selected(old('locale', $post->locale) === 'en')>English</option>
+                        <option value="ru" @selected(old('locale', $post->locale) === 'ru')>Русский</option>
+                    </select>
+                    @error('locale')<p class="post-editor__error">{{ $message }}</p>@enderror
+                </div>
+                <div class="post-editor__field">
                     <label for="post_category_id">Chọn danh mục <em>*</em></label>
                     <select id="post_category_id" name="post_category_id" required class="@error('post_category_id') post-editor__input--error @enderror">
                         <option value="">Chọn danh mục</option>
