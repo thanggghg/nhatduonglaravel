@@ -55,4 +55,9 @@ return [
         'webhook_secret' => env('SEPAY_WEBHOOK_SECRET'),
     ],
 
+    'public_booking' => [
+        'base_url' => env('PUBLIC_BOOKING_API_URL'),
+        'api_key' => env('PUBLIC_BOOKING_API_KEY'),
+    ],
+
 ];

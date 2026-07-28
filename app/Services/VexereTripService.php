@@ -51,7 +51,11 @@ class VexereTripService
             throw new RuntimeException('Live seat availability is temporarily unavailable.');
         }
 
-        $templates = $response->json('data.online_info.coach_seat_template', []);
+        $onlineInfo = $response->json('data.online_info', []);
+        if (!is_array($onlineInfo)) {
+            $onlineInfo = [];
+        }
+        $templates = $onlineInfo['coach_seat_template'] ?? [];
         if (!$templates) {
             $templates = $response->json('data.default_info.coach_seat_template', []);
         }
@@ -77,6 +81,7 @@ class VexereTripService
                     'row_span' => max(1, (int) ($seat['row_span'] ?? 1)),
                     'column_span' => max(1, (int) ($seat['col_span'] ?? 1)),
                     'type' => $seat['seat_type'] ?? null,
+                    'seat_type' => $seat['seat_type'] ?? null,
                     'fare' => (int) ($seat['fare'] ?? 0),
                     'available' => (bool) ($seat['is_available'] ?? false),
                     'locked' => (bool) ($seat['is_locked_seat'] ?? false),
@@ -100,8 +105,13 @@ class VexereTripService
 
         return [
             'coaches' => $coaches,
-            'pickup_points' => $this->normalizePoints($response->json('data.online_info.pickup_points', []), $locale),
-            'dropoff_points' => $this->normalizePoints($response->json('data.online_info.drop_off_points_at_arrive', []), $locale),
+            'online_info' => [
+                'trip_id' => $onlineInfo['trip_id'] ?? null,
+                'search_from' => $onlineInfo['search_from'] ?? null,
+                'search_to' => $onlineInfo['search_to'] ?? null,
+            ],
+            'pickup_points' => $this->normalizePoints($onlineInfo['pickup_points'] ?? [], $locale, true),
+            'dropoff_points' => $this->normalizePoints($onlineInfo['drop_off_points_at_arrive'] ?? [], $locale),
         ];
     }
 
@@ -281,14 +291,18 @@ class VexereTripService
         return $place['name'] ?? $fallback;
     }
 
-    private function normalizePoints(array $points, string $locale): array
+    private function normalizePoints(array $points, string $locale, bool $isPickup = false): array
     {
         return collect($points)
             ->filter(fn (array $point) => (int) ($point['hidden'] ?? 0) === 0 && ($point['is_vxr_display'] ?? true) !== false)
             ->sortBy(fn (array $point) => (int) ($point['index'] ?? 0))
-            ->map(function (array $point) use ($locale) {
+            ->map(function (array $point) use ($locale, $isPickup) {
                 $name = $locale !== 'vi' && filled($point['english_name'] ?? null) ? $point['english_name'] : ($point['name'] ?? '');
                 $address = $locale !== 'vi' && filled($point['english_address'] ?? null) ? $point['english_address'] : ($point['address'] ?? '');
+                $providerName = $point['name'] ?? null;
+                $providerAddress = $point['address'] ?? null;
+                $providerId = $point['id'] ?? null;
+                $pointId = $point['point_id'] ?? null;
 
                 return [
                     'key' => implode(':', [$point['point_id'] ?? '', $point['id'] ?? '', $point['index'] ?? '']),
@@ -296,9 +310,31 @@ class VexereTripService
                     'address' => $address,
                     'time' => $point['real_time'] ?? (string) ($point['time'] ?? ''),
                     'min_customers' => (int) ($point['min_customer'] ?? 0),
+                    'provider_name' => $providerName,
+                    'provider_address' => $providerAddress,
+                    'provider_id' => $providerId,
+                    'point_id' => $pointId,
+                    'pickup_info' => $isPickup && filled($providerAddress) && filled($providerId)
+                        ? $providerAddress.'||0|'.$providerId.'|'
+                        : null,
+                    'dropoff_info' => !$isPickup && filled($providerAddress) ? $providerAddress : null,
+                    'dropoff_time' => !$isPickup ? $this->isoDateTime($point['real_time'] ?? null) : null,
                 ];
             })
             ->values()
             ->all();
+    }
+
+    private function isoDateTime(mixed $value): ?string
+    {
+        if (!is_string($value) || $value === '') {
+            return null;
+        }
+
+        try {
+            return Carbon::createFromFormat('H:i d-m-Y', $value, 'Asia/Ho_Chi_Minh')->toAtomString();
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

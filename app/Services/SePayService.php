@@ -4,11 +4,16 @@ namespace App\Services;
 
 use App\Models\Booking;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 class SePayService
 {
+    public function __construct(private NhatDuongPublicBookingService $publicBooking)
+    {
+    }
+
     public function paymentDetails(Booking $booking): array
     {
         $account = collect($this->bankAccounts())->first(fn (array $account) => (bool) ($account['active'] ?? false));
@@ -65,19 +70,42 @@ class SePayService
 
     public function markPaid(Booking $booking, array $transaction): void
     {
-        if ($booking->payment_status === 'paid') {
-            return;
-        }
+        DB::transaction(function () use ($booking, $transaction) {
+            $booking = Booking::lockForUpdate()->findOrFail($booking->id);
+            if ($booking->payment_status === 'paid') {
+                return;
+            }
 
-        $booking->update([
-            'status' => 'confirmed',
-            'payment_status' => 'paid',
-            'payment_provider' => 'sepay',
-            'payment_transaction_id' => (string) ($transaction['id'] ?? $transaction['referenceCode'] ?? ''),
-            'payment_reference' => (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? ''),
-            'payment_payload' => $transaction,
-            'paid_at' => now(),
-        ]);
+            $paymentReference = (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? $transaction['id'] ?? '');
+            if ($booking->public_booking_order_id && $paymentReference === '') {
+                throw new RuntimeException('The verified SePay transaction has no provider payment reference.');
+            }
+
+            $externalOrder = null;
+            if ($booking->public_booking_order_id) {
+                // Do not mark the local booking paid until VeXeRe payment succeeds.
+                $externalOrder = $this->publicBooking->pay($booking->public_booking_order_id, $paymentReference);
+            }
+
+            $updates = [
+                'status' => 'confirmed',
+                'payment_status' => 'paid',
+                'payment_provider' => 'sepay',
+                'payment_transaction_id' => (string) ($transaction['id'] ?? $transaction['referenceCode'] ?? ''),
+                'payment_reference' => $paymentReference,
+                'payment_payload' => $transaction,
+                'paid_at' => now(),
+            ];
+            if ($externalOrder) {
+                $updates += [
+                    'public_booking_status' => $externalOrder['status'],
+                    'public_booking_ticket_codes' => $externalOrder['ticket_codes'],
+                    'public_booking_codes' => $externalOrder['booking_codes'],
+                ];
+            }
+
+            $booking->update($updates);
+        });
     }
 
     private function bankAccounts(): array

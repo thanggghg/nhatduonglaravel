@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingSeat;
 use App\Models\Route as BusRoute;
 use App\Models\Schedule;
+use App\Services\NhatDuongPublicBookingService;
 use App\Services\VexereTripService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,7 +18,10 @@ use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
-    public function __construct(private VexereTripService $vexere)
+    public function __construct(
+        private VexereTripService $vexere,
+        private NhatDuongPublicBookingService $publicBooking,
+    )
     {
     }
 
@@ -190,7 +194,7 @@ class BookingController extends Controller
             'passenger_count' => 'required|integer|min:1|max:6',
             'passenger_name' => 'required|string|max:120',
             'passenger_email' => 'nullable|email:rfc,dns|max:120|required_without:passenger_phone',
-            'passenger_phone' => 'nullable|string|max:50|required_without:passenger_email',
+            'passenger_phone' => 'required|string|max:50',
             'pickup_point' => 'nullable|string|max:255',
             'dropoff_point' => 'nullable|string|max:255',
             'seat_preference' => 'nullable|in:any,lower,upper',
@@ -225,10 +229,67 @@ class BookingController extends Controller
             throw ValidationException::withMessages(['pickup_point' => 'Please select a valid pickup and drop-off point.']);
         }
 
+        $onlineInfo = $tripDetails['online_info'] ?? [];
+        if (!is_numeric($onlineInfo['trip_id'] ?? null) || !is_numeric($onlineInfo['search_from'] ?? null) || !is_numeric($onlineInfo['search_to'] ?? null)) {
+            throw ValidationException::withMessages(['trip_code' => 'The live provider did not return the canonical trip identifiers required to book this departure.']);
+        }
+
+        if (!$trip['departure'] instanceof Carbon) {
+            throw ValidationException::withMessages(['trip_code' => 'The live provider did not return a valid departure time.']);
+        }
+
+        if (!filled($pickupPoint['provider_name'] ?? null) || !filled($pickupPoint['provider_address'] ?? null)
+            || !filled($pickupPoint['provider_id'] ?? null) || !filled($pickupPoint['pickup_info'] ?? null)) {
+            throw ValidationException::withMessages(['pickup_point' => 'The selected pickup point is missing canonical provider details.']);
+        }
+
+        if (!filled($dropoffPoint['provider_address'] ?? null) || !filled($dropoffPoint['dropoff_info'] ?? null)) {
+            throw ValidationException::withMessages(['dropoff_point' => 'The selected drop-off point is missing canonical provider details.']);
+        }
+
+        $seatDetails = collect($seatMap)->flatMap(fn (array $coach) => $coach['seats'])->keyBy('key');
+        $apiSeats = [];
+        foreach ($selectedSeats as $seatKey) {
+            $seat = $seatDetails->get($seatKey);
+            $seatType = $seat['seat_type'] ?? null;
+            if (!$seat || !is_numeric($seatType)) {
+                throw ValidationException::withMessages(['selected_seats' => 'A selected seat is missing its canonical provider seat type.']);
+            }
+
+            $apiSeats[] = ['seatCode' => $seatKey, 'seatType' => (int) $seatType];
+        }
+
+        $departure = $trip['departure'];
+        $orderPayload = [
+            'tripId' => (int) $onlineInfo['trip_id'],
+            'fromId' => (int) $onlineInfo['search_from'],
+            'toId' => (int) $onlineInfo['search_to'],
+            'seats' => $apiSeats,
+            'customerName' => $validated['passenger_name'],
+            'customerPhone' => $validated['passenger_phone'],
+            'departureDate' => $departure->toDateString(),
+            'departureTime' => $departure->format('H:i'),
+            'pickupName' => $pickupPoint['provider_name'],
+            'pickupInfo' => $pickupPoint['pickup_info'],
+            'dropOffInfo' => $dropoffPoint['dropoff_info'],
+        ];
+        if (filled($validated['passenger_email'] ?? null)) {
+            $orderPayload['customerEmail'] = $validated['passenger_email'];
+        }
+        if (filled($dropoffPoint['dropoff_time'] ?? null)) {
+            $orderPayload['dropOffTime'] = $dropoffPoint['dropoff_time'];
+        }
+        if (filled($dropoffPoint['provider_id'] ?? null)) {
+            $orderPayload['dropOffPointId'] = $dropoffPoint['provider_id'];
+        }
+
+        $reference = $this->reference();
+        $idempotencyKey = 'web-live-'.$reference;
+
         try {
-            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale, $pickupPoint, $dropoffPoint) {
+            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale, $pickupPoint, $dropoffPoint, $reference, $idempotencyKey) {
                 $booking = Booking::create([
-                    'reference' => $this->reference(),
+                    'reference' => $reference,
                     'route_id' => $route->id,
                     'trip_code' => $trip['code'],
                     'departure_at' => $trip['departure'],
@@ -244,14 +305,36 @@ class BookingController extends Controller
                     'seat_preference' => $validated['seat_preference'] ?? 'any',
                     'selected_seats' => $selectedSeats,
                     'notes' => $validated['notes'] ?? null,
-                    'outbound_fare' => $trip['fare'],
-                    'total_amount' => $trip['fare'] * $validated['passenger_count'],
-                    'status' => 'pending',
+                    // The provider supplies the amount after it has held the selected seats.
+                    'outbound_fare' => 0,
+                    'total_amount' => 0,
+                    'status' => 'external_pending',
                     'payment_code' => $this->paymentCode(),
-                    'payment_status' => 'awaiting_payment',
+                    'payment_status' => 'awaiting_external_order',
+                    'public_booking_idempotency_key' => $idempotencyKey,
                     'locale' => $locale,
                 ]);
 
+                return $booking;
+            });
+        } catch (QueryException) {
+            throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
+        }
+
+        try {
+            $order = $this->publicBooking->createOrder($orderPayload, $idempotencyKey);
+        } catch (\Throwable $exception) {
+            $booking->update([
+                'status' => 'failed',
+                'payment_status' => 'external_order_failed',
+            ]);
+            report($exception);
+
+            throw ValidationException::withMessages(['trip_code' => 'Unable to reserve the selected seats. Please choose another departure or try again.']);
+        }
+
+        try {
+            DB::transaction(function () use ($booking, $order, $selectedSeats, $trip, $date) {
                 BookingSeat::insert(collect($selectedSeats)->map(fn (string $seat) => [
                     'booking_id' => $booking->id,
                     'trip_code' => $trip['code'],
@@ -261,11 +344,28 @@ class BookingController extends Controller
                     'updated_at' => now(),
                 ])->all());
 
-                return $booking;
+            Booking::lockForUpdate()->findOrFail($booking->id)->update([
+                'public_booking_order_id' => $order['order_id'],
+                'public_booking_status' => $order['status'],
+                'public_booking_ticket_codes' => $order['ticket_codes'],
+                'public_booking_codes' => $order['booking_codes'],
+                'outbound_fare' => $order['amount'],
+                'total_amount' => $order['amount'],
+                'currency' => $order['currency'],
+                'status' => 'pending',
+                'payment_status' => 'awaiting_payment',
+            ]);
             });
         } catch (QueryException) {
+            $booking->update([
+                'status' => 'failed',
+                'payment_status' => 'external_order_conflict',
+            ]);
+
             throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
         }
+
+        $booking->refresh();
 
         return redirect()->route('booking.payment.show', ['booking' => $booking, 'lang' => $booking->locale]);
     }
@@ -366,7 +466,7 @@ class BookingController extends Controller
     {
         return BookingSeat::where('trip_code', $tripCode)
             ->whereDate('travel_date', $date)
-            ->whereHas('booking', fn ($query) => $query->whereIn('status', ['pending', 'confirmed']))
+            ->whereHas('booking', fn ($query) => $query->reserving())
             ->pluck('seat')
             ->all();
     }

@@ -20,6 +20,10 @@ class PaymentController extends Controller
             return redirect()->route('booking.success', ['booking' => $booking, 'lang' => $booking->locale]);
         }
 
+        if ($booking->public_booking_idempotency_key && !$booking->public_booking_order_id) {
+            abort(409, 'This live booking is not ready for payment.');
+        }
+
         $booking->load(['route', 'schedule', 'returnSchedule']);
 
         try {
@@ -85,7 +89,13 @@ class PaymentController extends Controller
             return response()->json(['success' => true]);
         }
 
-        $this->sepay->markPaid($booking, $payload);
+        try {
+            $this->sepay->markPaid($booking, $payload);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return response()->json(['success' => false], 503);
+        }
 
         return response()->json(['success' => true]);
     }

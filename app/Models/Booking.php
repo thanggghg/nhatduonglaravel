@@ -14,6 +14,11 @@ class Booking extends Model
         'route_id',
         'schedule_id',
         'trip_code',
+        'public_booking_order_id',
+        'public_booking_status',
+        'public_booking_ticket_codes',
+        'public_booking_codes',
+        'public_booking_idempotency_key',
         'departure_at',
         'arrival_at',
         'vehicle_type',
@@ -54,6 +59,8 @@ class Booking extends Model
         'total_amount' => 'integer',
         'passenger_count' => 'integer',
         'selected_seats' => 'array',
+        'public_booking_ticket_codes' => 'array',
+        'public_booking_codes' => 'array',
         'payment_payload' => 'array',
         'paid_at' => 'datetime',
     ];
@@ -65,7 +72,7 @@ class Booking extends Model
 
     public function scopeReserving(Builder $query): Builder
     {
-        return $query->whereIn('status', ['pending', 'confirmed']);
+        return $query->whereIn('status', ['external_pending', 'pending', 'confirmed']);
     }
 
     public function route(): BelongsTo
