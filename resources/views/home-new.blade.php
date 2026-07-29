@@ -27,9 +27,9 @@
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
-      'view_departures' => 'Xem giờ khởi hành', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
+       'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
-      'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'choose' => 'Chọn chuyến', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.',
+       'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.',
       'pickup_kicker' => 'Đón trả minh bạch', 'pickup_title' => 'Biết rõ nơi lên xe trước khi khởi hành', 'pickup_text' => 'Xác nhận điểm đón, điểm trả và thời gian có mặt với đội ngũ hỗ trợ trước ngày đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
@@ -51,9 +51,9 @@
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
-      'view_departures' => 'View departures', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
+       'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
-      'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'choose' => 'Select departure', 'live_unavailable' => 'Live departures are temporarily unavailable.',
+       'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.',
       'pickup_kicker' => 'Clear pickup details', 'pickup_title' => 'Know where to board before you travel', 'pickup_text' => 'Confirm your pickup, drop-off, and check-in time with our support team before departure.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
@@ -75,9 +75,9 @@
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
-      'view_departures' => 'Посмотреть рейсы', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
+       'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
-      'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'choose' => 'Выбрать рейс', 'live_unavailable' => 'Актуальное расписание временно недоступно.',
+       'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.',
       'pickup_kicker' => 'Понятная посадка', 'pickup_title' => 'Знайте место посадки до начала поездки', 'pickup_text' => 'Подтвердите место посадки, высадки и время регистрации у команды поддержки до отправления.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
@@ -95,6 +95,7 @@
   ][$locale];
 
   $route = $ntRoute ?? $featuredRoutes->first();
+  $routeDetailsUrl = $route ? route('routes.show', ['slug' => $route->slug, 'lang' => $locale]) : route('routes.index', ['lang' => $locale]);
   $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
   $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
@@ -109,6 +110,14 @@
     'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
     'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
   ];
+  $directionLabels = [
+    'sg_nt' => ($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' ⇔ '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
+    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' ⇔ '.($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
+  ];
+  $directionSchedules = $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules, 'nt_sg' => []];
+  $selectedDirection = request('direction');
+  $selectedDirection = array_key_exists($selectedDirection, $directionSchedules) ? $selectedDirection : 'sg_nt';
+  $selectedSchedules = $directionSchedules[$selectedDirection] ?? [];
   $faqItems = [
     [$copy['faq_1_q'], $copy['faq_1_a']],
     [$copy['faq_2_q'], $copy['faq_2_a']],
@@ -131,7 +140,7 @@
     'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
-  $fleetTrips = collect($liveSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
+  $fleetTrips = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
   $supportPhone = preg_replace('/\D+/', '', $settings['hotline'] ?? '');
   $supportHref = $supportPhone ? 'tel:+'.$supportPhone : route('contact', ['lang' => $locale]);
   $reviewQuote = $settings['home_routes_review_quote'] ?? $productCopy['review_fallback'];
@@ -228,11 +237,11 @@
   <section id="route" class="hn-section hn-shell hn-route" aria-labelledby="route-title">
     <div class="hn-section-heading">
       <p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p>
-      <h2 id="route-title">{{ $route ? ($locations[$route->from_location][$locale] ?? $route->from_location).' - '.($locations[$route->to_location][$locale] ?? $route->to_location) : 'Ho Chi Minh City - Nha Trang' }}</h2>
+       <h2 id="route-title"><a class="hn-route-title-link" href="{{ $routeDetailsUrl }}">{{ $route ? ($locations[$route->from_location][$locale] ?? $route->from_location).' ⇔ '.($locations[$route->to_location][$locale] ?? $route->to_location) : 'Ho Chi Minh City ⇔ Nha Trang' }}</a></h2>
       <p>{{ $copy['route_title'] }}</p>
     </div>
-    <article class="hn-route-card">
-      <img src="{{ $routeImage }}" alt="{{ $route?->name ?? 'Nhat Duong sleeper bus' }}">
+     <article class="hn-route-card">
+       <a class="hn-route-card__image" href="{{ $routeDetailsUrl }}" aria-label="{{ $copy['route_details'] }}"><img src="{{ $routeImage }}" alt="{{ $route?->name ?? 'Nhat Duong sleeper bus' }}"></a>
       <div class="hn-route-card__content">
         <dl>
           <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($route?->price_from ?? 220000) }} VND</dd></div>
@@ -242,7 +251,7 @@
         <ul class="hn-check-list">
           <li>{{ $copy['daily'] }}</li><li>{{ $copy['luggage'] }}</li><li>{{ $copy['support'] }}</li>
         </ul>
-        <a class="hn-button hn-button--primary" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['view_departures'] }}</a>
+         <div class="hn-route-card__actions"><a class="hn-button hn-button--primary" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['view_departures'] }}</a><a class="hn-route-card__details" href="{{ $routeDetailsUrl }}">{{ $copy['route_details'] }} <b aria-hidden="true">→</b></a></div>
       </div>
     </article>
   </section>
@@ -253,15 +262,15 @@
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2></div>
         <p>{{ $productCopy['fleet_text'] }}</p>
       </div>
-      <div class="hn-fleet__grid">
-        @forelse($fleetTrips as $trip)
-        <article class="hn-fleet-card">
-          <img src="{{ $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
-          <div><p>{{ $trip['departure']->format('H:i') }}</p><h3>{{ $trip['vehicle_type'] }}</h3><span>{{ number_format($trip['fare']) }} VND</span><a href="{{ $trip['booking_url'] }}">{{ $copy['choose'] }} <b>→</b></a></div>
-        </article>
-        @empty
-        <article class="hn-fleet-card hn-fleet-card--fallback"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><span>{{ number_format($route?->price_from ?? 220000) }} VND</span><a href="#booking">{{ $copy['search'] }} <b>→</b></a></div></article>
-        @endforelse
+       <div class="hn-fleet__grid">
+         @forelse($fleetTrips as $trip)
+         <a class="hn-fleet-card hn-fleet-card--link" href="{{ $trip['booking_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
+           <img src="{{ $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
+           <div><p>{{ $trip['departure']->format('H:i') }}</p><h3>{{ $trip['vehicle_type'] }}</h3><span>{{ number_format($trip['fare']) }} VND</span><strong class="hn-fleet-card__cta">{{ $copy['choose'] }} <b aria-hidden="true">→</b></strong></div>
+         </a>
+         @empty
+         <a class="hn-fleet-card hn-fleet-card--fallback hn-fleet-card--link" href="#booking"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><span>{{ number_format($route?->price_from ?? 220000) }} VND</span><strong class="hn-fleet-card__cta">{{ $copy['search'] }} <b aria-hidden="true">→</b></strong></div></a>
+         @endforelse
       </div>
     </div>
   </section>
@@ -281,19 +290,29 @@
         <h2 id="departure-title">{{ $copy['schedule_title'] }}</h2>
         <p>{{ $copy['schedule_text'] }}</p>
       </div>
-      <div class="hn-schedule" role="region" aria-label="Available departures">
-        <div class="hn-schedule__head"><span>{{ $copy['departure'] }}</span><span>{{ $copy['vehicle'] }}</span><span>{{ $copy['price'] }}</span><span></span></div>
-        @forelse(array_slice($liveSchedules, 0, 6) as $schedule)
-        <article class="hn-schedule__row">
-          <strong>{{ $schedule['departure']->format('H:i') }}</strong>
-          <span>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</span>
-          <span>{{ number_format($schedule['fare']) }} VND</span>
-          <a href="{{ $schedule['booking_url'] }}">{{ $copy['choose'] }}</a>
-        </article>
-        @empty
-        <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
-        @endforelse
-      </div>
+       <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">
+         @foreach($directionLabels as $direction => $label)
+           <button type="button" role="tab" aria-selected="{{ $selectedDirection === $direction ? 'true' : 'false' }}" class="{{ $selectedDirection === $direction ? 'is-active' : '' }}" data-direction-tab="{{ $direction }}">{{ $label }}</button>
+         @endforeach
+       </div>
+       @foreach($directionSchedules as $direction => $directionTrips)
+         <div class="hn-schedule-panel" data-direction-panel="{{ $direction }}" {{ $selectedDirection === $direction ? '' : 'hidden' }}>
+           <div class="hn-schedule" role="region" aria-label="{{ $directionLabels[$direction] ?? $copy['schedule_title'] }}">
+             <div class="hn-schedule__head"><span>{{ $copy['departure'] }}</span><span>{{ $copy['vehicle'] }}</span><span>{{ $copy['price'] }}</span><span>{{ $copy['seats'] }}</span><span></span></div>
+             @forelse(array_slice($directionTrips, 0, 6) as $schedule)
+             <article class="hn-schedule__row">
+               <strong>{{ $schedule['departure']->format('H:i') }}</strong>
+               <span>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</span>
+               <span>{{ number_format($schedule['fare']) }} VND</span>
+               <span class="hn-schedule__seats">{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span>
+               <a href="{{ $schedule['booking_url'] }}">{{ $copy['choose'] }}</a>
+             </article>
+             @empty
+             <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
+             @endforelse
+           </div>
+         </div>
+       @endforeach
     </div>
   </section>
 
@@ -408,6 +427,27 @@
    .hn-live-proof{display:inline-flex;align-items:center;gap:8px;max-width:none!important;margin:0 0 14px!important;padding:7px 10px;color:#d8f4df!important;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:999px;font-size:10px!important;font-weight:800;letter-spacing:.08em;line-height:1!important}.hn-live-proof i{width:7px;height:7px;background:#fbb116;border-radius:50%;box-shadow:0 0 0 4px rgba(251,177,22,.18)}.hn-fleet{padding-bottom:72px;background:#fff}.hn-fleet__heading{display:flex;align-items:end;justify-content:space-between;gap:30px;max-width:none}.hn-fleet__heading>div{max-width:620px}.hn-fleet__heading>p{max-width:360px;margin:0 0 4px}.hn-fleet__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.hn-fleet-card{position:relative;min-height:385px;overflow:hidden;background:#062d1c;border-radius:16px;isolation:isolate}.hn-fleet-card:after{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,45,28,.06),rgba(6,45,28,.93));content:''}.hn-fleet-card img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}.hn-fleet-card:hover img{transform:scale(1.04)}.hn-fleet-card>div{position:absolute;right:0;bottom:0;left:0;padding:25px;color:#fff}.hn-fleet-card p{margin:0 0 8px;color:#fbb116;font-size:12px;font-weight:800;letter-spacing:.08em}.hn-fleet-card h3{max-width:250px;margin:0 0 12px;font-size:21px;line-height:1.2}.hn-fleet-card span{display:block;color:#d4f4e2;font-size:13px;font-weight:700}.hn-fleet-card a{display:inline-flex;gap:8px;margin-top:20px;color:#fff;font-size:13px;font-weight:800;text-decoration:none}.hn-fleet-card a b{color:#fbb116;font-size:16px}.hn-proof{background:#062d1c}.hn-proof__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}.hn-proof article{display:flex;gap:16px;padding:28px 26px;border-right:1px solid rgba(212,244,226,.16)}.hn-proof article:first-child{padding-left:0}.hn-proof article:last-child{padding-right:0;border-right:0}.hn-proof article>span{color:#fbb116;font-size:12px;font-weight:900;letter-spacing:.1em}.hn-proof h3{margin:0 0 6px;color:#fff;font-size:15px}.hn-proof p{margin:0;color:#b9d9c2;font-size:13px;line-height:1.55}.hn-review{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;padding:96px 0}.hn-review__quote{position:relative;padding:38px;background:#f8fdf9;border:1px solid #d9e5dc;border-radius:16px}.hn-review__quote>span{position:absolute;top:-26px;left:27px;color:#fbb116;font:900 78px/1 Georgia,serif}.hn-review blockquote{max-width:600px;margin:0;color:#173d2b;font-size:22px;font-weight:700;letter-spacing:-.025em;line-height:1.45}.hn-review footer{display:grid;gap:3px;margin-top:24px;color:#062d1c;font-size:13px}.hn-review footer small{color:#62766c;font-size:12px}.hn-review__aside>p:not(.hn-eyebrow){max-width:420px;color:#62766c;line-height:1.65}.hn-support-float{position:fixed;right:20px;bottom:20px;z-index:30;display:inline-flex;align-items:center;gap:9px;min-height:48px;padding:10px 15px;color:#fff;background:#0b7f42;border:1px solid rgba(255,255,255,.22);border-radius:999px;box-shadow:0 10px 26px rgba(6,45,28,.24);font-size:12px;font-weight:800;text-decoration:none;transition:transform .18s ease,background .18s ease}.hn-support-float:hover{background:#096b39;transform:translateY(-2px)}.hn-support-float svg{width:18px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}@media(max-width:900px){.hn-fleet__grid{grid-template-columns:repeat(2,1fr)}.hn-proof__grid{grid-template-columns:1fr}.hn-proof article,.hn-proof article:first-child,.hn-proof article:last-child{padding:22px 0;border-right:0;border-bottom:1px solid rgba(212,244,226,.16)}.hn-proof article:last-child{border-bottom:0}.hn-review{gap:36px;grid-template-columns:1fr}}@media(max-width:620px){.hn-fleet__heading{align-items:start;flex-direction:column}.hn-fleet__grid{grid-template-columns:1fr}.hn-fleet-card{min-height:310px}.hn-review{padding:68px 0}.hn-review__quote{padding:30px 22px}.hn-review blockquote{font-size:19px}.hn-support-float{right:14px;bottom:14px;padding:11px}.hn-support-float span{display:none}}
    .hn-boarding{background:#f5f9f5}.hn-boarding__grid{display:grid;grid-template-columns:.88fr 1.12fr;gap:72px;align-items:start}.hn-boarding__intro>p:not(.hn-eyebrow){max-width:520px;color:#62766c;font-size:16px;line-height:1.65}.hn-boarding__steps{display:grid;gap:0;padding:0;margin:0;list-style:none;border-top:1px solid #d9e5dc}.hn-boarding__steps li{display:grid;grid-template-columns:62px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid #d9e5dc}.hn-boarding__steps li>span{display:grid;width:38px;height:38px;place-items:center;color:#7b5a00;background:#fef3d7;border-radius:50%;font-size:11px;font-weight:900;letter-spacing:.08em}.hn-boarding__steps h3{margin:1px 0 6px;color:#062d1c;font-size:18px}.hn-boarding__steps p{margin:0;color:#62766c;font-size:14px;line-height:1.55}.hn-boarding__note{display:flex;gap:11px;align-items:center;margin-top:28px;padding:14px;color:#365145;background:#fff;border:1px solid #d9e5dc;border-radius:10px}.hn-boarding__note>span{display:grid;width:28px;height:28px;place-items:center;color:#fff;background:#0b7f42;border-radius:50%;font-size:14px;font-weight:900}.hn-boarding__note div{display:grid;gap:3px}.hn-boarding__note strong{font-size:12px}.hn-boarding__note a{color:#0b7f42;font-size:12px;font-weight:800;text-decoration:none}.hn-boarding__note b{color:#fbb116;font-size:15px}.hn-boarding__action{margin-top:34px}.hn-boarding__action .hn-button{min-width:190px}@media(max-width:900px){.hn-boarding__grid{grid-template-columns:1fr;gap:30px}}@media(max-width:620px){.hn-boarding__steps li{grid-template-columns:47px 1fr}.hn-boarding__action{margin-top:26px}.hn-boarding__action .hn-button{width:100%}}
    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms!important; animation-duration:.01ms!important; animation-iteration-count:1!important; } }
+ </style>
+<style>
+  .hn-route-title-link { color:inherit; text-decoration:none; }
+  .hn-route-title-link:hover { color:var(--hn-green); }
+  .hn-route-card__image { display:block; min-height:370px; overflow:hidden; }
+  .hn-route-card__image img { display:block; width:100%; height:100%; min-height:370px; object-fit:cover; transition:transform .3s ease; }
+  .hn-route-card__image:hover img { transform:scale(1.03); }
+  .hn-route-card__actions { display:flex; flex-wrap:wrap; align-items:center; gap:16px; }
+  .hn-route-card__details { color:var(--hn-green); font-size:13px; font-weight:800; text-decoration:none; }
+  .hn-route-card__details b { color:#9a7000; font-size:16px; }
+  .hn-fleet-card--link { display:block; color:inherit; text-decoration:none; cursor:pointer; }
+  .hn-fleet-card__cta { display:inline-flex; gap:8px; margin-top:20px; color:#fff; font-size:13px; font-weight:800; }
+  .hn-fleet-card__cta b { color:#fbb116; font-size:16px; }
+  .hn-direction-tabs { display:flex; flex-wrap:wrap; gap:9px; margin:-6px 0 18px; }
+  .hn-direction-tabs button { min-height:42px; padding:10px 16px; color:var(--hn-muted); background:#fff; border:1px solid var(--hn-line); border-radius:999px; font:800 13px Inter,sans-serif; cursor:pointer; transition:color .18s ease, background .18s ease, border-color .18s ease; }
+  .hn-direction-tabs button:hover, .hn-direction-tabs button.is-active { color:#fff; background:var(--hn-green); border-color:var(--hn-green); }
+  .hn-schedule-panel[hidden] { display:none; }
+  .hn-schedule__head, .hn-schedule__row { grid-template-columns:.65fr 1.2fr 1fr .9fr auto; }
+  .hn-schedule__seats { color:var(--hn-green)!important; font-size:12px!important; font-weight:800!important; }
+  @media (max-width:900px) { .hn-route-card__image, .hn-route-card__image img { min-height:280px; } }
+  @media (max-width:620px) { .hn-route-card__image, .hn-route-card__image img { min-height:280px; } .hn-route-card__actions { align-items:stretch; flex-direction:column; gap:12px; } .hn-route-card__actions .hn-button { width:100%; } .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; padding-bottom:3px; } .hn-direction-tabs button { white-space:nowrap; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; } .hn-schedule__row .hn-schedule__seats { grid-column:2; grid-row:2; } }
 </style>
 <script>
   (() => {
@@ -427,6 +467,18 @@
         mobileNav.hidden = true;
       }));
     }
+
+    const directionTabs = [...document.querySelectorAll('[data-direction-tab]')];
+    const directionPanels = [...document.querySelectorAll('[data-direction-panel]')];
+    directionTabs.forEach((tab) => tab.addEventListener('click', () => {
+      const direction = tab.dataset.directionTab;
+      directionTabs.forEach((item) => {
+        const active = item === tab;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-selected', String(active));
+      });
+      directionPanels.forEach((panel) => { panel.hidden = panel.dataset.directionPanel !== direction; });
+    }));
 
     if (!form) return;
 

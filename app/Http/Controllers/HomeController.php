@@ -70,10 +70,15 @@ class HomeController extends Controller
             ->first();
 
         try {
-            $liveSchedules = $this->vexere->search('TP. Hồ Chí Minh', 'Nha Trang', today(), $locale);
+            $liveSchedulesByRoute = $this->vexere->searchMany([
+                'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
+                'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
+            ], today(), $locale);
+            $liveSchedules = $liveSchedulesByRoute['sg_nt'] ?? [];
         } catch (\Throwable $exception) {
             report($exception);
             $liveSchedules = [];
+            $liveSchedulesByRoute = ['sg_nt' => [], 'nt_sg' => []];
         }
 
         $faqs = Faq::where('status', true)
@@ -83,6 +88,6 @@ class HomeController extends Controller
 
         $settings = Setting::pluck('value', 'key');
 
-        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'faqs', 'ntRoute', 'settings');
+        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'liveSchedulesByRoute', 'faqs', 'ntRoute', 'settings');
     }
 }

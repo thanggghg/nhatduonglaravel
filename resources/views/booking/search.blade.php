@@ -4,7 +4,7 @@
     $copy = [
         'vi' => [
             'home' => 'Trang chủ', 'title' => 'Chọn chuyến đi', 'outbound' => 'Chiều đi', 'return' => 'Chiều về',
-            'departure' => 'Khởi hành', 'arrival' => 'Đến nơi', 'passengers' => 'hành khách', 'available' => 'chỗ trống',
+            'departure' => 'Khởi hành', 'arrival' => 'Đến nơi', 'passengers' => 'hành khách', 'available' => 'chỗ còn lại',
             'confirm' => 'Nhà xe xác nhận chỗ khi bạn tiếp tục đặt vé', 'continue' => 'Chọn chuyến này', 'sold_out' => 'Không đủ chỗ',
             'empty' => 'Chưa có chuyến phù hợp', 'empty_text' => 'Vui lòng chọn ngày khác hoặc liên hệ đội ngũ hỗ trợ.',
             'pickup' => 'Điểm đón và trả sẽ được chọn ở bước tiếp theo.', 'support' => 'Cần hỗ trợ đặt vé?', 'support_link' => 'Liên hệ hỗ trợ',
@@ -14,7 +14,7 @@
         ],
         'en' => [
             'home' => 'Home', 'title' => 'Choose a departure', 'outbound' => 'Outbound', 'return' => 'Return',
-            'departure' => 'Departure', 'arrival' => 'Arrival', 'passengers' => 'passengers', 'available' => 'seats available',
+            'departure' => 'Departure', 'arrival' => 'Arrival', 'passengers' => 'passengers', 'available' => 'seats remaining',
             'confirm' => 'The operator confirms availability when you continue to booking', 'continue' => 'Choose this departure', 'sold_out' => 'Not enough seats',
             'empty' => 'No matching departures', 'empty_text' => 'Try another travel date or contact our team.',
             'pickup' => 'You will choose pickup and drop-off details in the next step.', 'support' => 'Need booking help?', 'support_link' => 'Contact support',
@@ -24,7 +24,7 @@
         ],
         'ru' => [
             'home' => 'Главная', 'title' => 'Выберите рейс', 'outbound' => 'Туда', 'return' => 'Обратно',
-            'departure' => 'Отправление', 'arrival' => 'Прибытие', 'passengers' => 'пассажиров', 'available' => 'мест доступно',
+            'departure' => 'Отправление', 'arrival' => 'Прибытие', 'passengers' => 'пассажиров', 'available' => 'мест осталось',
             'confirm' => 'Перевозчик подтверждает наличие мест при переходе к бронированию', 'continue' => 'Выбрать этот рейс', 'sold_out' => 'Недостаточно мест',
             'empty' => 'Подходящих рейсов нет', 'empty_text' => 'Выберите другую дату или свяжитесь с поддержкой.',
             'pickup' => 'Место посадки и высадки выбирается на следующем шаге.', 'support' => 'Нужна помощь?', 'support_link' => 'Связаться с поддержкой',
@@ -105,8 +105,8 @@
                             <div class="departure-line"><span>{{ $duration($trip['duration']) }}</span><i aria-hidden="true"></i><small>{{ $trip['pickup'] }} <b aria-hidden="true">→</b> {{ $trip['dropoff'] }}</small></div>
                             <div class="departure-time"><strong>{{ $trip['arrival']->format('H:i') }}</strong><span>{{ $copy['arrival'] }}</span></div>
                         </div>
-                        <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span></div>
-                        <div class="departure-action"><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
+                        <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
+                        <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
                             @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
                     </article>
@@ -141,7 +141,7 @@
 @endpush
 
 @push('styles')
-<style>.departure-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0}.departure-filters{display:flex;flex-wrap:wrap;gap:7px}.departure-filters button{min-height:34px;padding:7px 11px;color:#526b5c;background:#fff;border:1px solid #d1ddd5;border-radius:999px;font:800 12px Inter,sans-serif;cursor:pointer}.departure-filters button:hover,.departure-filters button.is-active{color:#0a3d23;background:#e8f8ef;border-color:#0b7f42}.departure-tools>span{color:#708679;font-size:12px;font-weight:700}.departure-card[hidden]{display:none}@media(max-width:620px){.departure-tools{align-items:flex-start;flex-direction:column}.departure-filters{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:3px}.departure-filters button{white-space:nowrap}}</style>
+<style>.departure-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0}.departure-filters{display:flex;flex-wrap:wrap;gap:7px}.departure-filters button{min-height:34px;padding:7px 11px;color:#526b5c;background:#fff;border:1px solid #d1ddd5;border-radius:999px;font:800 12px Inter,sans-serif;cursor:pointer}.departure-filters button:hover,.departure-filters button.is-active{color:#0a3d23;background:#e8f8ef;border-color:#0b7f42}.departure-tools>span{color:#708679;font-size:12px;font-weight:700}.departure-card[hidden]{display:none}.departure-availability{display:grid;gap:3px;margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid #d9e5dc}.departure-availability span{color:#708679;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.departure-availability strong{color:#0b7f42;font-size:22px;line-height:1}.departure-action{align-content:start}@media(max-width:620px){.departure-tools{align-items:flex-start;flex-direction:column}.departure-filters{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:3px}.departure-filters button{white-space:nowrap}}</style>
 @endpush
 
 @push('scripts')
