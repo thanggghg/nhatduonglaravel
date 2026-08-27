@@ -223,7 +223,9 @@ class VexereTripService
             foreach ($route['schedules'] ?? [] as $schedule) {
                 $pickup = $route['from'] ?? [];
                 $dropoff = $route['to'] ?? [];
-                $fare = (int) (data_get($schedule, 'fare.discount') ?: data_get($schedule, 'fare.original'));
+                $discountFare = (int) data_get($schedule, 'fare.discount', 0);
+                $originalFare = (int) data_get($schedule, 'fare.original', 0);
+                $fare = $discountFare > 0 ? $discountFare : max(0, $originalFare);
                 $departure = Carbon::parse($schedule['pickup_date']);
                 $arrival = Carbon::parse($schedule['arrival_time']);
                 $tripDeparture = $tripDatePart && $tripTimePart

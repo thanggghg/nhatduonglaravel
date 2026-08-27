@@ -125,7 +125,7 @@ class RouteSeeder extends Seeder
         DropoffPoint::create([
             'route_id' => $route2->id,
             'name' => 'Bến xe Nha Trang',
-            'address' => '23 Tháng 10, Phường Phước Long, TP. Nha Trang',
+            'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, Phường Nam Nha Trang, Khánh Hòa',
             'phone' => '0258 3812 586',
             'sort_order' => 1,
             'status' => true,

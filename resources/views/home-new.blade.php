@@ -14,7 +14,7 @@
   <link rel="alternate" hreflang="ru" href="{{ route('home', ['lang' => 'ru']) }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="home-new">
@@ -22,8 +22,8 @@
   $copy = [
     'vi' => [
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
-      'book' => 'Đặt vé', 'hero_kicker' => 'Tuyến xe chất lượng cao', 'hero_title' => 'Đi Sài Gòn - Nha Trang một cách thoải mái, rõ ràng và đúng giờ.',
-      'hero_text' => 'Chọn chuyến, xem thông tin minh bạch và nhận xác nhận đặt vé trực tuyến.', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
+      'book' => 'Đặt vé', 'hero_kicker' => 'Tuyến xe phòng chất lượng cao', 'hero_title' => 'Đặt vé Sài Gòn ⇔ Nha Trang',
+      'hero_text' => 'Xem giờ chạy, chọn phòng và thanh toán trực tuyến.', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
@@ -46,8 +46,8 @@
     ],
     'en' => [
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
-      'book' => 'Book now', 'hero_kicker' => 'Comfort sleeper bus service', 'hero_title' => 'Travel between Ho Chi Minh City and Nha Trang with clarity and comfort.',
-      'hero_text' => 'Choose a departure, see the essential trip details, and receive your booking confirmation online.', 'one_way' => 'One way', 'round_trip' => 'Round trip',
+      'book' => 'Book now', 'hero_kicker' => 'Premium sleeper bus service', 'hero_title' => 'Book Ho Chi Minh City ⇔ Nha Trang',
+      'hero_text' => 'See live departures, choose your cabin, and pay online.', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
@@ -70,8 +70,8 @@
     ],
     'ru' => [
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
-      'book' => 'Забронировать', 'hero_kicker' => 'Комфортные спальные автобусы', 'hero_title' => 'Путешествуйте между Хошимином и Нячангом комфортно и без лишних вопросов.',
-      'hero_text' => 'Выберите рейс, заранее посмотрите основные детали поездки и получите подтверждение онлайн.', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
+      'book' => 'Забронировать', 'hero_kicker' => 'Комфортные спальные автобусы', 'hero_title' => 'Билеты Хошимин ⇔ Нячанг',
+      'hero_text' => 'Посмотрите рейсы, выберите купе и оплатите онлайн.', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
@@ -111,8 +111,8 @@
     'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
   ];
   $directionLabels = [
-    'sg_nt' => ($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' ⇔ '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
-    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' ⇔ '.($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
+    'sg_nt' => ($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' → '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
+    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' → '.($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
   ];
   $directionSchedules = $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules, 'nt_sg' => []];
   $selectedDirection = request('direction');
@@ -130,27 +130,32 @@
     'en' => ['pickup' => 'Pickup points', 'dropoff' => 'Drop-off points', 'map' => 'Open map', 'support' => 'Need to confirm a pickup point?', 'support_text' => 'Contact support before travel to confirm luggage, pickup details, and change policy.'],
     'ru' => ['pickup' => 'Места посадки', 'dropoff' => 'Места высадки', 'map' => 'Открыть карту', 'support' => 'Нужно подтвердить место посадки?', 'support_text' => 'Свяжитесь с поддержкой до поездки, чтобы уточнить багаж, посадку и условия изменения билета.'],
   ][$locale];
-  $policyItems = [
-    'vi' => ['Xác nhận giá và hình thức thanh toán trước khi hoàn tất đặt vé.', 'Hỏi trước về hành lý, thay đổi hoặc hủy vé nếu lịch trình thay đổi.', 'Lưu xác nhận đặt vé và đến điểm đón sớm.'],
-    'en' => ['Confirm the fare and payment method before completing your booking.', 'Ask about luggage, changes, or cancellations before your travel date.', 'Keep your booking confirmation and arrive early at pickup.'],
-    'ru' => ['Подтвердите стоимость и способ оплаты до завершения бронирования.', 'Уточните багаж, изменение или отмену билета до даты поездки.', 'Сохраните подтверждение и приезжайте к месту посадки заранее.'],
-  ][$locale];
   $productCopy = [
     'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
     'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
+  $homeUi = [
+    'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'return_date' => 'Ngày về', 'optional' => 'Không bắt buộc', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Nhiều chuyến mỗi ngày', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Phòng riêng', 'WC', 'Sạc USB'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
+    'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'return_date' => 'Return date', 'optional' => 'Optional', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'Multiple daily departures', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['Private cabin', 'WC', 'USB charging'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
+    'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'return_date' => 'Дата возвращения', 'optional' => 'Необязательно', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Несколько рейсов ежедневно', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Отдельное купе', 'WC', 'USB-зарядка'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
+  ][$locale];
   $fleetTrips = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
+  $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
+  $formatDuration = function ($minutes) use ($locale): string {
+    $minutes = (int) $minutes;
+    if ($minutes <= 0) return '—';
+    $hours = intdiv($minutes, 60);
+    $remaining = $minutes % 60;
+    if ($locale === 'vi') return $hours.' giờ'.($remaining ? ' '.$remaining.' phút' : '');
+    if ($locale === 'ru') return $hours.' ч'.($remaining ? ' '.$remaining.' мин' : '');
+    return $hours.' hr'.($remaining ? ' '.$remaining.' min' : '');
+  };
   $supportPhone = preg_replace('/\D+/', '', $settings['hotline'] ?? '');
   $supportHref = $supportPhone ? 'tel:+'.$supportPhone : route('contact', ['lang' => $locale]);
   $reviewQuote = $settings['home_routes_review_quote'] ?? $productCopy['review_fallback'];
   $reviewName = $settings['home_routes_review_name'] ?? 'Nhat Duong passenger';
   $reviewRole = $settings['home_routes_review_role'] ?? $productCopy['support_online'];
-  $boardingCopy = [
-    'vi' => ['kicker' => 'THÔNG TIN THEO TỪNG CHUYẾN', 'title' => 'Điểm đón, trả được xác định sau khi bạn chọn giờ chạy', 'text' => 'Mỗi giờ chạy có thể có điểm đón và trả khác nhau. Chúng tôi chỉ hiển thị danh sách chính xác của chuyến bạn đã chọn, thay vì đưa một địa chỉ chung dễ gây nhầm lẫn.', 'step_1' => 'Chọn giờ khởi hành', 'step_1_text' => 'So sánh giờ chạy, loại xe và giá vé trực tiếp.', 'step_2' => 'Chọn ghế đang trống', 'step_2_text' => 'Sơ đồ ghế được tải từ chuyến thực tế.', 'step_3' => 'Chọn điểm đón, trả', 'step_3_text' => 'Xem đầy đủ thời gian, địa chỉ theo đúng chuyến.', 'note' => 'Cần xác nhận trước khi đặt?', 'action' => 'Xem lịch chạy'],
-    'en' => ['kicker' => 'TRIP-SPECIFIC DETAILS', 'title' => 'Pickup and drop-off points are confirmed after you choose a departure', 'text' => 'Each departure can have different pickup and drop-off points. We show the exact list for the trip you choose instead of a generic address that could be misleading.', 'step_1' => 'Choose a departure', 'step_1_text' => 'Compare live departure time, vehicle type, and fare.', 'step_2' => 'Choose an available seat', 'step_2_text' => 'The seat map is loaded from the actual trip.', 'step_3' => 'Choose pickup and drop-off', 'step_3_text' => 'See the full time and address for that departure.', 'note' => 'Need to confirm before booking?', 'action' => 'View departures'],
-    'ru' => ['kicker' => 'ДЕТАЛИ ДЛЯ КАЖДОГО РЕЙСА', 'title' => 'Места посадки и высадки определяются после выбора рейса', 'text' => 'У разных рейсов могут быть разные места посадки и высадки. Мы показываем точный список для выбранного рейса, а не общий адрес, который может запутать.', 'step_1' => 'Выберите рейс', 'step_1_text' => 'Сравните актуальное время, тип автобуса и стоимость.', 'step_2' => 'Выберите свободное место', 'step_2_text' => 'Схема мест загружается из выбранного рейса.', 'step_3' => 'Выберите посадку и высадку', 'step_3_text' => 'Посмотрите полный адрес и время для рейса.', 'note' => 'Нужно уточнить до бронирования?', 'action' => 'Посмотреть рейсы'],
-  ][$locale];
 @endphp
 
 <header class="hn-header">
@@ -190,38 +195,47 @@
     <div class="hn-shell hn-hero__content">
       <div class="hn-hero__copy">
         <p class="hn-eyebrow">{{ $copy['hero_kicker'] }}</p>
-        <p class="hn-live-proof"><i></i>{{ $productCopy['live'] }}</p>
         <h1 id="hero-title">{{ $copy['hero_title'] }}</h1>
         <p>{{ $copy['hero_text'] }}</p>
       </div>
       <form id="booking" class="hn-booking" action="{{ route('booking.search') }}" method="GET">
         <fieldset>
-          <legend>{{ $copy['book'] }}</legend>
-          <div class="hn-trip-type" role="group" aria-label="Trip type">
-            <label><input type="radio" name="trip_type" value="one_way" checked> <span>{{ $copy['one_way'] }}</span></label>
-            <label><input type="radio" name="trip_type" value="round_trip"> <span>{{ $copy['round_trip'] }}</span></label>
+          <div class="hn-booking__top">
+            <legend>{{ $homeUi['where_go'] }}</legend>
+            <span class="hn-live-proof"><i></i>{{ $productCopy['live'] }}</span>
           </div>
           <div class="hn-booking__fields">
-            <label>{{ $copy['from'] }}
+            <label class="hn-location-field"><span>{{ $copy['from'] }}</span>
               <select id="hn-from-location" name="from_location" required>
                 @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'TP. Hồ Chí Minh')>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
-            <label>{{ $copy['to'] }}
+            <button id="hn-swap-locations" class="hn-swap" type="button" aria-label="{{ $homeUi['swap'] }}" title="{{ $homeUi['swap'] }}">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12m0 0-3-3m3 3-3 3M17 17H5m0 0 3 3m-3-3 3-3"/></svg>
+            </button>
+            <label class="hn-location-field"><span>{{ $copy['to'] }}</span>
               <select id="hn-to-location" name="to_location" required>
                 @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'Nha Trang')>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
-            <label>{{ $copy['date'] }}<input id="hn-depart-date" type="date" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}"></label>
-            <label id="hn-return-field" hidden>{{ $copy['round_trip'] }}<input id="hn-return-date" type="date" value="{{ now()->addDay()->toDateString() }}" min="{{ now()->addDay()->toDateString() }}"></label>
-            <label>{{ $copy['passengers'] }}
-              <select name="seats"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+            <label class="hn-depart-date-field"><span>{{ $copy['date'] }}</span><input id="hn-depart-date" type="date" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}"></label>
+            <label class="hn-return-date-field"><span>{{ $homeUi['return_date'] }} <small>{{ $homeUi['optional'] }}</small></span><input id="hn-return-date" type="date" min="{{ now()->addDay()->toDateString() }}"></label>
+            <label><span>{{ $copy['passengers'] }}</span>
+              <span class="hn-passenger-stepper">
+                <button type="button" data-passenger-step="-1" aria-label="Decrease passengers">−</button>
+                <output id="hn-passenger-count" for="hn-passenger-value">1</output>
+                <button type="button" data-passenger-step="1" aria-label="Increase passengers">+</button>
+              </span>
+              <input id="hn-passenger-value" type="hidden" name="seats" value="1">
             </label>
             <input id="hn-depart-date-value" type="hidden" name="departDate" value="{{ now()->format('d-m-Y') }}">
-            <input id="hn-return-date-value" type="hidden" name="returnDate" value="{{ now()->addDay()->format('d-m-Y') }}">
+            <input id="hn-return-date-value" type="hidden" name="returnDate" value="">
             <input id="hn-round-trip-value" type="hidden" name="is_round_trip" value="0">
             <input type="hidden" name="lang" value="{{ $locale }}">
-            <button class="hn-button hn-button--primary" type="submit">{{ $copy['search'] }}</button>
+            <button class="hn-button hn-button--primary hn-search-button" type="submit" data-loading="{{ $homeUi['searching'] }}">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+              <span>{{ $copy['search'] }}</span>
+            </button>
           </div>
           @error('route')<p class="hn-form-error" role="alert">{{ $message }}</p>@enderror
         </fieldset>
@@ -234,121 +248,111 @@
     </div>
   </section>
 
-  <section id="route" class="hn-section hn-shell hn-route" aria-labelledby="route-title">
-    <div class="hn-section-heading">
-      <p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p>
-       <h2 id="route-title"><a class="hn-route-title-link" href="{{ $routeDetailsUrl }}">{{ $route ? ($locations[$route->from_location][$locale] ?? $route->from_location).' ⇔ '.($locations[$route->to_location][$locale] ?? $route->to_location) : 'Ho Chi Minh City ⇔ Nha Trang' }}</a></h2>
-      <p>{{ $copy['route_title'] }}</p>
+  <section id="route" class="hn-route-summary" aria-labelledby="route-title">
+    <div class="hn-shell hn-route-summary__inner">
+      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations['TP. Hồ Chí Minh'][$locale] }} ⇔ {{ $locations['Nha Trang'][$locale] }}</h2></div>
+      <dl>
+        <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND</dd></div>
+        <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
+        <div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div>
+      </dl>
+      <a class="hn-text-link" href="{{ $routeDetailsUrl }}">{{ $copy['route_details'] }} <span aria-hidden="true">→</span></a>
     </div>
-     <article class="hn-route-card">
-       <a class="hn-route-card__image" href="{{ $routeDetailsUrl }}" aria-label="{{ $copy['route_details'] }}"><img src="{{ $routeImage }}" alt="{{ $route?->name ?? 'Nhat Duong sleeper bus' }}"></a>
-      <div class="hn-route-card__content">
-        <dl>
-          <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($route?->price_from ?? 220000) }} VND</dd></div>
-          <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
-          <div><dt>{{ $copy['daily'] }}</dt><dd>{{ $copy['support'] }}</dd></div>
-        </dl>
-        <ul class="hn-check-list">
-          <li>{{ $copy['daily'] }}</li><li>{{ $copy['luggage'] }}</li><li>{{ $copy['support'] }}</li>
-        </ul>
-         <div class="hn-route-card__actions"><a class="hn-button hn-button--primary" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $copy['view_departures'] }}</a><a class="hn-route-card__details" href="{{ $routeDetailsUrl }}">{{ $copy['route_details'] }} <b aria-hidden="true">→</b></a></div>
+  </section>
+
+  <section id="departures" class="hn-section hn-section--mist hn-departures" aria-labelledby="departure-title">
+    <div class="hn-shell">
+      <div class="hn-section-heading hn-section-heading--split">
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['schedule_kicker'] }}</p><h2 id="departure-title">{{ $copy['schedule_title'] }}</h2><p>{{ $copy['schedule_text'] }}</p></div>
+        <span class="hn-date-badge"><small>{{ $homeUi['live_date'] }}</small><strong>{{ now()->format('d/m/Y') }}</strong></span>
       </div>
-    </article>
+      <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">
+        @foreach($directionLabels as $direction => $label)
+          <button id="direction-tab-{{ $direction }}" type="button" role="tab" aria-controls="direction-panel-{{ $direction }}" aria-selected="{{ $selectedDirection === $direction ? 'true' : 'false' }}" class="{{ $selectedDirection === $direction ? 'is-active' : '' }}" data-direction-tab="{{ $direction }}">{{ $label }}</button>
+        @endforeach
+      </div>
+      @foreach($directionSchedules as $direction => $directionTrips)
+        <div id="direction-panel-{{ $direction }}" class="hn-schedule-panel" role="tabpanel" aria-labelledby="direction-tab-{{ $direction }}" data-direction-panel="{{ $direction }}" {{ $selectedDirection === $direction ? '' : 'hidden' }}>
+          <div class="hn-schedule-list">
+            @forelse(array_slice($directionTrips, 0, 6) as $schedule)
+              <article class="hn-departure-card">
+                <div class="hn-departure-card__time"><strong>{{ $schedule['departure']->format('H:i') }}</strong><span>{{ $copy['departure'] }}</span></div>
+                <div class="hn-departure-card__journey"><span>{{ $formatDuration($schedule['duration']) }}</span><i aria-hidden="true"></i><small>{{ $schedule['arrival']->format('H:i') }} · {{ $homeUi['arrival'] }}</small></div>
+                <div class="hn-departure-card__vehicle"><strong>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</strong><span>{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span></div>
+                <div class="hn-departure-card__fare"><span>{{ $copy['price'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong></div>
+                <a class="hn-departure-card__action" href="{{ $schedule['checkout_url'] }}">{{ $copy['choose'] }} <span aria-hidden="true">→</span></a>
+              </article>
+            @empty
+              <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
+            @endforelse
+          </div>
+        </div>
+      @endforeach
+      <div class="hn-departures__footer"><a class="hn-button hn-button--outline" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $homeUi['view_all'] }}</a></div>
+    </div>
   </section>
 
   <section class="hn-section hn-fleet" aria-labelledby="fleet-title">
     <div class="hn-shell">
-      <div class="hn-section-heading hn-fleet__heading">
+      <div class="hn-section-heading hn-section-heading--split">
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2></div>
         <p>{{ $productCopy['fleet_text'] }}</p>
       </div>
-       <div class="hn-fleet__grid">
-         @forelse($fleetTrips as $trip)
-         <a class="hn-fleet-card hn-fleet-card--link" href="{{ $trip['booking_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
-           <img src="{{ $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
-           <div><p>{{ $trip['departure']->format('H:i') }}</p><h3>{{ $trip['vehicle_type'] }}</h3><span>{{ number_format($trip['fare']) }} VND</span><strong class="hn-fleet-card__cta">{{ $copy['choose'] }} <b aria-hidden="true">→</b></strong></div>
-         </a>
-         @empty
-         <a class="hn-fleet-card hn-fleet-card--fallback hn-fleet-card--link" href="#booking"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><span>{{ number_format($route?->price_from ?? 220000) }} VND</span><strong class="hn-fleet-card__cta">{{ $copy['search'] }} <b aria-hidden="true">→</b></strong></div></a>
-         @endforelse
+      <div class="hn-fleet__grid">
+        @forelse($fleetTrips as $trip)
+          <a class="hn-fleet-card" href="{{ $trip['checkout_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
+            <img src="{{ $trip['image'] ?: $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
+            <div class="hn-fleet-card__overlay"></div>
+            <div class="hn-fleet-card__content">
+              <p>{{ $trip['departure']->format('H:i') }} · {{ $trip['available_seats'] }} {{ $copy['seats'] }}</p>
+              <h3>{{ $trip['vehicle_type'] }}</h3>
+              <ul>@foreach($homeUi['amenities'] as $amenity)<li>{{ $amenity }}</li>@endforeach</ul>
+              <div><strong>{{ number_format($trip['fare']) }} VND</strong><span>{{ $copy['choose'] }} →</span></div>
+            </div>
+          </a>
+        @empty
+          <a class="hn-fleet-card" href="#booking"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div class="hn-fleet-card__overlay"></div><div class="hn-fleet-card__content"><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><div><strong>{{ number_format($startingFare) }} VND</strong><span>{{ $copy['search'] }} →</span></div></div></a>
+        @endforelse
       </div>
     </div>
   </section>
 
-  <section class="hn-proof" aria-label="{{ $copy['book'] }}">
-    <div class="hn-shell hn-proof__grid">
-      @foreach([['01', $productCopy['seat_map'], $productCopy['seat_map_text']], ['02', $productCopy['stops'], $productCopy['stops_text']], ['03', $productCopy['payment'], $productCopy['payment_text']]] as [$number, $title, $text])
-      <article><span>{{ $number }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
+  <section class="hn-proof" aria-labelledby="assurance-title">
+    <div class="hn-shell"><p class="hn-eyebrow" id="assurance-title">{{ $homeUi['assurance'] }}</p><div class="hn-proof__grid">
+      @foreach([[$productCopy['seat_map'], $productCopy['seat_map_text']], [$productCopy['stops'], $productCopy['stops_text']], [$productCopy['payment'], $productCopy['payment_text']]] as $index => [$title, $text])
+        <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
       @endforeach
-    </div>
+    </div></div>
   </section>
 
-  <section id="departures" class="hn-section hn-section--mist" aria-labelledby="departure-title">
+  <section id="pickup" class="hn-section hn-stops" aria-labelledby="stops-title">
     <div class="hn-shell">
-      <div class="hn-section-heading">
-        <p class="hn-eyebrow hn-eyebrow--green">{{ $copy['schedule_kicker'] }}</p>
-        <h2 id="departure-title">{{ $copy['schedule_title'] }}</h2>
-        <p>{{ $copy['schedule_text'] }}</p>
+      <div class="hn-section-heading hn-section-heading--split">
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['pickup_kicker'] }}</p><h2 id="stops-title">{{ $homeUi['popular_stops'] }}</h2></div>
+        <p>{{ $homeUi['stops_text'] }}</p>
       </div>
-       <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">
-         @foreach($directionLabels as $direction => $label)
-           <button type="button" role="tab" aria-selected="{{ $selectedDirection === $direction ? 'true' : 'false' }}" class="{{ $selectedDirection === $direction ? 'is-active' : '' }}" data-direction-tab="{{ $direction }}">{{ $label }}</button>
-         @endforeach
-       </div>
-       @foreach($directionSchedules as $direction => $directionTrips)
-         <div class="hn-schedule-panel" data-direction-panel="{{ $direction }}" {{ $selectedDirection === $direction ? '' : 'hidden' }}>
-           <div class="hn-schedule" role="region" aria-label="{{ $directionLabels[$direction] ?? $copy['schedule_title'] }}">
-             <div class="hn-schedule__head"><span>{{ $copy['departure'] }}</span><span>{{ $copy['vehicle'] }}</span><span>{{ $copy['price'] }}</span><span>{{ $copy['seats'] }}</span><span></span></div>
-             @forelse(array_slice($directionTrips, 0, 6) as $schedule)
-             <article class="hn-schedule__row">
-               <strong>{{ $schedule['departure']->format('H:i') }}</strong>
-               <span>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</span>
-               <span>{{ number_format($schedule['fare']) }} VND</span>
-               <span class="hn-schedule__seats">{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span>
-               <a href="{{ $schedule['booking_url'] }}">{{ $copy['choose'] }}</a>
-             </article>
-             @empty
-             <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
-             @endforelse
-           </div>
-         </div>
-       @endforeach
+      <div class="hn-stops__grid">
+        <article class="hn-stop-card">
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations['TP. Hồ Chí Minh'][$locale] }}</h3></div></div>
+          @if($pickupPoints->first()?->address)<p>{{ $pickupPoints->first()->address }}</p>@endif
+          @if($pickupPoints->first()?->phone)<a href="tel:{{ $pickupPoints->first()->phone }}">{{ $pickupPoints->first()->phone }}</a>@endif
+          @if($pickupPoints->first()?->map_url)<a href="{{ $pickupPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
+        </article>
+        <article class="hn-stop-card">
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $dropoffPoints->first()?->name ?? $locations['Nha Trang'][$locale] }}</h3></div></div>
+          @if($dropoffPoints->first()?->address)<p>{{ $dropoffPoints->first()->address }}</p>@endif
+          @if($dropoffPoints->first()?->phone)<a href="tel:{{ $dropoffPoints->first()->phone }}">{{ $dropoffPoints->first()->phone }}</a>@endif
+          @if($dropoffPoints->first()?->map_url)<a href="{{ $dropoffPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
+        </article>
+        <aside class="hn-stop-support"><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong><span>{{ $pickupLabels['support_text'] }}</span><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
+      </div>
     </div>
   </section>
 
-  <section id="pickup" class="hn-section hn-boarding" aria-labelledby="boarding-title">
-    <div class="hn-shell hn-boarding__grid">
-      <div class="hn-boarding__intro"><p class="hn-eyebrow hn-eyebrow--green">{{ $boardingCopy['kicker'] }}</p><h2 id="boarding-title">{{ $boardingCopy['title'] }}</h2><p>{{ $boardingCopy['text'] }}</p><div class="hn-boarding__note"><span>?</span><div><strong>{{ $boardingCopy['note'] }}</strong><a href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }} <b>→</b></a></div></div></div>
-      <ol class="hn-boarding__steps">
-        @foreach([[$boardingCopy['step_1'], $boardingCopy['step_1_text']], [$boardingCopy['step_2'], $boardingCopy['step_2_text']], [$boardingCopy['step_3'], $boardingCopy['step_3_text']]] as $index => [$title, $text])
-        <li><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></li>
-        @endforeach
-      </ol>
-    </div>
-    <div class="hn-shell hn-boarding__action"><a class="hn-button hn-button--primary" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $boardingCopy['action'] }}</a></div>
-  </section>
-
-  <aside class="hn-policy" aria-label="Booking policies">
-    <div class="hn-shell hn-policy__content">
-      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $pickupLabels['support'] }}</p><p>{{ $pickupLabels['support_text'] }}</p></div>
-      <ul>@foreach($policyItems as $item)<li>{{ $item }}</li>@endforeach</ul>
-      <a class="hn-button hn-button--primary" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a>
-    </div>
-  </aside>
-
-  <section class="hn-review hn-shell" aria-labelledby="review-title">
-    <div class="hn-review__quote"><span>“</span><blockquote>{{ $reviewQuote }}</blockquote><footer><strong>{{ $reviewName }}</strong><small>{{ $reviewRole }}</small></footer></div>
-    <div class="hn-review__aside"><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['review_kicker'] }}</p><h2 id="review-title">{{ $copy['support'] }}</h2><p>{{ $pickupLabels['support_text'] }}</p><a class="hn-button hn-button--primary" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div>
-  </section>
-
-  <section class="hn-section hn-section--mist" aria-labelledby="steps-title">
-    <div class="hn-shell">
-      <div class="hn-section-heading hn-section-heading--center"><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['how_kicker'] }}</p><h2 id="steps-title">{{ $copy['how_title'] }}</h2></div>
-      <ol class="hn-steps">
-        @foreach([[$copy['step_1'], $copy['step_1_text']], [$copy['step_2'], $copy['step_2_text']], [$copy['step_3'], $copy['step_3_text']]] as $index => [$title, $text])
-        <li><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><h3>{{ $title }}</h3><p>{{ $text }}</p></li>
-        @endforeach
-      </ol>
+  <section class="hn-review hn-section--mist" aria-labelledby="review-title">
+    <div class="hn-shell hn-review__inner">
+      <div class="hn-review__quote"><div class="hn-review__stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“{{ $reviewQuote }}”</blockquote><footer><strong>{{ $reviewName }}</strong><small>{{ $reviewRole }}</small></footer></div>
+      <div class="hn-review__aside"><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['review_kicker'] }}</p><h2 id="review-title">{{ $copy['support'] }}</h2><p>{{ $pickupLabels['support_text'] }}</p><a class="hn-button hn-button--primary" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div>
     </div>
   </section>
 
@@ -397,6 +401,7 @@
 </main>
 
 <a class="hn-support-float" href="{{ $supportHref }}" aria-label="{{ $productCopy['support_call'] }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l1.5 4-2.2 1.6a14 14 0 0 0 6.8 6.8L17.7 13l4 1.5v3c0 1.1-.9 2-2 2C10.5 19.5 4.5 13.5 4.5 4.3c0-.7.5-1.3 1.2-1.3H7Z"/></svg><span>{{ $productCopy['support_online'] }}</span></a>
+<nav class="hn-mobile-booking-bar" aria-label="Booking actions"><a href="#booking">{{ $copy['book'] }}</a><a href="{{ $supportHref }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l1.5 4-2.2 1.6a14 14 0 0 0 6.8 6.8L17.7 13l4 1.5v3c0 1.1-.9 2-2 2C10.5 19.5 4.5 13.5 4.5 4.3c0-.7.5-1.3 1.2-1.3H7Z"/></svg>{{ $homeUi['call'] }}</a></nav>
 
 <footer class="hn-footer"><div class="hn-shell"><span>© {{ now()->year }} Nhat Duong</span><span>{{ $copy['footer'] }}</span></div></footer>
 
@@ -409,8 +414,8 @@
   .hn-button { display:inline-flex; justify-content:center; align-items:center; min-height:44px; padding:11px 18px; border:0; border-radius:8px; font:700 14px Inter,sans-serif; text-decoration:none; cursor:pointer; transition:transform .18s ease, background .18s ease; } .hn-button:hover { transform:translateY(-1px); } .hn-button--primary { color:#fff; background:var(--hn-green); } .hn-button--gold { color:#5d4300; background:var(--hn-gold); }
   .hn-hero { position:relative; isolation:isolate; overflow:hidden; min-height:650px; display:grid; align-items:center; color:#fff; } .hn-hero__image,.hn-hero__overlay { position:absolute; inset:0; width:100%; height:100%; } .hn-hero__image { z-index:-2; object-fit:cover; } .hn-hero__overlay { z-index:-1; background:linear-gradient(90deg,rgba(4,35,22,.88),rgba(4,35,22,.58) 58%,rgba(4,35,22,.22)); }
   .hn-hero__content { padding:80px 0 48px; } .hn-hero__copy { max-width:690px; } .hn-eyebrow { margin:0 0 14px; color:#d6f1df; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; } .hn-eyebrow--green { color:var(--hn-green); } h1,h2,h3,p { margin-top:0; } h1 { max-width:780px; margin-bottom:18px; font-size:clamp(38px,5vw,64px); line-height:1.05; letter-spacing:-.045em; } h2 { margin-bottom:12px; color:var(--hn-deep); font-size:clamp(30px,3.4vw,46px); line-height:1.1; letter-spacing:-.035em; } .hn-hero__copy > p:not(.hn-eyebrow),.hn-lead { max-width:610px; color:rgba(255,255,255,.88); font-size:18px; line-height:1.6; }
-  .hn-booking { margin-top:34px; max-width:1120px; color:var(--hn-ink); background:#fff; border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,.18); } .hn-booking fieldset { margin:0; padding:20px; border:0; } .hn-booking legend { padding:0 0 12px; font-size:14px; font-weight:800; } .hn-trip-type { display:flex; gap:8px; margin-bottom:16px; } .hn-trip-type label { cursor:pointer; } .hn-trip-type input { position:absolute; opacity:0; } .hn-trip-type span { display:block; padding:8px 12px; border:1px solid var(--hn-line); border-radius:8px; color:var(--hn-muted); font-size:13px; font-weight:700; } .hn-trip-type input:checked + span { color:var(--hn-green); border-color:var(--hn-green); background:#e8f8ef; }
-  .hn-booking__fields { display:grid; grid-template-columns:1.25fr 1.25fr 1fr .7fr auto; gap:10px; } .hn-booking label { display:grid; gap:5px; color:var(--hn-muted); font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; } .hn-booking select,.hn-booking input { width:100%; min-height:44px; padding:0 11px; color:var(--hn-ink); background:#fff; border:1px solid var(--hn-line); border-radius:8px; font:600 14px Inter,sans-serif; text-transform:none; } .hn-booking #hn-return-field:not([hidden]) { display:grid; } .hn-form-error { margin:14px 0 0; color:#a62929; font-size:13px; font-weight:700; }
+  .hn-booking { margin-top:34px; max-width:1120px; color:var(--hn-ink); background:#fff; border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,.18); } .hn-booking fieldset { margin:0; padding:20px; border:0; } .hn-booking legend { padding:0 0 12px; font-size:14px; font-weight:800; }
+  .hn-booking__fields { display:grid; grid-template-columns:1.25fr 1.25fr 1fr .7fr auto; gap:10px; } .hn-booking label { display:grid; gap:5px; color:var(--hn-muted); font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; } .hn-booking select,.hn-booking input { width:100%; min-height:44px; padding:0 11px; color:var(--hn-ink); background:#fff; border:1px solid var(--hn-line); border-radius:8px; font:600 14px Inter,sans-serif; text-transform:none; } .hn-form-error { margin:14px 0 0; color:#a62929; font-size:13px; font-weight:700; }
   .hn-trust { display:flex; flex-wrap:wrap; gap:20px; padding:21px 0 0; margin:0; list-style:none; font-size:13px; font-weight:700; } .hn-trust li { display:flex; align-items:center; gap:8px; } .hn-trust svg { width:17px; height:17px; fill:none; stroke:#f8d478; stroke-width:2; }
   .hn-section { padding:96px 0; } .hn-section--mist { background:var(--hn-mist); } .hn-section-heading { max-width:700px; margin-bottom:34px; } .hn-section-heading > p:not(.hn-eyebrow) { color:var(--hn-muted); line-height:1.6; } .hn-section-heading--center { margin-inline:auto; text-align:center; }
   .hn-route-card { display:grid; grid-template-columns:1.05fr .95fr; overflow:hidden; background:#fff; border:1px solid var(--hn-line); border-radius:16px; box-shadow:0 12px 32px rgba(11,127,66,.09); } .hn-route-card>img { min-height:370px; width:100%; height:100%; object-fit:cover; } .hn-route-card__content { padding:38px; } .hn-route-card dl { display:grid; grid-template-columns:1fr 1fr; gap:22px 16px; margin:0 0 26px; } .hn-route-card dt { margin-bottom:5px; color:var(--hn-muted); font-size:12px; font-weight:700; } .hn-route-card dd { margin:0; color:var(--hn-deep); font-size:18px; font-weight:800; } .hn-check-list { display:grid; gap:11px; padding:0; margin:0 0 28px; list-style:none; color:#365145; font-size:14px; font-weight:600; } .hn-check-list li::before { content:'✓'; margin-right:9px; color:#9a7000; font-weight:900; }
@@ -449,6 +454,194 @@
   @media (max-width:900px) { .hn-route-card__image, .hn-route-card__image img { min-height:280px; } }
   @media (max-width:620px) { .hn-route-card__image, .hn-route-card__image img { min-height:280px; } .hn-route-card__actions { align-items:stretch; flex-direction:column; gap:12px; } .hn-route-card__actions .hn-button { width:100%; } .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; padding-bottom:3px; } .hn-direction-tabs button { white-space:nowrap; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; } .hn-schedule__row .hn-schedule__seats { grid-column:2; grid-row:2; } }
 </style>
+<style>
+  body.home-new { --hn-green:#0b7f42; --hn-green-dark:#075d35; --hn-deep:#062d1c; --hn-gold:#fbb116; --hn-ink:#18332a; --hn-muted:#607269; --hn-mist:#f4f8f4; --hn-line:#d8e5dc; padding-bottom:0; color:var(--hn-ink); }
+  .home-new h1,.home-new h2,.home-new h3 { font-family:'Be Vietnam Pro',Inter,sans-serif; }
+  .home-new a,.home-new button,.home-new input,.home-new select { touch-action:manipulation; }
+  .home-new a:focus-visible,.home-new button:focus-visible,.home-new input:focus-visible,.home-new select:focus-visible,.home-new summary:focus-visible { outline:3px solid var(--hn-gold); outline-offset:3px; }
+  .hn-brand,.hn-locale a,.hn-menu-button { min-height:44px; }
+  .hn-brand { min-width:44px; padding:5px 0; }
+  .hn-locale a { display:grid; min-width:40px; place-items:center; padding:0 8px; }
+  .hn-menu-button { width:44px; height:44px; }
+  .hn-button { min-height:48px; padding:12px 20px; border-radius:10px; }
+  .hn-button--outline { color:var(--hn-green); background:#fff; border:1px solid var(--hn-green); }
+  .hn-button--outline:hover { color:#fff; background:var(--hn-green); }
+  .hn-text-link { display:inline-flex; align-items:center; gap:8px; min-height:44px; color:var(--hn-green); font-size:13px; font-weight:800; text-decoration:none; white-space:nowrap; }
+  .hn-hero { min-height:620px; }
+  .hn-hero__overlay { background:linear-gradient(90deg,rgba(4,35,22,.91),rgba(4,35,22,.62) 58%,rgba(4,35,22,.28)); }
+  .hn-hero__content { padding:64px 0 40px; }
+  .hn-hero__copy { max-width:760px; }
+  .hn-hero h1 { max-width:760px; margin-bottom:14px; font-size:clamp(42px,5.2vw,68px); }
+  .hn-hero__copy>p:not(.hn-eyebrow) { max-width:560px; font-size:17px; }
+  .hn-booking { margin-top:28px; border:1px solid rgba(255,255,255,.25); border-radius:18px; }
+  .hn-booking fieldset { padding:18px 20px 20px; }
+  .hn-booking__top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
+  .hn-booking legend { padding:0; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:800; }
+  .hn-live-proof { margin:0!important; color:#326044!important; background:#eef8f0; border-color:#d4ead9; }
+  .hn-live-proof i { background:var(--hn-green); box-shadow:0 0 0 4px rgba(11,127,66,.12); }
+  .hn-booking__fields { display:grid; grid-template-columns:minmax(150px,1.05fr) 44px minmax(150px,1.05fr) minmax(130px,.72fr) minmax(130px,.72fr) minmax(120px,.55fr) auto; gap:10px; align-items:end; }
+  .hn-booking label { gap:6px; }
+  .hn-booking label>span:first-child { min-height:16px; }
+  .hn-booking label>span small { margin-left:4px; color:#8a9a91; font-size:9px; font-weight:600; letter-spacing:0; text-transform:none; }
+  .hn-booking select,.hn-booking input:not([type=hidden]) { min-height:48px; border-radius:9px; }
+  #hn-depart-date,#hn-return-date { width:140px; }
+  .hn-swap { display:grid; width:44px; height:48px; place-items:center; padding:0; color:var(--hn-green); background:#eef8f0; border:1px solid #cfe4d5; border-radius:9px; cursor:pointer; }
+  .hn-swap:hover { background:#dff2e4; }
+  .hn-swap svg,.hn-search-button svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; }
+  .hn-passenger-stepper { display:grid; grid-template-columns:42px 1fr 42px; min-height:48px; overflow:hidden; border:1px solid var(--hn-line); border-radius:9px; }
+  .hn-passenger-stepper button { min-width:42px; padding:0; color:var(--hn-green); background:#f1f7f2; border:0; font-size:20px; font-weight:800; cursor:pointer; }
+  .hn-passenger-stepper output { display:grid; place-items:center; color:var(--hn-deep); background:#fff; font-size:14px; font-weight:800; }
+  .hn-search-button { gap:8px; min-width:132px; }
+  .hn-search-button[aria-busy=true] { opacity:.78; cursor:wait; }
+  .hn-section { padding:76px 0; }
+  .hn-section-heading { margin-bottom:28px; }
+  .hn-section-heading--split { display:flex; align-items:end; justify-content:space-between; gap:36px; max-width:none; }
+  .hn-section-heading--split>div { max-width:720px; }
+  .hn-section-heading--split>p { max-width:390px; margin:0 0 5px; color:var(--hn-muted); line-height:1.65; }
+  .hn-route-summary { padding:32px 0; background:#fff; border-bottom:1px solid var(--hn-line); }
+  .hn-route-summary__inner { display:grid; grid-template-columns:1.15fr 1.5fr auto; gap:30px; align-items:center; }
+  .hn-route-summary .hn-eyebrow { margin-bottom:7px; }
+  .hn-route-summary h2 { margin:0; font-size:clamp(24px,3vw,34px); }
+  .hn-route-summary dl { display:grid; grid-template-columns:repeat(3,1fr); margin:0; }
+  .hn-route-summary dl div { padding:5px 22px; border-left:1px solid var(--hn-line); }
+  .hn-route-summary dt { color:var(--hn-muted); font-size:11px; font-weight:700; }
+  .hn-route-summary dd { margin:5px 0 0; color:var(--hn-deep); font-size:15px; font-weight:800; }
+  .hn-date-badge { display:grid; gap:4px; min-width:150px; padding:12px 15px; color:var(--hn-green); background:#eaf6ed; border:1px solid #cde5d3; border-radius:11px; }
+  .hn-date-badge small { color:var(--hn-muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+  .hn-date-badge strong { font-size:15px; }
+  .hn-direction-tabs { margin:0 0 18px; }
+  .hn-direction-tabs button { min-height:44px; padding:10px 17px; }
+  .hn-schedule-list { display:grid; gap:10px; }
+  .hn-departure-card { display:grid; grid-template-columns:90px minmax(150px,.7fr) minmax(230px,1.2fr) minmax(130px,.65fr) auto; gap:20px; align-items:center; padding:18px 20px; background:#fff; border:1px solid var(--hn-line); border-radius:13px; transition:border-color .18s ease,box-shadow .18s ease; }
+  .hn-departure-card:hover { border-color:#9bc8a8; box-shadow:0 8px 24px rgba(6,45,28,.07); }
+  .hn-departure-card__time { display:grid; gap:2px; }
+  .hn-departure-card__time strong { color:var(--hn-deep); font-size:25px; letter-spacing:-.04em; }
+  .hn-departure-card__time span,.hn-departure-card__fare span { color:var(--hn-muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+  .hn-departure-card__journey { display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; color:var(--hn-muted); font-size:11px; font-weight:700; }
+  .hn-departure-card__journey i { height:1px; background:var(--hn-line); position:relative; }
+  .hn-departure-card__journey i:after { content:''; position:absolute; right:0; top:-3px; width:6px; height:6px; border-top:1px solid var(--hn-green); border-right:1px solid var(--hn-green); transform:rotate(45deg); }
+  .hn-departure-card__vehicle { display:grid; gap:6px; }
+  .hn-departure-card__vehicle strong { color:var(--hn-deep); font-size:14px; line-height:1.4; }
+  .hn-departure-card__vehicle span { width:max-content; padding:5px 8px; color:var(--hn-green); background:#eaf6ed; border-radius:99px; font-size:10px; font-weight:800; }
+  .hn-departure-card__fare { display:grid; gap:5px; }
+  .hn-departure-card__fare strong { color:var(--hn-green); font-size:16px; white-space:nowrap; }
+  .hn-departure-card__action { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 15px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:12px; font-weight:800; text-decoration:none; white-space:nowrap; }
+  .hn-departure-card__action:hover { background:var(--hn-green-dark); }
+  .hn-departures__footer { display:flex; justify-content:center; margin-top:20px; }
+  .hn-fleet { background:#fff; }
+  .hn-fleet__grid { grid-template-columns:repeat(auto-fit,minmax(280px,360px)); justify-content:center; }
+  .hn-fleet-card { position:relative; display:block; min-height:390px; overflow:hidden; color:#fff; background:var(--hn-deep); border-radius:15px; text-decoration:none; isolation:isolate; }
+  .hn-fleet-card img,.hn-fleet-card__overlay { position:absolute; inset:0; width:100%; height:100%; }
+  .hn-fleet-card img { z-index:-2; object-fit:cover; transition:transform .3s ease; }
+  .hn-fleet-card__overlay { z-index:-1; background:linear-gradient(180deg,rgba(4,35,22,.05),rgba(4,35,22,.94)); }
+  .hn-fleet-card:hover img { transform:scale(1.035); }
+  .hn-fleet-card__content { position:absolute; right:0; bottom:0; left:0; padding:24px; }
+  .hn-fleet-card__content>p { margin:0 0 8px; color:var(--hn-gold); font-size:11px; font-weight:800; text-transform:uppercase; }
+  .hn-fleet-card h3 { margin:0 0 13px; color:#fff; font-size:20px; line-height:1.3; }
+  .hn-fleet-card ul { display:flex; flex-wrap:wrap; gap:6px; padding:0; margin:0 0 20px; list-style:none; }
+  .hn-fleet-card li { padding:5px 8px; color:#d9efe0; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); border-radius:99px; font-size:10px; font-weight:700; }
+  .hn-fleet-card__content>div { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .hn-fleet-card__content>div strong { color:#fff; font-size:16px; }
+  .hn-fleet-card__content>div span { color:var(--hn-gold); font-size:12px; font-weight:800; }
+  .hn-proof { padding:34px 0; }
+  .hn-proof>.hn-shell>.hn-eyebrow { color:var(--hn-gold); margin-bottom:0; padding-top:22px; }
+  .hn-proof__grid article { padding-top:22px; padding-bottom:22px; }
+  .hn-stops { background:#fff; }
+  .hn-stops__grid { display:grid; grid-template-columns:1fr 1fr .8fr; gap:16px; }
+  .hn-stop-card,.hn-stop-support { min-height:230px; padding:24px; border:1px solid var(--hn-line); border-radius:14px; }
+  .hn-stop-card__head { display:flex; gap:13px; align-items:flex-start; }
+  .hn-stop-card__head svg { width:36px; height:36px; flex:none; padding:8px; color:var(--hn-green); background:#eaf6ed; border-radius:50%; fill:none; stroke:currentColor; stroke-width:1.8; }
+  .hn-stop-card__head span { color:var(--hn-green); font-size:10px; font-weight:800; text-transform:uppercase; }
+  .hn-stop-card h3 { margin:4px 0 0; font-size:18px; }
+  .hn-stop-card>p { min-height:42px; margin:22px 0 12px; color:var(--hn-muted); font-size:13px; line-height:1.6; }
+  .hn-stop-card>a { display:inline-flex; min-height:44px; align-items:center; margin-right:16px; color:var(--hn-green); font-size:12px; font-weight:800; text-decoration:none; }
+  .hn-stop-support { display:flex; flex-direction:column; color:#fff; background:var(--hn-deep); border-color:var(--hn-deep); }
+  .hn-stop-support p { margin:0 0 7px; color:var(--hn-gold); font-size:11px; font-weight:800; text-transform:uppercase; }
+  .hn-stop-support strong { font-size:24px; }
+  .hn-stop-support span { margin:10px 0 20px; color:#c3ddca; font-size:12px; line-height:1.6; }
+  .hn-stop-support .hn-button { margin-top:auto; align-self:flex-start; }
+  .hn-review { display:block; padding:76px 0; }
+  .hn-review__inner { display:grid; grid-template-columns:1.1fr .9fr; gap:70px; align-items:center; }
+  .hn-review__quote { padding:32px; }
+  .hn-review__stars { margin-bottom:16px; color:#b67d00; letter-spacing:.15em; }
+  .hn-review blockquote { font-size:20px; }
+  .hn-faq details { padding:0; }
+  .hn-faq summary { display:flex; align-items:center; justify-content:space-between; min-height:60px; padding:14px 0; list-style:none; }
+  .hn-faq summary::-webkit-details-marker { display:none; }
+  .hn-faq summary:after { content:'+'; color:var(--hn-green); font-size:22px; font-weight:400; }
+  .hn-faq details[open] summary:after { content:'−'; }
+  .hn-news-grid { grid-template-columns:repeat(3,1fr); }
+  .hn-news-card__image { height:190px; }
+  .hn-news-card__link,.hn-final .hn-contact { display:inline-flex; align-items:center; min-height:44px; }
+  .hn-mobile-booking-bar { display:none; }
+  @media(max-width:900px) {
+    .hn-booking__fields { grid-template-columns:1fr 44px 1fr; }
+    #hn-depart-date,#hn-return-date { width:100%; }
+    .hn-depart-date-field { grid-column:1/3; }
+    .hn-return-date-field { grid-column:3; }
+    .hn-booking__fields>label:last-of-type { grid-column:1; }
+    .hn-search-button { grid-column:2/4; }
+    .hn-route-summary__inner { grid-template-columns:1fr; gap:20px; }
+    .hn-route-summary dl div:first-child { border-left:0; padding-left:0; }
+    .hn-departure-card { grid-template-columns:80px 1fr 1fr; }
+    .hn-departure-card__journey { display:none; }
+    .hn-departure-card__fare { text-align:right; }
+    .hn-departure-card__action { grid-column:2/4; }
+    .hn-fleet__grid { grid-template-columns:repeat(2,1fr); }
+    .hn-stops__grid { grid-template-columns:1fr 1fr; }
+    .hn-stop-support { grid-column:1/-1; min-height:auto; }
+    .hn-review__inner { grid-template-columns:1fr; gap:32px; }
+  }
+  @media(max-width:620px) {
+    body.home-new { padding-bottom:72px; }
+    .hn-header { position:sticky; }
+    .hn-actions .hn-button { display:none; }
+    .hn-hero { min-height:auto; }
+    .hn-hero__content { padding:46px 0 28px; }
+    .hn-hero h1 { font-size:34px; line-height:1.08; }
+    .hn-hero__copy>p:not(.hn-eyebrow) { font-size:15px; }
+    .hn-booking { margin-top:23px; }
+    .hn-booking fieldset { padding:15px; }
+    .hn-booking__top { align-items:flex-start; flex-direction:column; gap:8px; }
+    .hn-live-proof { order:-1; }
+    .hn-booking__fields { grid-template-columns:1fr; gap:10px; }
+    .hn-swap { justify-self:center; height:44px; transform:rotate(90deg); }
+    .hn-depart-date-field,.hn-return-date-field,.hn-booking__fields>label:last-of-type { grid-column:auto; }
+    .hn-booking__fields>label:nth-of-type(n+3),.hn-search-button { grid-column:auto; grid-row:auto; }
+    .hn-search-button { width:100%; min-height:52px; }
+    .hn-trust { gap:9px 14px; font-size:11px; }
+    .hn-section { padding:54px 0; }
+    .hn-section-heading--split { align-items:flex-start; flex-direction:column; gap:12px; }
+    .hn-route-summary { padding:26px 0; }
+    .hn-route-summary dl { grid-template-columns:1fr 1fr; }
+    .hn-route-summary dl div { padding:8px 14px; }
+    .hn-route-summary dl div:nth-child(odd) { padding-left:0; border-left:0; }
+    .hn-route-summary dl div:last-child { grid-column:1/-1; padding-top:14px; border-top:1px solid var(--hn-line); }
+    .hn-date-badge { min-width:0; }
+    .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; width:calc(100vw - 28px); padding-bottom:3px; }
+    .hn-direction-tabs button { min-height:44px; white-space:nowrap; }
+    .hn-departure-card { grid-template-columns:74px 1fr; gap:12px; padding:15px; }
+    .hn-departure-card__time { grid-row:1/3; align-self:start; }
+    .hn-departure-card__vehicle { grid-column:2; }
+    .hn-departure-card__fare { grid-column:2; text-align:left; }
+    .hn-departure-card__action { grid-column:1/-1; min-height:48px; }
+    .hn-fleet__grid { grid-template-columns:1fr; }
+    .hn-fleet-card { min-height:340px; }
+    .hn-proof { padding:26px 0; }
+    .hn-stops__grid { grid-template-columns:1fr; }
+    .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
+    .hn-stop-support { grid-column:auto; }
+    .hn-review { padding:54px 0; }
+    .hn-review__quote { padding:26px 21px; }
+    .hn-news-grid { grid-template-columns:1fr; }
+    .hn-final { padding:50px 0; }
+    .hn-support-float { display:none; }
+    .hn-mobile-booking-bar { position:fixed; right:0; bottom:0; left:0; z-index:40; display:grid; grid-template-columns:1.2fr .8fr; gap:8px; padding:9px 12px max(9px,env(safe-area-inset-bottom)); background:rgba(255,255,255,.97); border-top:1px solid var(--hn-line); box-shadow:0 -8px 24px rgba(6,45,28,.11); backdrop-filter:blur(12px); }
+    .hn-mobile-booking-bar a { display:flex; align-items:center; justify-content:center; gap:7px; min-height:48px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:13px; font-weight:800; text-decoration:none; }
+    .hn-mobile-booking-bar a:last-child { color:var(--hn-deep); background:#f5f8f5; border:1px solid var(--hn-line); }
+    .hn-mobile-booking-bar svg { width:17px; fill:none; stroke:currentColor; stroke-width:1.8; }
+  }
+</style>
 <script>
   (() => {
     const form = document.querySelector('.hn-booking');
@@ -479,6 +672,13 @@
       });
       directionPanels.forEach((panel) => { panel.hidden = panel.dataset.directionPanel !== direction; });
     }));
+    directionTabs.forEach((tab, index) => tab.addEventListener('keydown', (event) => {
+      if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault();
+      const nextIndex = event.key === 'ArrowRight' ? (index + 1) % directionTabs.length : (index - 1 + directionTabs.length) % directionTabs.length;
+      directionTabs[nextIndex].focus();
+      directionTabs[nextIndex].click();
+    }));
 
     if (!form) return;
 
@@ -487,34 +687,47 @@
     const departValue = document.getElementById('hn-depart-date-value');
     const returnValue = document.getElementById('hn-return-date-value');
     const roundTrip = document.getElementById('hn-round-trip-value');
-    const returnField = document.getElementById('hn-return-field');
     const fromLocation = document.getElementById('hn-from-location');
     const toLocation = document.getElementById('hn-to-location');
+    const swapLocations = document.getElementById('hn-swap-locations');
+    const passengerValue = document.getElementById('hn-passenger-value');
+    const passengerCount = document.getElementById('hn-passenger-count');
     const formatDate = (value) => value ? value.split('-').reverse().join('-') : '';
 
     const syncDates = () => {
       returned.min = depart.value;
-      if (returned.value < depart.value) returned.value = depart.value;
+      if (returned.value && returned.value < depart.value) returned.value = depart.value;
       departValue.value = formatDate(depart.value);
       returnValue.value = formatDate(returned.value);
+      roundTrip.value = returned.value ? '1' : '0';
     };
-
-    form.querySelectorAll('input[name="trip_type"]').forEach((input) => {
-      input.addEventListener('change', () => {
-        const enabled = input.value === 'round_trip' && input.checked;
-        roundTrip.value = enabled ? '1' : '0';
-        returnField.hidden = !enabled;
-      });
-    });
 
     depart.addEventListener('change', syncDates);
     returned.addEventListener('change', syncDates);
+    swapLocations.addEventListener('click', () => {
+      const previousFrom = fromLocation.value;
+      fromLocation.value = toLocation.value;
+      toLocation.value = previousFrom;
+      fromLocation.dispatchEvent(new Event('change'));
+    });
+    form.querySelectorAll('[data-passenger-step]').forEach((button) => button.addEventListener('click', () => {
+      const value = Math.min(6, Math.max(1, Number(passengerValue.value) + Number(button.dataset.passengerStep)));
+      passengerValue.value = String(value);
+      passengerCount.value = String(value);
+    }));
     fromLocation.addEventListener('change', () => {
       [...toLocation.options].forEach((option) => option.disabled = option.value === fromLocation.value);
       if (toLocation.value === fromLocation.value) {
         toLocation.selectedIndex = [...toLocation.options].findIndex((option) => !option.disabled);
       }
     });
+    form.addEventListener('submit', () => {
+      syncDates();
+      const submit = form.querySelector('[type=submit]');
+      submit.setAttribute('aria-busy', 'true');
+      submit.querySelector('span').textContent = submit.dataset.loading;
+    });
+    syncDates();
     fromLocation.dispatchEvent(new Event('change'));
   })();
 </script>

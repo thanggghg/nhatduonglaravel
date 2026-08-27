@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Route;
 use App\Models\Setting;
 use App\Services\VexereTripService;
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -55,25 +56,35 @@ class HomeController extends Controller
             ->where('published_at', '<=', now())
             ->with('category')
             ->latest('published_at')
-            ->take(4)
+            ->take(3)
             ->get();
 
-        $ntRoute = Route::where('status', true)
-            ->where(function ($q) {
-                $q->where('to_location', 'like', '%Nha Trang%')
-                  ->orWhere('name', 'like', '%Nha Trang%');
+        $homeRoutes = Route::where('status', true)
+            ->where(function ($query) {
+                $query->where(function ($direction) {
+                    $direction->where('from_location', 'TP. Hồ Chí Minh')->where('to_location', 'Nha Trang');
+                })->orWhere(function ($direction) {
+                    $direction->where('from_location', 'Nha Trang')->where('to_location', 'TP. Hồ Chí Minh');
+                });
             })
             ->with([
                 'pickupPoints' => fn ($query) => $query->orderBy('sort_order'),
                 'dropoffPoints' => fn ($query) => $query->orderBy('sort_order'),
             ])
-            ->first();
+            ->get()
+            ->mapWithKeys(fn (Route $route) => [
+                $route->from_location === 'Nha Trang' ? 'nt_sg' : 'sg_nt' => $route,
+            ]);
+        $ntRoute = $homeRoutes->get('sg_nt');
 
         try {
             $liveSchedulesByRoute = $this->vexere->searchMany([
                 'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
                 'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
             ], today(), $locale);
+            $liveSchedulesByRoute = collect($liveSchedulesByRoute)->mapWithKeys(fn (array $trips, string $direction) => [
+                $direction => $this->homeTrips($trips, $homeRoutes->get($direction), $locale),
+            ])->all();
             $liveSchedules = $liveSchedulesByRoute['sg_nt'] ?? [];
         } catch (\Throwable $exception) {
             report($exception);
@@ -88,6 +99,35 @@ class HomeController extends Controller
 
         $settings = Setting::pluck('value', 'key');
 
-        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'liveSchedulesByRoute', 'faqs', 'ntRoute', 'settings');
+        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'liveSchedulesByRoute', 'homeRoutes', 'faqs', 'ntRoute', 'settings');
+    }
+
+    private function homeTrips(array $trips, ?Route $route, string $locale): array
+    {
+        if (!$route) {
+            return [];
+        }
+
+        return Collection::make($trips)
+            ->filter(fn (array $trip) => ($trip['fare'] ?? 0) > 0
+                && ($trip['available_seats'] ?? 0) > 0
+                && filled($trip['code'] ?? null))
+            ->sortBy('departure')
+            ->unique(fn (array $trip) => implode('|', [
+                $trip['departure']->format('H:i'),
+                $trip['vehicle_type'] ?? '',
+                $trip['fare'],
+            ]))
+            ->map(fn (array $trip) => $trip + [
+                'checkout_url' => route('booking.live.checkout', [
+                    'route_id' => $route->id,
+                    'trip_code' => $trip['code'],
+                    'travel_date' => $trip['departure']->toDateString(),
+                    'passenger_count' => 1,
+                    'lang' => $locale,
+                ], false),
+            ])
+            ->values()
+            ->all();
     }
 }
