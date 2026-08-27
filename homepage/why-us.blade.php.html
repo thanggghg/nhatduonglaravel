@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trải nghiệm Nhật Dương</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8f4;
+      color: #103c25;
+      padding: 40px 20px;
+    }
+
+    .experience-section {
+      max-width: 1180px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 26px 28px 34px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .mini-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff6d8;
+      color: #416927;
+      border-radius: 999px;
+      padding: 7px 15px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .main-title {
+      font-size: 64px;
+      line-height: 0.95;
+      color: #003a1d;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .sub-title {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #4b6658;
+      font-weight: 600;
+    }
+
+    .highlight {
+      color: #006b38;
+      font-weight: 800;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e7eee8;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .image-box {
+      position: relative;
+      height: 205px;
+      overflow: hidden;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .feature-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .number-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #00582f;
+      color: #fff56b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 15px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-content {
+      padding: 18px 18px 22px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      color: #123c25;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #00582f;
+      color: #fff46a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #405d4d;
+      font-weight: 500;
+    }
+
+    .benefit-panel {
+      background: #ffffff;
+      border: 1px solid #e8efe8;
+      border-radius: 18px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px 26px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.07);
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 48px;
+    }
+
+    .benefit-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e9f4e6;
+      color: #006233;
+      border: 2px solid #d7ead4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .benefit-text {
+      font-size: 14px;
+      color: #1c3f2d;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 992px) {
+      .main-title {
+        font-size: 48px;
+      }
+
+      .feature-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .image-box {
+        height: 260px;
+      }
+
+      .benefit-panel {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .experience-section {
+        padding: 22px 14px;
+      }
+
+      .main-title {
+        font-size: 38px;
+      }
+
+      .sub-title {
+        font-size: 13px;
+      }
+
+      .image-box {
+        height: 210px;
+      }
+
+      .benefit-panel {
+        grid-template-columns: 1fr;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="experience-section">
+    <div class="section-heading">
+      <div class="mini-title">⭐ TRẢI NGHIỆM KHÁC BIỆT CÙNG</div>
+      <h1 class="main-title">NHẬT DƯƠNG</h1>
+      <p class="sub-title">
+        Nâng tầm trải nghiệm di chuyển trên tuyến 
+        <span class="highlight">Sài Gòn → Nha Trang</span>
+      </p>
+    </div>
+
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="image-1.jpg" alt="Xe phòng chuẩn 5 sao" />
+          <div class="number-badge">01</div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-title">
+            <div class="card-icon">🚌</div>
+            <span>Xe phòng chuẩn 5 sao</span>
+          </div>
+
+          <p class="card-desc">
+            Nhật Dương với dàn xe mang “Phục Vụ Hành Khách Tốt Nhất Có Thể”
+            và mang đến cho khách hàng một trải nghiệm dịch vụ cao cấp và tốt
+            nhất với dòng xe Phòng Vip Limousine 22 phòng.
+          </p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="image-2.jpg" alt="Miễn phí đưa đón" />
+          <div class="number-badge">02</div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-title">
+            <div class="card-icon">🚐</div>
+            <span>Miễn phí đưa đón</span>
+          </div>
+
+          <p class="card-desc">
+            Xe trung chuyển hỗ trợ trong khu vực nội thành Nha Trang,
+            bán kính dưới 7km. Với khoảng cách trên 7km, quý khách vui lòng
+            chủ động di chuyển đến văn phòng Nhật Dương để lên xe đúng giờ.
+          </p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="image-box">
+          <img src="image-3.jpg" alt="Đáp ứng yêu cầu khách hàng" />
+          <div class="number-badge">03</div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-title">
+            <div class="card-icon">💚</div>
+            <span>Đáp ứng yêu cầu khách hàng</span>
+          </div>
+
+          <p class="card-desc">
+            Sự hài lòng của mỗi khách hàng với 1 chuyến đi cùng Nhật Dương
+            là động lực to lớn để đồng hành cùng khách trên những chuyến xe
+            an toàn về với gia đình.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="benefit-panel">
+      <div class="benefit-item">
+        <div class="benefit-icon">🛡️</div>
+        <div class="benefit-text">Giá bình ổn cho mọi nhà</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🚐</div>
+        <div class="benefit-text">Đáp ứng toàn bộ nhu cầu đón trả tận nơi bằng xe trung chuyển</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">⏰</div>
+        <div class="benefit-text">Khởi hành đúng giờ</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">📶</div>
+        <div class="benefit-text">Wifi tốc độ cao, cổng sạc nhanh USB</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🏠</div>
+        <div class="benefit-text">Cam kết KHÔNG đón trả dọc đường</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🚫</div>
+        <div class="benefit-text">Nói tâm gọi nhân viên</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🥤</div>
+        <div class="benefit-text">Phục vụ miễn phí bánh ngọt, nước uống, khăn lạnh</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">✅</div>
+        <div class="benefit-text">Hoàn toàn MIỄN PHÍ trong bán kính 7 km</div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">✨</div>
+        <div class="benefit-text">Mền thì sạch sẽ thơm tho lại kèm gối ôm</div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

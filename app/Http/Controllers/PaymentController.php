@@ -77,7 +77,8 @@ class PaymentController extends Controller
         }
 
         $payload = $request->json()->all();
-        $code = strtoupper((string) ($payload['code'] ?? ''));
+        // SePay's `code` is the provider transaction code. Our payment code is in transfer content.
+        $code = strtoupper((string) ($payload['paymentCode'] ?? ''));
         if (!$code && preg_match('/\bND[A-Z0-9]{8}\b/i', (string) ($payload['content'] ?? ''), $matches)) {
             $code = strtoupper($matches[0]);
         }

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dịch vụ thuê xe hợp đồng</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6f2;
+      color: #123c2c;
+      padding: 30px;
+    }
+
+    .rental-section {
+      max-width: 1180px;
+      margin: auto;
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1.35fr 0.95fr;
+      gap: 22px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+    }
+
+    .rental-left {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #fffdf6, #eef4ea);
+      padding: 30px 30px 20px;
+    }
+
+    .small-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #fff6d7;
+      color: #235c34;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .rental-title {
+      font-size: 46px;
+      line-height: 1.05;
+      font-weight: 900;
+      color: #064021;
+      margin-bottom: 14px;
+      letter-spacing: -1px;
+    }
+
+    .rental-title span {
+      color: #f5a800;
+    }
+
+    .rental-desc {
+      max-width: 520px;
+      color: #607267;
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .category-list {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+      max-width: 620px;
+    }
+
+    .category-item {
+      background: #fff;
+      border: 1px solid #e3ece5;
+      border-radius: 14px;
+      padding: 13px 8px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .category-icon {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      background: #eaf5e8;
+      color: #0a6b38;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .category-item p {
+      font-size: 12px;
+      font-weight: 800;
+      color: #123c2c;
+    }
+
+    .premium-strip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #064021;
+      color: #fff;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .premium-strip span {
+      color: #ffd44d;
+    }
+
+    .bus-image {
+      height: 270px;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(4, 49, 28, 0.12)),
+        url("bus-rental.jpg");
+      background-size: cover;
+      background-position: center;
+      margin-top: 6px;
+      box-shadow: inset 0 -40px 60px rgba(0, 0, 0, 0.18);
+    }
+
+    .benefit-bar {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: -34px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .benefit-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #edf7e9;
+      color: #0a6b38;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    .benefit-text strong {
+      display: block;
+      color: #143d2a;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .benefit-text span {
+      display: block;
+      font-size: 11px;
+      color: #6b7b70;
+      line-height: 1.35;
+    }
+
+    .quote-form {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      border: 1px solid #e6eee7;
+    }
+
+    .form-header {
+      background: #004323;
+      color: #fff;
+      padding: 24px 26px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .form-header-icon {
+      width: 50px;
+      height: 50px;
+      border: 2px solid #f4ad00;
+      color: #f4ad00;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .form-header h3 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .form-header p {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #e8f2eb;
+    }
+
+    .form-header p span {
+      color: #ffd44d;
+      font-weight: 900;
+    }
+
+    .form-body {
+      padding: 24px 26px;
+    }
+
+    .field {
+      position: relative;
+      margin-bottom: 13px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid #dfe8e1;
+      border-radius: 12px;
+      padding: 15px 15px 15px 44px;
+      font-size: 14px;
+      color: #173d2b;
+      outline: none;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .field textarea {
+      height: 88px;
+      resize: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: #0a6b38;
+      box-shadow: 0 0 0 3px rgba(10, 107, 56, 0.08);
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0a6b38;
+      font-size: 16px;
+      z-index: 1;
+    }
+
+    .field.textarea .field-icon {
+      top: 18px;
+      transform: none;
+    }
+
+    .quote-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #f6a900, #ffc22d);
+      color: #143000;
+      padding: 17px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 10px 24px rgba(246, 169, 0, 0.28);
+    }
+
+    .quote-btn:hover {
+      background: linear-gradient(90deg, #ffb700, #ffd04b);
+    }
+
+    .arrow-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #064021;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .safe-note {
+      margin-top: 16px;
+      text-align: center;
+      color: #7d887f;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    @media (max-width: 1000px) {
+      .rental-section {
+        grid-template-columns: 1fr;
+      }
+
+      .category-list {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .benefit-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 14px;
+      }
+
+      .rental-section {
+        padding: 12px;
+      }
+
+      .rental-left {
+        padding: 24px 18px 18px;
+      }
+
+      .rental-title {
+        font-size: 34px;
+      }
+
+      .category-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .bus-image {
+        height: 220px;
+      }
+
+      .benefit-bar {
+        grid-template-columns: 1fr;
+        margin-top: 14px;
+      }
+
+      .form-header {
+        padding: 20px;
+      }
+
+      .form-body {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="rental-section">
+    <div class="rental-left">
+      <div class="small-badge">⭐ DỊCH VỤ THUÊ XE HỢP ĐỒNG</div>
+
+      <h1 class="rental-title">
+        Cần thuê xe riêng <br />
+        <span>cho đoàn của bạn?</span>
+      </h1>
+
+      <p class="rental-desc">
+        Nhật Dương cung cấp dịch vụ thuê xe trọn gói cho đoàn du lịch,
+        công ty, trường học, sự kiện... với đội xe đời mới, tài xế chuyên nghiệp,
+        cam kết an toàn – đúng giờ – giá tốt.
+      </p>
+
+      <div class="category-list">
+        <div class="category-item">
+          <div class="category-icon">🏖️</div>
+          <p>Du lịch</p>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">🏢</div>
+          <p>Công ty</p>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">🎓</div>
+          <p>Trường học</p>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">💍</div>
+          <p>Tiệc cưới</p>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon">🎤</div>
+          <p>Sự kiện</p>
+        </div>
+      </div>
+
+      <div class="premium-strip">
+        ✅ Đội xe từ <span>Limousine cao cấp</span> đến giường nằm đời mới, đáp ứng mọi nhu cầu
+      </div>
+
+      <div class="bus-image"></div>
+
+      <div class="benefit-bar">
+        <div class="benefit-item">
+          <div class="benefit-icon">↗</div>
+          <div class="benefit-text">
+            <strong>An toàn tuyệt đối</strong>
+            <span>Xe được bảo dưỡng định kỳ</span>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">👨‍✈️</div>
+          <div class="benefit-text">
+            <strong>Tài xế chuyên nghiệp</strong>
+            <span>Kinh nghiệm, lịch sự, nhiệt tình</span>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">⏱</div>
+          <div class="benefit-text">
+            <strong>Đúng giờ, đúng hẹn</strong>
+            <span>Cam kết lịch trình theo thỏa thuận</span>
+          </div>
+        </div>
+
+        <div class="benefit-item">
+          <div class="benefit-icon">💬</div>
+          <div class="benefit-text">
+            <strong>Báo giá minh bạch</strong>
+            <span>Báo giá rõ ràng, không phát sinh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-form">
+      <div class="form-header">
+        <div class="form-header-icon">📋</div>
+        <div>
+          <h3>Nhận báo giá nhanh</h3>
+          <p>
+            Điền thông tin, chúng tôi sẽ liên hệ tư vấn và báo giá trong
+            <span>30 phút!</span>
+          </p>
+        </div>
+      </div>
+
+      <form class="form-body">
+        <div class="field">
+          <span class="field-icon">👤</span>
+          <input type="text" placeholder="Họ và tên *" />
+        </div>
+
+        <div class="field">
+          <span class="field-icon">📞</span>
+          <input type="tel" placeholder="Số điện thoại *" />
+        </div>
+
+        <div class="field">
+          <span class="field-icon">📅</span>
+          <input type="text" placeholder="Ngày đi *" />
+        </div>
+
+        <div class="field">
+          <span class="field-icon">👥</span>
+          <select>
+            <option>Số lượng khách *</option>
+            <option>Dưới 10 khách</option>
+            <option>10 - 20 khách</option>
+            <option>20 - 40 khách</option>
+            <option>Trên 40 khách</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <span class="field-icon">📍</span>
+          <input type="text" placeholder="Điểm đi *" />
+        </div>
+
+        <div class="field">
+          <span class="field-icon">📍</span>
+          <input type="text" placeholder="Điểm đến *" />
+        </div>
+
+        <div class="field textarea">
+          <span class="field-icon">📝</span>
+          <textarea placeholder="Yêu cầu khác nếu có"></textarea>
+        </div>
+
+        <button type="button" class="quote-btn">
+          NHẬN BÁO GIÁ NGAY
+          <span class="arrow-circle">→</span>
+        </button>
+
+        <div class="safe-note">
+          🔒 Thông tin của bạn được bảo mật tuyệt đối
+        </div>
+      </form>
+    </div>
+  </section>
+</body>
+</html>

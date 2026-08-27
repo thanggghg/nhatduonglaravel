@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lịch trình hôm nay</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8f1;
+      padding: 30px;
+      color: #123c2c;
+    }
+
+    .schedule-section {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e4f4df;
+      color: #0a6b39;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h1 {
+      font-size: 38px;
+      color: #0b3d26;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .section-title p {
+      color: #5b6d63;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .info-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      min-width: 460px;
+    }
+
+    .info-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .info-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #eef8ea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0b6b3a;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+
+    .info-text span {
+      display: block;
+      font-size: 11px;
+      color: #718075;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .info-text strong {
+      font-size: 13px;
+      color: #143f2c;
+    }
+
+    .route-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .route-card {
+      background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 14px 34px rgba(7, 56, 34, 0.12);
+      border: 1px solid #e3eee2;
+    }
+
+    .route-banner {
+      min-height: 150px;
+      padding: 18px;
+      position: relative;
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(2, 60, 31, 0.98), rgba(2, 84, 45, 0.82), rgba(2, 60, 31, 0.35)),
+        url("bus-image.jpg");
+      background-size: cover;
+      background-position: center right;
+    }
+
+    .route-banner::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: 12px;
+      width: 230px;
+      height: 90px;
+      background:
+        linear-gradient(135deg, #062d19, #0e6b3a);
+      border-radius: 20px 20px 8px 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      opacity: 0.95;
+      clip-path: polygon(6% 18%, 84% 8%, 100% 36%, 95% 80%, 12% 86%, 0 58%);
+    }
+
+    .route-banner::before {
+      content: "";
+      position: absolute;
+      right: 115px;
+      bottom: 30px;
+      width: 230px;
+      height: 78px;
+      background:
+        linear-gradient(135deg, #08331d, #157647);
+      border-radius: 20px 20px 8px 8px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+      opacity: 0.75;
+      clip-path: polygon(8% 20%, 82% 6%, 100% 34%, 93% 80%, 10% 86%, 0 56%);
+    }
+
+    .route-content {
+      position: relative;
+      z-index: 2;
+      max-width: 62%;
+    }
+
+    .route-label {
+      display: inline-block;
+      padding: 5px 11px;
+      border-radius: 18px;
+      background: #ffd25a;
+      color: #06391f;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .route-banner h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .route-banner p {
+      font-size: 13px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .schedule-body {
+      padding: 14px;
+    }
+
+    .time-group {
+      margin-bottom: 14px;
+      border: 1px solid #e4efe2;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .time-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .group-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .day-title {
+      background: #fff6dc;
+      color: #7b5700;
+    }
+
+    .night-title {
+      background: linear-gradient(90deg, #052b66, #063c8f);
+      color: #fff;
+    }
+
+    .group-title span:last-child {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .time-row {
+      display: grid;
+      grid-template-columns: 72px 1.1fr 1.2fr 0.9fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-top: 1px solid #edf3ec;
+      background: #fff;
+    }
+
+    .time-row:nth-child(even) {
+      background: #fbfdf9;
+    }
+
+    .time {
+      font-size: 22px;
+      font-weight: 900;
+      color: #0d3c28;
+    }
+
+    .detail small {
+      display: block;
+      font-size: 11px;
+      color: #728277;
+      margin-bottom: 4px;
+    }
+
+    .detail strong {
+      font-size: 12px;
+      color: #153f2d;
+    }
+
+    .price small {
+      display: block;
+      font-size: 11px;
+      color: #728277;
+      margin-bottom: 4px;
+    }
+
+    .price strong {
+      font-size: 13px;
+      color: #0b7a42;
+      font-weight: 900;
+    }
+
+    .btn {
+      border: none;
+      background: #073c24;
+      color: #fff;
+      border-radius: 16px;
+      padding: 8px 13px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: #0a5c34;
+    }
+
+    @media (max-width: 1000px) {
+      .section-header {
+        flex-direction: column;
+      }
+
+      .info-box {
+        width: 100%;
+        min-width: unset;
+      }
+
+      .route-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 16px;
+      }
+
+      .section-title h1 {
+        font-size: 30px;
+      }
+
+      .info-box {
+        grid-template-columns: 1fr;
+      }
+
+      .route-content {
+        max-width: 100%;
+      }
+
+      .route-banner::before,
+      .route-banner::after {
+        opacity: 0.28;
+      }
+
+      .time-row {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .time {
+        font-size: 24px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="schedule-section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="tag">● KHỞI HÀNH TRONG NGÀY</div>
+        <h1>Lịch trình hôm nay</h1>
+        <p>
+          Cập nhật liên tục các chuyến xe trong ngày, dễ dàng chọn giờ phù hợp với lịch trình của bạn.
+        </p>
+      </div>
+
+      <div class="info-box">
+        <div class="info-item">
+          <div class="info-icon">⇄</div>
+          <div class="info-text">
+            <span>Tuyến đường</span>
+            <strong>Sài Gòn ⇄ Nha Trang</strong>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">⏱</div>
+          <div class="info-text">
+            <span>Thời gian di chuyển</span>
+            <strong>9 - 10 giờ</strong>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">🛡</div>
+          <div class="info-text">
+            <span>Cam kết</span>
+            <strong>Đúng giờ - An toàn</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-grid">
+      <!-- Sài Gòn đi Nha Trang -->
+      <div class="route-card">
+        <div class="route-banner">
+          <div class="route-content">
+            <div class="route-label">CHIỀU ĐI</div>
+            <h2>Sài Gòn → Nha Trang</h2>
+            <p>Xuất phát từ <strong>99 Nguyễn Cư Trinh, Quận 1</strong></p>
+          </div>
+        </div>
+
+        <div class="schedule-body">
+          <div class="time-group">
+            <div class="group-title day-title">
+              <span>☀️ BAN NGÀY</span>
+              <span>Khởi hành từ 05:00 - 17:00 • 5 chuyến</span>
+            </div>
+
+            <div class="time-row">
+              <div class="time">05:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">09:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">12:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">14:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">17:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+          </div>
+
+          <div class="time-group">
+            <div class="group-title night-title">
+              <span>🌙 BAN ĐÊM</span>
+              <span>Khởi hành sau 18:00 • 6 chuyến</span>
+            </div>
+
+            <div class="time-row">
+              <div class="time">22:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:10</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:15</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:50</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nha Trang đi Sài Gòn -->
+      <div class="route-card">
+        <div class="route-banner">
+          <div class="route-content">
+            <div class="route-label">CHIỀU VỀ</div>
+            <h2>Nha Trang → Sài Gòn</h2>
+            <p>Xuất phát từ <strong>VP Nha Trang</strong></p>
+          </div>
+        </div>
+
+        <div class="schedule-body">
+          <div class="time-group">
+            <div class="group-title day-title">
+              <span>☀️ BAN NGÀY</span>
+              <span>Khởi hành từ 08:00 - 16:00 • 6 chuyến</span>
+            </div>
+
+            <div class="time-row">
+              <div class="time">08:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">09:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">11:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">12:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">15:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">16:00</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+          </div>
+
+          <div class="time-group">
+            <div class="group-title night-title">
+              <span>🌙 BAN ĐÊM</span>
+              <span>Khởi hành sau 18:00 • 5 chuyến</span>
+            </div>
+
+            <div class="time-row">
+              <div class="time">21:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">22:15</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">22:30</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">22:45</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+
+            <div class="time-row">
+              <div class="time">23:15</div>
+              <div class="detail"><small>Loại xe</small><strong>Limousine 24 phòng</strong></div>
+              <div class="detail"><small>Giường nằm</small><strong>Cao cấp</strong></div>
+              <div class="price"><small>Giá vé từ</small><strong>220.000đ</strong></div>
+              <button class="btn">Chọn chuyến</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
