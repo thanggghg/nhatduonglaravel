@@ -76,12 +76,13 @@ class HomeController extends Controller
                 $route->from_location === 'Nha Trang' ? 'nt_sg' : 'sg_nt' => $route,
             ]);
         $ntRoute = $homeRoutes->get('sg_nt');
+        $liveTravelDate = today()->addDays(2);
 
         try {
             $liveSchedulesByRoute = $this->vexere->searchMany([
                 'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
                 'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
-            ], today(), $locale);
+            ], $liveTravelDate, $locale);
             $liveSchedulesByRoute = collect($liveSchedulesByRoute)->mapWithKeys(fn (array $trips, string $direction) => [
                 $direction => $this->homeTrips($trips, $homeRoutes->get($direction), $locale),
             ])->all();
@@ -99,7 +100,7 @@ class HomeController extends Controller
 
         $settings = Setting::pluck('value', 'key');
 
-        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'liveSchedulesByRoute', 'homeRoutes', 'faqs', 'ntRoute', 'settings');
+        return compact('banners', 'featuredRoutes', 'latestPosts', 'liveSchedules', 'liveSchedulesByRoute', 'liveTravelDate', 'homeRoutes', 'faqs', 'ntRoute', 'settings');
     }
 
     private function homeTrips(array $trips, ?Route $route, string $locale): array

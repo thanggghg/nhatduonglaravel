@@ -29,7 +29,7 @@
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
-       'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.',
+       'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.', 'no_departures' => 'Chưa có chuyến mở bán cho chiều này hôm nay.',
       'pickup_kicker' => 'Đón trả minh bạch', 'pickup_title' => 'Biết rõ nơi lên xe trước khi khởi hành', 'pickup_text' => 'Xác nhận điểm đón, điểm trả và thời gian có mặt với đội ngũ hỗ trợ trước ngày đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
@@ -53,7 +53,7 @@
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
-       'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.',
+       'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.', 'no_departures' => 'No departures are on sale for this direction today.',
       'pickup_kicker' => 'Clear pickup details', 'pickup_title' => 'Know where to board before you travel', 'pickup_text' => 'Confirm your pickup, drop-off, and check-in time with our support team before departure.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
@@ -77,7 +77,7 @@
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
-       'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.',
+       'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.', 'no_departures' => 'Сегодня рейсы в этом направлении ещё не открыты для продажи.',
       'pickup_kicker' => 'Понятная посадка', 'pickup_title' => 'Знайте место посадки до начала поездки', 'pickup_text' => 'Подтвердите место посадки, высадки и время регистрации у команды поддержки до отправления.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
@@ -99,6 +99,7 @@
   $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
   $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
+  $vehicleFallbackImage = asset('storage/image/b6c6290cc.jpg');
   $routeDuration = $route?->estimated_time ?? '9-10 hours';
   if ($locale === 'en') {
     $routeDuration = str_replace('giờ', 'h', $routeDuration);
@@ -114,9 +115,12 @@
     'sg_nt' => ($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' → '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
     'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' → '.($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
   ];
-  $directionSchedules = $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules, 'nt_sg' => []];
-  $selectedDirection = request('direction');
-  $selectedDirection = array_key_exists($selectedDirection, $directionSchedules) ? $selectedDirection : 'sg_nt';
+  $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
+  $requestedDirection = request('direction');
+  $selectedDirection = is_string($requestedDirection) && array_key_exists($requestedDirection, $directionSchedules)
+    ? $requestedDirection
+    : (array_key_first(array_filter($directionSchedules)) ?? 'sg_nt');
+  $hasLiveSchedules = collect($directionSchedules)->contains(fn ($schedules) => !empty($schedules));
   $selectedSchedules = $directionSchedules[$selectedDirection] ?? [];
   $faqItems = [
     [$copy['faq_1_q'], $copy['faq_1_a']],
@@ -131,9 +135,9 @@
     'ru' => ['pickup' => 'Места посадки', 'dropoff' => 'Места высадки', 'map' => 'Открыть карту', 'support' => 'Нужно подтвердить место посадки?', 'support_text' => 'Свяжитесь с поддержкой до поездки, чтобы уточнить багаж, посадку и условия изменения билета.'],
   ][$locale];
   $productCopy = [
-    'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
-    'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
-    'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
+    'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'actual_vehicle' => 'Hình ảnh xe thực tế', 'onboard' => 'Tiện nghi trên xe', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
+    'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Onboard comfort', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
+    'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Удобства в автобусе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
   $homeUi = [
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'return_date' => 'Ngày về', 'optional' => 'Không bắt buộc', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Nhiều chuyến mỗi ngày', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Phòng riêng', 'WC', 'Sạc USB'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
@@ -264,7 +268,7 @@
     <div class="hn-shell">
       <div class="hn-section-heading hn-section-heading--split">
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['schedule_kicker'] }}</p><h2 id="departure-title">{{ $copy['schedule_title'] }}</h2><p>{{ $copy['schedule_text'] }}</p></div>
-        <span class="hn-date-badge"><small>{{ $homeUi['live_date'] }}</small><strong>{{ now()->format('d/m/Y') }}</strong></span>
+        <span class="hn-date-badge"><small>{{ $homeUi['live_date'] }}</small><strong>{{ $liveTravelDate->format('d/m/Y') }}</strong></span>
       </div>
       <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">
         @foreach($directionLabels as $direction => $label)
@@ -283,7 +287,7 @@
                 <a class="hn-departure-card__action" href="{{ $schedule['checkout_url'] }}">{{ $copy['choose'] }} <span aria-hidden="true">→</span></a>
               </article>
             @empty
-              <p class="hn-empty">{{ $copy['live_unavailable'] }}</p>
+              <div class="hn-empty-state"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><p>{{ $hasLiveSchedules ? $copy['no_departures'] : $copy['live_unavailable'] }}</p></div>
             @endforelse
           </div>
         </div>
@@ -298,20 +302,27 @@
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2></div>
         <p>{{ $productCopy['fleet_text'] }}</p>
       </div>
-      <div class="hn-fleet__grid">
+      <div class="hn-vehicle-grid {{ $fleetTrips->count() <= 1 ? 'hn-vehicle-grid--single' : '' }}">
         @forelse($fleetTrips as $trip)
-          <a class="hn-fleet-card" href="{{ $trip['checkout_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
-            <img src="{{ $trip['image'] ?: $routeImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
-            <div class="hn-fleet-card__overlay"></div>
-            <div class="hn-fleet-card__content">
-              <p>{{ $trip['departure']->format('H:i') }} · {{ $trip['available_seats'] }} {{ $copy['seats'] }}</p>
+          <a class="hn-vehicle-card" href="{{ $trip['checkout_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
+            <div class="hn-vehicle-card__media">
+              <img src="{{ $trip['image'] ?: $vehicleFallbackImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
+              <span><i></i>{{ $productCopy['actual_vehicle'] }}</span>
+            </div>
+            <div class="hn-vehicle-card__body">
+              <p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p>
               <h3>{{ $trip['vehicle_type'] }}</h3>
-              <ul>@foreach($homeUi['amenities'] as $amenity)<li>{{ $amenity }}</li>@endforeach</ul>
-              <div><strong>{{ number_format($trip['fare']) }} VND</strong><span>{{ $copy['choose'] }} →</span></div>
+              <p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>
+              <ul>@foreach($homeUi['amenities'] as $amenity)<li><span>✓</span>{{ $amenity }}</li>@endforeach</ul>
+              <dl>
+                <div><dt>{{ $copy['departure'] }}</dt><dd>{{ $trip['departure']->format('H:i') }}</dd></div>
+                <div><dt>{{ $homeUi['remaining'] }}</dt><dd>{{ $trip['available_seats'] }} {{ $copy['seats'] }}</dd></div>
+              </dl>
+              <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong></div><span>{{ $copy['choose'] }} <b>→</b></span></footer>
             </div>
           </a>
         @empty
-          <a class="hn-fleet-card" href="#booking"><img src="{{ $routeImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><div class="hn-fleet-card__overlay"></div><div class="hn-fleet-card__content"><p>{{ $copy['daily'] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><div><strong>{{ number_format($startingFare) }} VND</strong><span>{{ $copy['search'] }} →</span></div></div></a>
+          <a class="hn-vehicle-card" href="#booking"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p><ul>@foreach($homeUi['amenities'] as $amenity)<li><span>✓</span>{{ $amenity }}</li>@endforeach</ul><p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong></div><span>{{ $copy['search'] }} <b>→</b></span></footer></div></a>
         @endforelse
       </div>
     </div>
@@ -528,21 +539,40 @@
   .hn-departure-card__action { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 15px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:12px; font-weight:800; text-decoration:none; white-space:nowrap; }
   .hn-departure-card__action:hover { background:var(--hn-green-dark); }
   .hn-departures__footer { display:flex; justify-content:center; margin-top:20px; }
-  .hn-fleet { background:#fff; }
-  .hn-fleet__grid { grid-template-columns:repeat(auto-fit,minmax(280px,360px)); justify-content:center; }
-  .hn-fleet-card { position:relative; display:block; min-height:390px; overflow:hidden; color:#fff; background:var(--hn-deep); border-radius:15px; text-decoration:none; isolation:isolate; }
-  .hn-fleet-card img,.hn-fleet-card__overlay { position:absolute; inset:0; width:100%; height:100%; }
-  .hn-fleet-card img { z-index:-2; object-fit:cover; transition:transform .3s ease; }
-  .hn-fleet-card__overlay { z-index:-1; background:linear-gradient(180deg,rgba(4,35,22,.05),rgba(4,35,22,.94)); }
-  .hn-fleet-card:hover img { transform:scale(1.035); }
-  .hn-fleet-card__content { position:absolute; right:0; bottom:0; left:0; padding:24px; }
-  .hn-fleet-card__content>p { margin:0 0 8px; color:var(--hn-gold); font-size:11px; font-weight:800; text-transform:uppercase; }
-  .hn-fleet-card h3 { margin:0 0 13px; color:#fff; font-size:20px; line-height:1.3; }
-  .hn-fleet-card ul { display:flex; flex-wrap:wrap; gap:6px; padding:0; margin:0 0 20px; list-style:none; }
-  .hn-fleet-card li { padding:5px 8px; color:#d9efe0; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); border-radius:99px; font-size:10px; font-weight:700; }
-  .hn-fleet-card__content>div { display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .hn-fleet-card__content>div strong { color:#fff; font-size:16px; }
-  .hn-fleet-card__content>div span { color:var(--hn-gold); font-size:12px; font-weight:800; }
+  .hn-empty-state { display:flex; min-height:112px; align-items:center; justify-content:center; gap:13px; padding:22px; color:#52695d; background:#f7faf7; border:1px dashed #bfd2c4; border-radius:13px; }
+  .hn-empty-state>span { display:grid; width:38px; height:38px; flex:none; place-items:center; color:var(--hn-green); background:#e7f3ea; border-radius:50%; }
+  .hn-empty-state svg { width:19px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-empty-state p { margin:0; font-size:12px; font-weight:700; line-height:1.5; }
+  .hn-fleet { position:relative; overflow:hidden; background:#f0f6f1; }
+  .hn-fleet:before { position:absolute; top:-170px; right:-110px; width:440px; height:440px; border:1px solid rgba(11,127,66,.1); border-radius:50%; box-shadow:0 0 0 45px rgba(11,127,66,.025),0 0 0 90px rgba(11,127,66,.018); content:''; }
+  .hn-fleet .hn-shell { position:relative; }
+  .hn-vehicle-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+  .hn-vehicle-card { display:grid; grid-template-rows:240px 1fr; overflow:hidden; color:inherit; background:#fff; border:1px solid #ccded1; border-radius:18px; box-shadow:0 14px 40px rgba(6,45,28,.08); text-decoration:none; transition:border-color .2s,box-shadow .2s,transform .2s; }
+  .hn-vehicle-card:hover { border-color:#91bda0; box-shadow:0 20px 48px rgba(6,45,28,.13); transform:translateY(-3px); }
+  .hn-vehicle-card__media { position:relative; min-width:0; overflow:hidden; background:var(--hn-deep); }
+  .hn-vehicle-card__media:after { position:absolute; inset:0; background:linear-gradient(180deg,transparent 55%,rgba(6,45,28,.48)); content:''; }
+  .hn-vehicle-card__media img { width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
+  .hn-vehicle-card:hover .hn-vehicle-card__media img { transform:scale(1.025); }
+  .hn-vehicle-card__media>span { position:absolute; bottom:16px; left:17px; z-index:1; display:inline-flex; align-items:center; gap:7px;padding:7px 10px;color:#fff;background:rgba(6,45,28,.78);border:1px solid rgba(255,255,255,.26);border-radius:99px;backdrop-filter:blur(8px);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase; }
+  .hn-vehicle-card__media>span i { width:6px; height:6px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 3px rgba(251,177,22,.2); }
+  .hn-vehicle-card__body { display:flex; min-width:0; flex-direction:column; padding:25px; }
+  .hn-vehicle-card__route { margin:0 0 8px; color:var(--hn-green); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+  .hn-vehicle-card h3 { margin:0; color:var(--hn-deep); font-size:clamp(20px,2.1vw,27px); line-height:1.25; letter-spacing:-.025em; }
+  .hn-vehicle-card__comfort { margin:18px 0 8px; color:var(--hn-muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+  .hn-vehicle-card ul { display:flex; flex-wrap:wrap; gap:8px 18px; padding:0; margin:0 0 22px; list-style:none; }
+  .hn-vehicle-card li { display:flex; align-items:center; gap:6px; color:#365145; font-size:11px; font-weight:700; }
+  .hn-vehicle-card li span { display:grid; width:18px; height:18px; place-items:center; color:var(--hn-green); background:#e9f5ec; border-radius:50%; font-size:9px; }
+  .hn-vehicle-card dl { display:grid; grid-template-columns:1fr 1fr; margin:0 0 22px; padding:15px 0; border-top:1px solid var(--hn-line); border-bottom:1px solid var(--hn-line); }
+  .hn-vehicle-card dl div+div { padding-left:18px; border-left:1px solid var(--hn-line); }
+  .hn-vehicle-card dt,.hn-vehicle-card footer small { color:var(--hn-muted); font-size:9px; font-weight:800; text-transform:uppercase; }
+  .hn-vehicle-card dd { margin:5px 0 0; color:var(--hn-deep); font-size:15px; font-weight:800; }
+  .hn-vehicle-card__note { margin:0 0 22px; padding:14px 15px; color:#365145; background:#f0f7f2; border-left:3px solid var(--hn-gold); border-radius:0 8px 8px 0; font-size:12px; font-weight:700; }
+  .hn-vehicle-card footer { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-top:auto; }
+  .hn-vehicle-card footer>div { display:grid; gap:4px; }
+  .hn-vehicle-card footer strong { color:var(--hn-green); font-size:18px; }
+  .hn-vehicle-card footer>span { display:inline-flex; min-height:44px; align-items:center; gap:9px; padding:0 16px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:11px; font-weight:800; white-space:nowrap; }
+  .hn-vehicle-card footer b { color:var(--hn-gold); font-size:15px; }
+  .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:minmax(0,1.35fr) minmax(350px,.85fr); grid-template-rows:minmax(410px,auto); }
   .hn-proof { padding:34px 0; }
   .hn-proof>.hn-shell>.hn-eyebrow { color:var(--hn-gold); margin-bottom:0; padding-top:22px; }
   .hn-proof__grid article { padding-top:22px; padding-bottom:22px; }
@@ -588,6 +618,7 @@
     .hn-departure-card__fare { text-align:right; }
     .hn-departure-card__action { grid-column:2/4; }
     .hn-fleet__grid { grid-template-columns:repeat(2,1fr); }
+    .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:1fr 1fr; grid-template-rows:minmax(390px,auto); }
     .hn-stops__grid { grid-template-columns:1fr 1fr; }
     .hn-stop-support { grid-column:1/-1; min-height:auto; }
     .hn-review__inner { grid-template-columns:1fr; gap:32px; }
@@ -627,6 +658,11 @@
     .hn-departure-card__action { grid-column:1/-1; min-height:48px; }
     .hn-fleet__grid { grid-template-columns:1fr; }
     .hn-fleet-card { min-height:340px; }
+    .hn-vehicle-grid,.hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:1fr; }
+    .hn-vehicle-grid--single .hn-vehicle-card { grid-template-rows:240px auto; }
+    .hn-vehicle-card__body { padding:21px; }
+    .hn-vehicle-card footer { align-items:stretch; flex-direction:column; }
+    .hn-vehicle-card footer>span { justify-content:center; }
     .hn-proof { padding:26px 0; }
     .hn-stops__grid { grid-template-columns:1fr; }
     .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
