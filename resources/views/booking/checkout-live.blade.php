@@ -73,3 +73,41 @@
 @push('scripts')
 <script>(() => { const currency = new Intl.NumberFormat({!! json_encode($locale === 'vi' ? 'vi-VN' : 'en-US') !!}); document.addEventListener('click', (event) => { if (!event.target.closest('.live-room-modal__options')) return; window.setTimeout(() => { const options = [...document.querySelectorAll('input[data-room-option]')].map((input) => JSON.parse(input.value)); const guests = options.reduce((sum, option) => sum + Number(option.customer_amount || 1), 0); const amount = options.reduce((sum, option) => sum + Number(option.fare || 0), 0); const passengerInput = document.querySelector('input[name="passenger_count"]'); const countLabel = document.getElementById('seat-selection-count'); if (passengerInput) passengerInput.value = String(guests); if (countLabel) countLabel.textContent = `${guests}/${guests}`; document.querySelectorAll('.live-room-summary').forEach((summary) => { summary.textContent = `${options.length} room${options.length > 1 ? 's' : ''} · ${guests} passenger${guests > 1 ? 's' : ''} · ${currency.format(amount)} VND`; }); }, 0); }); })();</script>
 @endpush
+
+@push('scripts')
+<script>
+    (() => {
+        const form = document.getElementById('live-booking-form');
+        if (!form) return;
+
+        window.addEventListener('submit', (event) => {
+            if (event.target !== form) return;
+
+            const options = [...form.querySelectorAll('input[data-room-option]')]
+                .map((input) => JSON.parse(input.value));
+            if (!options.length) return;
+
+            const guests = options.reduce((total, option) => total + Number(option.customer_amount || 1), 0);
+            const passengerInput = form.querySelector('input[name="passenger_count"]');
+            const error = document.getElementById('seat-selection-error');
+
+            if (!guests || guests > 6) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                if (error) {
+                    error.hidden = false;
+                    error.textContent = guests > 6
+                        ? 'A booking can include up to 6 passengers.'
+                        : 'Choose at least one room option.';
+                }
+                return;
+            }
+
+            passengerInput.value = String(guests);
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            HTMLFormElement.prototype.submit.call(form);
+        }, true);
+    })();
+</script>
+@endpush
