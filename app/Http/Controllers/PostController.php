@@ -12,19 +12,30 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $locale = $this->locale($request);
+        $requestedCategory = $request->string('category')->value();
+
+        if ($requestedCategory && !PostCategory::where('slug', $requestedCategory)
+            ->whereHas('posts', fn ($query) => $query
+                ->where('locale', $locale)
+                ->where('status', true)
+                ->where('published_at', '<=', now()))
+            ->exists()) {
+            return redirect()->route('posts.index', ['lang' => $locale]);
+        }
+
         $query = Post::where('locale', $locale)
             ->where('status', true)
             ->where('published_at', '<=', now())
             ->with('category');
 
-        if ($request->has('category')) {
-            $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->category);
+        if ($requestedCategory) {
+            $query->whereHas('category', function ($q) use ($requestedCategory) {
+                $q->where('slug', $requestedCategory);
             });
         }
 
-        $posts = $query->latest('published_at')->paginate(12);
-        $categories = PostCategory::where('status', true)->get();
+        $posts = $query->latest('published_at')->paginate(12)->withQueryString();
+        $categories = $this->categoriesWithPublishedPosts($locale);
 
         $metadata = [
             'vi' => ['Tin Tức', 'Tin tức, ưu đãi và hướng dẫn di chuyển từ Nhà Xe Nhật Dương.'],
@@ -45,7 +56,26 @@ class PostController extends Controller
             ->where('status', true)
             ->where('published_at', '<=', now())
             ->with('category')
-            ->firstOrFail();
+            ->first();
+
+        if (!$post) {
+            $sourcePost = Post::where('slug', $slug)->first();
+            if ($sourcePost) {
+                $baseSlug = preg_replace('/-(en|ru)$/', '', $sourcePost->slug);
+                $translatedSlug = $locale === 'vi' ? $baseSlug : $baseSlug.'-'.$locale;
+                $translation = Post::where('locale', $locale)
+                    ->where('slug', $translatedSlug)
+                    ->where('status', true)
+                    ->where('published_at', '<=', now())
+                    ->first();
+
+                if ($translation) {
+                    return redirect()->route('posts.show', ['slug' => $translation->slug, 'lang' => $locale]);
+                }
+            }
+
+            abort(404);
+        }
 
         $relatedPosts = Post::where('locale', $locale)
             ->where('status', true)
@@ -57,7 +87,7 @@ class PostController extends Controller
             ->take(3)
             ->get();
 
-        $categories = PostCategory::where('status', true)->get();
+        $categories = $this->categoriesWithPublishedPosts($locale);
 
         SEOMeta::setTitle($post->meta_title ?? $post->title);
         SEOMeta::setDescription($post->meta_description ?? $post->summary);
@@ -70,5 +100,16 @@ class PostController extends Controller
         $locale = $request->string('lang')->lower()->value();
 
         return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
+    }
+
+    private function categoriesWithPublishedPosts(string $locale)
+    {
+        return PostCategory::where('status', true)
+            ->whereHas('posts', fn ($query) => $query
+                ->where('locale', $locale)
+                ->where('status', true)
+                ->where('published_at', '<=', now()))
+            ->orderBy('name')
+            ->get();
     }
 }

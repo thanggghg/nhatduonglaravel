@@ -60,4 +60,10 @@ return [
         'api_key' => env('PUBLIC_BOOKING_API_KEY'),
     ],
 
+    'translation_ai' => [
+        'base_url' => env('TRANSLATION_AI_BASE_URL', 'https://api.vilao.ai/v1'),
+        'api_key' => env('TRANSLATION_AI_API_KEY'),
+        'model' => env('TRANSLATION_AI_MODEL', 'hana/minimax-m3'),
+    ],
+
 ];
