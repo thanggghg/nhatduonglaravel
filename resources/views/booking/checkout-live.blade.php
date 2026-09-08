@@ -18,6 +18,11 @@
         'en' => ['reassurance' => 'Choose seats and pickup details, then continue to a QR code with the exact amount and transfer reference.', 'available' => 'Available', 'selected' => 'Selected', 'unavailable' => 'Unavailable', 'payment' => 'On the next step, you will review the QR code and exact transfer reference before payment.'],
         'ru' => ['reassurance' => 'Выберите места и посадку, затем перейдите к QR-коду с точной суммой и назначением перевода.', 'available' => 'Свободно', 'selected' => 'Выбрано', 'unavailable' => 'Недоступно', 'payment' => 'На следующем шаге вы увидите QR-код и точное назначение перевода до оплаты.'],
     ][$locale];
+    $paymentMethods = [
+        'vi' => ['title' => 'Hình thức thanh toán', 'bank' => 'Chuyển khoản', 'bank_help' => 'Quét mã QR và chuyển khoản đúng nội dung ở bước tiếp theo.', 'cash' => 'Tiền mặt', 'cash_help' => 'Thanh toán trực tiếp khi lên xe. Nhân viên sẽ liên hệ xác nhận.', 'cash_submit' => 'Hoàn tất đặt vé'],
+        'en' => ['title' => 'Payment method', 'bank' => 'Bank transfer', 'bank_help' => 'Scan the QR code and use the exact transfer reference on the next step.', 'cash' => 'Cash', 'cash_help' => 'Pay when boarding. Our team will contact you to confirm.', 'cash_submit' => 'Complete booking'],
+        'ru' => ['title' => 'Способ оплаты', 'bank' => 'Банковский перевод', 'bank_help' => 'На следующем шаге отсканируйте QR-код и укажите точное назначение.', 'cash' => 'Наличные', 'cash_help' => 'Оплата при посадке. Сотрудник свяжется с вами для подтверждения.', 'cash_submit' => 'Завершить бронирование'],
+    ][$locale];
 @endphp
 
 @section('content')
@@ -108,6 +113,55 @@
             event.stopImmediatePropagation();
             HTMLFormElement.prototype.submit.call(form);
         }, true);
+    })();
+</script>
+@endpush
+
+@push('styles')
+<style>
+    .live-payment-methods{gap:11px!important}.live-payment-methods__grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.live-payment-option{position:relative;display:block!important;padding:15px 15px 15px 43px;border:1px solid #cddbd0;border-radius:10px;cursor:pointer}.live-payment-option:has(input:checked){border-color:#0b7f42;background:#f0f9f2;box-shadow:0 0 0 1px #0b7f42}.live-payment-option input{position:absolute;top:17px;left:15px;width:17px;height:17px;accent-color:#0b7f42}.live-payment-option strong,.live-payment-option span{display:block}.live-payment-option strong{color:#173014;font-size:14px}.live-payment-option span{margin-top:4px;color:#60776a;font-size:11px;font-weight:600;line-height:1.45}.live-payment-methods__error{margin:0;color:#991b1b;font-size:12px;font-weight:700}@media(max-width:560px){.live-payment-methods__grid{grid-template-columns:1fr}}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    (() => {
+        const form = document.getElementById('live-booking-form');
+        const terms = form?.querySelector('input[name="terms"]')?.closest('label');
+        const submit = form?.querySelector('button[type="submit"]');
+        if (!form || !terms || !submit) return;
+
+        const copy = @json($paymentMethods);
+        const selectedMethod = @json(old('payment_method', 'bank_transfer'));
+        const validationError = @json($errors->first('payment_method'));
+        const fieldset = document.createElement('fieldset');
+        fieldset.className = 'live-payment-methods';
+        fieldset.innerHTML = `
+            <legend>${copy.title}</legend>
+            <div class="live-payment-methods__grid">
+                <label class="live-payment-option">
+                    <input type="radio" name="payment_method" value="bank_transfer" ${selectedMethod === 'bank_transfer' ? 'checked' : ''}>
+                    <strong>${copy.bank}</strong><span>${copy.bank_help}</span>
+                </label>
+                <label class="live-payment-option">
+                    <input type="radio" name="payment_method" value="cash" ${selectedMethod === 'cash' ? 'checked' : ''}>
+                    <strong>${copy.cash}</strong><span>${copy.cash_help}</span>
+                </label>
+            </div>
+            ${validationError ? `<p class="live-payment-methods__error">${validationError}</p>` : ''}
+        `;
+        terms.insertAdjacentElement('beforebegin', fieldset);
+
+        const transferSubmit = submit.textContent;
+        const paymentNote = form.querySelector('.live-checkout__payment-note span');
+        const transferNote = paymentNote?.textContent;
+        const syncMethod = () => {
+            const method = form.querySelector('input[name="payment_method"]:checked')?.value;
+            submit.textContent = method === 'cash' ? copy.cash_submit : transferSubmit;
+            if (paymentNote) paymentNote.textContent = method === 'cash' ? copy.cash_help : transferNote;
+        };
+        fieldset.addEventListener('change', syncMethod);
+        syncMethod();
     })();
 </script>
 @endpush

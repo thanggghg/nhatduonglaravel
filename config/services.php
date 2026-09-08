@@ -50,9 +50,13 @@ return [
     ],
 
     'sepay' => [
-        'base_url' => env('SEPAY_API_URL', 'https://userapi-sandbox.sepay.vn'),
+        'base_url' => env('SEPAY_API_URL', 'https://userapi.sepay.vn'),
         'api_token' => env('SEPAY_API_TOKEN'),
         'webhook_secret' => env('SEPAY_WEBHOOK_SECRET'),
+        'bank_code' => env('SEPAY_BANK_CODE'),
+        'bank_name' => env('SEPAY_BANK_NAME'),
+        'account_number' => env('SEPAY_ACCOUNT_NUMBER'),
+        'account_holder' => env('SEPAY_ACCOUNT_HOLDER'),
     ],
 
     'public_booking' => [
@@ -64,6 +68,15 @@ return [
         'base_url' => env('TRANSLATION_AI_BASE_URL', 'https://api.vilao.ai/v1'),
         'api_key' => env('TRANSLATION_AI_API_KEY'),
         'model' => env('TRANSLATION_AI_MODEL', 'hana/minimax-m3'),
+    ],
+
+    'smtp2go' => [
+        'api_key' => env('SMTP2GO_API_KEY'),
+        'sender' => env('SMTP2GO_SENDER', 'no-reply@nhaxenhatduong.com'),
+        'cc' => array_values(array_filter(array_map('trim', explode(',', (string) env(
+            'SMTP2GO_CC',
+            't0972199672@gmail.com,binhminhbusaigon@gmail.com,binhminhbus@gmail.com,binhminhbusnhatrang@gmail.com,Buihuyentrang.lvd@gmail.com,nhatduongbmb@gmail.com'
+        ))))),
     ],
 
 ];

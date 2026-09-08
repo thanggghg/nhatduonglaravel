@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class AdminPostController extends Controller
 {
@@ -77,26 +78,36 @@ class AdminPostController extends Controller
             'post_category_id' => 'required|exists:post_categories,id',
             'locale'           => 'required|in:vi,en,ru',
             'title'            => 'required|string|max:255',
+            'slug'             => ['required', 'string', 'max:255', Rule::unique('posts', 'slug')->ignore($post->id)],
             'summary'          => 'nullable|string|max:500',
             'content'          => 'required|string',
             'thumbnail'        => 'nullable|image|max:20480',
+            'remove_thumbnail' => 'nullable|boolean',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'status'           => 'boolean',
             'published_at'     => 'nullable|date',
         ]);
 
+        $oldThumbnail = $post->thumbnail;
+
+        if ($request->boolean('remove_thumbnail')) {
+            $validated['thumbnail'] = null;
+        }
+
         if ($request->hasFile('thumbnail')) {
-            if ($post->thumbnail) {
-                Storage::disk('public')->delete($post->thumbnail);
-            }
             $validated['thumbnail'] = $request->file('thumbnail')->store('posts', 'public');
         }
 
+        unset($validated['remove_thumbnail']);
         $validated['status'] = $request->boolean('status');
         $validated['content'] = $this->sanitizeContent($validated['content']);
 
         $post->update($validated);
+
+        if ($oldThumbnail !== $post->thumbnail) {
+            $this->deleteThumbnailIfUnused($oldThumbnail);
+        }
 
         return redirect()->route('admin.posts.index')->with('success', 'Bài viết đã được cập nhật!');
     }
@@ -105,13 +116,20 @@ class AdminPostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        if ($post->thumbnail) {
-            Storage::disk('public')->delete($post->thumbnail);
-        }
+        $thumbnail = $post->thumbnail;
 
         $post->delete();
 
+        $this->deleteThumbnailIfUnused($thumbnail);
+
         return redirect()->route('admin.posts.index')->with('success', 'Bài viết đã được xóa!');
+    }
+
+    private function deleteThumbnailIfUnused(?string $thumbnail): void
+    {
+        if ($thumbnail && ! Post::where('thumbnail', $thumbnail)->exists()) {
+            Storage::disk('public')->delete($thumbnail);
+        }
     }
 
     private function sanitizeContent(string $content): string
@@ -122,7 +140,11 @@ class AdminPostController extends Controller
         libxml_clear_errors();
         libxml_use_internal_errors($previousInternalErrors);
 
-        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'h2', 'h3', 'h4', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
+        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'figcaption', 'figure', 'h2', 'h3', 'h4', 'img', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
+        $allowedAttributes = [
+            'a' => ['href', 'target', 'rel'],
+            'img' => ['src', 'alt', 'width', 'height', 'loading'],
+        ];
         $container = $document->getElementById('article-content');
         if (!$container) {
             return '';
@@ -143,7 +165,7 @@ class AdminPostController extends Controller
             }
 
             foreach (iterator_to_array($element->attributes) as $attribute) {
-                if ($element->tagName !== 'a' || !in_array($attribute->name, ['href', 'target', 'rel'], true)) {
+                if (!in_array($attribute->name, $allowedAttributes[$element->tagName] ?? [], true)) {
                     $element->removeAttribute($attribute->name);
                 }
             }
@@ -156,6 +178,15 @@ class AdminPostController extends Controller
                 if ($element->getAttribute('target') === '_blank') {
                     $element->setAttribute('rel', 'noopener noreferrer');
                 }
+            }
+
+            if ($element->tagName === 'img') {
+                $src = $element->getAttribute('src');
+                if (!$src || !preg_match('/^(https?:\/\/|\/storage\/)/i', $src)) {
+                    $element->parentNode?->removeChild($element);
+                    continue;
+                }
+                $element->setAttribute('loading', 'lazy');
             }
         }
 

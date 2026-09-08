@@ -16,7 +16,8 @@ class SePayService
 
     public function paymentDetails(Booking $booking): array
     {
-        $account = collect($this->bankAccounts())->first(fn (array $account) => (bool) ($account['active'] ?? false));
+        $account = $this->configuredBankAccount()
+            ?? collect($this->bankAccounts())->first(fn (array $account) => (bool) ($account['active'] ?? false));
 
         if (!$account) {
             throw new RuntimeException('No active SePay payment account is configured.');
@@ -115,11 +116,30 @@ class SePayService
         });
     }
 
+    private function configuredBankAccount(): ?array
+    {
+        $accountNumber = config('services.sepay.account_number');
+        $accountHolder = config('services.sepay.account_holder');
+        $bankCode = config('services.sepay.bank_code');
+
+        if (!$accountNumber || !$accountHolder || !$bankCode) {
+            return null;
+        }
+
+        return [
+            'active' => true,
+            'account_number' => $accountNumber,
+            'account_holder_name' => $accountHolder,
+            'bank_short_name' => $bankCode,
+            'bank_full_name' => config('services.sepay.bank_name', $bankCode),
+        ];
+    }
+
     private function request(string $path, array $query = []): array
     {
         $token = config('services.sepay.api_token');
         if (!$token) {
-            throw new RuntimeException('SePay sandbox API is not configured.');
+            throw new RuntimeException('SePay API is not configured.');
         }
 
         $response = Http::acceptJson()
@@ -128,7 +148,7 @@ class SePayService
             ->get(rtrim(config('services.sepay.base_url'), '/').$path, $query);
 
         if (!$response->successful()) {
-            throw new RuntimeException('SePay sandbox is temporarily unavailable.');
+            throw new RuntimeException('SePay is temporarily unavailable.');
         }
 
         return $response->json('data', []);

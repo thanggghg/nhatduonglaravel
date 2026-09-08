@@ -24,7 +24,15 @@
         </div>
     </header>
 
-    <form method="POST" action="{{ route('admin.posts.update', $post) }}" enctype="multipart/form-data" class="post-editor__form">
+    <div class="post-editor__actionbar">
+            <div><strong>{{ strtoupper($post->locale) }}</strong><span>ID #{{ $post->id }}</span></div>
+            <div>
+                <a href="{{ route('posts.show', ['slug' => $post->slug, 'lang' => $post->locale]) }}" target="_blank" rel="noopener" class="post-editor__preview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4"/></svg>Xem bài viết</a>
+                <button type="submit" form="post-edit-form" class="post-editor__top-save"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg>Lưu thay đổi</button>
+            </div>
+    </div>
+
+    <form id="post-edit-form" method="POST" action="{{ route('admin.posts.update', $post) }}" enctype="multipart/form-data" class="post-editor__form">
         @csrf
         @method('PUT')
 
@@ -35,9 +43,15 @@
                     <div><h2>Nội dung bài viết</h2><p>Thông tin xuất hiện trực tiếp với hành khách.</p></div>
                 </header>
 
+                <div class="post-editor__permalink">
+                    <div><span>ĐƯỜNG DẪN BÀI VIẾT</span><small>{{ url('/tin-tuc') }}/</small></div>
+                    <input id="slug" type="text" name="slug" value="{{ old('slug', $post->slug) }}" required maxlength="255" class="@error('slug') post-editor__input--error @enderror" spellcheck="false">
+                    @error('slug')<p class="post-editor__error">{{ $message }}</p>@enderror
+                </div>
+
                 <div class="post-editor__field">
                     <label for="title">Tiêu đề <em>*</em></label>
-                    <input id="title" type="text" name="title" value="{{ old('title', $post->title) }}" required class="@error('title') post-editor__input--error @enderror" autofocus>
+                    <input id="title" type="text" name="title" value="{{ old('title', $post->title) }}" required maxlength="255" class="@error('title') post-editor__input--error @enderror" autofocus>
                     @error('title')<p class="post-editor__error">{{ $message }}</p>@enderror
                 </div>
 
@@ -135,12 +149,15 @@
                     @if($post->thumbnail)
                         <img id="thumbnail-preview" src="{{ Storage::url($post->thumbnail) }}" alt="Ảnh đại diện hiện tại">
                     @else
-                        <span id="thumbnail-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg><b>Chọn ảnh mới</b></span>
+                        <span id="thumbnail-placeholder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg><b>Chọn ảnh mới</b><small>Kéo thả hoặc nhấp để tải lên</small></span>
                     @endif
                     <span class="post-editor__image-overlay">Thay đổi ảnh</span>
                 </label>
                 <input id="thumbnail" type="file" name="thumbnail" accept="image/png,image/jpeg,image/webp" class="sr-only">
-                <p class="post-editor__hint">PNG, JPG hoặc WEBP. Tối đa 20 MB.</p>
+                <input id="remove-thumbnail" type="checkbox" name="remove_thumbnail" value="1" class="sr-only">
+                <div class="post-editor__image-info"><span id="thumbnail-dimensions">Đang đọc kích thước ảnh...</span><span>Hiển thị trọn ảnh · PNG, JPG, WEBP · tối đa 20 MB</span></div>
+                <div class="post-editor__image-actions"><label for="thumbnail">Thay ảnh</label>@if($post->thumbnail)<button id="thumbnail-remove" type="button">Xóa ảnh</button>@endif</div>
+                @error('thumbnail')<p class="post-editor__error">{{ $message }}</p>@enderror
             </section>
         </aside>
     </form>
@@ -154,22 +171,58 @@
 </style>
 @endpush
 
+@push('styles')
+<style>
+    .post-editor__form{grid-template-columns:minmax(0,1fr) 350px}.post-editor__actionbar{position:sticky;top:77px;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:12px 14px;background:rgba(255,255,255,.94);border:1px solid #cfddd3;border-radius:13px;box-shadow:0 10px 25px rgba(6,45,28,.1);backdrop-filter:blur(12px)}.post-editor__actionbar>div{display:flex;align-items:center;gap:9px}.post-editor__actionbar>div:first-child strong{display:grid;min-width:34px;height:28px;place-items:center;color:#fff;background:#062d1c;border-radius:7px;font-size:10px}.post-editor__actionbar>div:first-child span{color:#819188;font-size:11px;font-weight:700}.post-editor__preview,.post-editor__top-save{display:inline-flex;min-height:40px;align-items:center;justify-content:center;gap:7px;padding:0 13px;border-radius:8px;font-size:11px;font-weight:800;text-decoration:none}.post-editor__preview{color:#365145;background:#fff;border:1px solid #cadbd0}.post-editor__top-save{color:#fff;background:#0b7f42;border:1px solid #0b7f42;cursor:pointer}.post-editor__preview svg,.post-editor__top-save svg{width:15px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}.post-editor__permalink{display:grid;gap:8px;padding:14px 15px;margin-bottom:23px;background:#f7faf8;border:1px solid #e0e9e2;border-radius:10px}.post-editor__permalink>div{display:flex;align-items:center;justify-content:space-between;gap:12px}.post-editor__permalink span{color:#0b7f42;font-size:9px;font-weight:900;letter-spacing:.1em}.post-editor__permalink small{overflow:hidden;color:#8a9c92;font-size:9px;text-overflow:ellipsis;white-space:nowrap}.post-editor__permalink input{width:100%;padding:9px 10px;color:#365145;background:#fff;border:1px solid #d1ddd5;border-radius:7px;font:600 11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;outline:0}.post-editor__permalink input:focus{border-color:#0b7f42;box-shadow:0 0 0 3px rgba(11,127,66,.12)}.post-editor__image-picker{aspect-ratio:5/4;min-height:0;background:#edf3ee}.post-editor__image-picker img{width:100%;height:100%;object-fit:contain}.post-editor__image-picker #thumbnail-placeholder small{display:block;margin-top:5px;color:#8a9c92;font-size:9px;font-weight:600}.post-editor__image-info{display:grid;gap:4px;margin-top:11px;color:#819188;font-size:9px;line-height:1.45}.post-editor__image-info span:first-child{color:#365145;font-weight:800}.post-editor__image-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.post-editor__image-actions label,.post-editor__image-actions button{display:grid;min-height:38px;place-items:center;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer}.post-editor__image-actions label{color:#0b7f42;background:#eaf6ed;border:1px solid #c8dfce}.post-editor__image-actions button{color:#a23830;background:#fff5f3;border:1px solid #edd1cc}.post-editor__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px}.post-editor__editable figure{max-width:100%;margin:20px 0}.post-editor__editable figcaption{margin-top:7px;color:#7b8d82;font-size:11px;text-align:center}.post-editor__save,.post-editor__top-save{transition:background .16s,opacity .16s}.post-editor__save:disabled,.post-editor__top-save:disabled{opacity:.6;cursor:wait}@media(max-width:1050px){.post-editor__form{grid-template-columns:minmax(0,1fr) 300px}}@media(max-width:850px){.post-editor__form{grid-template-columns:1fr}.post-editor__sidebar{position:static}.post-editor__actionbar{top:72px}}@media(max-width:620px){.post-editor__actionbar{align-items:stretch;flex-direction:column}.post-editor__actionbar>div:last-child{display:grid;grid-template-columns:1fr 1fr}.post-editor__preview,.post-editor__top-save{padding:0 9px}.post-editor__permalink>div{align-items:flex-start;flex-direction:column}.post-editor__permalink small{max-width:100%}}
+</style>
+@endpush
+
+@push('styles')
+<style>.post-editor__actionbar{margin:-10px 0 24px}</style>
+@endpush
+
 @push('scripts')
 <script>
     (() => {
         const input = document.getElementById('thumbnail');
         const picker = document.querySelector('.post-editor__image-picker');
+        const removeInput = document.getElementById('remove-thumbnail');
+        const removeButton = document.getElementById('thumbnail-remove');
+        const dimensions = document.getElementById('thumbnail-dimensions');
         if (!input || !picker) return;
+
+        const showDimensions = (image, file = null) => {
+            const update = () => {
+                const size = file ? ` · ${(file.size / 1024 / 1024).toFixed(2)} MB` : '';
+                dimensions.textContent = `${image.naturalWidth} × ${image.naturalHeight}px${size}`;
+            };
+            image.complete ? update() : image.addEventListener('load', update, { once: true });
+        };
+        const currentImage = picker.querySelector('img');
+        if (currentImage) showDimensions(currentImage);
 
         input.addEventListener('change', () => {
             const file = input.files[0];
             if (!file) return;
+            removeInput.checked = false;
             const image = document.createElement('img');
             image.id = 'thumbnail-preview';
             image.alt = 'Ảnh đại diện xem trước';
             image.src = URL.createObjectURL(file);
             picker.querySelector('#thumbnail-preview, #thumbnail-placeholder')?.remove();
             picker.prepend(image);
+            showDimensions(image, file);
+        });
+
+        removeButton?.addEventListener('click', () => {
+            removeInput.checked = true;
+            input.value = '';
+            picker.querySelector('img')?.remove();
+            if (!picker.querySelector('#thumbnail-placeholder')) {
+                picker.insertAdjacentHTML('afterbegin', '<span id="thumbnail-placeholder"><b>Ảnh sẽ được xóa khi lưu</b><small>Chọn ảnh mới nếu muốn thay thế</small></span>');
+            }
+            dimensions.textContent = 'Không có ảnh đại diện';
+            removeButton.disabled = true;
         });
     })();
 </script>
@@ -215,7 +268,12 @@
                 event.preventDefault();
                 editor.focus();
                 editor.closest('.post-editor__rich-text').classList.add('post-editor__input--error');
+                return;
             }
+            document.querySelectorAll('.post-editor__save,.post-editor__top-save').forEach((button) => {
+                button.disabled = true;
+                button.textContent = 'Đang lưu...';
+            });
         });
     })();
 </script>

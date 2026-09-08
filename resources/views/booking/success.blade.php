@@ -6,6 +6,14 @@
         'en' => ['title' => 'Your ticket payment is confirmed', 'text' => 'Your payment has been recorded. The operator will send boarding details before departure.', 'reference' => 'Booking reference', 'status' => 'Status', 'pending' => 'Pending confirmation', 'paid' => 'Paid', 'trip' => 'Outbound', 'return' => 'Return', 'total' => 'Total paid', 'home' => 'Back to home', 'help' => 'Need to change details?'],
         'ru' => ['title' => 'Оплата билета подтверждена', 'text' => 'Ваш платеж получен. Перевозчик пришлет информацию о посадке до отправления.', 'reference' => 'Номер заявки', 'status' => 'Статус', 'pending' => 'Ожидает подтверждения', 'paid' => 'Оплачено', 'trip' => 'Туда', 'return' => 'Обратно', 'total' => 'Сумма оплаты', 'home' => 'На главную', 'help' => 'Нужно изменить данные?'],
     ][$locale];
+    if ($booking->payment_provider === 'cash') {
+        $cashCopy = [
+            'vi' => ['title' => 'Đặt vé thành công', 'text' => 'Thông tin đặt vé đã được ghi nhận. Nhân viên Nhật Dương sẽ liên hệ xác nhận; bạn thanh toán tiền mặt khi lên xe.', 'total' => 'Tổng tiền cần thanh toán'],
+            'en' => ['title' => 'Booking received', 'text' => 'Your booking has been recorded. Our team will contact you to confirm; payment is due in cash when boarding.', 'total' => 'Amount due'],
+            'ru' => ['title' => 'Бронирование принято', 'text' => 'Ваше бронирование записано. Сотрудник свяжется для подтверждения; оплата наличными при посадке.', 'total' => 'Сумма к оплате'],
+        ][$locale];
+        $copy = array_replace($copy, $cashCopy);
+    }
     $vehicle = fn ($item) => $item->vehicle_type ?: ($item->bus_type ?: 'Sleeper cabin');
     $departure = $booking->schedule?->departure_time ?? $booking->departure_at;
     $vehicleType = $booking->schedule ? $vehicle($booking->schedule) : ($booking->vehicle_type ?: 'Sleeper cabin');

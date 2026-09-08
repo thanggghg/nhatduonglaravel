@@ -16,6 +16,10 @@ class PaymentController extends Controller
 
     public function show(Booking $booking)
     {
+        if ($booking->payment_provider === 'cash') {
+            return redirect()->route('booking.success', ['booking' => $booking, 'lang' => $booking->locale]);
+        }
+
         if ($booking->payment_status === 'paid') {
             return redirect()->route('booking.success', ['booking' => $booking, 'lang' => $booking->locale]);
         }
@@ -57,6 +61,15 @@ class PaymentController extends Controller
 
     public function status(Booking $booking): JsonResponse
     {
+        if ($booking->payment_provider === 'sepay' && $booking->payment_status !== 'paid') {
+            try {
+                $this->sepay->reconcile($booking);
+                $booking->refresh();
+            } catch (\Throwable $exception) {
+                report($exception);
+            }
+        }
+
         return response()->json([
             'paid' => $booking->payment_status === 'paid',
             'success_url' => route('booking.success', ['booking' => $booking, 'lang' => $booking->locale]),

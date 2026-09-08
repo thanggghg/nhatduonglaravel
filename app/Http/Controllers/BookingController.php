@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingSeat;
 use App\Models\Route as BusRoute;
 use App\Models\Schedule;
+use App\Services\BookingEmailService;
 use App\Services\NhatDuongPublicBookingService;
 use App\Services\VexereTripService;
 use Carbon\Carbon;
@@ -21,6 +22,7 @@ class BookingController extends Controller
     public function __construct(
         private VexereTripService $vexere,
         private NhatDuongPublicBookingService $publicBooking,
+        private BookingEmailService $bookingEmail,
     )
     {
     }
@@ -205,6 +207,7 @@ class BookingController extends Controller
             'selected_room_options' => 'nullable|array|max:6',
             'selected_room_options.*' => 'required|string|max:1000',
             'notes' => 'nullable|string|max:1500',
+            'payment_method' => 'required|in:cash,bank_transfer',
             'terms' => 'accepted',
             'lang' => 'nullable|in:vi,en,ru',
         ]);
@@ -343,8 +346,9 @@ class BookingController extends Controller
                     'outbound_fare' => 0,
                     'total_amount' => 0,
                     'status' => 'external_pending',
-                    'payment_code' => $this->paymentCode(),
+                    'payment_code' => $validated['payment_method'] === 'cash' ? null : $this->paymentCode(),
                     'payment_status' => 'awaiting_external_order',
+                    'payment_provider' => $validated['payment_method'] === 'cash' ? 'cash' : 'sepay',
                     'public_booking_idempotency_key' => $idempotencyKey,
                     'locale' => $locale,
                 ]);
@@ -387,7 +391,7 @@ class BookingController extends Controller
                 'total_amount' => $order['amount'],
                 'currency' => $order['currency'],
                 'status' => 'pending',
-                'payment_status' => 'awaiting_payment',
+                'payment_status' => $booking->payment_provider === 'cash' ? 'cash_pending' : 'awaiting_payment',
             ]);
             });
         } catch (QueryException) {
@@ -401,7 +405,18 @@ class BookingController extends Controller
 
         $booking->refresh();
 
-        return redirect()->route('booking.payment.show', ['booking' => $booking, 'lang' => $booking->locale]);
+        try {
+            $this->bookingEmail->sendConfirmation(
+                $booking->load('route'),
+                (string) $request->headers->get('referer', route('booking.live.checkout')),
+            );
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
+
+        $routeName = $booking->payment_provider === 'cash' ? 'booking.success' : 'booking.payment.show';
+
+        return redirect()->route($routeName, ['booking' => $booking, 'lang' => $booking->locale]);
     }
 
     public function success(Booking $booking)
