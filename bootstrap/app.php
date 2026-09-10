@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
-        $middleware->validateCsrfTokens(except: ['payments/sepay/ipn']);
+        $middleware->validateCsrfTokens(except: ['payments/sepay/ipn', 'api/internal/sepay/*']);
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,

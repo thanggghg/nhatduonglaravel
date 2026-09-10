@@ -23,10 +23,16 @@
         'en' => ['title' => 'Payment method', 'bank' => 'Bank transfer', 'bank_help' => 'Scan the QR code and use the exact transfer reference on the next step.', 'cash' => 'Cash', 'cash_help' => 'Pay when boarding. Our team will contact you to confirm.', 'cash_submit' => 'Complete booking'],
         'ru' => ['title' => 'Способ оплаты', 'bank' => 'Банковский перевод', 'bank_help' => 'На следующем шаге отсканируйте QR-код и укажите точное назначение.', 'cash' => 'Наличные', 'cash_help' => 'Оплата при посадке. Сотрудник свяжется с вами для подтверждения.', 'cash_submit' => 'Завершить бронирование'],
     ][$locale];
+    $loadingCopy = [
+        'vi' => ['title' => 'Đang giữ chỗ...', 'text' => 'Hệ thống đang giữ ghế và tạo mã thanh toán. Vui lòng không tắt trang.'],
+        'en' => ['title' => 'Reserving your seats...', 'text' => 'We are holding your seats and creating the payment code. Please keep this page open.'],
+        'ru' => ['title' => 'Бронируем места...', 'text' => 'Удерживаем места и создаем код оплаты. Не закрывайте страницу.'],
+    ][$locale];
 @endphp
 
 @section('content')
 <section class="live-checkout"><div class="live-checkout__shell"><a class="live-checkout__back" href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => $date->format('d-m-Y'), 'seats' => $passengerCount, 'lang' => $locale]) }}">&larr; {{ $copy['back'] }}</a><div class="live-checkout__grid"><main><h1>{{ $copy['title'] }}</h1><form id="live-booking-form" method="POST" action="{{ route('booking.live.store') }}">@csrf<input type="hidden" name="route_id" value="{{ $route->id }}"><input type="hidden" name="trip_code" value="{{ $trip['code'] }}"><input type="hidden" name="travel_date" value="{{ $date->toDateString() }}"><input type="hidden" name="passenger_count" value="{{ $passengerCount }}"><input type="hidden" name="lang" value="{{ $locale }}"><fieldset><legend>{{ $copy['seat_map'] }}</legend><div class="live-seat-head"><div><strong id="seat-selection-count">{{ count($chosenSeats) }}/{{ $passengerCount }}</strong><span>{{ $copy['selected'] }}</span></div><p><b id="live-available-seats">{{ $availableCount }}</b> {{ $copy['available'] }}<small>{{ $copy['refresh'] }}</small></p></div>@if($seatError)<p class="live-checkout__error">{{ $copy['seat_error'] }}</p>@else<div class="live-seat-layout">@foreach($seatMap as $coach)<section class="live-seat-coach"><h2>{{ $coach['name'] ?: 'Coach '.$coach['number'] }}</h2><div class="live-seat-grid" style="grid-template-columns:repeat({{ max(1, $coach['columns']) }}, minmax(36px,1fr));">@foreach($coach['seats'] as $seat)@php $unavailable = !$seat['available'] || $seat['locked'] || in_array($seat['key'], $reservedSeats, true); @endphp<label class="live-seat {{ $unavailable ? 'is-unavailable' : '' }}" style="grid-column:{{ $seat['column'] }} / span {{ $seat['column_span'] }};grid-row:{{ $seat['row'] }} / span {{ $seat['row_span'] }};"><input type="checkbox" name="selected_seats[]" value="{{ $seat['key'] }}" @checked(in_array($seat['key'], $chosenSeats, true)) @disabled($unavailable)><span>{{ $seat['code'] }}</span></label>@endforeach</div></section>@endforeach</div>@endif<p id="seat-selection-error" class="live-checkout__error" hidden></p></fieldset><fieldset><legend>{{ $copy['passenger'] }}</legend><label>{{ $copy['name'] }}<input name="passenger_name" value="{{ old('passenger_name') }}" autocomplete="name" required></label><div class="live-checkout__two"><label>{{ $copy['email'] }}<input type="email" name="passenger_email" value="{{ old('passenger_email') }}" autocomplete="email"></label><label>{{ $copy['phone'] }}<input type="tel" name="passenger_phone" value="{{ old('passenger_phone') }}" autocomplete="tel"></label></div></fieldset><fieldset><legend>{{ $copy['trip'] }}</legend><div class="live-stop-grid"><div><h2>{{ $copy['pickup'] }}</h2>@foreach($pickupOptions as $point)<label class="live-stop-option"><input type="radio" name="pickup_point" value="{{ $point->name }}" @checked(old('pickup_point', $trip['pickup']) === $point->name) required><span><b>{{ $point->name }}</b>@if($point->time)<small>{{ $point->time }}</small>@endif</span></label>@endforeach</div><div><h2>{{ $copy['dropoff'] }}</h2>@foreach($dropoffOptions as $point)<label class="live-stop-option"><input type="radio" name="dropoff_point" value="{{ $point->name }}" @checked(old('dropoff_point', $trip['dropoff']) === $point->name) required><span><b>{{ $point->name }}</b>@if($point->time)<small>{{ $point->time }}</small>@endif</span></label>@endforeach</div></div><label>{{ $copy['notes'] }}<input name="notes" value="{{ old('notes') }}" maxlength="1500"></label></fieldset><label class="live-checkout__terms"><input type="checkbox" name="terms" value="1" required><span>{{ $copy['terms'] }}</span></label>@foreach($errors->all() as $error)<p class="live-checkout__error" role="alert">{{ $error }}</p>@endforeach<button type="submit" data-loading="{{ $copy['paying'] }}" @disabled($seatError)>{{ $copy['pay'] }}</button></form></main><aside><p>{{ $copy['trip'] }}</p><h2>{{ $trip['pickup'] }} → {{ $trip['dropoff'] }}</h2><dl><div><dt>{{ $date->format('d/m/Y') }}</dt><dd>{{ $trip['departure']->format('H:i') }} → {{ $trip['arrival']->format('H:i') }} · {{ $trip['vehicle_type'] }}</dd></div><div><dt>{{ $passengerCount }} {{ $copy['seats'] }}</dt><dd>{{ number_format($trip['fare']) }} VND</dd></div></dl><div class="live-checkout__total"><span>{{ $copy['total'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong></div></aside></div></div></section>
+<div id="live-booking-loading" class="live-booking-loading" hidden><div class="live-booking-loading__card"><span class="live-booking-loading__spinner" aria-hidden="true"></span><strong>{{ $loadingCopy['title'] }}</strong><p>{{ $loadingCopy['text'] }}</p></div></div>
 @endsection
 
 @push('styles')
@@ -111,6 +117,8 @@
             passengerInput.value = String(guests);
             event.preventDefault();
             event.stopImmediatePropagation();
+            const overlay = document.getElementById('live-booking-loading');
+            if (overlay) overlay.hidden = false;
             HTMLFormElement.prototype.submit.call(form);
         }, true);
     })();
@@ -164,4 +172,16 @@
         syncMethod();
     })();
 </script>
+@endpush
+
+@push('styles')
+<style>
+.live-booking-loading{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(4,23,14,.55);backdrop-filter:blur(3px)}
+.live-booking-loading[hidden]{display:none}
+.live-booking-loading__card{display:grid;justify-items:center;gap:10px;width:min(360px,100%);padding:32px 28px;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.3);text-align:center}
+.live-booking-loading__spinner{width:48px;height:48px;border:4px solid #d9e5dc;border-top-color:#0b7f42;border-radius:50%;animation:live-booking-spin .8s linear infinite}
+.live-booking-loading__card strong{color:#173014;font-size:18px}
+.live-booking-loading__card p{margin:0;color:#60776a;font-size:13px;line-height:1.6}
+@keyframes live-booking-spin{to{transform:rotate(360deg)}}
+</style>
 @endpush

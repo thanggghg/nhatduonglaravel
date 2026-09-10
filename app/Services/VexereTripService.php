@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Pool;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
@@ -38,10 +40,26 @@ class VexereTripService
             throw new RuntimeException('This route is not configured with the live booking provider.');
         }
 
+        // Short cache avoids a redundant VeXeRe HTTP call when checkout-live page
+        // already fetched this data. Carbon objects are converted to strings for safe serialization.
+        $cacheKey = 'vexere.trip_detail:'.md5($tripCode.'|'.$locale);
+        $cached = Cache::get($cacheKey);
+        if (is_array($cached)) {
+            $cached['trip']['departure'] = isset($cached['trip']['departure_string'])
+                ? Carbon::createFromFormat('Y-m-d H:i:s', $cached['trip']['departure_string'], 'Asia/Ho_Chi_Minh')
+                : null;
+            $cached['trip']['arrival'] = isset($cached['trip']['arrival_string'])
+                ? Carbon::createFromFormat('Y-m-d H:i:s', $cached['trip']['arrival_string'], 'Asia/Ho_Chi_Minh')
+                : null;
+            return $cached;
+        }
+
         $response = Http::acceptJson()
             ->withHeaders($this->headers($locale))
             ->withToken($this->token($locale))
+            ->connectTimeout(5)
             ->timeout(15)
+            ->retry(1, 200, fn (\Throwable $exception) => $exception instanceof ConnectionException, false)
             ->get(rtrim(config('services.vexere.trip_url'), '/').'/'.rawurlencode($tripCode), [
                 'from' => $fromId,
                 'to' => $toId,
@@ -129,12 +147,46 @@ class VexereTripService
             }
         }
 
-        if (!$coaches) {
-            throw new RuntimeException('Live seat availability is temporarily unavailable.');
+        $departureRaw = $onlineInfo['departure_time'] ?? null;
+        $departure = null;
+        if (is_string($departureRaw) && $departureRaw !== '') {
+            try {
+                $departure = Carbon::createFromFormat('H:i d-m-Y', $departureRaw, 'Asia/Ho_Chi_Minh');
+            } catch (\Throwable) {
+                $departure = null;
+            }
         }
+        $duration = (int) ($response->json('data.route.duration', 0));
+        $arrival = $departure ? $departure->copy()->addMinutes($duration) : null;
+        $fare = (int) ($onlineInfo['fare'] ?? 0);
+        $availableSeats = (int) ($onlineInfo['total_available_seats'] ?? 0);
+        $vehicleType = $onlineInfo['name'] ?? ($onlineInfo['vehicle']['seat_type'] ?? 'Sleeper cabin');
+        $operatorImages = $response->json('data.operator.images', []);
+        $image = $operatorImages[0]['files']['1000x600'] ?? null;
+        if (is_string($image) && $image !== '') {
+            $image = str_starts_with($image, '//') ? 'https://'.ltrim($image, '/') : $image;
+        }
+        $fromLabel = $this->placeName($response->json('data.route.from', []) ?? [], $locale, $from);
+        $toLabel = $this->placeName($response->json('data.route.to', []) ?? [], $locale, $to);
 
-        return [
+        $result = [
             'coaches' => $coaches,
+            'trip' => [
+                'code' => $tripCode,
+                'departure' => $departure,
+                'arrival' => $arrival,
+                'fare' => $fare,
+                'available_seats' => $availableSeats,
+                'vehicle_type' => $vehicleType,
+                'duration' => $duration,
+                'pickup' => $fromLabel,
+                'dropoff' => $toLabel,
+                'image' => $image,
+                'booking_from_id' => (int) (explode('|', (string) ($onlineInfo['from_area'] ?? ''))[0] ?? 0) ?: null,
+                'booking_to_id' => (int) (explode('|', (string) ($onlineInfo['to_area'] ?? ''))[0] ?? 0) ?: null,
+                'departure_string' => $departure?->format('Y-m-d H:i:s'),
+                'arrival_string' => $arrival?->format('Y-m-d H:i:s'),
+            ],
             'online_info' => [
                 'trip_id' => $onlineInfo['trip_id'] ?? null,
                 'search_from' => $onlineInfo['search_from'] ?? null,
@@ -143,6 +195,10 @@ class VexereTripService
             'pickup_points' => $this->normalizePoints($onlineInfo['pickup_points'] ?? [], $locale, true),
             'dropoff_points' => $this->normalizePoints($onlineInfo['drop_off_points_at_arrive'] ?? [], $locale),
         ];
+
+        Cache::put($cacheKey, $result, now()->addSeconds(30));
+
+        return $result;
     }
 
     public function searchMany(array $queries, Carbon $date, string $locale): array
@@ -172,7 +228,9 @@ class VexereTripService
                     ->acceptJson()
                     ->withHeaders($this->headers($locale))
                     ->withToken($token)
+                    ->connectTimeout(5)
                     ->timeout(15)
+                    ->retry(1, 200, fn (\Throwable $exception) => $exception instanceof ConnectionException, false)
                     ->get(config('services.vexere.route_url'), $this->routeParameters($query['fromId'], $query['toId'], $date));
             }
 
@@ -183,7 +241,7 @@ class VexereTripService
         $hasLiveResponse = false;
         foreach ($prepared as $key => $query) {
             $response = $responses[(string) $key] ?? null;
-            if (!$response || !$response->successful()) {
+            if (!$response instanceof Response || !$response->successful()) {
                 continue;
             }
 
@@ -271,7 +329,7 @@ class VexereTripService
             'filter[companies][1]' => 0,
             'sort' => 'time:asc',
             'page' => 1,
-            'pagesize' => 20,
+            'pagesize' => 100,
         ];
     }
 
@@ -345,7 +403,7 @@ class VexereTripService
                 $providerAddress = $point['address'] ?? null;
                 $providerId = $point['id'] ?? null;
                 $pointId = $point['point_id'] ?? null;
-                $bookingAreaId = $point['area_id'] ?? data_get($point, 'areaDetail.id');
+                $bookingAreaId = $point['point_id'] ?? $point['area_id'] ?? data_get($point, 'areaDetail.id');
 
                 return [
                     'key' => implode(':', [$point['point_id'] ?? '', $point['id'] ?? '', $point['index'] ?? '']),
@@ -358,10 +416,12 @@ class VexereTripService
                     'provider_id' => $providerId,
                     'point_id' => $pointId,
                     'booking_area_id' => is_numeric($bookingAreaId) ? (int) $bookingAreaId : null,
-                    'pickup_info' => $isPickup && filled($providerAddress) && filled($providerId)
-                        ? $providerAddress.'||0|'.$providerId.'|'
+                    'pickup_info' => $isPickup && filled($providerName) && filled($providerAddress) && filled($providerId)
+                        ? $providerName.' - '.$providerAddress.'||0|'.$providerId.'|'
                         : null,
-                    'dropoff_info' => !$isPickup && filled($providerAddress) ? $providerAddress : null,
+                    'dropoff_info' => !$isPickup && filled($providerName) && filled($providerAddress)
+                        ? $providerName.' - '.$providerAddress
+                        : (!$isPickup && filled($providerAddress) ? $providerAddress : null),
                     'dropoff_time' => !$isPickup ? $this->isoDateTime($point['real_time'] ?? null) : null,
                 ];
             })

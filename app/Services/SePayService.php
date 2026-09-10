@@ -69,6 +69,20 @@ class SePayService
         return true;
     }
 
+    public function transactions(int $perPage = 100): array
+    {
+        return $this->request('/v2/transactions', [
+            'transfer_type' => 'in',
+            'per_page' => min(max($perPage, 1), 100),
+        ]);
+    }
+
+    public function findTransaction(string $transactionId): ?array
+    {
+        return collect($this->transactions())->first(fn (array $transaction) => (string) ($transaction['id'] ?? '') === $transactionId
+            || (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? '') === $transactionId);
+    }
+
     public function markPaid(Booking $booking, array $transaction): void
     {
         DB::transaction(function () use ($booking, $transaction) {
@@ -144,7 +158,9 @@ class SePayService
 
         $response = Http::acceptJson()
             ->withToken($token)
+            ->connectTimeout(5)
             ->timeout(15)
+            ->retry(2, 300, throw: false)
             ->get(rtrim(config('services.sepay.base_url'), '/').$path, $query);
 
         if (!$response->successful()) {

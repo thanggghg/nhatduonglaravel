@@ -9,6 +9,7 @@ use App\Models\Route;
 use App\Models\Setting;
 use App\Services\VexereTripService;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -78,19 +79,52 @@ class HomeController extends Controller
         $ntRoute = $homeRoutes->get('sg_nt');
         $liveTravelDate = today()->addDays(2);
 
-        try {
-            $liveSchedulesByRoute = $this->vexere->searchMany([
-                'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
-                'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
-            ], $liveTravelDate, $locale);
-            $liveSchedulesByRoute = collect($liveSchedulesByRoute)->mapWithKeys(fn (array $trips, string $direction) => [
-                $direction => $this->homeTrips($trips, $homeRoutes->get($direction), $locale),
-            ])->all();
+        $cacheKey = 'home.schedules:'.$locale.':'.$liveTravelDate->toDateString();
+        $liveSchedulesByRoute = Cache::get($cacheKey);
+        if (is_array($liveSchedulesByRoute)) {
+            foreach ($liveSchedulesByRoute as $direction => &$schedules) {
+                foreach ($schedules as &$schedule) {
+                    if (!empty($schedule['departure_string'])) {
+                        $schedule['departure'] = \Carbon\Carbon::parse($schedule['departure_string'], 'Asia/Ho_Chi_Minh');
+                    }
+                    if (!empty($schedule['arrival_string'])) {
+                        $schedule['arrival'] = \Carbon\Carbon::parse($schedule['arrival_string'], 'Asia/Ho_Chi_Minh');
+                    }
+                    if (!empty($schedule['provider_trip_departure_string'])) {
+                        $schedule['provider_trip_departure'] = \Carbon\Carbon::parse($schedule['provider_trip_departure_string'], 'Asia/Ho_Chi_Minh');
+                    }
+                    unset($schedule['departure_string'], $schedule['arrival_string'], $schedule['provider_trip_departure_string']);
+                }
+                unset($schedule);
+            }
+            unset($schedules);
             $liveSchedules = $liveSchedulesByRoute['sg_nt'] ?? [];
-        } catch (\Throwable $exception) {
-            report($exception);
-            $liveSchedules = [];
-            $liveSchedulesByRoute = ['sg_nt' => [], 'nt_sg' => []];
+        } else {
+            try {
+                $liveSchedulesByRoute = $this->vexere->searchMany([
+                    'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
+                    'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
+                ], $liveTravelDate, $locale);
+                $liveSchedulesByRoute = collect($liveSchedulesByRoute)->mapWithKeys(fn (array $trips, string $direction) => [
+                    $direction => $this->homeTrips($trips, $homeRoutes->get($direction), $locale),
+                ])->all();
+                $liveSchedules = $liveSchedulesByRoute['sg_nt'] ?? [];
+
+                $toCache = collect($liveSchedulesByRoute)->map(fn ($schedules) => collect($schedules)->map(fn ($trip) => [
+                    ...$trip,
+                    'departure_string' => $trip['departure']?->toIso8601String(),
+                    'arrival_string' => $trip['arrival']?->toIso8601String(),
+                    'provider_trip_departure_string' => $trip['provider_trip_departure']?->toIso8601String(),
+                    'departure' => null,
+                    'arrival' => null,
+                    'provider_trip_departure' => null,
+                ])->all())->all();
+                Cache::put($cacheKey, $toCache, now()->addMinutes(15));
+            } catch (\Throwable $exception) {
+                report($exception);
+                $liveSchedules = [];
+                $liveSchedulesByRoute = ['sg_nt' => [], 'nt_sg' => []];
+            }
         }
 
         $faqs = Faq::where('status', true)

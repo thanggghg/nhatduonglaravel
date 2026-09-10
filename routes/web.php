@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookingRedirectController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\InternalSePayReconciliationController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -55,6 +56,9 @@ Route::get('/dat-ve/thanh-toan/{booking:reference}', [PaymentController::class, 
 Route::post('/dat-ve/thanh-toan/{booking:reference}/kiem-tra', [PaymentController::class, 'check'])->name('booking.payment.check');
 Route::get('/dat-ve/thanh-toan/{booking:reference}/trang-thai', [PaymentController::class, 'status'])->name('booking.payment.status');
 Route::post('/payments/sepay/ipn', [PaymentController::class, 'webhook'])->name('payments.sepay.webhook');
+Route::get('/api/internal/sepay/reconciliation', [InternalSePayReconciliationController::class, 'index']);
+Route::post('/api/internal/sepay/reconciliation/match', [InternalSePayReconciliationController::class, 'match']);
+Route::post('/api/internal/sepay/reconciliation/resolve', [InternalSePayReconciliationController::class, 'resolve']);
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
 
 // Admin Routes

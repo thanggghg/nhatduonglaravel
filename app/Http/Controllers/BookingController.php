@@ -67,34 +67,53 @@ class BookingController extends Controller
 
     public function checkoutLive(Request $request)
     {
-        $context = $this->liveCheckoutContext($request);
-        extract($context);
+        $locale = $this->locale($request);
+        $route = BusRoute::where('status', true)->findOrFail($request->integer('route_id'));
+        $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
+        $passengerCount = min(6, max(1, $request->integer('passenger_count', 1)));
+        $tripCode = $request->string('trip_code')->value();
+        if (!$tripCode) {
+            throw ValidationException::withMessages(['trip_code' => 'Please select a departure.']);
+        }
+
         $route->load(['pickupPoints', 'dropoffPoints']);
-        $this->syncCancelledProviderBookings($trip['code'], $date);
-        $reservedSeats = $this->reservedSeats($trip['code'], $date);
         try {
-            $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
-            $seatMap = $tripDetails['coaches'];
-            $seatError = false;
+            $details = $this->vexere->tripDetails($route->from_location, $route->to_location, $tripCode, $locale);
+            $trip = $details['trip'];
+            if ($trip['available_seats'] < $passengerCount) {
+                throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
+            }
+            $seatMap = $details['coaches'];
+            $pickupOptions = collect($details['pickup_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
+            $dropoffOptions = collect($details['dropoff_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
+            $seatError = empty($seatMap);
+        } catch (ValidationException $validationException) {
+            throw $validationException;
         } catch (\Throwable $exception) {
             report($exception);
+            $trip = ['code' => $tripCode, 'fare' => 0, 'available_seats' => 0, 'departure' => null, 'arrival' => null, 'vehicle_type' => '', 'duration' => 0, 'pickup' => '', 'dropoff' => '', 'image' => null, 'booking_from_id' => null, 'booking_to_id' => null];
             $seatMap = [];
-            $tripDetails = ['pickup_points' => [], 'dropoff_points' => []];
             $seatError = true;
+            $pickupOptions = collect();
+            $dropoffOptions = collect();
         }
-        $pickupOptions = collect($tripDetails['pickup_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
-        $dropoffOptions = collect($tripDetails['dropoff_points'])->filter(fn (array $point) => !$point['min_customers'] || $point['min_customers'] <= $passengerCount)->map(fn (array $point) => (object) $point)->values();
+
+        $this->syncCancelledProviderBookings($tripCode, $date);
+        $reservedSeats = $this->reservedSeats($tripCode, $date);
 
         return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions'));
     }
 
     public function liveSeats(Request $request): JsonResponse
     {
-        $context = $this->liveCheckoutContext($request);
-        $tripDetails = $this->vexere->tripDetails($context['route']->from_location, $context['route']->to_location, $context['trip']['code'], $context['locale']);
-        $seatMap = $tripDetails['coaches'];
-        $this->syncCancelledProviderBookings($context['trip']['code'], $context['date']);
-        $reservedSeats = $this->reservedSeats($context['trip']['code'], $context['date']);
+        $locale = $this->locale($request);
+        $route = BusRoute::where('status', true)->findOrFail($request->integer('route_id'));
+        $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
+        $tripCode = $request->string('trip_code')->value();
+        $details = $this->vexere->tripDetails($route->from_location, $route->to_location, $tripCode, $locale);
+        $seatMap = $details['coaches'];
+        $this->syncCancelledProviderBookings($tripCode, $date);
+        $reservedSeats = $this->reservedSeats($tripCode, $date);
         $availableSeats = count(array_diff($this->availableSeatKeys($seatMap), $reservedSeats));
 
         return response()->json([
@@ -215,14 +234,13 @@ class BookingController extends Controller
         $route = BusRoute::where('status', true)->findOrFail($validated['route_id']);
         $date = $this->dateFromRequest($validated['travel_date'], 'travel_date', 'Y-m-d');
         $locale = $validated['lang'] ?? 'en';
-        $trip = $this->vexere->findTrip($route->from_location, $route->to_location, $date, $locale, $validated['trip_code']);
+        $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $validated['trip_code'], $locale);
+        $trip = $tripDetails['trip'];
+        $seatMap = $tripDetails['coaches'];
 
-        if (!$trip || $trip['available_seats'] < $validated['passenger_count']) {
+        if ($trip['available_seats'] < $validated['passenger_count']) {
             throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
         }
-
-        $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $trip['code'], $locale);
-        $seatMap = $tripDetails['coaches'];
         $selectedSeats = array_values($validated['selected_seats']);
         $seatDetails = collect($seatMap)->flatMap(fn (array $coach) => $coach['seats'])->keyBy('key');
         $availableSeatKeys = $this->availableSeatKeys($seatMap);
@@ -278,6 +296,9 @@ class BookingController extends Controller
             if (!$roomOption || !is_numeric($roomOption['id'] ?? null) || !filled($roomOption['code'] ?? null)) {
                 throw ValidationException::withMessages(['selected_seats' => 'A selected room is missing its provider room type.']);
             }
+            if (!is_numeric($roomOption['fare'] ?? null) || (int) $roomOption['fare'] <= 0) {
+                throw ValidationException::withMessages(['selected_seats' => 'A selected room has no verified seat-map quote. Please refresh and try again.']);
+            }
 
             $apiSeats[] = [
                 'seatCode' => $seatKey,
@@ -286,6 +307,7 @@ class BookingController extends Controller
                 'seatGroupCode' => $roomOption['code'],
                 'seatGroupName' => $roomOption['name'],
                 'customerAmount' => (int) ($roomOption['customer_amount'] ?? 1),
+                'expectedFare' => (int) ($roomOption['fare'] ?? 0),
             ];
         }
 
@@ -493,22 +515,6 @@ class BookingController extends Controller
         }
 
         return compact('route', 'date', 'schedule', 'passengerCount', 'locale', 'isRoundTrip', 'returnDate', 'returnSchedules');
-    }
-
-    private function liveCheckoutContext(Request $request): array
-    {
-        $locale = $this->locale($request);
-        $route = BusRoute::where('status', true)->findOrFail($request->integer('route_id'));
-        $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
-        $passengerCount = min(6, max(1, $request->integer('passenger_count', 1)));
-        $tripCode = $request->string('trip_code')->value();
-        $trip = $this->vexere->findTrip($route->from_location, $route->to_location, $date, $locale, $tripCode);
-
-        if (!$trip || $trip['available_seats'] < $passengerCount) {
-            throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
-        }
-
-        return compact('route', 'date', 'passengerCount', 'locale', 'trip');
     }
 
     private function reservedSeats(string $tripCode, Carbon $date): array
