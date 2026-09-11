@@ -87,6 +87,30 @@ class InternalSePayReconciliationController extends Controller
         ]);
     }
 
+    public function paidBookings(Request $request): JsonResponse
+    {
+        if ($response = $this->authorizeRequest($request)) {
+            return $response;
+        }
+
+        $search = trim((string) $request->query('search', ''));
+        $query = Booking::query()
+            ->where('payment_status', 'paid')
+            ->latest();
+        if ($search !== '') {
+            $query->where(function ($builder) use ($search) {
+                $builder->where('reference', 'like', "%{$search}%")
+                    ->orWhere('payment_code', 'like', "%{$search}%")
+                    ->orWhere('passenger_name', 'like', "%{$search}%")
+                    ->orWhere('passenger_phone', 'like', "%{$search}%");
+            });
+        }
+
+        return response()->json([
+            'bookings' => $query->limit(50)->get()->map(fn (Booking $booking) => $this->bookingData($booking))->values(),
+        ]);
+    }
+
     public function match(Request $request): JsonResponse
     {
         if ($response = $this->authorizeRequest($request)) {
@@ -141,7 +165,7 @@ class InternalSePayReconciliationController extends Controller
         }
 
         try {
-            $context = $this->prepareMatch($request);
+            $context = $this->prepareLink($request);
             $bookings = DB::transaction(function () use ($context, $request) {
                 $bookings = Booking::query()->whereIn('reference', $context['bookingReferences'])->lockForUpdate()->get();
                 $transaction = $context['transaction'];
@@ -323,6 +347,77 @@ class InternalSePayReconciliationController extends Controller
             ->exists();
         if ($alreadyUsed) {
             throw new RuntimeException('Giao dịch này đã được khớp với đơn khác ngoài danh sách đã chọn.');
+        }
+
+        $expectedAmount = (int) $bookings->sum('total_amount') + (int) ($validated['externalAmount'] ?? 0);
+        if ((int) ($transaction['amount_in'] ?? 0) !== $expectedAmount) {
+            throw new RuntimeException('Tổng tiền các đơn đã chọn không bằng số tiền giao dịch.');
+        }
+
+        return compact('transaction', 'bookingReferences', 'externalReferences');
+    }
+
+    private function prepareLink(Request $request): array
+    {
+        $validated = $request->validate([
+            'transactionId' => ['required', 'string', 'max:100'],
+            'bookingReference' => ['nullable', 'string', 'max:30'],
+            'bookingReferences' => ['nullable', 'array', 'max:10'],
+            'bookingReferences.*' => ['required', 'string', 'max:30'],
+            'externalAmount' => ['nullable', 'numeric', 'min:0'],
+            'externalReferences' => ['nullable', 'array', 'max:10'],
+            'externalReferences.*' => ['required', 'string', 'max:100'],
+        ]);
+        $bookingReferences = array_values(array_unique(array_filter([
+            ...($validated['bookingReferences'] ?? []),
+            $validated['bookingReference'] ?? null,
+        ])));
+        $externalReferences = array_values(array_unique($validated['externalReferences'] ?? []));
+        if (!$bookingReferences && !$externalReferences) {
+            throw new RuntimeException('Cần chọn ít nhất một đơn để gán.');
+        }
+        if (count($bookingReferences) + count($externalReferences) > 2) {
+            throw new RuntimeException('Chỉ được chọn tối đa hai đơn cho một giao dịch.');
+        }
+
+        $transaction = $this->sepay->findTransaction($validated['transactionId']);
+        if (!$transaction) {
+            throw new RuntimeException('Không tìm thấy giao dịch vào trên SePay.');
+        }
+        $transactionId = (string) ($transaction['id'] ?? '');
+        $paymentReference = (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? $transactionId);
+        $selectedReferences = array_values(array_unique([...$bookingReferences, ...$externalReferences]));
+        sort($selectedReferences);
+        $resolution = DB::table('sepay_transaction_resolutions')->where('transaction_id', $transactionId)->first();
+        if ($resolution) {
+            $resolvedReferences = array_values(array_filter(array_map('trim', explode(',', (string) $resolution->matched_reference))));
+            sort($resolvedReferences);
+            if ($resolvedReferences !== $selectedReferences) {
+                throw new RuntimeException('Giao dịch này đã được xử lý hoặc khớp với nhóm đơn khác.');
+            }
+        }
+        $bookings = Booking::query()->whereIn('reference', $bookingReferences)->get();
+        if ($bookings->count() !== count($bookingReferences)) {
+            throw new RuntimeException('Không tìm thấy đầy đủ đơn đặt vé website đã chọn.');
+        }
+
+        foreach ($bookings as $booking) {
+            if ($booking->payment_status !== 'paid') {
+                throw new RuntimeException("Đơn {$booking->reference} chưa thanh toán, không thể dùng chức năng gán.");
+            }
+            if ($booking->payment_transaction_id && $booking->payment_transaction_id !== $transactionId
+                && $booking->payment_reference !== $paymentReference) {
+                throw new RuntimeException("Đơn {$booking->reference} đã gắn với giao dịch khác.");
+            }
+        }
+
+        $alreadyUsed = Booking::query()
+            ->whereNotIn('reference', $bookingReferences)
+            ->where(fn ($query) => $query->where('payment_transaction_id', $transactionId)
+                ->orWhere('payment_reference', $paymentReference))
+            ->exists();
+        if ($alreadyUsed) {
+            throw new RuntimeException('Giao dịch này đã được gán với đơn khác ngoài danh sách đã chọn.');
         }
 
         $expectedAmount = (int) $bookings->sum('total_amount') + (int) ($validated['externalAmount'] ?? 0);
