@@ -134,6 +134,61 @@ class InternalSePayReconciliationController extends Controller
         ]);
     }
 
+    public function link(Request $request): JsonResponse
+    {
+        if ($response = $this->authorizeRequest($request)) {
+            return $response;
+        }
+
+        try {
+            $context = $this->prepareMatch($request);
+            $bookings = DB::transaction(function () use ($context, $request) {
+                $bookings = Booking::query()->whereIn('reference', $context['bookingReferences'])->lockForUpdate()->get();
+                $transaction = $context['transaction'];
+                $transactionId = (string) ($transaction['id'] ?? '');
+                $paymentReference = (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? $transactionId);
+
+                foreach ($bookings as $booking) {
+                    $booking->update([
+                        'status' => 'confirmed',
+                        'payment_status' => 'paid',
+                        'payment_provider' => 'sepay',
+                        'payment_transaction_id' => $transactionId,
+                        'payment_reference' => $paymentReference,
+                        'payment_payload' => $transaction,
+                        'paid_at' => now(),
+                    ]);
+                }
+
+                $matchedReferences = array_values(array_unique([
+                    ...$context['bookingReferences'],
+                    ...$context['externalReferences'],
+                ]));
+                $now = now();
+                DB::table('sepay_transaction_resolutions')->updateOrInsert(
+                    ['transaction_id' => $transactionId],
+                    [
+                        'status' => 'matched_externally',
+                        'matched_reference' => implode(', ', $matchedReferences),
+                        'resolved_by' => substr((string) $request->header('X-Actor', 'system'), 0, 100),
+                        'resolved_at' => $now,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]
+                );
+
+                return $bookings->map(fn (Booking $booking) => $this->bookingData($booking->fresh()))->values();
+            });
+        } catch (RuntimeException $exception) {
+            return response()->json(['message' => $exception->getMessage()], 409);
+        }
+
+        return response()->json([
+            'message' => 'Đã gán giao dịch với đơn thành công.',
+            'bookings' => $bookings,
+        ]);
+    }
+
     public function validateMatch(Request $request): JsonResponse
     {
         if ($response = $this->authorizeRequest($request)) {

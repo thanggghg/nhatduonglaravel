@@ -60,6 +60,7 @@ Route::get('/api/internal/sepay/reconciliation', [InternalSePayReconciliationCon
 Route::get('/api/internal/sepay/reconciliation/transactions/{transactionId}', [InternalSePayReconciliationController::class, 'transaction']);
 Route::post('/api/internal/sepay/reconciliation/validate', [InternalSePayReconciliationController::class, 'validateMatch']);
 Route::post('/api/internal/sepay/reconciliation/match', [InternalSePayReconciliationController::class, 'match']);
+Route::post('/api/internal/sepay/reconciliation/link', [InternalSePayReconciliationController::class, 'link']);
 Route::post('/api/internal/sepay/reconciliation/resolve', [InternalSePayReconciliationController::class, 'resolve']);
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
 
