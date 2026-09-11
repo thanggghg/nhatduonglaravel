@@ -49,6 +49,10 @@ class InternalSePayReconciliationController extends Controller
                 $content = (string) ($transaction['transaction_content'] ?? $transaction['content'] ?? '');
                 $matched = $usedTransactions->get($id) ?? $usedTransactions->get($reference);
                 $resolution = $resolutions->get($id);
+                $matchedBookings = collect($usedTransactions->filter(fn (Booking $booking) =>
+                    (string) $booking->payment_transaction_id === $id
+                    || (string) $booking->payment_reference === $reference
+                ))->values();
                 $candidates = $bookings->filter(fn (Booking $booking) => $booking->total_amount === $amount);
                 $suggested = $bookings->first(fn (Booking $booking) => str_contains(strtoupper($content), $booking->payment_code));
                 if (!$suggested && $candidates->count() === 1) {
@@ -64,6 +68,7 @@ class InternalSePayReconciliationController extends Controller
                     'bankBrandName' => $transaction['bank_brand_name'] ?? null,
                     'accountNumber' => $transaction['account_number'] ?? null,
                     'matchedBooking' => $matched ? $this->bookingData($matched) : null,
+                    'matchedBookings' => $matchedBookings->map(fn (Booking $booking) => $this->bookingData($booking))->values(),
                     'suggestedBookingReference' => $suggested?->reference,
                     'orphan' => !$matched && !$resolution,
                     'manualResolution' => $resolution ? [
@@ -295,6 +300,7 @@ class InternalSePayReconciliationController extends Controller
             'publicBookingOrderId' => $booking->public_booking_order_id,
             'status' => $booking->status,
             'paymentStatus' => $booking->payment_status,
+            'ticketCodes' => $booking->public_booking_ticket_codes ?? [],
             'createdAt' => $booking->created_at,
         ];
     }
