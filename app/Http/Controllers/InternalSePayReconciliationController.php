@@ -67,6 +67,8 @@ class InternalSePayReconciliationController extends Controller
                     'suggestedBookingReference' => $suggested?->reference,
                     'orphan' => !$matched && !$resolution,
                     'manualResolution' => $resolution ? [
+                        'status' => $resolution->status,
+                        'matchedReference' => $resolution->matched_reference,
                         'resolvedBy' => $resolution->resolved_by,
                         'resolvedAt' => $resolution->resolved_at,
                     ] : null,
@@ -136,13 +138,42 @@ class InternalSePayReconciliationController extends Controller
         ]);
     }
 
+    public function transaction(Request $request, string $transactionId): JsonResponse
+    {
+        if ($response = $this->authorizeRequest($request)) {
+            return $response;
+        }
+
+        $transaction = $this->sepay->findTransaction($transactionId);
+        if (!$transaction) {
+            return response()->json(['message' => 'Không tìm thấy giao dịch vào trên SePay.'], 404);
+        }
+        $id = (string) ($transaction['id'] ?? '');
+        $reference = (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? '');
+        if (Booking::query()->where('payment_transaction_id', $id)
+            ->when($reference !== '', fn ($query) => $query->orWhere('payment_reference', $reference))->exists()) {
+            return response()->json(['message' => 'Giao dịch đã được khớp với booking website.'], 409);
+        }
+
+        return response()->json([
+            'id' => $id,
+            'reference' => $reference,
+            'amount' => (int) ($transaction['amount_in'] ?? 0),
+            'content' => (string) ($transaction['transaction_content'] ?? $transaction['content'] ?? ''),
+            'transactionDate' => $transaction['transaction_date'] ?? null,
+        ]);
+    }
+
     public function resolve(Request $request): JsonResponse
     {
         if ($response = $this->authorizeRequest($request)) {
             return $response;
         }
 
-        $validated = $request->validate(['transactionId' => ['required', 'string', 'max:100']]);
+        $validated = $request->validate([
+            'transactionId' => ['required', 'string', 'max:100'],
+            'matchedReference' => ['nullable', 'string', 'max:100'],
+        ]);
         if (Booking::query()->where('payment_transaction_id', $validated['transactionId'])->exists()) {
             return response()->json(['message' => 'Giao dịch đã được khớp với một booking.'], 409);
         }
@@ -151,7 +182,8 @@ class InternalSePayReconciliationController extends Controller
         DB::table('sepay_transaction_resolutions')->updateOrInsert(
             ['transaction_id' => $validated['transactionId']],
             [
-                'status' => 'resolved_manually',
+                'status' => filled($validated['matchedReference'] ?? null) ? 'matched_externally' : 'resolved_manually',
+                'matched_reference' => $validated['matchedReference'] ?? null,
                 'resolved_by' => substr((string) $request->header('X-Actor', 'admin'), 0, 100),
                 'resolved_at' => $now,
                 'created_at' => $now,

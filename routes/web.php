@@ -57,6 +57,7 @@ Route::post('/dat-ve/thanh-toan/{booking:reference}/kiem-tra', [PaymentControlle
 Route::get('/dat-ve/thanh-toan/{booking:reference}/trang-thai', [PaymentController::class, 'status'])->name('booking.payment.status');
 Route::post('/payments/sepay/ipn', [PaymentController::class, 'webhook'])->name('payments.sepay.webhook');
 Route::get('/api/internal/sepay/reconciliation', [InternalSePayReconciliationController::class, 'index']);
+Route::get('/api/internal/sepay/reconciliation/transactions/{transactionId}', [InternalSePayReconciliationController::class, 'transaction']);
 Route::post('/api/internal/sepay/reconciliation/match', [InternalSePayReconciliationController::class, 'match']);
 Route::post('/api/internal/sepay/reconciliation/resolve', [InternalSePayReconciliationController::class, 'resolve']);
 Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
