@@ -229,6 +229,16 @@ class InternalSePayReconciliationController extends Controller
         }
         $transactionId = (string) ($transaction['id'] ?? '');
         $paymentReference = (string) ($transaction['reference_number'] ?? $transaction['referenceCode'] ?? $transactionId);
+        $selectedReferences = array_values(array_unique([...$bookingReferences, ...$externalReferences]));
+        sort($selectedReferences);
+        $resolution = DB::table('sepay_transaction_resolutions')->where('transaction_id', $transactionId)->first();
+        if ($resolution) {
+            $resolvedReferences = array_values(array_filter(array_map('trim', explode(',', (string) $resolution->matched_reference))));
+            sort($resolvedReferences);
+            if ($resolvedReferences !== $selectedReferences) {
+                throw new RuntimeException('Giao dịch này đã được xử lý hoặc khớp với nhóm đơn khác.');
+            }
+        }
         $bookings = Booking::query()->whereIn('reference', $bookingReferences)->get();
         if ($bookings->count() !== count($bookingReferences)) {
             throw new RuntimeException('Không tìm thấy đầy đủ đơn đặt vé website đã chọn.');
