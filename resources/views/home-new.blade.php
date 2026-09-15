@@ -370,13 +370,19 @@
     $routeDuration = str_replace('giờ', 'ч.', $routeDuration);
   }
   $locations = [
-    'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
-    'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
+    // Đồng bộ với searchPoints của widget nhatduongcol.com:
+    // Hồ Chí Minh, Đồng Nai (Biên Hòa), Bình Thuận (Phan Thiết), Khánh Hòa (Nha Trang)
+    'Hồ Chí Minh' => ['vi' => 'Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
+    'Đồng Nai' => ['vi' => 'Đồng Nai', 'en' => 'Dong Nai', 'ru' => 'Донгнай'],
+    'Biên Hòa' => ['vi' => 'Biên Hòa', 'en' => 'Bien Hoa', 'ru' => 'Бьенхоа'],
+    'Bình Thuận' => ['vi' => 'Bình Thuận', 'en' => 'Binh Thuan', 'ru' => 'Биньтхуан'],
+    'Phan Thiết' => ['vi' => 'Phan Thiết', 'en' => 'Phan Thiet', 'ru' => 'Фантхьет'],
+    'Khánh Hòa' => ['vi' => 'Khánh Hòa', 'en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
     'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
   ];
   $directionLabels = [
-    'sg_nt' => ($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' → '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
-    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' → '.($locations['TP. Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
+    'sg_nt' => ($locations['Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' → '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
+    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' → '.($locations['Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
   ];
   $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
   $requestedDirection = request('direction');
@@ -474,7 +480,7 @@
           <div class="hn-booking__fields">
             <label class="hn-location-field"><span>{{ $copy['from'] }}</span>
               <select id="hn-from-location" name="from_location" required>
-                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'TP. Hồ Chí Minh')>{{ $labels[$locale] }}</option>@endforeach
+                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'Hồ Chí Minh')>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
             <button id="hn-swap-locations" class="hn-swap" type="button" aria-label="{{ $homeUi['swap'] }}" title="{{ $homeUi['swap'] }}">
@@ -517,7 +523,7 @@
 
   <section id="route" class="hn-route-summary" aria-labelledby="route-title">
     <div class="hn-shell hn-route-summary__inner">
-      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations['TP. Hồ Chí Minh'][$locale] }} ⇔ {{ $locations['Nha Trang'][$locale] }}</h2></div>
+      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations['Hồ Chí Minh'][$locale] }} ⇔ {{ $locations['Nha Trang'][$locale] }}</h2></div>
       <dl>
         <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND</dd></div>
         <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
@@ -607,7 +613,7 @@
       </div>
       <div class="hn-stops__grid">
         <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations['TP. Hồ Chí Minh'][$locale] }}</h3></div></div>
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations['Hồ Chí Minh'][$locale] }}</h3></div></div>
           @if($pickupPoints->first()?->address)<p>{{ $pickupPoints->first()->address }}</p>@endif
           @if($pickupPoints->first()?->phone)<a href="tel:{{ $pickupPoints->first()->phone }}">{{ $pickupPoints->first()->phone }}</a>@endif
           @if($pickupPoints->first()?->map_url)<a href="{{ $pickupPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
