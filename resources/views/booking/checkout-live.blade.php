@@ -148,12 +148,12 @@
         fieldset.innerHTML = `
             <legend>${copy.title}</legend>
             <div class="live-payment-methods__grid">
-                <label class="live-payment-option">
-                    <input type="radio" name="payment_method" value="bank_transfer" checked>
+                <label class="live-payment-option" hidden style="display:none">
+                    <input type="radio" name="payment_method" value="bank_transfer">
                     <strong>${copy.bank}</strong><span>${copy.bank_help}</span>
                 </label>
-                <label class="live-payment-option" hidden style="display:none">
-                    <input type="radio" name="payment_method" value="cash">
+                <label class="live-payment-option">
+                    <input type="radio" name="payment_method" value="cash" checked>
                     <strong>${copy.cash}</strong><span>${copy.cash_help}</span>
                 </label>
             </div>
