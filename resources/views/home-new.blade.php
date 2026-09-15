@@ -91,12 +91,12 @@
   .hn-booking legend { padding:0; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:800; }
   .hn-live-proof { margin:0!important; color:#326044!important; background:#eef8f0; border-color:#d4ead9; }
   .hn-live-proof i { background:var(--hn-green); box-shadow:0 0 0 4px rgba(11,127,66,.12); }
-  .hn-booking__fields { display:grid; grid-template-columns:minmax(150px,1.05fr) 44px minmax(150px,1.05fr) minmax(130px,.72fr) minmax(130px,.72fr) minmax(120px,.55fr) auto; gap:10px; align-items:end; }
+  .hn-booking__fields { display:grid; grid-template-columns:minmax(150px,1.05fr) 44px minmax(150px,1.05fr) minmax(150px,.75fr) minmax(120px,.55fr) auto; gap:10px; align-items:end; }
   .hn-booking label { gap:6px; }
   .hn-booking label>span:first-child { min-height:16px; }
   .hn-booking label>span small { margin-left:4px; color:#8a9a91; font-size:9px; font-weight:600; letter-spacing:0; text-transform:none; }
   .hn-booking select,.hn-booking input:not([type=hidden]) { min-height:48px; border-radius:9px; }
-  #hn-depart-date,#hn-return-date { width:140px; }
+  #hn-depart-date { width:140px; }
   .hn-swap { display:grid; width:44px; height:48px; place-items:center; padding:0; color:var(--hn-green); background:#eef8f0; border:1px solid #cfe4d5; border-radius:9px; cursor:pointer; }
   .hn-swap:hover { background:#dff2e4; }
   .hn-swap svg,.hn-search-button svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; }
@@ -207,9 +207,7 @@
   .hn-mobile-booking-bar { display:none; }
   @media(max-width:900px) {
     .hn-booking__fields { grid-template-columns:1fr 44px 1fr; }
-    #hn-depart-date,#hn-return-date { width:100%; }
-    .hn-depart-date-field { grid-column:1/3; }
-    .hn-return-date-field { grid-column:3; }
+    #hn-depart-date { width:100%; }
     .hn-booking__fields>label:last-of-type { grid-column:1; }
     .hn-search-button { grid-column:2/4; }
     .hn-route-summary__inner { grid-template-columns:1fr; gap:20px; }
@@ -408,10 +406,10 @@
     'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Onboard comfort', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Удобства в автобусе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
-  $homeUi = [
-    'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'return_date' => 'Ngày về', 'optional' => 'Không bắt buộc', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Nhiều chuyến mỗi ngày', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Phòng riêng', 'WC', 'Sạc USB'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
-    'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'return_date' => 'Return date', 'optional' => 'Optional', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'Multiple daily departures', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['Private cabin', 'WC', 'USB charging'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
-    'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'return_date' => 'Дата возвращения', 'optional' => 'Необязательно', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Несколько рейсов ежедневно', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Отдельное купе', 'WC', 'USB-зарядка'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
+      $homeUi = [
+    'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Nhiều chuyến mỗi ngày', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Phòng riêng', 'WC', 'Sạc USB'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
+    'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'Multiple daily departures', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['Private cabin', 'WC', 'USB charging'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
+    'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Несколько рейсов ежедневно', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Отдельное купе', 'WC', 'USB-зарядка'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
   ][$locale];
   $fleetTrips = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
   $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
@@ -492,7 +490,6 @@
               </select>
             </label>
             <label class="hn-depart-date-field"><span>{{ $copy['date'] }}</span><input id="hn-depart-date" type="date" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}"></label>
-            <label class="hn-return-date-field"><span>{{ $homeUi['return_date'] }} <small>{{ $homeUi['optional'] }}</small></span><input id="hn-return-date" type="date" min="{{ now()->addDay()->toDateString() }}"></label>
             <label><span>{{ $copy['passengers'] }}</span>
               <span class="hn-passenger-stepper">
                 <button type="button" data-passenger-step="-1" aria-label="Decrease passengers">−</button>
@@ -502,8 +499,6 @@
               <input id="hn-passenger-value" type="hidden" name="seats" value="1">
             </label>
             <input id="hn-depart-date-value" type="hidden" name="departDate" value="{{ now()->format('d-m-Y') }}">
-            <input id="hn-return-date-value" type="hidden" name="returnDate" value="">
-            <input id="hn-round-trip-value" type="hidden" name="is_round_trip" value="0">
             <input type="hidden" name="lang" value="{{ $locale }}">
             <button class="hn-button hn-button--primary hn-search-button" type="submit" data-loading="{{ $homeUi['searching'] }}">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
@@ -726,10 +721,7 @@
     if (!form) return;
 
     const depart = document.getElementById('hn-depart-date');
-    const returned = document.getElementById('hn-return-date');
     const departValue = document.getElementById('hn-depart-date-value');
-    const returnValue = document.getElementById('hn-return-date-value');
-    const roundTrip = document.getElementById('hn-round-trip-value');
     const fromLocation = document.getElementById('hn-from-location');
     const toLocation = document.getElementById('hn-to-location');
     const swapLocations = document.getElementById('hn-swap-locations');
@@ -738,15 +730,10 @@
     const formatDate = (value) => value ? value.split('-').reverse().join('-') : '';
 
     const syncDates = () => {
-      returned.min = depart.value;
-      if (returned.value && returned.value < depart.value) returned.value = depart.value;
       departValue.value = formatDate(depart.value);
-      returnValue.value = formatDate(returned.value);
-      roundTrip.value = returned.value ? '1' : '0';
     };
 
     depart.addEventListener('change', syncDates);
-    returned.addEventListener('change', syncDates);
     swapLocations.addEventListener('click', () => {
       const previousFrom = fromLocation.value;
       fromLocation.value = toLocation.value;
