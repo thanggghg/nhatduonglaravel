@@ -516,7 +516,7 @@
 
   <section id="route" class="hn-route-summary" aria-labelledby="route-title">
     <div class="hn-shell hn-route-summary__inner">
-      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations['Hồ Chí Minh'][$locale] }} ⇔ {{ $locations['Nha Trang'][$locale] }}</h2></div>
+      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
       <dl>
         <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND</dd></div>
         <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
@@ -606,13 +606,13 @@
       </div>
       <div class="hn-stops__grid">
         <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations['Hồ Chí Minh'][$locale] }}</h3></div></div>
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations[29][$locale] }}</h3></div></div>
           @if($pickupPoints->first()?->address)<p>{{ $pickupPoints->first()->address }}</p>@endif
           @if($pickupPoints->first()?->phone)<a href="tel:{{ $pickupPoints->first()->phone }}">{{ $pickupPoints->first()->phone }}</a>@endif
           @if($pickupPoints->first()?->map_url)<a href="{{ $pickupPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
         </article>
         <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $dropoffPoints->first()?->name ?? $locations['Nha Trang'][$locale] }}</h3></div></div>
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $dropoffPoints->first()?->name ?? $locations[417][$locale] }}</h3></div></div>
           @if($dropoffPoints->first()?->address)<p>{{ $dropoffPoints->first()->address }}</p>@endif
           @if($dropoffPoints->first()?->phone)<a href="tel:{{ $dropoffPoints->first()->phone }}">{{ $dropoffPoints->first()->phone }}</a>@endif
           @if($dropoffPoints->first()?->map_url)<a href="{{ $dropoffPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
