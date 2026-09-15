@@ -29,13 +29,13 @@ class BookingController extends Controller
 
     public function search(Request $request)
     {
-        [$route, $date, $returnDate, $passengerCount, $locale] = $this->searchContext($request);
+        [$route, $date, $returnDate, $passengerCount, $locale, $fromId, $toId, $fromLabel, $toLabel] = $this->searchContext($request);
         $isRoundTrip = $returnDate !== null;
 
         try {
-            $trips = $this->vexere->search($route->from_location, $route->to_location, $date, $locale, $returnDate);
+            $trips = $this->vexere->search($fromId, $toId, $date, $locale, $returnDate);
             $returnTrips = $isRoundTrip
-                ? $this->vexere->search($route->to_location, $route->from_location, $returnDate, $locale)
+                ? $this->vexere->search($toId, $fromId, $returnDate, $locale)
                 : [];
             $apiError = null;
         } catch (\Throwable $exception) {
@@ -54,7 +54,11 @@ class BookingController extends Controller
             'isRoundTrip',
             'trips',
             'returnTrips',
-            'apiError'
+            'apiError',
+            'fromId',
+            'toId',
+            'fromLabel',
+            'toLabel'
         ));
     }
 
@@ -72,13 +76,14 @@ class BookingController extends Controller
         $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
         $passengerCount = min(6, max(1, $request->integer('passenger_count', 1)));
         $tripCode = $request->string('trip_code')->value();
+        [$fromId, $toId] = $this->providerAreaIds($request, $route);
         if (!$tripCode) {
             throw ValidationException::withMessages(['trip_code' => 'Please select a departure.']);
         }
 
         $route->load(['pickupPoints', 'dropoffPoints']);
         try {
-            $details = $this->vexere->tripDetails($route->from_location, $route->to_location, $tripCode, $locale);
+            $details = $this->vexere->tripDetails($fromId, $toId, $tripCode, $locale);
             $trip = $details['trip'];
             if ($trip['available_seats'] < $passengerCount) {
                 throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
@@ -101,7 +106,7 @@ class BookingController extends Controller
         $this->syncCancelledProviderBookings($tripCode, $date);
         $reservedSeats = $this->reservedSeats($tripCode, $date);
 
-        return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions'));
+        return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions', 'fromId', 'toId'));
     }
 
     public function liveSeats(Request $request): JsonResponse
@@ -110,7 +115,8 @@ class BookingController extends Controller
         $route = BusRoute::where('status', true)->findOrFail($request->integer('route_id'));
         $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
         $tripCode = $request->string('trip_code')->value();
-        $details = $this->vexere->tripDetails($route->from_location, $route->to_location, $tripCode, $locale);
+        [$fromId, $toId] = $this->providerAreaIds($request, $route);
+        $details = $this->vexere->tripDetails($fromId, $toId, $tripCode, $locale);
         $seatMap = $details['coaches'];
         $this->syncCancelledProviderBookings($tripCode, $date);
         $reservedSeats = $this->reservedSeats($tripCode, $date);
@@ -212,6 +218,8 @@ class BookingController extends Controller
     {
         $validated = $request->validate([
             'route_id' => 'required|integer|exists:routes,id',
+            'from_id' => 'nullable|integer',
+            'to_id' => 'nullable|integer|different:from_id',
             'trip_code' => 'required|string|max:100',
             'travel_date' => 'required|date_format:Y-m-d',
             'passenger_count' => 'required|integer|min:1|max:6',
@@ -234,7 +242,8 @@ class BookingController extends Controller
         $route = BusRoute::where('status', true)->findOrFail($validated['route_id']);
         $date = $this->dateFromRequest($validated['travel_date'], 'travel_date', 'Y-m-d');
         $locale = $validated['lang'] ?? 'en';
-        $tripDetails = $this->vexere->tripDetails($route->from_location, $route->to_location, $validated['trip_code'], $locale);
+        [$fromId, $toId] = $this->providerAreaIds($request, $route);
+        $tripDetails = $this->vexere->tripDetails($fromId, $toId, $validated['trip_code'], $locale);
         $trip = $tripDetails['trip'];
         $seatMap = $tripDetails['coaches'];
 
@@ -453,21 +462,46 @@ class BookingController extends Controller
         $locale = $this->locale($request);
         $from = $request->string('from_location')->value();
         $to = $request->string('to_location')->value();
+        $fromId = $request->integer('from_id');
+        $toId = $request->integer('to_id');
         $routeId = $request->integer('route_id');
         $isRoundTrip = $request->boolean('is_round_trip');
         $passengerCount = min(6, max(1, $request->integer('seats', 1)));
 
-        if ($from && $to && $from === $to) {
+        if (($fromId && $toId && $fromId === $toId) || ($from && $to && $from === $to)) {
             throw ValidationException::withMessages(['route' => 'Choose different departure and arrival locations.']);
         }
 
-        $route = $routeId
-            ? BusRoute::where('status', true)->find($routeId)
-            : BusRoute::where('status', true)->where('from_location', $from)->where('to_location', $to)->first();
+        $route = $routeId ? BusRoute::where('status', true)->find($routeId) : null;
+        if (!$route && $fromId && $toId) {
+            $areaIds = array_values(array_unique(array_map('intval', config('services.vexere.areas', []))));
+            $fromPosition = array_search($fromId, $areaIds, true);
+            $toPosition = array_search($toId, $areaIds, true);
+            if ($fromPosition === false || $toPosition === false) {
+                throw ValidationException::withMessages(['route' => 'Please select valid departure and arrival locations.']);
+            }
+
+            $forward = $fromPosition < $toPosition;
+            $route = BusRoute::where('status', true)
+                ->where('from_location', $forward ? 'TP. Hồ Chí Minh' : 'Nha Trang')
+                ->where('to_location', $forward ? 'Nha Trang' : 'TP. Hồ Chí Minh')
+                ->first();
+        }
+        if (!$route && $from && $to) {
+            $route = BusRoute::where('status', true)->where('from_location', $from)->where('to_location', $to)->first();
+        }
 
         if (!$route) {
             throw ValidationException::withMessages(['route' => 'This route is not available for online booking.']);
         }
+
+        $fromId = $fromId ?: $this->vexere->areaId($route->from_location);
+        $toId = $toId ?: $this->vexere->areaId($route->to_location);
+        if (!$fromId || !$toId) {
+            throw ValidationException::withMessages(['route' => 'This route is not configured with the live booking provider.']);
+        }
+        $fromLabel = $this->vexere->areaName($fromId) ?? $route->from_location;
+        $toLabel = $this->vexere->areaName($toId) ?? $route->to_location;
 
         $date = $this->dateFromRequest($request->input('departDate'), 'departDate');
         $returnDate = null;
@@ -478,7 +512,19 @@ class BookingController extends Controller
             }
         }
 
-        return [$route, $date, $returnDate, $passengerCount, $locale];
+        return [$route, $date, $returnDate, $passengerCount, $locale, $fromId, $toId, $fromLabel, $toLabel];
+    }
+
+    private function providerAreaIds(Request $request, BusRoute $route): array
+    {
+        $fromId = $request->integer('from_id') ?: $this->vexere->areaId($route->from_location);
+        $toId = $request->integer('to_id') ?: $this->vexere->areaId($route->to_location);
+
+        if (!$fromId || !$toId || $fromId === $toId || !$this->vexere->areaName($fromId) || !$this->vexere->areaName($toId)) {
+            throw ValidationException::withMessages(['route' => 'Please select valid departure and arrival locations.']);
+        }
+
+        return [$fromId, $toId];
     }
 
     private function checkoutContext(Request $request): array

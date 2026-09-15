@@ -41,8 +41,8 @@
         'Khánh Hòa' => ['en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
     ];
     $place = fn (string $name) => $locale === 'vi' ? $name : ($places[$name][$locale] ?? $name);
-    $from = $place($route->from_location);
-    $to = $place($route->to_location);
+    $from = $place($fromLabel);
+    $to = $place($toLabel);
     $startDate = $date->copy()->subDays(2)->max(today());
     $weekdays = [
         'vi' => ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
@@ -84,7 +84,7 @@
                     $day = $startDate->copy()->addDays($i);
                     $returnForDay = $isRoundTrip && $returnDate && $returnDate->gte($day) ? $returnDate : $day->copy()->addDay();
                 @endphp
-                <a class="booking-date {{ $day->isSameDay($date) ? 'is-active' : '' }}" href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => $day->format('d-m-Y'), 'is_round_trip' => $isRoundTrip ? 1 : 0, 'returnDate' => $isRoundTrip ? $returnForDay->format('d-m-Y') : null, 'seats' => $passengerCount, 'lang' => $locale]) }}" @if($day->isSameDay($date)) aria-current="date" @endif>
+                <a class="booking-date {{ $day->isSameDay($date) ? 'is-active' : '' }}" href="{{ route('booking.search', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'departDate' => $day->format('d-m-Y'), 'is_round_trip' => $isRoundTrip ? 1 : 0, 'returnDate' => $isRoundTrip ? $returnForDay->format('d-m-Y') : null, 'seats' => $passengerCount, 'lang' => $locale]) }}" @if($day->isSameDay($date)) aria-current="date" @endif>
                     <span>{{ $weekdays[$day->dayOfWeek] }}</span><strong>{{ $day->format('d/m') }}</strong>
                 </a>
             @endfor
@@ -110,7 +110,7 @@
                         </div>
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
                         <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
-                            @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
+                            @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
                     </article>
                 @empty

@@ -12,7 +12,7 @@ use RuntimeException;
 
 class VexereTripService
 {
-    public function search(string $from, string $to, Carbon $date, string $locale, ?Carbon $returnDate = null): array
+    public function search(string|int $from, string|int $to, Carbon $date, string $locale, ?Carbon $returnDate = null): array
     {
         return $this->searchMany([[
             'from' => $from,
@@ -21,28 +21,27 @@ class VexereTripService
         ]], $date, $locale)[0] ?? [];
     }
 
-    public function findTrip(string $from, string $to, Carbon $date, string $locale, string $tripCode): ?array
+    public function findTrip(string|int $from, string|int $to, Carbon $date, string $locale, string $tripCode): ?array
     {
         return collect($this->search($from, $to, $date, $locale))->firstWhere('code', $tripCode);
     }
 
-    public function seatMap(string $from, string $to, string $tripCode, string $locale): array
+    public function seatMap(string|int $from, string|int $to, string $tripCode, string $locale): array
     {
         return $this->tripDetails($from, $to, $tripCode, $locale)['coaches'];
     }
 
-    public function tripDetails(string $from, string $to, string $tripCode, string $locale): array
+    public function tripDetails(string|int $from, string|int $to, string $tripCode, string $locale): array
     {
-        $areas = config('services.vexere.areas', []);
-        $fromId = $areas[$from] ?? null;
-        $toId = $areas[$to] ?? null;
+        $fromId = $this->areaId($from);
+        $toId = $this->areaId($to);
         if (!$fromId || !$toId) {
             throw new RuntimeException('This route is not configured with the live booking provider.');
         }
 
         // Short cache avoids a redundant VeXeRe HTTP call when checkout-live page
         // already fetched this data. Carbon objects are converted to strings for safe serialization.
-        $cacheKey = 'vexere.trip_detail:'.md5($tripCode.'|'.$locale);
+        $cacheKey = 'vexere.trip_detail:'.md5($tripCode.'|'.$fromId.'|'.$toId.'|'.$locale);
         $cached = Cache::get($cacheKey);
         if (is_array($cached)) {
             $cached['trip']['departure'] = isset($cached['trip']['departure_string'])
@@ -166,8 +165,8 @@ class VexereTripService
         if (is_string($image) && $image !== '') {
             $image = str_starts_with($image, '//') ? 'https://'.ltrim($image, '/') : $image;
         }
-        $fromLabel = $this->placeName($response->json('data.route.from', []) ?? [], $locale, $from);
-        $toLabel = $this->placeName($response->json('data.route.to', []) ?? [], $locale, $to);
+        $fromLabel = $this->placeName($response->json('data.route.from', []) ?? [], $locale, $this->areaName($fromId) ?? (string) $from);
+        $toLabel = $this->placeName($response->json('data.route.to', []) ?? [], $locale, $this->areaName($toId) ?? (string) $to);
 
         $result = [
             'coaches' => $coaches,
@@ -203,18 +202,17 @@ class VexereTripService
 
     public function searchMany(array $queries, Carbon $date, string $locale): array
     {
-        $areas = config('services.vexere.areas', []);
         $prepared = [];
         foreach ($queries as $key => $query) {
-            $from = $query['from'];
-            $to = $query['to'];
-            $fromId = $areas[$from] ?? null;
-            $toId = $areas[$to] ?? null;
+            $fromId = $this->areaId($query['from']);
+            $toId = $this->areaId($query['to']);
 
             if (!$fromId || !$toId) {
                 throw new RuntimeException('This route is not configured with the live booking provider.');
             }
 
+            $from = $this->areaName($fromId) ?? (string) $query['from'];
+            $to = $this->areaName($toId) ?? (string) $query['to'];
             $prepared[$key] = compact('from', 'to', 'fromId', 'toId') + [
                 'returnDate' => $query['return_date'] ?? null,
             ];
@@ -261,6 +259,30 @@ class VexereTripService
         }
 
         return $trips;
+    }
+
+    public function areaId(string|int $area): ?int
+    {
+        if (is_numeric($area)) {
+            $id = (int) $area;
+
+            return in_array($id, array_map('intval', config('services.vexere.areas', [])), true) ? $id : null;
+        }
+
+        $id = config('services.vexere.areas', [])[$area] ?? null;
+
+        return is_numeric($id) ? (int) $id : null;
+    }
+
+    public function areaName(int $areaId): ?string
+    {
+        foreach (config('services.vexere.areas', []) as $name => $id) {
+            if ((int) $id === $areaId) {
+                return $name;
+            }
+        }
+
+        return null;
     }
 
     private function normalizeTrips(array $results, string $from, string $to, Carbon $date, string $locale, ?Carbon $returnDate): array

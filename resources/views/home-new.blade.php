@@ -368,19 +368,17 @@
     $routeDuration = str_replace('giờ', 'ч.', $routeDuration);
   }
   $locations = [
-    // Đồng bộ với searchPoints của widget nhatduongcol.com:
-    // Hồ Chí Minh, Đồng Nai (Biên Hòa), Bình Thuận (Phan Thiết), Khánh Hòa (Nha Trang)
-    'Hồ Chí Minh' => ['vi' => 'Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
-    'Đồng Nai' => ['vi' => 'Đồng Nai', 'en' => 'Dong Nai', 'ru' => 'Донгнай'],
-    'Biên Hòa' => ['vi' => 'Biên Hòa', 'en' => 'Bien Hoa', 'ru' => 'Бьенхоа'],
-    'Bình Thuận' => ['vi' => 'Bình Thuận', 'en' => 'Binh Thuan', 'ru' => 'Биньтхуан'],
-    'Phan Thiết' => ['vi' => 'Phan Thiết', 'en' => 'Phan Thiet', 'ru' => 'Фантхьет'],
-    'Khánh Hòa' => ['vi' => 'Khánh Hòa', 'en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
-    'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
+    29 => ['vi' => 'Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
+    19 => ['vi' => 'Đồng Nai', 'en' => 'Dong Nai', 'ru' => 'Донгнай'],
+    235 => ['vi' => 'Biên Hòa', 'en' => 'Bien Hoa', 'ru' => 'Бьенхоа'],
+    11 => ['vi' => 'Bình Thuận', 'en' => 'Binh Thuan', 'ru' => 'Биньтхуан'],
+    159 => ['vi' => 'Phan Thiết', 'en' => 'Phan Thiet', 'ru' => 'Фантхьет'],
+    32 => ['vi' => 'Khánh Hòa', 'en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
+    417 => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
   ];
   $directionLabels = [
-    'sg_nt' => ($locations['Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City').' → '.($locations['Nha Trang'][$locale] ?? 'Nha Trang'),
-    'nt_sg' => ($locations['Nha Trang'][$locale] ?? 'Nha Trang').' → '.($locations['Hồ Chí Minh'][$locale] ?? 'Ho Chi Minh City'),
+    'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' → '.($locations[417][$locale] ?? 'Nha Trang'),
+    'nt_sg' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[29][$locale] ?? 'Ho Chi Minh City'),
   ];
   $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
   $requestedDirection = request('direction');
@@ -477,16 +475,16 @@
           </div>
           <div class="hn-booking__fields">
             <label class="hn-location-field"><span>{{ $copy['from'] }}</span>
-              <select id="hn-from-location" name="from_location" required>
-                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'Hồ Chí Minh')>{{ $labels[$locale] }}</option>@endforeach
+              <select id="hn-from-location" name="from_id" required>
+                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 29)>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
             <button id="hn-swap-locations" class="hn-swap" type="button" aria-label="{{ $homeUi['swap'] }}" title="{{ $homeUi['swap'] }}">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12m0 0-3-3m3 3-3 3M17 17H5m0 0 3 3m-3-3 3-3"/></svg>
             </button>
             <label class="hn-location-field"><span>{{ $copy['to'] }}</span>
-              <select id="hn-to-location" name="to_location" required>
-                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 'Nha Trang')>{{ $labels[$locale] }}</option>@endforeach
+              <select id="hn-to-location" name="to_id" required>
+                @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 417)>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
             <label class="hn-depart-date-field"><span>{{ $copy['date'] }}</span><input id="hn-depart-date" type="date" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}"></label>

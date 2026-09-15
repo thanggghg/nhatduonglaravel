@@ -44,8 +44,13 @@ return [
         'company_id' => env('VEXERE_COMPANY_ID', 39221),
         'areas' => [
             'TP. Hồ Chí Minh' => 29,
+            'Đồng Nai' => 19,
+            'Biên Hòa' => 235,
+            'Bình Thuận' => 11,
+            'Phan Thiết' => 159,
+            'Khánh Hòa' => 32,
             'Nha Trang' => 417,
-            'Cam Ranh' => 32,
+            'Cam Ranh' => 413,
         ],
     ],
 
