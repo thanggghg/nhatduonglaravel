@@ -8,8 +8,9 @@
         ? $heroBanner->image_url
         : asset('nha-xe-binh-minh-bus-2048x867.png');
     
-    // Chỉ cho phép 3 địa điểm: Sài Gòn, Cam Ranh, Nha Trang
-    $allowedLocations = ['TP. Hồ Chí Minh', 'Cam Ranh', 'Nha Trang'];
+    // Đồng bộ với searchPoints của widget nhatduongcol.com:
+    // Hồ Chí Minh, Đồng Nai (Biên Hòa), Bình Thuận (Phan Thiết), Khánh Hòa (Nha Trang)
+    $allowedLocations = ['Hồ Chí Minh', 'Đồng Nai', 'Biên Hòa', 'Bình Thuận', 'Phan Thiết', 'Khánh Hòa', 'Nha Trang'];
     $fromLocations = collect($allowedLocations);
     $toLocations = collect($allowedLocations);
   @endphp
@@ -91,7 +92,7 @@
                     onchange="updateLocationDisplay('from', this.value)">
               <option value="" disabled>Chọn điểm đi</option>
               @foreach($fromLocations as $loc)
-                <option value="{{ $loc }}" {{ $loc === 'TP. Hồ Chí Minh' ? 'selected' : '' }} data-icon="📍">{{ $loc }}</option>
+                <option value="{{ $loc }}" {{ $loc === 'Hồ Chí Minh' ? 'selected' : '' }} data-icon="📍">{{ $loc }}</option>
               @endforeach
             </select>
             <div style="display:flex; align-items:center; gap:6px; pointer-events:none;">
@@ -99,7 +100,7 @@
                 <svg width="12" height="12" fill="#fff" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg>
               </div>
               <div style="flex:1; min-width:0;">
-                <div id="fromDisplay" style="color:#2c3e36; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">TP. Hồ Chí Minh</div>
+                <div id="fromDisplay" style="color:#2c3e36; font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-family:'Inter',sans-serif;">Hồ Chí Minh</div>
               </div>
               <svg width="14" height="14" fill="#5a6c62" viewBox="0 0 24 24" style="flex-shrink:0;">
                 <path d="M7 10l5 5 5-5z"/>

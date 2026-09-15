@@ -35,7 +35,10 @@
     ][$locale];
     $places = [
         'TP. Hồ Chí Minh' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'], 'Sài Gòn' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
-        'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань'],
+        'Hồ Chí Minh' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'], 'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань'],
+        'Đồng Nai' => ['en' => 'Dong Nai', 'ru' => 'Донгнай'], 'Biên Hòa' => ['en' => 'Bien Hoa', 'ru' => 'Бьенхоа'],
+        'Bình Thuận' => ['en' => 'Binh Thuan', 'ru' => 'Биньтхуан'], 'Phan Thiết' => ['en' => 'Phan Thiet', 'ru' => 'Фантхьет'],
+        'Khánh Hòa' => ['en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
     ];
     $place = fn (string $name) => $locale === 'vi' ? $name : ($places[$name][$locale] ?? $name);
     $from = $place($route->from_location);
