@@ -102,7 +102,8 @@ class InternalSePayReconciliationController extends Controller
                 $builder->where('reference', 'like', "%{$search}%")
                     ->orWhere('payment_code', 'like', "%{$search}%")
                     ->orWhere('passenger_name', 'like', "%{$search}%")
-                    ->orWhere('passenger_phone', 'like', "%{$search}%");
+                    ->orWhere('passenger_phone', 'like', "%{$search}%")
+                    ->orWhere('public_booking_ticket_codes', 'like', "%{$search}%");
             });
         }
 
