@@ -33,7 +33,7 @@
 
     <div class="schedule-container schedule-filter"><form method="GET" action="{{ route('schedules.index') }}"><input type="hidden" name="lang" value="{{ $locale }}"><div class="schedule-field"><label for="schedule-date">{{ $copy['date'] }}</label><input id="schedule-date" type="date" name="date" min="{{ today()->toDateString() }}" value="{{ $date->toDateString() }}"></div><div class="schedule-field"><label for="schedule-route">{{ $copy['route'] }}</label><select id="schedule-route" name="route"><option value="">{{ $copy['allRoutes'] }}</option>@foreach($routes as $route)<option value="{{ $route['key'] }}" @selected(request('route') === $route['key'])>{{ $routeName($route) }}</option>@endforeach</select></div><button type="submit">{{ $copy['search'] }}</button></form></div>
 
-    <main class="schedule-container schedule-results"><div class="schedule-results__head"><h2>{{ $date->format('d/m/Y') }}</h2><span>{{ $copy['live'] }}</span></div>
+    <div class="schedule-container schedule-results"><div class="schedule-results__head"><h2>{{ $date->format('d/m/Y') }}</h2><span>{{ $copy['live'] }}</span></div>
         @if($apiError)<p class="schedule-alert" role="alert">{{ $copy['apiError'] }}</p>@endif
         <p class="schedule-notice">{{ $copy['notice'] }}</p>
         @if($schedules->isNotEmpty())
@@ -46,6 +46,6 @@
         @else
             <div class="schedule-empty"><div class="schedule-empty__icon" aria-hidden="true">×</div><h2>{{ $copy['emptyTitle'] }}</h2><p>{{ $copy['emptyText'] }}</p></div>
         @endif
-    </main>
+    </div>
 </div>
 @endsection

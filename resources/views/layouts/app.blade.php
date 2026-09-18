@@ -7,10 +7,17 @@
     <link rel="icon" type="image/png" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
 
-    <title>{{ isset($title) ? $title . ' - ' : '' }}{{ config('app.name', 'Nhà Xe Nhật Dương') }}</title>
-
     <!-- SEO Meta Tags -->
     {!! SEO::generate() !!}
+    @if(request()->attributes->get('seo.noindex'))
+        <meta name="robots" content="noindex, nofollow, noarchive">
+    @endif
+    @foreach(($seoAlternates ?? []) as $language => $url)
+        <link rel="alternate" hreflang="{{ $language }}" href="{{ $url }}">
+    @endforeach
+    @if(isset($seoAlternates['vi']))
+        <link rel="alternate" hreflang="x-default" href="{{ $seoAlternates['vi'] }}">
+    @endif
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -11,6 +11,7 @@ use App\Http\Controllers\BookingRedirectController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\InternalSePayReconciliationController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Admin\AdminContactController;
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home-new', [HomeController::class, 'homeNew'])->name('home.new');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 // Posts
 Route::get('/tin-tuc', [PostController::class, 'index'])->name('posts.index');
@@ -43,30 +45,32 @@ Route::get('/lich-trinh', [ScheduleController::class, 'index'])->name('schedules
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
 Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.store');
 
-// Booking
-Route::get('/dat-ve', [BookingRedirectController::class, 'index'])->name('booking.index');
-Route::get('/dat-ve-truc-tuyen', [BookingController::class, 'search'])->name('booking.search');
-Route::get('/dat-ve/checkout', [BookingController::class, 'checkout'])->name('booking.checkout');
-Route::post('/dat-ve', [BookingController::class, 'store'])->name('booking.store');
-Route::get('/dat-ve/checkout-live', [BookingController::class, 'checkoutLive'])->name('booking.live.checkout');
-Route::get('/dat-ve/checkout-live/seats', [BookingController::class, 'liveSeats'])->name('booking.live.seats');
-Route::post('/dat-ve/live', [BookingController::class, 'storeLive'])->name('booking.live.store');
-Route::get('/dat-ve/hoan-tat/{booking:reference}', [BookingController::class, 'success'])->name('booking.success');
-Route::get('/dat-ve/thanh-toan/{booking:reference}', [PaymentController::class, 'show'])->name('booking.payment.show');
-Route::post('/dat-ve/thanh-toan/{booking:reference}/kiem-tra', [PaymentController::class, 'check'])->name('booking.payment.check');
-Route::get('/dat-ve/thanh-toan/{booking:reference}/trang-thai', [PaymentController::class, 'status'])->name('booking.payment.status');
-Route::post('/payments/sepay/ipn', [PaymentController::class, 'webhook'])->name('payments.sepay.webhook');
-Route::get('/api/internal/sepay/reconciliation', [InternalSePayReconciliationController::class, 'index']);
-Route::get('/api/internal/sepay/reconciliation/paid-bookings', [InternalSePayReconciliationController::class, 'paidBookings']);
-Route::get('/api/internal/sepay/reconciliation/transactions/{transactionId}', [InternalSePayReconciliationController::class, 'transaction']);
-Route::post('/api/internal/sepay/reconciliation/validate', [InternalSePayReconciliationController::class, 'validateMatch']);
-Route::post('/api/internal/sepay/reconciliation/match', [InternalSePayReconciliationController::class, 'match']);
-Route::post('/api/internal/sepay/reconciliation/link', [InternalSePayReconciliationController::class, 'link']);
-Route::post('/api/internal/sepay/reconciliation/resolve', [InternalSePayReconciliationController::class, 'resolve']);
-Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
+// Booking and internal endpoints must never appear in search results.
+Route::middleware('noindex')->group(function () {
+    Route::get('/dat-ve', [BookingRedirectController::class, 'index'])->name('booking.index');
+    Route::get('/dat-ve-truc-tuyen', [BookingController::class, 'search'])->name('booking.search');
+    Route::get('/dat-ve/checkout', [BookingController::class, 'checkout'])->name('booking.checkout');
+    Route::post('/dat-ve', [BookingController::class, 'store'])->name('booking.store');
+    Route::get('/dat-ve/checkout-live', [BookingController::class, 'checkoutLive'])->name('booking.live.checkout');
+    Route::get('/dat-ve/checkout-live/seats', [BookingController::class, 'liveSeats'])->name('booking.live.seats');
+    Route::post('/dat-ve/live', [BookingController::class, 'storeLive'])->name('booking.live.store');
+    Route::get('/dat-ve/hoan-tat/{booking:reference}', [BookingController::class, 'success'])->name('booking.success');
+    Route::get('/dat-ve/thanh-toan/{booking:reference}', [PaymentController::class, 'show'])->name('booking.payment.show');
+    Route::post('/dat-ve/thanh-toan/{booking:reference}/kiem-tra', [PaymentController::class, 'check'])->name('booking.payment.check');
+    Route::get('/dat-ve/thanh-toan/{booking:reference}/trang-thai', [PaymentController::class, 'status'])->name('booking.payment.status');
+    Route::post('/payments/sepay/ipn', [PaymentController::class, 'webhook'])->name('payments.sepay.webhook');
+    Route::get('/api/internal/sepay/reconciliation', [InternalSePayReconciliationController::class, 'index']);
+    Route::get('/api/internal/sepay/reconciliation/paid-bookings', [InternalSePayReconciliationController::class, 'paidBookings']);
+    Route::get('/api/internal/sepay/reconciliation/transactions/{transactionId}', [InternalSePayReconciliationController::class, 'transaction']);
+    Route::post('/api/internal/sepay/reconciliation/validate', [InternalSePayReconciliationController::class, 'validateMatch']);
+    Route::post('/api/internal/sepay/reconciliation/match', [InternalSePayReconciliationController::class, 'match']);
+    Route::post('/api/internal/sepay/reconciliation/link', [InternalSePayReconciliationController::class, 'link']);
+    Route::post('/api/internal/sepay/reconciliation/resolve', [InternalSePayReconciliationController::class, 'resolve']);
+    Route::get('/booking-redirect', [BookingRedirectController::class, 'redirect'])->name('booking.redirect');
+});
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware('noindex')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
 
@@ -98,8 +102,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // Static Pages (must be last)
-Route::get('/ve-chung-toi', function () {
-    return (new PageController)->show('ve-chung-toi');
-})->name('about');
+Route::get('/ve-chung-toi', [PageController::class, 'about'])->name('about');
 
 Route::get('/{slug}', [PageController::class, 'show'])->name('pages.show');

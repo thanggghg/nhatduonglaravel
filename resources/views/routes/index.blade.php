@@ -83,7 +83,7 @@
 
     <section class="route-overview" aria-label="Service overview"><div class="route-container"><div class="route-overview__inner"><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $routes->count() }}</strong><span>{{ $copy['activeRoutes'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>24/7</strong><span>{{ $copy['support'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $place('TP. Hồ Chí Minh') }} ⇔ {{ $place('Nha Trang') }}</strong><span>{{ $copy['direct'] }}</span></div></div></div></div></section>
 
-    <main id="available-routes" class="route-container route-listing">
+    <div id="available-routes" class="route-container route-listing">
         <div class="route-listing__head"><div><h2>{{ $copy['section'] }}</h2></div><p>{{ $copy['sectionText'] }}</p></div>
         @if($routes->isNotEmpty())
             <div class="route-grid">
@@ -108,7 +108,7 @@
         @else
             <div class="route-empty"><h2>{{ $copy['emptyTitle'] }}</h2><p>{{ $copy['emptyText'] }}</p></div>
         @endif
-    </main>
+    </div>
 
     <section class="route-help"><div class="route-container route-help__inner"><div><h2>{{ $copy['helpTitle'] }}</h2><p>{{ $copy['helpText'] }}</p></div><div class="route-help__actions"><a href="tel:19002879" class="route-btn">{{ $copy['call'] }}</a><a href="{{ route('contact', ['lang' => $locale]) }}" class="route-btn route-btn--ghost">{{ $copy['contact'] }}</a></div></div></section>
 </div>

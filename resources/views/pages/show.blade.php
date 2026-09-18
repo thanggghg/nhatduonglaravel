@@ -5,7 +5,7 @@
 <div class="bg-[#f8fdf9] py-6">
     <div class="container mx-auto px-4">
         <nav class="text-sm">
-            <a href="{{ route('home') }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
+            <a href="{{ route('home', ['lang' => $locale]) }}" class="text-gray-600 hover:text-brand-green">Trang chủ</a>
             <span class="text-gray-400 mx-2">/</span>
             <span class="text-gray-900 font-semibold">{{ $page->title }}</span>
         </nav>
@@ -20,7 +20,7 @@
             
             <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
                 <div class="prose prose-lg max-w-none">
-                    {!! $page->content !!}
+                    {!! preg_replace(['/<h1\b/i', '/<\/h1>/i'], ['<h2', '</h2>'], $page->content) !!}
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 </svg>
                 Gọi: 1900 2879
             </a>
-            <a href="{{ route('contact') }}" class="border-2 border-brand-green text-brand-green px-8 py-4 rounded-lg font-semibold hover:bg-brand-green hover:text-white transition-colors">
+            <a href="{{ route('contact', ['lang' => $locale]) }}" class="border-2 border-brand-green text-brand-green px-8 py-4 rounded-lg font-semibold hover:bg-brand-green hover:text-white transition-colors">
                 Gửi Tin Nhắn
             </a>
         </div>

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\PostCategory;
+use App\Support\Seo;
 use Illuminate\Http\Request;
-use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -14,12 +15,13 @@ class PostController extends Controller
         $locale = $this->locale($request);
         $requestedCategory = $request->string('category')->value();
 
-        if ($requestedCategory && !PostCategory::where('slug', $requestedCategory)
+        $category = $requestedCategory ? PostCategory::where('slug', $requestedCategory)
             ->whereHas('posts', fn ($query) => $query
                 ->where('locale', $locale)
                 ->where('status', true)
                 ->where('published_at', '<=', now()))
-            ->exists()) {
+            ->first() : null;
+        if ($requestedCategory && !$category) {
             return redirect()->route('posts.index', ['lang' => $locale]);
         }
 
@@ -42,10 +44,32 @@ class PostController extends Controller
             'en' => ['Travel Journal', 'News, offers, and travel guidance from Nhat Duong.'],
             'ru' => ['Новости и статьи', 'Новости, предложения и советы для поездок с Nhat Duong.'],
         ][$locale];
-        SEOMeta::setTitle($metadata[0]);
-        SEOMeta::setDescription($metadata[1]);
+        if ($category) {
+            $metadata[0] .= ' - '.$category->name;
+        }
 
-        return view('posts.index', compact('posts', 'categories', 'locale'));
+        $canonicalParameters = array_filter([
+            'lang' => $locale,
+            'category' => $category?->slug,
+            'page' => $posts->currentPage() > 1 ? $posts->currentPage() : null,
+        ]);
+        Seo::configure($metadata[0], $metadata[1], Seo::route('posts.index', $canonicalParameters), $locale);
+        if ($posts->currentPage() > 1) {
+            $seoAlternates = [$locale => Seo::route('posts.index', $canonicalParameters)];
+        } elseif ($category) {
+            $seoAlternates = Post::where('post_category_id', $category->id)
+                ->where('status', true)
+                ->where('published_at', '<=', now())
+                ->distinct()
+                ->pluck('locale')
+                ->mapWithKeys(fn (string $language) => [
+                    $language => Seo::route('posts.index', ['lang' => $language, 'category' => $category->slug]),
+                ])->all();
+        } else {
+            $seoAlternates = Seo::alternates('posts.index');
+        }
+
+        return view('posts.index', compact('posts', 'categories', 'locale', 'seoAlternates'));
     }
 
     public function show(Request $request, string $slug)
@@ -77,6 +101,9 @@ class PostController extends Controller
             abort(404);
         }
 
+        // Keep the template title as the single H1 even when imported content contains H1 tags.
+        $post->content = preg_replace(['/<h1\b/i', '/<\/h1>/i'], ['<h2', '</h2>'], $post->content);
+
         $relatedPosts = Post::where('locale', $locale)
             ->where('status', true)
             ->where('published_at', '<=', now())
@@ -89,10 +116,27 @@ class PostController extends Controller
 
         $categories = $this->categoriesWithPublishedPosts($locale);
 
-        SEOMeta::setTitle($post->meta_title ?? $post->title);
-        SEOMeta::setDescription($post->meta_description ?? $post->summary);
+        $title = $post->meta_title ?: $post->title;
+        $description = Str::limit(strip_tags($post->meta_description ?: $post->summary ?: $post->content), 160);
+        $canonical = Seo::route('posts.show', ['slug' => $post->slug, 'lang' => $locale]);
+        $image = $post->thumbnail ? '/storage/'.$post->thumbnail : null;
+        Seo::configure($title, $description, $canonical, $locale, 'article', 'Article', $image, [
+            'datePublished' => $post->published_at?->toAtomString(),
+            'dateModified' => $post->updated_at?->toAtomString(),
+            'author' => ['@type' => 'Organization', 'name' => 'Nhà Xe Nhật Dương'],
+        ]);
 
-        return view('posts.show', compact('post', 'relatedPosts', 'categories', 'locale'));
+        $baseSlug = preg_replace('/-(en|ru)$/', '', $post->slug);
+        $translationSlugs = [$baseSlug, $baseSlug.'-en', $baseSlug.'-ru'];
+        $seoAlternates = Post::whereIn('slug', $translationSlugs)
+            ->where('status', true)
+            ->where('published_at', '<=', now())
+            ->get(['slug', 'locale'])
+            ->mapWithKeys(fn (Post $translation) => [
+                $translation->locale => Seo::route('posts.show', ['slug' => $translation->slug, 'lang' => $translation->locale]),
+            ])->all();
+
+        return view('posts.show', compact('post', 'relatedPosts', 'categories', 'locale', 'seoAlternates'));
     }
 
     private function locale(Request $request): string

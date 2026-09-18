@@ -5,10 +5,10 @@ return [
 
     'meta' => [
         'defaults' => [
-            'title' => false,
+            'title' => 'Nhà Xe Nhật Dương',
             'titleBefore' => false,
-            'description' => false,
-            'separator' => ' - ',
+            'description' => 'Nhà Xe Nhật Dương phục vụ tuyến Sài Gòn - Nha Trang với xe giường nằm chất lượng cao.',
+            'separator' => ' | ',
             'keywords' => [],
             'canonical' => false,
             'robots' => false,
@@ -26,11 +26,11 @@ return [
 
     'opengraph' => [
         'defaults' => [
-            'title' => 'Nha Xe Nhat Duong',
-            'description' => 'Reliable sleeper-bus travel in southern Vietnam.',
+            'title' => 'Nhà Xe Nhật Dương',
+            'description' => 'Xe khách giường nằm chất lượng cao tuyến Sài Gòn - Nha Trang.',
             'url' => false,
             'type' => false,
-            'site_name' => 'Nha Xe Nhat Duong',
+            'site_name' => 'Nhà Xe Nhật Dương',
             'images' => [],
         ],
     ],
@@ -41,8 +41,8 @@ return [
 
     'json-ld' => [
         'defaults' => [
-            'title' => 'Nha Xe Nhat Duong',
-            'description' => 'Reliable sleeper-bus travel in southern Vietnam.',
+            'title' => 'Nhà Xe Nhật Dương',
+            'description' => 'Xe khách giường nằm chất lượng cao tuyến Sài Gòn - Nha Trang.',
             'url' => false,
             'type' => 'WebPage',
             'images' => [],

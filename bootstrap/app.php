@@ -16,10 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ])
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
+        $middleware->web(append: [\App\Http\Middleware\SetLocale::class]);
         $middleware->validateCsrfTokens(except: ['payments/sepay/ipn', 'api/internal/sepay/*']);
         $middleware->redirectGuestsTo(fn () => route('admin.login'));
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,
+            'noindex' => \App\Http\Middleware\NoIndex::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

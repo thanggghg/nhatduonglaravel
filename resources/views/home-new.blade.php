@@ -1,3 +1,20 @@
+@php
+  $siteUrl = rtrim(config('app.url'), '/');
+  $homeUrls = collect(['vi', 'en', 'ru'])->mapWithKeys(fn ($language) => [$language => $siteUrl.route('home', ['lang' => $language], false)]);
+  $seoTitle = 'Nhat Duong | '.($locale === 'ru' ? 'Автобусы Хошимин - Нячанг' : ($locale === 'vi' ? 'Xe khách Sài Gòn - Nha Trang' : 'Ho Chi Minh City to Nha Trang buses'));
+  $seoDescription = $locale === 'ru' ? 'Расписание, места посадки и бронирование автобусов между Хошимином и Нячангом.' : ($locale === 'vi' ? 'Lịch chạy, điểm đón trả và đặt vé xe tuyến Sài Gòn - Nha Trang.' : 'Departures, pickup details, and online booking for buses between Ho Chi Minh City and Nha Trang.');
+  $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
+  $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
+  $seoImage = \App\Support\Seo::assetUrl($heroImage);
+  $homeSchema = [
+    '@context' => 'https://schema.org',
+    '@graph' => [
+      ['@type' => 'Organization', '@id' => $siteUrl.'/#organization', 'name' => 'Nhà Xe Nhật Dương', 'url' => $siteUrl, 'logo' => \App\Support\Seo::url('/Nhat-Duong-Logo-1-768x543.png'), 'telephone' => '1900 2879'],
+      ['@type' => 'WebSite', '@id' => $siteUrl.'/#website', 'url' => $siteUrl, 'name' => 'Nhà Xe Nhật Dương', 'publisher' => ['@id' => $siteUrl.'/#organization']],
+      ['@type' => 'WebPage', '@id' => $homeUrls[$locale].'#webpage', 'url' => $homeUrls[$locale], 'name' => $seoTitle, 'description' => $seoDescription, 'isPartOf' => ['@id' => $siteUrl.'/#website'], 'inLanguage' => $locale],
+    ],
+  ];
+@endphp
 <!doctype html>
 <html lang="{{ $locale }}">
 <head>
@@ -6,12 +23,24 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="icon" type="image/png" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
   <link rel="apple-touch-icon" href="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}">
-  <title>Nhat Duong | {{ $locale === 'ru' ? 'Автобусы Хошимин - Нячанг' : ($locale === 'vi' ? 'Xe khách Sài Gòn - Nha Trang' : 'Ho Chi Minh City to Nha Trang buses') }}</title>
-  <meta name="description" content="{{ $locale === 'ru' ? 'Расписание, места посадки и бронирование автобусов между Хошимином и Нячангом.' : ($locale === 'vi' ? 'Lịch chạy, điểm đón trả và đặt vé xe tuyến Sài Gòn - Nha Trang.' : 'Departures, pickup details, and online booking for buses between Ho Chi Minh City and Nha Trang.') }}">
-  <link rel="canonical" href="{{ route('home', ['lang' => $locale]) }}">
-  <link rel="alternate" hreflang="vi" href="{{ route('home', ['lang' => 'vi']) }}">
-  <link rel="alternate" hreflang="en" href="{{ route('home', ['lang' => 'en']) }}">
-  <link rel="alternate" hreflang="ru" href="{{ route('home', ['lang' => 'ru']) }}">
+  <title>{{ $seoTitle }}</title>
+  <meta name="description" content="{{ $seoDescription }}">
+  <link rel="canonical" href="{{ $homeUrls[$locale] }}">
+  @foreach($homeUrls as $language => $url)<link rel="alternate" hreflang="{{ $language }}" href="{{ $url }}">@endforeach
+  <link rel="alternate" hreflang="x-default" href="{{ $homeUrls['vi'] }}">
+  <meta property="og:title" content="{{ $seoTitle }}">
+  <meta property="og:description" content="{{ $seoDescription }}">
+  <meta property="og:url" content="{{ $homeUrls[$locale] }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nhà Xe Nhật Dương">
+  <meta property="og:locale" content="{{ ['vi' => 'vi_VN', 'en' => 'en_US', 'ru' => 'ru_RU'][$locale] }}">
+  <meta property="og:image" content="{{ $seoImage }}">
+  <meta property="og:image:alt" content="{{ $seoTitle }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ $seoTitle }}">
+  <meta name="twitter:description" content="{{ $seoDescription }}">
+  <meta name="twitter:image" content="{{ $seoImage }}">
+  <script type="application/ld+json">{!! json_encode($homeSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -357,8 +386,6 @@
 
   $route = $ntRoute ?? $featuredRoutes->first();
   $routeDetailsUrl = $route ? route('routes.show', ['slug' => $route->slug, 'lang' => $locale]) : route('routes.index', ['lang' => $locale]);
-  $heroBanner = ($banners ?? collect())->firstWhere('position', 'hero') ?? ($banners ?? collect())->first();
-  $heroImage = $heroBanner && $heroBanner->hasImage() ? $heroBanner->image_url : asset('nha-xe-binh-minh-bus-2048x867.png');
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
   $vehicleFallbackImage = asset('storage/image/b6c6290cc.jpg');
   $routeDuration = $route?->estimated_time ?? '9-10 hours';
@@ -459,7 +486,7 @@
 
 <main>
   <section class="hn-hero" aria-labelledby="hero-title">
-    <img class="hn-hero__image" src="{{ $heroImage }}" alt="" aria-hidden="true">
+    <img class="hn-hero__image" src="{{ $heroImage }}" alt="" aria-hidden="true" fetchpriority="high" loading="eager" decoding="async">
     <div class="hn-hero__overlay"></div>
     <div class="hn-shell hn-hero__content">
       <div class="hn-hero__copy">

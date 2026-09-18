@@ -35,7 +35,7 @@
 <div class="journal-page">
     <header class="journal-hero"><div class="journal-container"><nav class="journal-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="journal-hero__content"><span class="journal-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div></div></header>
     <nav class="journal-categories" aria-label="{{ $copy['crumb'] }}"><div class="journal-container"><div class="journal-categories__inner"><a class="journal-category {{ !request('category') ? 'is-active' : '' }}" href="{{ $categoryUrl() }}">{{ $copy['all'] }}</a>@foreach($categories as $category)<a class="journal-category {{ request('category') === $category->slug ? 'is-active' : '' }}" href="{{ $categoryUrl($category->slug) }}">{{ $categoryLabels[$category->slug] ?? $category->name }}</a>@endforeach</div></div></nav>
-    <main class="journal-container journal-content"><div class="journal-heading"><h2>{{ $copy['latest'] }}</h2></div>
+    <div class="journal-container journal-content"><div class="journal-heading"><h2>{{ $copy['latest'] }}</h2></div>
         @if($posts->isNotEmpty())
             @if($featured)
                 @php $featuredCategory = $featured->category?->slug; @endphp
@@ -74,7 +74,7 @@
         @else
             <div class="journal-empty"><h2>{{ $copy['emptyTitle'] }}</h2><p>{{ $copy['emptyText'] }}</p></div>
         @endif
-    </main>
+    </div>
     <section class="journal-cta"><div class="journal-container journal-cta__inner"><div><h2>{{ $copy['bookingTitle'] }}</h2><p>{{ $copy['bookingText'] }}</p></div><a href="{{ route('home', ['lang' => $locale]) }}#booking">{{ $copy['booking'] }} <span aria-hidden="true">→</span></a></div></section>
 </div>
 @endsection

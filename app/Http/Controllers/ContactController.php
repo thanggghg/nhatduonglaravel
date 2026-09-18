@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Setting;
+use App\Support\Seo;
 use Illuminate\Http\Request;
-use Artesaos\SEOTools\Facades\SEOMeta;
 
 class ContactController extends Controller
 {
@@ -18,12 +18,12 @@ class ContactController extends Controller
             'ru' => ['Связаться с поддержкой', 'Свяжитесь с Nhat Duong для помощи с бронированием и поездкой'],
         ][$locale];
 
-        SEOMeta::setTitle($titles[0]);
-        SEOMeta::setDescription($titles[1]);
+        Seo::configure($titles[0], $titles[1], Seo::route('contact', ['lang' => $locale]), $locale);
+        $seoAlternates = Seo::alternates('contact');
 
         $settings = Setting::pluck('value', 'key');
 
-        return view('contact.index', compact('locale', 'settings'));
+        return view('contact.index', compact('locale', 'settings', 'seoAlternates'));
     }
 
     public function store(Request $request)
@@ -51,6 +51,6 @@ class ContactController extends Controller
     {
         $locale = $request->input('lang');
 
-        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+        return in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     }
 }
