@@ -20,7 +20,7 @@
     </a>
 
     {{-- Desktop nav --}}
-    <nav style="display:flex; align-items:center; gap:4px;" class="hidden lg:flex">
+    <nav style="display:flex; align-items:center; gap:4px;" class="site-header__desktop">
       @foreach($headerCopy['nav'] as [$label,$route])
       @php $active = request()->routeIs($route) || request()->routeIs(rtrim($route,'.index').'.*'); @endphp
       <a href="{{ route($route, ['lang' => $locale]) }}"
@@ -33,7 +33,7 @@
     </nav>
 
     {{-- Right actions --}}
-    <div style="display:flex; align-items:center; gap:10px;" class="hidden lg:flex">
+    <div style="display:flex; align-items:center; gap:10px;" class="site-header__desktop">
       <div aria-label="Language" style="display:flex; align-items:center; gap:2px; padding:3px; border:1px solid rgba(255,255,255,0.30); border-radius:9px;">
         @foreach(['vi' => 'VI', 'en' => 'EN', 'ru' => 'RU'] as $code => $label)
         <a href="{{ $languageUrl($code) }}" aria-current="{{ $locale === $code ? 'page' : 'false' }}" style="padding:5px 6px; border-radius:6px; color:{{ $locale === $code ? '#062d1c' : 'rgba(255,255,255,0.88)' }}; background:{{ $locale === $code ? '#fbb116' : 'transparent' }}; font-size:10px; font-weight:900; text-decoration:none;">{{ $label }}</a>
@@ -54,7 +54,7 @@
     </div>
 
     {{-- Mobile toggle --}}
-    <div x-data="{ open: false }" class="lg:hidden">
+    <div x-data="{ open: false }" class="site-header__mobile">
       <button @click="open=!open" style="background:rgba(255,255,255,0.15); border:none; border-radius:8px; padding:8px; cursor:pointer; color:#fff;">
         <svg x-show="!open" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg x-show="open" width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -77,3 +77,11 @@
 
   </div>
 </header>
+
+<style>
+  .site-header__mobile { display: none; }
+  @media (max-width: 1023px) {
+    .site-header__desktop { display: none !important; }
+    .site-header__mobile { display: block; }
+  }
+</style>

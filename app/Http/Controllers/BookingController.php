@@ -129,6 +129,35 @@ class BookingController extends Controller
         ]);
     }
 
+    public function tripInfo(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'from_id' => 'required|integer',
+            'to_id' => 'required|integer|different:from_id',
+            'trip_code' => 'required|string|max:160',
+            'fare' => 'required|integer|min:0|max:20000000',
+            'original_fare' => 'nullable|integer|min:0|max:20000000',
+            'utilities' => ['nullable', 'string', 'max:200', 'regex:/^\d*(,\d+)*$/'],
+            'lang' => 'nullable|in:vi,en,ru',
+        ]);
+        $locale = $this->locale($request);
+        $details = $this->vexere->tripDetails(
+            $validated['from_id'],
+            $validated['to_id'],
+            $validated['trip_code'],
+            $locale
+        );
+        $fare = (int) $validated['fare'];
+        $originalFare = max($fare, (int) ($validated['original_fare'] ?? $details['trip']['original_fare'] ?? $fare));
+        if (!$details['amenities'] && filled($validated['utilities'] ?? null)) {
+            $details['amenities'] = $this->vexere->amenities(explode(',', $validated['utilities']), $locale);
+        }
+
+        return response()->json([
+            'html' => view('booking.partials.trip-info-panels', compact('details', 'fare', 'originalFare', 'locale'))->render(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

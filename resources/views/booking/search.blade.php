@@ -11,6 +11,9 @@
             'per_person' => 'mỗi khách', 'date' => 'Ngày đi', 'live' => 'Lịch chạy trực tuyến', 'route' => 'Tuyến đường',
             'fare' => 'Tổng tiền', 'api_error' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng. Vui lòng thử lại sau.',
             'estimated' => 'Dự kiến', 'minutes' => 'phút', 'hours' => 'giờ', 'to' => 'đến',
+            'discount_tab' => 'Giảm giá', 'points_tab' => 'Đón/Trả', 'reviews_tab' => 'Đánh giá', 'policies_tab' => 'Chính sách', 'images_tab' => 'Hình ảnh', 'amenities_tab' => 'Tiện ích',
+            'original_fare' => 'Giá gốc', 'sale_fare' => 'Giá khuyến mãi', 'save' => 'Tiết kiệm', 'no_discount' => 'Chuyến này hiện chưa áp dụng khuyến mãi.',
+            'loading_details' => 'Đang tải thông tin chuyến...', 'details_error' => 'Không thể tải chi tiết chuyến. Vui lòng thử lại.',
         ],
         'en' => [
             'home' => 'Home', 'title' => 'Choose a departure', 'outbound' => 'Outbound', 'return' => 'Return',
@@ -21,6 +24,9 @@
             'per_person' => 'per passenger', 'date' => 'Travel date', 'live' => 'Live departure times', 'route' => 'Route',
             'fare' => 'Total fare', 'api_error' => 'Live departures are temporarily unavailable. Please try again shortly.',
             'estimated' => 'Estimated', 'minutes' => 'min', 'hours' => 'hr', 'to' => 'to',
+            'discount_tab' => 'Discount', 'points_tab' => 'Pickup/Drop-off', 'reviews_tab' => 'Reviews', 'policies_tab' => 'Policies', 'images_tab' => 'Images', 'amenities_tab' => 'Amenities',
+            'original_fare' => 'Original fare', 'sale_fare' => 'Promotional fare', 'save' => 'Save', 'no_discount' => 'No promotion currently applies to this departure.',
+            'loading_details' => 'Loading trip details...', 'details_error' => 'Unable to load trip details. Please try again.',
         ],
         'ru' => [
             'home' => 'Главная', 'title' => 'Выберите рейс', 'outbound' => 'Туда', 'return' => 'Обратно',
@@ -31,6 +37,9 @@
             'per_person' => 'за пассажира', 'date' => 'Дата поездки', 'live' => 'Актуальное расписание', 'route' => 'Маршрут',
             'fare' => 'Сумма', 'api_error' => 'Актуальное расписание временно недоступно. Попробуйте позже.',
             'estimated' => 'Ориентировочно', 'minutes' => 'мин', 'hours' => 'ч', 'to' => 'в',
+            'discount_tab' => 'Скидка', 'points_tab' => 'Посадка/Высадка', 'reviews_tab' => 'Отзывы', 'policies_tab' => 'Правила', 'images_tab' => 'Фото', 'amenities_tab' => 'Удобства',
+            'original_fare' => 'Обычная цена', 'sale_fare' => 'Цена со скидкой', 'save' => 'Экономия', 'no_discount' => 'На этот рейс сейчас нет акции.',
+            'loading_details' => 'Загружаем информацию о рейсе...', 'details_error' => 'Не удалось загрузить данные. Попробуйте еще раз.',
         ],
     ][$locale];
     $places = [
@@ -63,6 +72,7 @@
         'ru' => ['all' => 'Все', 'morning' => 'Утро', 'afternoon' => 'День', 'evening' => 'Вечер', 'seat_map' => 'Схема мест доступна на следующем шаге'],
     ][$locale];
     $tripPeriod = fn ($departure) => $departure->hour < 12 ? 'morning' : ($departure->hour < 18 ? 'afternoon' : 'evening');
+    $tripTabs = ['discount' => 'discount_tab', 'points' => 'points_tab', 'reviews' => 'reviews_tab', 'policies' => 'policies_tab', 'images' => 'images_tab', 'amenities' => 'amenities_tab'];
 @endphp
 
 @section('content')
@@ -100,7 +110,13 @@
             <div class="departure-tools"><div class="departure-filters" role="group" aria-label="{{ $copy['departure'] }}"><button type="button" class="is-active" data-departure-filter="all">{{ $filters['all'] }}</button><button type="button" data-departure-filter="morning">{{ $filters['morning'] }}</button><button type="button" data-departure-filter="afternoon">{{ $filters['afternoon'] }}</button><button type="button" data-departure-filter="evening">{{ $filters['evening'] }}</button></div><span id="departure-filter-count" aria-live="polite"></span></div>
             <div class="departure-list">
                 @forelse($trips as $trip)
-                    @php $canBook = $trip['available_seats'] >= $passengerCount; $period = $tripPeriod($trip['departure']); @endphp
+                    @php
+                        $canBook = $trip['available_seats'] >= $passengerCount;
+                        $period = $tripPeriod($trip['departure']);
+                        $originalFare = max($trip['fare'], (int) ($trip['original_fare'] ?? $trip['fare']));
+                        $discountPercent = $originalFare > $trip['fare'] ? (int) round((1 - ($trip['fare'] / $originalFare)) * 100) : 0;
+                        $tabsId = 'trip-tabs-'.$loop->index;
+                    @endphp
                     <article class="departure-card {{ $canBook ? '' : 'is-unavailable' }}" data-departure-period="{{ $period }}">
                         <img class="departure-image" src="{{ $trip['image'] ?: asset('nha-xe-binh-minh-bus-2048x867.png') }}" alt="Nhat Duong {{ $trip['vehicle_type'] }}" loading="lazy">
                         <div class="departure-journey">
@@ -111,6 +127,22 @@
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
                         <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
                             @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
+                        </div>
+                        <div class="trip-info" data-trip-info data-loaded="false" data-loading-label="{{ $copy['loading_details'] }}" data-error-label="{{ $copy['details_error'] }}" data-url="{{ route('booking.trip.info', ['from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'fare' => $trip['fare'], 'original_fare' => $originalFare, 'utilities' => implode(',', $trip['utility_ids'] ?? []), 'lang' => $locale]) }}">
+                            <div class="trip-tabs" id="{{ $tabsId }}" role="tablist" aria-label="{{ $trip['vehicle_type'] }}">
+                                @foreach($tripTabs as $tab => $label)
+                                    <button type="button" role="tab" id="{{ $tabsId.'-'.$tab }}" aria-selected="{{ $tab === 'discount' ? 'true' : 'false' }}" aria-controls="{{ $tabsId.'-panel' }}" tabindex="{{ $tab === 'discount' ? '0' : '-1' }}" data-trip-tab="{{ $tab }}" class="{{ $tab === 'discount' ? 'is-active' : '' }}">{{ $copy[$label] }}</button>
+                                @endforeach
+                            </div>
+                            <div class="trip-panels" id="{{ $tabsId.'-panel' }}" aria-live="polite">
+                                <section class="trip-panel" data-trip-panel="discount" role="tabpanel" aria-labelledby="{{ $tabsId.'-discount' }}">
+                                    @if($discountPercent > 0)
+                                        <div class="trip-price-grid"><div><span>{{ $copy['original_fare'] }}</span><del>{{ number_format($originalFare) }} VND</del></div><div><span>{{ $copy['sale_fare'] }}</span><strong>{{ number_format($trip['fare']) }} VND</strong></div><div class="trip-price-save"><b>-{{ $discountPercent }}%</b><span>{{ $copy['save'] }} {{ number_format($originalFare - $trip['fare']) }} VND</span></div></div>
+                                    @else
+                                        <p class="trip-empty">{{ $copy['no_discount'] }}</p>
+                                    @endif
+                                </section>
+                            </div>
                         </div>
                     </article>
                 @empty
@@ -144,9 +176,104 @@
 @endpush
 
 @push('styles')
+<style>
+    @media (max-width: 640px) {
+        .departure-image {
+            height: 112px;
+            min-height: 0;
+            align-self: start;
+        }
+        .departure-journey {
+            grid-template-columns: 52px minmax(0, 1fr) 52px;
+            gap: 4px;
+        }
+        .departure-time strong { font-size: 20px; }
+    }
+</style>
+@endpush
+
+@push('styles')
 <style>.departure-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0}.departure-filters{display:flex;flex-wrap:wrap;gap:7px}.departure-filters button{min-height:34px;padding:7px 11px;color:#526b5c;background:#fff;border:1px solid #d1ddd5;border-radius:999px;font:800 12px Inter,sans-serif;cursor:pointer}.departure-filters button:hover,.departure-filters button.is-active{color:#0a3d23;background:#e8f8ef;border-color:#0b7f42}.departure-tools>span{color:#708679;font-size:12px;font-weight:700}.departure-card[hidden]{display:none}.departure-availability{display:grid;gap:3px;margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid #d9e5dc}.departure-availability span{color:#708679;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.departure-availability strong{color:#0b7f42;font-size:22px;line-height:1}.departure-action{align-content:start}@media(max-width:620px){.departure-tools{align-items:flex-start;flex-direction:column}.departure-filters{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:3px}.departure-filters button{white-space:nowrap}}</style>
+@endpush
+
+@push('styles')
+<style>
+    .trip-info{grid-column:1/-1;min-width:0;margin:2px -20px -20px;border-top:1px solid #dce7df;background:#fbfdfb;border-radius:0 0 15px 15px;overflow:hidden}.trip-tabs{display:flex;gap:2px;overflow-x:auto;padding:10px 18px 0;background:#f3f8f4;scrollbar-width:thin}.trip-tabs button{position:relative;flex:0 0 auto;min-height:42px;padding:9px 13px;color:#5d7165;background:transparent;border:0;font:800 12px Inter,sans-serif;white-space:nowrap;cursor:pointer}.trip-tabs button::after{position:absolute;right:10px;bottom:0;left:10px;height:3px;border-radius:4px 4px 0 0;background:#0b7f42;content:"";opacity:0;transform:scaleX(.4);transition:.18s ease}.trip-tabs button:hover,.trip-tabs button.is-active{color:#086d3a}.trip-tabs button.is-active::after{opacity:1;transform:scaleX(1)}.trip-tabs button:focus-visible{outline:2px solid #f9b21a;outline-offset:-2px}.trip-panels{padding:19px 20px 21px;min-height:70px}.trip-panel[hidden]{display:none}.trip-empty{margin:0;color:#718177;font-size:13px;line-height:1.55}.trip-loading{display:flex;align-items:center;gap:10px;margin:0;color:#597064;font-size:13px;font-weight:700}.trip-loading::before{width:17px;height:17px;border:2px solid #b8d2c1;border-top-color:#0b7f42;border-radius:50%;content:"";animation:trip-spin .7s linear infinite}@keyframes trip-spin{to{transform:rotate(360deg)}}
+    .trip-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) auto;gap:12px;align-items:center}.trip-price-grid>div{display:grid;gap:4px}.trip-price-grid span{color:#718177;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}.trip-price-grid del{color:#7d8d84;font-size:16px}.trip-price-grid strong{color:#0b7f42;font-size:20px}.trip-price-grid .trip-price-save{display:flex;align-items:center;gap:9px;padding:10px 13px;border-radius:10px;background:#fff4d8}.trip-price-save b{color:#b76b00;font-size:18px}.trip-price-save span{color:#75551d;text-transform:none;letter-spacing:0}.trip-point-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.trip-point-columns h4,.trip-policy-grid h4{margin:0 0 11px;color:#173014;font-size:13px}.trip-point{display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:9px;align-items:start;padding:9px 0;border-top:1px solid #e2ebe5}.trip-point i{width:8px;height:8px;margin-top:5px;border:2px solid #0b7f42;border-radius:50%}.trip-point div{display:grid;gap:3px}.trip-point strong{color:#294535;font-size:12px}.trip-point span{color:#718177;font-size:11px;line-height:1.4}.trip-point time{color:#087841;font-size:11px;font-weight:800}.trip-rating{display:flex;align-items:center;gap:7px;margin-bottom:12px}.trip-rating>strong{color:#173014;font-size:27px}.trip-rating>span{color:#f4aa00;font-size:20px}.trip-rating p{margin:0;color:#718177;font-size:12px}.trip-panel blockquote{margin:9px 0;padding:11px 13px;border-left:3px solid #94c9a8;background:#f1f8f3}.trip-panel blockquote p{margin:0;color:#385244;font-size:12px;line-height:1.5}.trip-panel blockquote footer{margin-top:6px;color:#718177;font-size:11px;font-weight:700}.trip-policy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.trip-policy-grid article{display:flex;gap:10px;padding:12px;border:1px solid #dce8df;border-radius:10px;background:#fff}.trip-policy-grid article>span{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;color:#087841;background:#e7f5eb;border-radius:50%;font-size:11px;font-weight:900}.trip-policy-grid h4{margin-bottom:5px}.trip-policy-grid p{margin:0;color:#63776b;font-size:11px;line-height:1.5;white-space:pre-line}.trip-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.trip-gallery a{display:block;overflow:hidden;border-radius:10px;background:#e7eee9;aspect-ratio:16/10}.trip-gallery img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease}.trip-gallery a:hover img{transform:scale(1.04)}.trip-amenities{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:0;padding:0;list-style:none}.trip-amenities li{display:flex;align-items:center;gap:10px;min-width:0;padding:10px;border:1px solid #d8e7dc;border-radius:12px;background:linear-gradient(145deg,#fff,#f6faf7)}.trip-amenity-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;color:#087841;background:linear-gradient(145deg,#e9f8ee,#d8efdf);border:1px solid #c5e4cf;border-radius:11px;box-shadow:inset 0 1px 0 #fff}.trip-amenity-icon svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}.trip-amenity-icon b{font-size:9px;letter-spacing:-.03em}.trip-amenity-copy{display:grid;gap:4px;min-width:0}.trip-amenities strong{overflow:hidden;color:#385244;font-size:11px;line-height:1.25;text-overflow:ellipsis}.trip-amenities small{width:max-content;padding:2px 5px;color:#087841;background:#e6f5eb;border-radius:5px;font-size:8px;font-weight:900;text-transform:uppercase}
+    @media(max-width:760px){.trip-info{margin:4px -14px -14px}.trip-tabs{padding-right:10px;padding-left:10px}.trip-panels{padding:16px 14px 18px}.trip-price-grid{grid-template-columns:1fr 1fr}.trip-price-grid .trip-price-save{grid-column:1/-1}.trip-point-columns,.trip-policy-grid{grid-template-columns:1fr}.trip-gallery,.trip-amenities{grid-template-columns:repeat(2,minmax(0,1fr))}.trip-amenities li{gap:8px;padding:8px}.trip-amenity-icon{flex-basis:32px;width:32px;height:32px}.trip-amenity-icon svg{width:17px;height:17px}}@media(max-width:360px){.trip-amenities{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.trip-loading::before{animation-duration:1.5s}.trip-gallery img,.trip-tabs button::after{transition:none}}
+</style>
 @endpush
 
 @push('scripts')
 <script>(() => { const filters = [...document.querySelectorAll('[data-departure-filter]')]; const cards = [...document.querySelectorAll('[data-departure-period]')]; const count = document.getElementById('departure-filter-count'); if (!filters.length || !cards.length) return; const update = (period) => { let visible = 0; cards.forEach((card) => { const show = period === 'all' || card.dataset.departurePeriod === period; card.hidden = !show; if (show) visible += 1; }); filters.forEach((filter) => filter.classList.toggle('is-active', filter.dataset.departureFilter === period)); count.textContent = `${visible}/${cards.length}`; }; filters.forEach((filter) => filter.addEventListener('click', () => update(filter.dataset.departureFilter))); update('all'); })();</script>
+@endpush
+
+@push('scripts')
+<script>
+(() => {
+    document.querySelectorAll('[data-trip-info]').forEach((info) => {
+        const tabs = [...info.querySelectorAll('[data-trip-tab]')];
+        const panels = info.querySelector('.trip-panels');
+        let loading = false;
+        let requestedTab = 'discount';
+
+        const activate = (name) => {
+            tabs.forEach((tab) => {
+                const active = tab.dataset.tripTab === name;
+                tab.classList.toggle('is-active', active);
+                tab.setAttribute('aria-selected', active ? 'true' : 'false');
+                tab.tabIndex = active ? 0 : -1;
+            });
+            panels.querySelectorAll('[data-trip-panel]').forEach((panel) => {
+                panel.hidden = panel.dataset.tripPanel !== name;
+                const tab = tabs.find((item) => item.dataset.tripTab === name);
+                if (tab && !panel.hidden) panel.setAttribute('aria-labelledby', tab.id);
+            });
+        };
+
+        const load = async (name) => {
+            requestedTab = name;
+            if (info.dataset.loaded === 'true') {
+                activate(name);
+                return;
+            }
+            if (name === 'discount' || loading) {
+                activate(name);
+                return;
+            }
+
+            loading = true;
+            panels.innerHTML = `<p class="trip-loading" role="status">${info.dataset.loadingLabel}</p>`;
+            activate(name);
+            try {
+                const response = await fetch(info.dataset.url, {headers: {'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}});
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                panels.innerHTML = data.html;
+                info.dataset.loaded = 'true';
+                activate(requestedTab);
+            } catch (error) {
+                panels.innerHTML = `<p class="trip-empty" role="alert">${info.dataset.errorLabel}</p>`;
+            } finally {
+                loading = false;
+            }
+        };
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => load(tab.dataset.tripTab));
+            tab.addEventListener('keydown', (event) => {
+                let next = null;
+                if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+                if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+                if (event.key === 'Home') next = 0;
+                if (event.key === 'End') next = tabs.length - 1;
+                if (next === null) return;
+                event.preventDefault();
+                tabs[next].focus();
+                load(tabs[next].dataset.tripTab);
+            });
+        });
+    });
+})();
+</script>
 @endpush

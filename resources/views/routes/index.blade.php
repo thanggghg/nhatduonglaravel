@@ -2,15 +2,15 @@
 
 @section('content')
 @php
-    $locale = request()->string('lang')->lower()->value();
-    $locale = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'en';
+    $locale = $locale ?? request()->string('lang')->lower()->value();
+    $locale = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     $copy = [
         'vi' => [
             'home' => 'Trang chủ', 'crumb' => 'Tuyến xe', 'eyebrow' => 'HÀNH TRÌNH CỦA BẠN', 'title' => 'Đi xa thật nhẹ nhàng.',
             'intro' => 'Các tuyến xe giường nằm kết nối TP. Hồ Chí Minh, Nha Trang và Cam Ranh mỗi ngày.', 'book' => 'Đặt chuyến đi',
             'browse' => 'Khám phá tuyến xe', 'activeRoutes' => 'tuyến đang phục vụ', 'support' => 'hỗ trợ mỗi ngày',
             'section' => 'Các tuyến đang phục vụ', 'sectionText' => 'Chọn chiều đi để xem lịch chạy và giá vé mới nhất.',
-            'available' => 'Đang phục vụ', 'distance' => 'Quãng đường', 'duration' => 'Thời gian', 'fare' => 'Giá vé',
+            'available' => 'Đang phục vụ', 'distance' => 'Quãng đường', 'duration' => 'Thời gian', 'fare' => 'Giá từ',
             'checkFare' => 'Xem lịch và giá', 'details' => 'Xem chuyến đi', 'emptyTitle' => 'Chưa có tuyến xe',
             'emptyText' => 'Vui lòng quay lại sau để xem các tuyến đang phục vụ.', 'helpTitle' => 'Chưa biết nên chọn chuyến nào?',
             'helpText' => 'Đội ngũ Nhật Dương sẽ hỗ trợ chọn tuyến, giờ chạy và điểm đón phù hợp.', 'call' => 'Gọi 1900 2879',
@@ -21,7 +21,7 @@
             'intro' => 'Daily sleeper-bus routes connecting Ho Chi Minh City, Nha Trang, and Cam Ranh.', 'book' => 'Book a trip',
             'browse' => 'Explore routes', 'activeRoutes' => 'routes in service', 'support' => 'daily support',
             'section' => 'Routes in service', 'sectionText' => 'Choose a direction to see current departures and fares.',
-            'available' => 'In service', 'distance' => 'Distance', 'duration' => 'Travel time', 'fare' => 'Fare',
+            'available' => 'In service', 'distance' => 'Distance', 'duration' => 'Travel time', 'fare' => 'From',
             'checkFare' => 'View schedule & fare', 'details' => 'View departures', 'emptyTitle' => 'No routes available yet',
             'emptyText' => 'Please check back soon for available routes.', 'helpTitle' => 'Not sure which trip to choose?',
             'helpText' => 'The Nhat Duong team can help you choose a route, departure time, and pickup point.', 'call' => 'Call 1900 2879',
@@ -32,7 +32,7 @@
             'intro' => 'Ежедневные спальные автобусы между Хошимином, Нячангом и Камранью.', 'book' => 'Забронировать поездку',
             'browse' => 'Посмотреть маршруты', 'activeRoutes' => 'маршрутов доступно', 'support' => 'поддержка каждый день',
             'section' => 'Доступные маршруты', 'sectionText' => 'Выберите направление, чтобы увидеть актуальное расписание и цены.',
-            'available' => 'Маршрут доступен', 'distance' => 'Расстояние', 'duration' => 'Время в пути', 'fare' => 'Стоимость',
+            'available' => 'Маршрут доступен', 'distance' => 'Расстояние', 'duration' => 'Время в пути', 'fare' => 'Цена от',
             'checkFare' => 'Расписание и цены', 'details' => 'Посмотреть рейсы', 'emptyTitle' => 'Маршрутов пока нет',
             'emptyText' => 'Пожалуйста, зайдите позже, чтобы увидеть доступные маршруты.', 'helpTitle' => 'Нужна помощь с выбором?',
             'helpText' => 'Команда Nhat Duong поможет выбрать маршрут, время отправления и место посадки.', 'call' => 'Позвонить: 1900 2879',
@@ -59,6 +59,31 @@
     .route-card__visual { display:block; color:inherit; text-decoration:none; cursor:pointer; }
     .route-card__title { color:inherit; text-decoration:none; }
     .route-card__title:hover { color:#0b7f42; }
+    .route-explorer { background:#f7f4ed; color:#1c2822; }
+    .route-hero { background:radial-gradient(circle at 76% 16%,rgba(249,178,26,.30),transparent 25%),radial-gradient(circle at 93% 76%,rgba(255,255,255,.09),transparent 25%),linear-gradient(125deg,#131b18,#29342e); }
+    .route-map { border-color:rgba(255,255,255,.22); background:rgba(255,255,255,.09); box-shadow:0 28px 60px rgba(0,0,0,.18); }
+    .route-overview { background:#fff; border-bottom:1px solid #e8e2d7; }
+    .route-overview__bar { background:#f9b21a; }
+    .route-listing { padding-top:76px; padding-bottom:86px; }
+    .route-listing__head h2 { color:#18231e; }
+    .route-card { overflow:hidden; border-color:#e5dfd3; background:#fff; box-shadow:0 16px 38px rgba(35,31,20,.07); }
+    .route-card:hover { border-color:#d6c99e; box-shadow:0 22px 46px rgba(35,31,20,.12); }
+    .route-card__visual { color:#302710; background:linear-gradient(135deg,#ffd466,#f7ae16) !important; }
+    .route-card:nth-child(3n + 2) .route-card__visual { color:#243029; background:linear-gradient(135deg,#f4f0e8,#e9e1d2) !important; }
+    .route-card:nth-child(3n) .route-card__visual { color:#fff; background:linear-gradient(135deg,#1b2722,#34443c) !important; }
+    .route-card__visual:after { border-color:rgba(62,45,5,.16); box-shadow:0 0 0 24px rgba(255,255,255,.13),0 0 0 48px rgba(255,255,255,.08); }
+    .route-card__status { color:#fff; background:#1a5e3b; }
+    .route-card__path:before { background:rgba(75,53,4,.28); }
+    .route-card__path span:before { border-color:#765607; background:#fff7d9; }
+    .route-card__fact { border-color:#eee8dc; }
+    .route-card__fact label { color:#766f62; }
+    .route-card__fact--fare span { color:#0b7040; }
+    .route-card__action { color:#245b3e; border-color:#ded7ca; }
+    .route-card__action:hover { color:#fff; border-color:#245b3e; background:#245b3e; }
+    .route-help { color:#fff; background:#17201c; }
+    .route-help h2 { color:#fff; }
+    .route-help p { color:rgba(255,255,255,.7); }
+    @media (max-width:640px) { .route-listing { padding-top:54px; padding-bottom:62px; } }
 </style>
 
 <div class="route-explorer">

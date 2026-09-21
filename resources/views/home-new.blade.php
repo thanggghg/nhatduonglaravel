@@ -125,6 +125,21 @@
   .hn-booking label>span:first-child { min-height:16px; }
   .hn-booking label>span small { margin-left:4px; color:#8a9a91; font-size:9px; font-weight:600; letter-spacing:0; text-transform:none; }
   .hn-booking select,.hn-booking input:not([type=hidden]) { min-height:48px; border-radius:9px; }
+  .hn-hero__copy>.hn-eyebrow { text-transform:none; }
+  .hn-booking label>span:first-child { color:#405b4e; font-weight:800; }
+  .hn-booking select,.hn-booking input:not([type=hidden]),.hn-passenger-stepper {
+    background:#f5faf6;
+    border-color:#afcbbb;
+    box-shadow:inset 0 1px 0 rgba(6,45,28,.03);
+  }
+  .hn-booking select:focus,.hn-booking input:not([type=hidden]):focus {
+    outline:3px solid rgba(11,127,66,.16);
+    outline-offset:1px;
+    border-color:var(--hn-green);
+    background:#fff;
+  }
+  .hn-passenger-stepper output { background:#fff; }
+  .hn-passenger-stepper button { background:#eaf5ed; }
   #hn-depart-date { width:140px; }
   .hn-swap { display:grid; width:44px; height:48px; place-items:center; padding:0; color:var(--hn-green); background:#eef8f0; border:1px solid #cfe4d5; border-radius:9px; cursor:pointer; }
   .hn-swap:hover { background:#dff2e4; }
@@ -200,7 +215,7 @@
   .hn-vehicle-card footer { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-top:auto; }
   .hn-vehicle-card footer>div { display:grid; gap:4px; }
   .hn-vehicle-card footer strong { color:var(--hn-green); font-size:18px; }
-  .hn-vehicle-card footer>span { display:inline-flex; min-height:44px; align-items:center; gap:9px; padding:0 16px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:11px; font-weight:800; white-space:nowrap; }
+  .hn-vehicle-card__select { display:inline-flex; min-height:44px; align-items:center; gap:9px; padding:0 16px; color:#fff; background:var(--hn-green); border-radius:9px; font-size:11px; font-weight:800; text-decoration:none; white-space:nowrap; }
   .hn-vehicle-card footer b { color:var(--hn-gold); font-size:15px; }
   .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:minmax(0,1.35fr) minmax(350px,.85fr); grid-template-rows:minmax(410px,auto); }
   .hn-proof { padding:34px 0; }
@@ -290,7 +305,7 @@
     .hn-vehicle-grid--single .hn-vehicle-card { grid-template-rows:240px auto; }
     .hn-vehicle-card__body { padding:21px; }
     .hn-vehicle-card footer { align-items:stretch; flex-direction:column; }
-    .hn-vehicle-card footer>span { justify-content:center; }
+    .hn-vehicle-card__select { justify-content:center; }
     .hn-proof { padding:26px 0; }
     .hn-stops__grid { grid-template-columns:1fr; }
     .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
@@ -306,14 +321,125 @@
     .hn-mobile-booking-bar svg { width:17px; fill:none; stroke:currentColor; stroke-width:1.8; }
   }
 </style>
+<style>
+  .hn-vehicle-card ul {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    padding:12px;
+    margin:0 0 22px;
+    list-style:none;
+    background:#f1f8f3;
+    border:1px solid #d1e5d6;
+    border-radius:13px;
+  }
+  .hn-amenity-tabs { display:flex; gap:7px; overflow-x:auto; margin:0 0 9px; padding:1px 1px 5px; scrollbar-width:none; }
+  .hn-amenity-tabs::-webkit-scrollbar { display:none; }
+  .hn-amenity-tabs button { flex:0 0 auto; min-height:36px; padding:7px 11px; color:#526c5d; background:#fff; border:1px solid #cfe0d4; border-radius:999px; font:800 10px Inter,sans-serif; white-space:nowrap; cursor:pointer; }
+  .hn-amenity-tabs button.is-active { color:#fff; background:var(--hn-green); border-color:var(--hn-green); box-shadow:0 5px 12px rgba(11,127,66,.18); }
+  .hn-vehicle-card li[hidden] { display:none; }
+  .hn-vehicle-card li {
+    display:flex;
+    min-width:0;
+    align-items:center;
+    gap:8px;
+    padding:9px;
+    color:#294c3b;
+    background:#fff;
+    border:1px solid #dbeadf;
+    border-radius:10px;
+    font-size:11px;
+    font-weight:800;
+    line-height:1.25;
+  }
+  .hn-vehicle-card li .hn-amenity-icon {
+    display:grid;
+    width:30px;
+    height:30px;
+    flex:none;
+    place-items:center;
+    color:#fff;
+    background:linear-gradient(145deg,#0b8b49,#075d35);
+    border-radius:9px;
+    box-shadow:0 5px 12px rgba(11,127,66,.2);
+    animation:hn-amenity-float 2.8s ease-in-out infinite;
+  }
+  .hn-amenity-icon svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-amenity-icon b { font-size:8px; letter-spacing:-.03em; }
+  .hn-vehicle-card li:nth-child(2n) .hn-amenity-icon { animation-delay:-1.4s; }
+  .hn-vehicle-card li:nth-child(3n) .hn-amenity-icon { color:#5a3e00; background:linear-gradient(145deg,#ffd95d,#fbb116); }
+  @keyframes hn-amenity-float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-2px); } }
+  @media(max-width:620px) {
+    .hn-amenity-tabs { width:100%; }
+    .hn-vehicle-card ul { grid-template-columns:repeat(2,minmax(0,1fr)); padding:10px; }
+    .hn-vehicle-card li:last-child:nth-child(odd) { grid-column:1/-1; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .hn-amenity-icon { animation:none!important; }
+  }
+</style>
+<style>
+  .hn-trip-info { min-width:0; margin:8px 0 20px; overflow:hidden; border:1px solid #d4e3d8; border-radius:13px; background:#fbfdfb; }
+  .hn-trip-info .trip-tabs { display:flex; gap:1px; overflow-x:auto; padding:7px 7px 0; background:#f1f7f2; scrollbar-width:thin; }
+  .hn-trip-info .trip-tabs button { position:relative; flex:0 0 auto; min-height:39px; padding:8px 10px; color:#607269; background:transparent; border:0; font:800 10px Inter,sans-serif; white-space:nowrap; cursor:pointer; }
+  .hn-trip-info .trip-tabs button:after { position:absolute; right:8px; bottom:0; left:8px; height:3px; border-radius:3px 3px 0 0; background:var(--hn-green); content:''; opacity:0; transform:scaleX(.4); transition:.18s ease; }
+  .hn-trip-info .trip-tabs button:hover,.hn-trip-info .trip-tabs button.is-active { color:var(--hn-green); }
+  .hn-trip-info .trip-tabs button.is-active:after { opacity:1; transform:scaleX(1); }
+  .hn-trip-info .trip-panels { min-height:69px; padding:15px; }
+  .hn-trip-info .trip-panel[hidden] { display:none; }
+  .hn-trip-info .trip-empty { margin:0; color:#718177; font-size:11px; line-height:1.55; }
+  .hn-trip-info .trip-loading { display:flex; align-items:center; gap:9px; margin:0; color:#597064; font-size:11px; font-weight:700; }
+  .hn-trip-info .trip-loading:before { width:16px; height:16px; border:2px solid #b8d2c1; border-top-color:var(--hn-green); border-radius:50%; content:''; animation:hn-trip-spin .7s linear infinite; }
+  @keyframes hn-trip-spin { to { transform:rotate(360deg); } }
+  .hn-trip-info .trip-price-grid { display:grid; grid-template-columns:1fr 1fr; gap:11px; align-items:center; }
+  .hn-trip-info .trip-price-grid>div { display:grid; gap:3px; }
+  .hn-trip-info .trip-price-grid span { color:#718177; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; }
+  .hn-trip-info .trip-price-grid del { color:#7d8d84; font-size:13px; }
+  .hn-trip-info .trip-price-grid strong { color:var(--hn-green); font-size:16px; }
+  .hn-trip-info .trip-price-save { grid-column:1/-1; display:flex!important; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; background:#fff4d8; }
+  .hn-trip-info .trip-price-save b { color:#b76b00; font-size:16px; }
+  .hn-trip-info .trip-price-save span { color:#75551d; text-transform:none; }
+  .hn-trip-info .trip-point-columns,.hn-trip-info .trip-policy-grid { display:grid; grid-template-columns:1fr; gap:15px; }
+  .hn-trip-info .trip-point-columns h4,.hn-trip-info .trip-policy-grid h4 { margin:0 0 9px; color:var(--hn-deep); font-size:12px; }
+  .hn-trip-info .trip-point { display:grid; grid-template-columns:8px minmax(0,1fr); gap:8px; padding:8px 0; border-top:1px solid #e2ebe5; }
+  .hn-trip-info .trip-point i { width:7px; height:7px; margin-top:4px; border:2px solid var(--hn-green); border-radius:50%; }
+  .hn-trip-info .trip-point div { display:grid; gap:3px; }
+  .hn-trip-info .trip-point strong { color:#294535; font-size:11px; }
+  .hn-trip-info .trip-point span { color:#718177; font-size:10px; line-height:1.4; }
+  .hn-trip-info .trip-point time { grid-column:2; color:var(--hn-green); font-size:10px; font-weight:800; }
+  .hn-trip-info .trip-rating { display:flex; align-items:center; gap:6px; margin-bottom:10px; }
+  .hn-trip-info .trip-rating>strong { color:var(--hn-deep); font-size:24px; }
+  .hn-trip-info .trip-rating>span { color:#f4aa00; font-size:18px; }
+  .hn-trip-info .trip-rating p { margin:0; color:#718177; font-size:10px; }
+  .hn-trip-info blockquote { margin:8px 0; padding:10px 11px; border-left:3px solid #94c9a8; background:#f1f8f3; }
+  .hn-trip-info blockquote p { margin:0; color:#385244; font-size:10px; line-height:1.5; }
+  .hn-trip-info blockquote footer { display:block; margin:5px 0 0; color:#718177; font-size:9px; font-weight:700; }
+  .hn-trip-info .trip-policy-grid article { display:flex; gap:9px; padding:10px; border:1px solid #dce8df; border-radius:9px; background:#fff; }
+  .hn-trip-info .trip-policy-grid article>span { display:grid; place-items:center; flex:0 0 23px; width:23px; height:23px; color:var(--hn-green); background:#e7f5eb; border-radius:50%; font-size:9px; font-weight:900; }
+  .hn-trip-info .trip-policy-grid h4 { margin-bottom:4px; }
+  .hn-trip-info .trip-policy-grid p { margin:0; color:#63776b; font-size:10px; line-height:1.5; white-space:pre-line; }
+  .hn-trip-info .trip-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+  .hn-trip-info .trip-gallery a { display:block; overflow:hidden; border-radius:9px; background:#e7eee9; aspect-ratio:16/10; }
+  .hn-trip-info .trip-gallery img { width:100%; height:100%; object-fit:cover; transition:transform .25s ease; }
+  .hn-trip-info .trip-gallery a:hover img { transform:scale(1.04); }
+  .hn-trip-info .trip-amenities { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin:0; padding:0; background:transparent; border:0; list-style:none; }
+  .hn-trip-info .trip-amenities li { display:flex; align-items:center; gap:7px; min-width:0; padding:7px; color:inherit; background:linear-gradient(145deg,#fff,#f6faf7); border:1px solid #d8e7dc; border-radius:10px; }
+  .hn-trip-info .trip-amenity-icon { display:grid; place-items:center; flex:0 0 30px; width:30px; height:30px; color:var(--hn-green); background:linear-gradient(145deg,#e9f8ee,#d8efdf); border:1px solid #c5e4cf; border-radius:9px; }
+  .hn-trip-info .trip-amenity-icon svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-trip-info .trip-amenity-icon b { font-size:8px; }
+  .hn-trip-info .trip-amenity-copy { display:grid; width:auto; height:auto; min-width:0; place-items:initial; gap:3px; color:inherit; background:transparent; border-radius:0; }
+  .hn-trip-info .trip-amenities strong { overflow:hidden; color:#385244; font-size:9px; line-height:1.25; text-overflow:ellipsis; }
+  .hn-trip-info .trip-amenities small { width:max-content; padding:2px 4px; color:var(--hn-green); background:#e6f5eb; border-radius:4px; font-size:7px; font-weight:900; text-transform:uppercase; }
+  @media(max-width:620px) { .hn-trip-info .trip-tabs { padding-right:5px; padding-left:5px; } .hn-trip-info .trip-panels { padding:13px 11px; } }
+</style>
 </head>
 <body class="home-new">
 @php
   $copy = [
     'vi' => [
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
-      'book' => 'Đặt vé', 'hero_kicker' => 'Tuyến xe phòng chất lượng cao', 'hero_title' => 'Đặt vé Sài Gòn ⇔ Nha Trang',
-      'hero_text' => 'Xem giờ chạy, chọn phòng và thanh toán trực tuyến.', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
+      'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
+      'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
@@ -336,8 +462,8 @@
     ],
     'en' => [
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
-      'book' => 'Book now', 'hero_kicker' => 'Premium sleeper bus service', 'hero_title' => 'Book Ho Chi Minh City ⇔ Nha Trang',
-      'hero_text' => 'See live departures, choose your cabin, and pay online.', 'one_way' => 'One way', 'round_trip' => 'Round trip',
+      'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
+      'hero_text' => 'Comfortable space – attentive service', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
@@ -360,8 +486,8 @@
     ],
     'ru' => [
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
-      'book' => 'Забронировать', 'hero_kicker' => 'Комфортные спальные автобусы', 'hero_title' => 'Билеты Хошимин ⇔ Нячанг',
-      'hero_text' => 'Посмотрите рейсы, выберите купе и оплатите онлайн.', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
+      'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
+      'hero_text' => 'Комфорт в пути – заботливый сервис', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
@@ -388,12 +514,11 @@
   $routeDetailsUrl = $route ? route('routes.show', ['slug' => $route->slug, 'lang' => $locale]) : route('routes.index', ['lang' => $locale]);
   $routeImage = $route?->image ? asset('storage/'.$route->image) : $heroImage;
   $vehicleFallbackImage = asset('storage/image/b6c6290cc.jpg');
-  $routeDuration = $route?->estimated_time ?? '9-10 hours';
-  if ($locale === 'en') {
-    $routeDuration = str_replace('giờ', 'h', $routeDuration);
-  } elseif ($locale === 'ru') {
-    $routeDuration = str_replace('giờ', 'ч.', $routeDuration);
-  }
+  $routeDuration = [
+    'vi' => '6h30~7h30/chuyến',
+    'en' => '6 hr 30 min–7 hr 30 min/trip',
+    'ru' => '6 ч 30 мин–7 ч 30 мин/рейс',
+  ][$locale];
   $locations = [
     29 => ['vi' => 'Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
     19 => ['vi' => 'Đồng Nai', 'en' => 'Dong Nai', 'ru' => 'Донгнай'],
@@ -432,11 +557,48 @@
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Удобства в автобусе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
       $homeUi = [
-    'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Nhiều chuyến mỗi ngày', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Phòng riêng', 'WC', 'Sạc USB'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
-    'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'Multiple daily departures', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['Private cabin', 'WC', 'USB charging'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
-    'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Несколько рейсов ежедневно', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Отдельное купе', 'WC', 'USB-зарядка'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
+    'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
+    'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'A variety of departure times', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['English-speaking staff', 'Snacks', 'Toilet', 'Reading light', 'Seat belt', 'Drinking water', 'Pillow', 'Emergency hammer', 'LED TV', 'Phone charging', 'Window curtains', 'Sound system', 'Wi-Fi', 'Air conditioning', 'Cold towel'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
+    'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Разнообразное время отправления', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Англоговорящий персонал', 'Закуски', 'Туалет', 'Лампа для чтения', 'Ремень безопасности', 'Питьевая вода', 'Подушка', 'Аварийный молоток', 'LED-телевизор', 'Зарядка телефона', 'Шторы', 'Аудиосистема', 'Wi-Fi', 'Кондиционер', 'Холодное полотенце'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
   ][$locale];
+  $homeTripTabs = [
+    'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích'],
+    'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'policies' => 'Policies', 'images' => 'Images', 'amenities' => 'Amenities'],
+    'ru' => ['discount' => 'Скидка', 'points' => 'Посадка/Высадка', 'reviews' => 'Отзывы', 'policies' => 'Правила', 'images' => 'Фото', 'amenities' => 'Удобства'],
+  ][$locale];
+  $homeTripCopy = [
+    'vi' => ['original' => 'Giá gốc', 'sale' => 'Giá khuyến mãi', 'save' => 'Tiết kiệm', 'no_discount' => 'Chuyến này hiện chưa áp dụng khuyến mãi.', 'loading' => 'Đang tải thông tin chuyến...', 'error' => 'Không thể tải chi tiết chuyến. Vui lòng thử lại.'],
+    'en' => ['original' => 'Original fare', 'sale' => 'Promotional fare', 'save' => 'Save', 'no_discount' => 'No promotion currently applies to this departure.', 'loading' => 'Loading trip details...', 'error' => 'Unable to load trip details. Please try again.'],
+    'ru' => ['original' => 'Обычная цена', 'sale' => 'Цена со скидкой', 'save' => 'Экономия', 'no_discount' => 'На этот рейс сейчас нет акции.', 'loading' => 'Загружаем информацию о рейсе...', 'error' => 'Не удалось загрузить данные. Попробуйте еще раз.'],
+  ][$locale];
+  $amenityIcons = [
+    '<svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4V5Z"/><path d="m9 9 2 2 4-4"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M4 15h16M6 15a6 6 0 0 1 12 0M12 7V5M4 19h16"/></svg>',
+    '<b>WC</b>',
+    '<svg viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M8 14a6 6 0 1 1 8 0c-1 1-1 2-1 2H9s0-1-1-2Z"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M7 3v7l5 4 5-4V3M5 21l7-7 7 7"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11Z"/></svg>',
+    '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="11" rx="3"/><path d="M7 11h10"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="m14 3 7 7-3 3-2-2-8 8H4v-4l8-8-2-2 4-2Z"/></svg>',
+    '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8M12 18v4"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="m13 2-7 12h6l-1 8 7-12h-6z"/></svg>',
+    '<svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 3v18M16 3v18M8 8h8"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4V9Z"/><path d="M17 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M4 9a13 13 0 0 1 16 0M7 13a8 8 0 0 1 10 0M10 17a3 3 0 0 1 4 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M12 2v20M4.9 6l14.2 12M19.1 6 4.9 18M3 12h18"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M6 5h12v14H6zM9 5V3h6v2M9 10h6M9 14h4"/></svg>',
+  ];
+  $amenityGroups = ['service', 'service', 'comfort', 'comfort', 'safety', 'service', 'comfort', 'safety', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'service'];
+  $featuredAmenities = [2, 5, 8, 9, 12, 13];
+  $amenityTabs = [
+    'vi' => ['featured' => 'Nổi bật', 'all' => 'Tất cả (15)', 'comfort' => 'Tiện nghi', 'service' => 'Dịch vụ', 'safety' => 'An toàn'],
+    'en' => ['featured' => 'Featured', 'all' => 'All (15)', 'comfort' => 'Comfort', 'service' => 'Service', 'safety' => 'Safety'],
+    'ru' => ['featured' => 'Популярное', 'all' => 'Все (15)', 'comfort' => 'Комфорт', 'service' => 'Сервис', 'safety' => 'Безопасность'],
+  ][$locale];
+  $amenityTabsLabel = ['vi' => 'Lọc tiện ích', 'en' => 'Filter amenities', 'ru' => 'Фильтр удобств'][$locale];
   $fleetTrips = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
+  $fleetFromId = $selectedDirection === 'nt_sg' ? 417 : 29;
+  $fleetToId = $selectedDirection === 'nt_sg' ? 29 : 417;
   $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
   $formatDuration = function ($minutes) use ($locale): string {
     $minutes = (int) $minutes;
@@ -593,7 +755,7 @@
       </div>
       <div class="hn-vehicle-grid {{ $fleetTrips->count() <= 1 ? 'hn-vehicle-grid--single' : '' }}">
         @forelse($fleetTrips as $trip)
-          <a class="hn-vehicle-card" href="{{ $trip['checkout_url'] }}" aria-label="{{ $copy['choose'] }}: {{ $trip['vehicle_type'] }}">
+          <article class="hn-vehicle-card">
             <div class="hn-vehicle-card__media">
               <img src="{{ $trip['image'] ?: $vehicleFallbackImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
               <span><i></i>{{ $productCopy['actual_vehicle'] }}</span>
@@ -601,17 +763,18 @@
             <div class="hn-vehicle-card__body">
               <p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p>
               <h3>{{ $trip['vehicle_type'] }}</h3>
-              <p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>
-              <ul>@foreach($homeUi['amenities'] as $amenity)<li><span>✓</span>{{ $amenity }}</li>@endforeach</ul>
+               <p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>
+               @php $tabsId = 'home-trip-tabs-'.$loop->index; @endphp
+               @include('home.trip-info-tabs')
               <dl>
                 <div><dt>{{ $copy['departure'] }}</dt><dd>{{ $trip['departure']->format('H:i') }}</dd></div>
                 <div><dt>{{ $homeUi['remaining'] }}</dt><dd>{{ $trip['available_seats'] }} {{ $copy['seats'] }}</dd></div>
               </dl>
-              <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong></div><span>{{ $copy['choose'] }} <b>→</b></span></footer>
+              <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong></div><a class="hn-vehicle-card__select" href="{{ $trip['checkout_url'] }}">{{ $copy['choose'] }} <b>→</b></a></footer>
             </div>
-          </a>
+          </article>
         @empty
-          <a class="hn-vehicle-card" href="#booking"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p><ul>@foreach($homeUi['amenities'] as $amenity)<li><span>✓</span>{{ $amenity }}</li>@endforeach</ul><p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong></div><span>{{ $copy['search'] }} <b>→</b></span></footer></div></a>
+          <article class="hn-vehicle-card"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>@include('home.vehicle-amenities')<p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong></div><a class="hn-vehicle-card__select" href="#booking">{{ $copy['search'] }} <b>→</b></a></footer></div></article>
         @endforelse
       </div>
     </div>
@@ -742,6 +905,76 @@
       directionTabs[nextIndex].focus();
       directionTabs[nextIndex].click();
     }));
+
+    document.querySelectorAll('.hn-vehicle-card').forEach((card) => {
+      const tabs = [...card.querySelectorAll('[data-amenity-filter]')];
+      const amenities = [...card.querySelectorAll('[data-amenity-group]')];
+      tabs.forEach((tab) => tab.addEventListener('click', () => {
+        const filter = tab.dataset.amenityFilter;
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+        amenities.forEach((amenity) => {
+          amenity.hidden = filter === 'featured'
+            ? amenity.dataset.amenityFeatured !== 'true'
+            : filter !== 'all' && amenity.dataset.amenityGroup !== filter;
+        });
+      }));
+    });
+
+    document.querySelectorAll('[data-trip-info]').forEach((info) => {
+      const tabs = [...info.querySelectorAll('[data-trip-tab]')];
+      const panels = info.querySelector('.trip-panels');
+      let loading = false;
+      let requestedTab = 'discount';
+      const activate = (name) => {
+        tabs.forEach((tab) => {
+          const active = tab.dataset.tripTab === name;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        panels.querySelectorAll('[data-trip-panel]').forEach((panel) => {
+          panel.hidden = panel.dataset.tripPanel !== name;
+          const tab = tabs.find((item) => item.dataset.tripTab === name);
+          if (tab && !panel.hidden) panel.setAttribute('aria-labelledby', tab.id);
+        });
+      };
+      const load = async (name) => {
+        requestedTab = name;
+        if (info.dataset.loaded === 'true') return activate(name);
+        if (name === 'discount' || loading) return activate(name);
+        loading = true;
+        panels.innerHTML = `<p class="trip-loading" role="status">${info.dataset.loadingLabel}</p>`;
+        try {
+          const response = await fetch(info.dataset.url, {headers:{Accept:'application/json','X-Requested-With':'XMLHttpRequest'}});
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          panels.innerHTML = (await response.json()).html;
+          info.dataset.loaded = 'true';
+          activate(requestedTab);
+        } catch (error) {
+          panels.innerHTML = `<p class="trip-empty" role="alert">${info.dataset.errorLabel}</p>`;
+        } finally {
+          loading = false;
+        }
+      };
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => load(tab.dataset.tripTab));
+        tab.addEventListener('keydown', (event) => {
+          let next = null;
+          if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+          if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+          if (event.key === 'Home') next = 0;
+          if (event.key === 'End') next = tabs.length - 1;
+          if (next === null) return;
+          event.preventDefault();
+          tabs[next].focus();
+          load(tabs[next].dataset.tripTab);
+        });
+      });
+    });
 
     if (!form) return;
 

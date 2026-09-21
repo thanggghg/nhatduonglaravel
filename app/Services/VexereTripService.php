@@ -68,7 +68,8 @@ class VexereTripService
             throw new RuntimeException('Live seat availability is temporarily unavailable.');
         }
 
-        $onlineInfo = $response->json('data.online_info', []);
+        $data = $response->json('data', []);
+        $onlineInfo = data_get($data, 'online_info', []);
         if (!is_array($onlineInfo)) {
             $onlineInfo = [];
         }
@@ -160,13 +161,17 @@ class VexereTripService
         $fare = (int) ($onlineInfo['fare'] ?? 0);
         $availableSeats = (int) ($onlineInfo['total_available_seats'] ?? 0);
         $vehicleType = $onlineInfo['name'] ?? ($onlineInfo['vehicle']['seat_type'] ?? 'Sleeper cabin');
-        $operatorImages = $response->json('data.operator.images', []);
-        $image = $operatorImages[0]['files']['1000x600'] ?? null;
-        if (is_string($image) && $image !== '') {
-            $image = str_starts_with($image, '//') ? 'https://'.ltrim($image, '/') : $image;
-        }
+        $images = $this->normalizeImages(data_get($data, 'operator.images', []));
+        $image = $images[0] ?? null;
         $fromLabel = $this->placeName($response->json('data.route.from', []) ?? [], $locale, $this->areaName($fromId) ?? (string) $from);
         $toLabel = $this->placeName($response->json('data.route.to', []) ?? [], $locale, $this->areaName($toId) ?? (string) $to);
+        $originalFare = (int) ($this->firstNumeric([
+            $onlineInfo['original_fare'] ?? null,
+            $onlineInfo['fare_original'] ?? null,
+            data_get($onlineInfo, 'fare_detail.original'),
+            data_get($data, 'default_info.fare.original'),
+        ]) ?? $fare);
+        $originalFare = max($fare, $originalFare);
 
         $result = [
             'coaches' => $coaches,
@@ -175,6 +180,8 @@ class VexereTripService
                 'departure' => $departure,
                 'arrival' => $arrival,
                 'fare' => $fare,
+                'original_fare' => $originalFare,
+                'discount_percent' => $originalFare > $fare ? (int) round((1 - ($fare / $originalFare)) * 100) : 0,
                 'available_seats' => $availableSeats,
                 'vehicle_type' => $vehicleType,
                 'duration' => $duration,
@@ -193,6 +200,34 @@ class VexereTripService
             ],
             'pickup_points' => $this->normalizePoints($onlineInfo['pickup_points'] ?? [], $locale, true),
             'dropoff_points' => $this->normalizePoints($onlineInfo['drop_off_points_at_arrive'] ?? [], $locale),
+            'rating' => [
+                'score' => $this->firstNumeric([
+                    data_get($data, 'operator.ratings.overall'),
+                    data_get($data, 'operator.rating'),
+                    data_get($data, 'operator.average_rating'),
+                    data_get($data, 'operator.rate'),
+                ]),
+                'count' => (int) ($this->firstNumeric([
+                    data_get($data, 'operator.ratings.total_rating'),
+                    data_get($data, 'operator.review_count'),
+                    data_get($data, 'operator.total_review'),
+                    data_get($data, 'operator.total_reviews'),
+                    data_get($data, 'operator.rating_count'),
+                ]) ?? 0),
+                'comments' => $this->normalizeReviews(
+                    data_get($data, 'operator.comments')
+                    ?? data_get($data, 'operator.reviews')
+                    ?? data_get($data, 'reviews')
+                    ?? []
+                ),
+            ],
+            'policies' => $this->normalizePolicies($data, $locale),
+            'images' => $images,
+            'amenities' => $this->normalizeAmenities(array_merge(
+                (array) data_get($data, 'route.utilities', []),
+                (array) data_get($data, 'online_info.utilities', []),
+                (array) data_get($data, 'default_info.utilities', [])
+            ), $locale),
         ];
 
         Cache::put($cacheKey, $result, now()->addSeconds(30));
@@ -306,6 +341,7 @@ class VexereTripService
                 $discountFare = (int) data_get($schedule, 'fare.discount', 0);
                 $originalFare = (int) data_get($schedule, 'fare.original', 0);
                 $fare = $discountFare > 0 ? $discountFare : max(0, $originalFare);
+                $originalFare = max($fare, $originalFare);
                 $departure = Carbon::parse($schedule['pickup_date']);
                 $arrival = Carbon::parse($schedule['arrival_time']);
                 $tripDeparture = $tripDatePart && $tripTimePart
@@ -318,6 +354,9 @@ class VexereTripService
                     'provider_trip_departure' => $tripDeparture,
                     'arrival' => $arrival,
                     'fare' => $fare,
+                    'original_fare' => $originalFare,
+                    'discount_percent' => $originalFare > $fare ? (int) round((1 - ($fare / $originalFare)) * 100) : 0,
+                    'utility_ids' => array_values(array_filter((array) ($route['utilities'] ?? []), 'is_numeric')),
                     'available_seats' => (int) ($schedule['available_seats'] ?? 0),
                     'vehicle_type' => $schedule['vehicle_type'] ?? 'Sleeper cabin',
                     'duration' => (int) ($route['duration'] ?? 0),
@@ -449,6 +488,219 @@ class VexereTripService
             })
             ->values()
             ->all();
+    }
+
+    public static function utilityLabels(): array
+    {
+        return [
+            10 => ['vi' => 'Nhân viên sử dụng tiếng Anh', 'en' => 'English-speaking staff', 'ru' => 'Англоговорящий персонал'],
+            11 => ['vi' => 'Bánh ngọt', 'en' => 'Snacks', 'ru' => 'Закуски'],
+            14 => ['vi' => 'Toilet', 'en' => 'Toilet', 'ru' => 'Туалет'],
+            17 => ['vi' => 'Đèn đọc sách', 'en' => 'Reading light', 'ru' => 'Лампа для чтения'],
+            21 => ['vi' => 'Dây đai an toàn', 'en' => 'Seat belt', 'ru' => 'Ремень безопасности'],
+            23 => ['vi' => 'Nước uống', 'en' => 'Drinking water', 'ru' => 'Питьевая вода'],
+            24 => ['vi' => 'Gối nằm', 'en' => 'Pillow', 'ru' => 'Подушка'],
+            25 => ['vi' => 'Búa phá kính', 'en' => 'Emergency hammer', 'ru' => 'Аварийный молоток'],
+            36 => ['vi' => 'Búa phá kính', 'en' => 'Emergency hammer', 'ru' => 'Аварийный молоток'],
+            27 => ['vi' => 'Tivi LED', 'en' => 'LED TV', 'ru' => 'LED-телевизор'],
+            29 => ['vi' => 'Sạc điện thoại', 'en' => 'Phone charging', 'ru' => 'Зарядка телефона'],
+            31 => ['vi' => 'Rèm cửa', 'en' => 'Window curtains', 'ru' => 'Шторы'],
+            52 => ['vi' => 'Dàn âm thanh', 'en' => 'Sound system', 'ru' => 'Аудиосистема'],
+            54 => ['vi' => 'Wi-Fi', 'en' => 'Wi-Fi', 'ru' => 'Wi-Fi'],
+            55 => ['vi' => 'Điều hòa', 'en' => 'Air conditioning', 'ru' => 'Кондиционер'],
+            57 => ['vi' => 'Khăn lạnh', 'en' => 'Cold towel', 'ru' => 'Холодное полотенце'],
+        ];
+    }
+
+    private function normalizeImages(mixed $images): array
+    {
+        return collect(is_array($images) ? $images : [])
+            ->map(function ($image) {
+                if (is_string($image)) {
+                    $url = $image;
+                } else {
+                    $files = is_array($image) ? ($image['files'] ?? []) : [];
+                    $url = collect(['1000x600', '600x400', '300x200', 'original'])
+                        ->map(fn (string $size) => $files[$size] ?? null)
+                        ->first(fn ($value) => is_string($value) && $value !== '')
+                        ?? (is_array($image) ? ($image['url'] ?? null) : null);
+                }
+
+                if (!is_string($url) || $url === '') {
+                    return null;
+                }
+
+                return str_starts_with($url, '//') ? 'https://'.ltrim($url, '/') : $url;
+            })
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    private function normalizeAmenities(array $utilities, string $locale): array
+    {
+        $labels = self::utilityLabels();
+
+        return collect($utilities)
+            ->map(function ($utility) use ($labels, $locale) {
+                $id = is_numeric($utility) ? (int) $utility : (int) ($utility['id'] ?? $utility['utility_id'] ?? 0);
+                $name = is_array($utility)
+                    ? ($locale !== 'vi' ? ($utility['english_name'] ?? null) : null) ?? ($utility['name'] ?? null)
+                    : null;
+                $name = $name ?: ($labels[$id][$locale] ?? $labels[$id]['en'] ?? null);
+
+                if (!$name) {
+                    return null;
+                }
+
+                $price = is_array($utility) ? ($utility['price'] ?? $utility['fee'] ?? null) : null;
+                $freeFlag = is_array($utility) ? ($utility['is_free'] ?? $utility['free'] ?? null) : true;
+                $isFree = $freeFlag !== null
+                    ? filter_var($freeFlag, FILTER_VALIDATE_BOOL)
+                    : ($price === null || (is_numeric($price) && (float) $price <= 0));
+
+                return ['id' => $id ?: null, 'name' => trim((string) $name), 'is_free' => $isFree];
+            })
+            ->filter()
+            ->unique(fn (array $utility) => mb_strtolower($utility['name']))
+            ->values()
+            ->all();
+    }
+
+    public function amenities(array $utilities, string $locale): array
+    {
+        return $this->normalizeAmenities($utilities, $locale);
+    }
+
+    private function normalizeReviews(mixed $reviews): array
+    {
+        if (is_array($reviews)) {
+            $reviews = $reviews['data'] ?? $reviews['items'] ?? $reviews['reviews'] ?? $reviews;
+        }
+
+        return collect(is_array($reviews) ? $reviews : [])
+            ->map(function ($review) {
+                if (is_string($review)) {
+                    return ['author' => null, 'content' => trim(strip_tags($review)), 'rating' => null];
+                }
+                if (!is_array($review)) {
+                    return null;
+                }
+
+                $content = $review['content'] ?? $review['comment'] ?? $review['review'] ?? $review['text'] ?? null;
+                if (!is_string($content) || trim(strip_tags($content)) === '') {
+                    return null;
+                }
+
+                return [
+                    'author' => $review['customer_name'] ?? $review['author'] ?? $review['name'] ?? null,
+                    'content' => trim(html_entity_decode(strip_tags($content))),
+                    'rating' => $this->firstNumeric([$review['rating'] ?? null, $review['score'] ?? null]),
+                ];
+            })
+            ->filter()
+            ->take(5)
+            ->values()
+            ->all();
+    }
+
+    private function normalizePolicies(array $data, string $locale): array
+    {
+        $paths = [
+            'cancellation' => ['online_info.cancel_policy', 'online_info.cancellation_policy', 'online_info.refund_policy', 'operator.cancel_policy', 'online_info.config_ticket_refundable'],
+            'payment' => ['online_info.payment_policy', 'online_info.payment_note', 'operator.payment_policy', 'online_info.payment_method'],
+            'e_ticket' => ['online_info.ticket_policy', 'online_info.e_ticket_policy', 'online_info.booking_policy', 'online_info.booking_note', 'online_info.using_eticket'],
+            'deposit' => ['online_info.deposit_policy', 'online_info.deposit_note', 'online_info.required_deposit', 'online_info.deposit', 'online_info.deposit_selling'],
+        ];
+
+        return collect($paths)->map(function (array $candidates, string $policy) use ($data, $locale) {
+            foreach ($candidates as $path) {
+                $value = data_get($data, $path);
+                $text = match ($path) {
+                    'online_info.config_ticket_refundable' => $this->policyFlagText('cancellation', $value, $locale),
+                    'online_info.payment_method' => filled($value) ? $this->policyFlagText('payment', true, $locale) : null,
+                    'online_info.using_eticket' => $this->policyFlagText('e_ticket', $value, $locale),
+                    'online_info.deposit_selling' => $this->policyFlagText('deposit', $value, $locale),
+                    default => $this->policyText($value, $locale),
+                };
+                if ($text !== null) {
+                    return $text;
+                }
+            }
+
+            return null;
+        })->all();
+    }
+
+    private function policyFlagText(string $policy, mixed $value, string $locale): ?string
+    {
+        if (!is_bool($value) && !is_numeric($value)) {
+            return null;
+        }
+        $enabled = (bool) $value;
+        $messages = [
+            'vi' => [
+                'cancellation' => ['Chuyến này hỗ trợ hoàn/hủy vé.', 'Chuyến này không hỗ trợ hoàn/hủy vé.'],
+                'payment' => ['VeXeRe đã cấu hình phương thức thanh toán cho chuyến này.', 'Chuyến này chưa có phương thức thanh toán trên VeXeRe.'],
+                'e_ticket' => ['Chuyến này có hỗ trợ vé điện tử.', 'Chuyến này không sử dụng vé điện tử.'],
+                'deposit' => ['Chuyến này yêu cầu đặt cọc.', 'Chuyến này không yêu cầu đặt cọc.'],
+            ],
+            'en' => [
+                'cancellation' => ['This departure supports refunds or cancellations.', 'This departure does not support refunds or cancellations.'],
+                'payment' => ['VeXeRe has configured payment methods for this departure.', 'No payment method is configured on VeXeRe for this departure.'],
+                'e_ticket' => ['E-tickets are supported for this departure.', 'E-tickets are not used for this departure.'],
+                'deposit' => ['A deposit is required for this departure.', 'No deposit is required for this departure.'],
+            ],
+            'ru' => [
+                'cancellation' => ['Для этого рейса доступен возврат или отмена.', 'Для этого рейса возврат и отмена недоступны.'],
+                'payment' => ['VeXeRe настроил способы оплаты для этого рейса.', 'Для этого рейса на VeXeRe не настроен способ оплаты.'],
+                'e_ticket' => ['Для этого рейса доступен электронный билет.', 'Для этого рейса электронный билет не используется.'],
+                'deposit' => ['Для этого рейса требуется депозит.', 'Для этого рейса депозит не требуется.'],
+            ],
+        ];
+
+        return ($messages[$locale] ?? $messages['en'])[$policy][$enabled ? 0 : 1];
+    }
+
+    private function policyText(mixed $value, string $locale): ?string
+    {
+        if (is_bool($value)) {
+            $boolean = [
+                'vi' => ['Có', 'Không'],
+                'en' => ['Yes', 'No'],
+                'ru' => ['Да', 'Нет'],
+            ][$locale] ?? ['Yes', 'No'];
+
+            return $value ? $boolean[0] : $boolean[1];
+        }
+        if (is_numeric($value)) {
+            return (string) $value;
+        }
+        if (is_string($value)) {
+            $text = trim(html_entity_decode(strip_tags($value)));
+            return $text !== '' ? $text : null;
+        }
+        if (!is_array($value)) {
+            return null;
+        }
+
+        $parts = collect($value)->flatten()->filter(fn ($part) => is_scalar($part))
+            ->map(fn ($part) => trim(html_entity_decode(strip_tags((string) $part))))
+            ->filter()->unique()->values();
+
+        return $parts->isNotEmpty() ? $parts->implode(' · ') : null;
+    }
+
+    private function firstNumeric(array $values): int|float|null
+    {
+        foreach ($values as $value) {
+            if (is_numeric($value)) {
+                return $value + 0;
+            }
+        }
+
+        return null;
     }
 
     private function isoDateTime(mixed $value): ?string

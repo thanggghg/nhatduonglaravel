@@ -53,6 +53,7 @@ Route::middleware('noindex')->group(function () {
     Route::post('/dat-ve', [BookingController::class, 'store'])->name('booking.store');
     Route::get('/dat-ve/checkout-live', [BookingController::class, 'checkoutLive'])->name('booking.live.checkout');
     Route::get('/dat-ve/checkout-live/seats', [BookingController::class, 'liveSeats'])->name('booking.live.seats');
+    Route::get('/dat-ve/trip-info', [BookingController::class, 'tripInfo'])->middleware('throttle:60,1')->name('booking.trip.info');
     Route::post('/dat-ve/live', [BookingController::class, 'storeLive'])->name('booking.live.store');
     Route::get('/dat-ve/hoan-tat/{booking:reference}', [BookingController::class, 'success'])->name('booking.success');
     Route::get('/dat-ve/thanh-toan/{booking:reference}', [PaymentController::class, 'show'])->name('booking.payment.show');
