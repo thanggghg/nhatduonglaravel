@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nhà Xe Nhật Dương">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#fffdf7" stroke="#d7e5dc" stroke-width="2"/>
+  <path fill="#087841" d="M10 50V14h9l16 21V14h9v36h-9L19 29v21z"/>
+  <path fill="#fbb116" d="M39 14h7c8 0 12 5 12 13v10c0 8-4 13-12 13h-7v-8h7c3 0 4-2 4-5V27c0-3-1-5-4-5h-7z"/>
+  <circle cx="45" cy="32" r="3" fill="#fffdf7"/>
+</svg>
