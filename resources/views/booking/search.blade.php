@@ -66,6 +66,8 @@
         $remaining = $minutes % 60;
         return $hours.' '.$copy['hours'].($remaining ? ' '.$remaining.' '.$copy['minutes'] : '');
     };
+    $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
+    $toUsd = fn (int|float $amount): string => number_format($amount / $vndPerUsd, 0);
     $filters = [
         'vi' => ['all' => 'Tất cả', 'morning' => 'Sáng', 'afternoon' => 'Chiều', 'evening' => 'Tối', 'seat_map' => 'Xem sơ đồ ghế thực tế ở bước tiếp theo'],
         'en' => ['all' => 'All', 'morning' => 'Morning', 'afternoon' => 'Afternoon', 'evening' => 'Evening', 'seat_map' => 'View the live seat map on the next step'],
@@ -125,10 +127,10 @@
                             <div class="departure-time"><strong>{{ $trip['arrival']->format('H:i') }}</strong><span>{{ $copy['arrival'] }}</span></div>
                         </div>
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
-                        <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }}</small>
+                        <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small class="departure-action__usd">≈ ${{ $toUsd($trip['fare'] * $passengerCount) }} USD</small><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }} · ≈ ${{ $toUsd($trip['fare']) }}</small>
                             @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
-                        <div class="trip-info" data-trip-info data-loaded="false" data-loading-label="{{ $copy['loading_details'] }}" data-error-label="{{ $copy['details_error'] }}" data-url="{{ route('booking.trip.info', ['from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'fare' => $trip['fare'], 'original_fare' => $originalFare, 'utilities' => implode(',', $trip['utility_ids'] ?? []), 'lang' => $locale]) }}">
+                        <div class="trip-info" data-trip-info data-loaded="false" data-loading-label="{{ $copy['loading_details'] }}" data-error-label="{{ $copy['details_error'] }}" data-url="{{ route('booking.trip.info', ['from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'fare' => $trip['fare'], 'original_fare' => $originalFare, 'utilities' => implode(',', $trip['utility_ids'] ?? []), 'display_usd' => 1, 'lang' => $locale]) }}">
                             <div class="trip-tabs" id="{{ $tabsId }}" role="tablist" aria-label="{{ $trip['vehicle_type'] }}">
                                 @foreach($tripTabs as $tab => $label)
                                     <button type="button" role="tab" id="{{ $tabsId.'-'.$tab }}" aria-selected="{{ $tab === 'discount' ? 'true' : 'false' }}" aria-controls="{{ $tabsId.'-panel' }}" tabindex="{{ $tab === 'discount' ? '0' : '-1' }}" data-trip-tab="{{ $tab }}" class="{{ $tab === 'discount' ? 'is-active' : '' }}">{{ $copy[$label] }}</button>
@@ -137,7 +139,7 @@
                             <div class="trip-panels" id="{{ $tabsId.'-panel' }}" aria-live="polite">
                                 <section class="trip-panel" data-trip-panel="discount" role="tabpanel" aria-labelledby="{{ $tabsId.'-discount' }}">
                                     @if($discountPercent > 0)
-                                        <div class="trip-price-grid"><div><span>{{ $copy['original_fare'] }}</span><del>{{ number_format($originalFare) }} VND</del></div><div><span>{{ $copy['sale_fare'] }}</span><strong>{{ number_format($trip['fare']) }} VND</strong></div><div class="trip-price-save"><b>-{{ $discountPercent }}%</b><span>{{ $copy['save'] }} {{ number_format($originalFare - $trip['fare']) }} VND</span></div></div>
+                                        <div class="trip-price-grid"><div><span>{{ $copy['original_fare'] }}</span><del>{{ number_format($originalFare) }} VND</del><small class="price-usd">≈ ${{ $toUsd($originalFare) }}</small></div><div><span>{{ $copy['sale_fare'] }}</span><strong>{{ number_format($trip['fare']) }} VND</strong><small class="price-usd">≈ ${{ $toUsd($trip['fare']) }}</small></div><div class="trip-price-save"><b>-{{ $discountPercent }}%</b><span>{{ $copy['save'] }} {{ number_format($originalFare - $trip['fare']) }} VND <small class="price-usd">≈ ${{ $toUsd($originalFare - $trip['fare']) }}</small></span></div></div>
                                     @else
                                         <p class="trip-empty">{{ $copy['no_discount'] }}</p>
                                     @endif
@@ -156,7 +158,7 @@
                 <div class="booking-section-heading"><div><p>{{ $copy['return'] }}</p><h2 id="return-title">{{ $to }} {{ $copy['to'] }} {{ $from }}</h2></div><span>{{ $returnDate?->format('d/m/Y') }}</span></div>
                 <div class="return-list">
                     @forelse($returnTrips as $trip)
-                        <article class="return-preview"><strong>{{ $trip['departure']->format('H:i') }}</strong><span>{{ $trip['vehicle_type'] }}</span><span>{{ $duration($trip['duration']) }}</span><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span><b>{{ number_format($trip['fare']) }} VND</b></article>
+                        <article class="return-preview"><strong>{{ $trip['departure']->format('H:i') }}</strong><span>{{ $trip['vehicle_type'] }}</span><span>{{ $duration($trip['duration']) }}</span><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span><b>{{ number_format($trip['fare']) }} VND <small>≈ ${{ $toUsd($trip['fare']) }}</small></b></article>
                     @empty
                         <div class="booking-empty"><h3>{{ $copy['empty'] }}</h3><p>{{ $copy['empty_text'] }}</p></div>
                     @endforelse
@@ -194,6 +196,15 @@
 
 @push('styles')
 <style>.departure-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0}.departure-filters{display:flex;flex-wrap:wrap;gap:7px}.departure-filters button{min-height:34px;padding:7px 11px;color:#526b5c;background:#fff;border:1px solid #d1ddd5;border-radius:999px;font:800 12px Inter,sans-serif;cursor:pointer}.departure-filters button:hover,.departure-filters button.is-active{color:#0a3d23;background:#e8f8ef;border-color:#0b7f42}.departure-tools>span{color:#708679;font-size:12px;font-weight:700}.departure-card[hidden]{display:none}.departure-availability{display:grid;gap:3px;margin-bottom:13px;padding-bottom:12px;border-bottom:1px solid #d9e5dc}.departure-availability span{color:#708679;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.departure-availability strong{color:#0b7f42;font-size:22px;line-height:1}.departure-action{align-content:start}@media(max-width:620px){.departure-tools{align-items:flex-start;flex-direction:column}.departure-filters{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:3px}.departure-filters button{white-space:nowrap}}</style>
+@endpush
+
+@push('styles')
+<style>
+    .departure-action__usd { margin-top:3px; color:#8b6814!important; font-size:11px!important; font-weight:900!important; }
+    .trip-price-grid .price-usd { display:block; color:#80651e; font-size:10px; font-weight:800; letter-spacing:0; text-transform:none; }
+    .trip-price-save .price-usd { display:inline; margin-left:4px; color:#80651e; }
+    .return-preview b small { display:block; margin-top:3px; color:#80651e; font-size:10px; font-weight:800; }
+</style>
 @endpush
 
 @push('styles')
