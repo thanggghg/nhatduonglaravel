@@ -21,10 +21,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=7e81f84">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}?v=7e81f84">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}?v=7e81f84">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v=7e81f84">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}?v=7e81f84">
   <title>{{ $seoTitle }}</title>
   <meta name="description" content="{{ $seoDescription }}">
   <link rel="canonical" href="{{ $homeUrls[$locale] }}">
