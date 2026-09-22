@@ -115,8 +115,13 @@
   .hn-hero__overlay { background:linear-gradient(90deg,rgba(4,35,22,.91),rgba(4,35,22,.62) 58%,rgba(4,35,22,.28)); }
   .hn-hero__content { padding:64px 0 40px; }
   .hn-hero__copy { max-width:760px; }
-  .hn-hero h1 { max-width:760px; margin-bottom:14px; font-size:clamp(42px,5.2vw,68px); }
-  .hn-hero__copy>p:not(.hn-eyebrow) { max-width:560px; font-size:17px; }
+  .hn-hero-route { display:inline-flex; width:max-content; align-items:center; gap:9px; margin:0 0 18px; padding:7px 11px; color:#e1f5e7; background:rgba(6,45,28,.34); border:1px solid rgba(225,245,231,.28); border-radius:999px; backdrop-filter:blur(8px); font-size:11px; letter-spacing:.08em; }
+  .hn-hero-route:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(251,177,22,.15); content:''; }
+  .hn-hero h1.hn-hero-title { display:grid; gap:7px; max-width:800px; margin:0 0 18px; font-size:clamp(44px,4.7vw,66px); line-height:1; letter-spacing:-.045em; }
+  .hn-hero-title__name { display:block; }
+  .hn-hero-title__specs { display:block; color:#f8cb5c; font-size:.58em; line-height:1.2; letter-spacing:-.025em; }
+  .hn-hero__copy>.hn-hero-tagline { display:flex; align-items:center; gap:11px; max-width:560px; margin:0; color:rgba(255,255,255,.88); font-size:16px; line-height:1.6; }
+  .hn-hero-tagline:before { width:30px; height:2px; flex:none; background:var(--hn-gold); content:''; }
   .hn-booking { margin-top:28px; border:1px solid rgba(255,255,255,.25); border-radius:18px; }
   .hn-booking fieldset { padding:18px 20px 20px; }
   .hn-booking__top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
@@ -275,8 +280,11 @@
     .hn-actions .hn-button { display:none; }
     .hn-hero { min-height:auto; }
     .hn-hero__content { padding:46px 0 28px; }
-    .hn-hero h1 { font-size:34px; line-height:1.08; }
-    .hn-hero__copy>p:not(.hn-eyebrow) { font-size:15px; }
+    .hn-hero-route { margin-bottom:15px; padding:6px 10px; font-size:10px; }
+    .hn-hero h1.hn-hero-title { gap:6px; margin-bottom:15px; font-size:36px; line-height:1.02; }
+    .hn-hero-title__specs { font-size:24px; line-height:1.22; }
+    .hn-hero__copy>.hn-hero-tagline { gap:9px; font-size:14px; }
+    .hn-hero-tagline:before { width:22px; }
     .hn-booking { margin-top:23px; }
     .hn-booking fieldset { padding:15px; }
     .hn-booking__top { align-items:flex-start; flex-direction:column; gap:8px; }
@@ -535,6 +543,7 @@
     'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' → '.($locations[417][$locale] ?? 'Nha Trang'),
     'nt_sg' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[29][$locale] ?? 'Ho Chi Minh City'),
   ];
+  [$heroName, $heroSpecs] = array_pad(explode(' • ', $copy['hero_title'], 2), 2, '');
   $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
   $requestedDirection = request('direction');
   $selectedDirection = is_string($requestedDirection) && array_key_exists($requestedDirection, $directionSchedules)
@@ -655,9 +664,9 @@
     <div class="hn-hero__overlay"></div>
     <div class="hn-shell hn-hero__content">
       <div class="hn-hero__copy">
-        <p class="hn-eyebrow">{{ $copy['hero_kicker'] }}</p>
-        <h1 id="hero-title">{{ $copy['hero_title'] }}</h1>
-        <p>{{ $copy['hero_text'] }}</p>
+        <p class="hn-eyebrow hn-hero-route">{{ $copy['hero_kicker'] }}</p>
+        <h1 id="hero-title" class="hn-hero-title"><span class="hn-hero-title__name">{{ $heroName }}</span><span class="hn-hero-title__specs">{{ $heroSpecs }}</span></h1>
+        <p class="hn-hero-tagline">{{ $copy['hero_text'] }}</p>
       </div>
       <form id="booking" class="hn-booking" action="{{ route('booking.search') }}" method="GET">
         <fieldset>
