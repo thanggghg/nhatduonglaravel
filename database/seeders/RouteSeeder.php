@@ -53,8 +53,8 @@ class RouteSeeder extends Seeder
         // Pickup Points for Route 1
         PickupPoint::create([
             'route_id' => $route1->id,
-            'name' => 'Bến xe Miền Đông',
-            'address' => '292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP.HCM',
+            'name' => 'VPSG',
+            'address' => '99 Nguyễn Cư Trinh, Quận 1',
             'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
@@ -115,8 +115,8 @@ class RouteSeeder extends Seeder
 
         PickupPoint::create([
             'route_id' => $route2->id,
-            'name' => 'Bến xe Miền Đông',
-            'address' => '292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP.HCM',
+            'name' => 'VPSG',
+            'address' => '99 Nguyễn Cư Trinh, Quận 1',
             'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
@@ -177,8 +177,8 @@ class RouteSeeder extends Seeder
 
         PickupPoint::create([
             'route_id' => $route3->id,
-            'name' => 'Bến xe Miền Đông',
-            'address' => '292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP.HCM',
+            'name' => 'VPSG',
+            'address' => '99 Nguyễn Cư Trinh, Quận 1',
             'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
@@ -229,8 +229,8 @@ class RouteSeeder extends Seeder
 
         PickupPoint::create([
             'route_id' => $route4->id,
-            'name' => 'Bến xe Miền Đông',
-            'address' => '292 Đinh Bộ Lĩnh, P.26, Q.Bình Thạnh, TP.HCM',
+            'name' => 'VPSG',
+            'address' => '99 Nguyễn Cư Trinh, Quận 1',
             'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
