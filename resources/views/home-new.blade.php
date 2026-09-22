@@ -282,6 +282,8 @@
   .hn-why__grid p { position:relative; z-index:1; margin:23px 0 0; color:var(--hn-deep); font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:700; line-height:1.6; }
   .hn-faq details { padding:0; }
   .hn-faq summary { display:flex; align-items:center; justify-content:space-between; min-height:60px; padding:14px 0; list-style:none; }
+  .hn-faq summary>span { display:flex; align-items:center; gap:14px; padding-right:20px; }
+  .hn-faq summary b { display:grid; width:30px; height:30px; flex:none; place-items:center; color:#7b5a00; background:#fef3d7; border-radius:50%; font-size:10px; letter-spacing:.06em; }
   .hn-faq summary::-webkit-details-marker { display:none; }
   .hn-faq summary:after { content:'+'; color:var(--hn-green); font-size:22px; font-weight:400; }
   .hn-faq details[open] summary:after { content:'−'; }
@@ -604,10 +606,34 @@
   $hasLiveSchedules = collect($directionSchedules)->contains(fn ($schedules) => !empty($schedules));
   $selectedSchedules = $directionSchedules[$selectedDirection] ?? [];
   $faqItems = [
-    [$copy['faq_1_q'], $copy['faq_1_a']],
-    [$copy['faq_2_q'], $copy['faq_2_a']],
-    [$copy['faq_3_q'], $copy['faq_3_a']],
-  ];
+    'vi' => [
+      ['Có được nằm 3 người trên một giường không?', 'Dạ không. Theo quy định an toàn, mỗi giường chỉ dành cho tối đa 2 người, không áp dụng nằm 3 người ở bất kỳ độ tuổi nào. Việc nằm 3 không đảm bảo sự thoải mái và an toàn trong suốt hành trình.'],
+      ['Giường nằm 2 người có thoải mái không?', 'Giường rộng 85 cm, dài 1,78 m, phù hợp cho 2 người với tổng cân nặng khoảng 130 kg và vẫn đảm bảo không gian nằm tương đối thoải mái.'],
+      ['Nhà xe có hỗ trợ trung chuyển không?', 'Nhật Dương hỗ trợ đón, trả tận nơi trong nội thành Nha Trang với bán kính dưới 7 km. Việc đón, trả còn tùy thuộc vào cung đường và điều kiện thực tế để xe trung chuyển có thể di chuyển vào.'],
+      ['Nhà xe có xuất hóa đơn không?', 'Nhà xe hỗ trợ xuất hóa đơn trong ngày. Nhân viên sẽ gửi mẫu thông tin để anh/chị điền đầy đủ, sau đó chuyển đến bộ phận kế toán để xuất hóa đơn.'],
+      ['Thời gian di chuyển mất khoảng bao lâu?', 'Thời gian di chuyển dự kiến khoảng 6-7 tiếng, tùy thuộc vào tình hình giao thông và điều kiện lưu thông thực tế trên tuyến đường.'],
+      ['Trên xe có WC không?', 'Dạ có. Toàn bộ hệ thống xe của Nhật Dương đều được trang bị WC trên xe, thuận tiện cho hành khách trong suốt hành trình.'],
+      ['Xe có ghé trạm dừng chân không?', 'Đối với các chuyến khởi hành trước 17:00, xe dự kiến sẽ ghé trạm dừng chân trên cao tốc 1 lần. Trước mỗi chuyến, nhân viên sẽ chủ động liên hệ và thông báo cụ thể về lịch trình cũng như việc xe có ghé trạm hay không.'],
+    ],
+    'en' => [
+      ['Can three people share one bed?', 'No. For safety, each bed accommodates a maximum of 2 people. Three people may not share a bed, regardless of age, as this would not ensure comfort or safety during the journey.'],
+      ['Is a double bed comfortable for two people?', 'The bed is 85 cm wide and 1.78 m long. It is suitable for 2 people with a combined weight of approximately 130 kg while providing reasonably comfortable sleeping space.'],
+      ['Does the operator provide shuttle service?', 'Nhat Duong provides door-to-door pickup and drop-off within central Nha Trang, within a radius of less than 7 km. Service depends on the route and whether local road conditions allow the shuttle to access the address.'],
+      ['Can the operator issue an invoice?', 'Yes. Invoices can be issued on the day of travel. Our staff will send you a form to complete and forward the information to the accounting team for processing.'],
+      ['How long does the journey take?', 'The estimated travel time is approximately 6-7 hours, depending on traffic and actual road conditions.'],
+      ['Is there a WC on the bus?', 'Yes. All Nhat Duong vehicles are equipped with an onboard WC for passenger convenience throughout the journey.'],
+      ['Does the bus stop at a rest area?', 'Departures before 17:00 are expected to stop once at a highway rest area. Before each trip, our staff will contact you with the specific itinerary and confirm whether the bus will make a rest stop.'],
+    ],
+    'ru' => [
+      ['Можно ли разместиться втроём на одном спальном месте?', 'Нет. По правилам безопасности одно спальное место рассчитано максимум на 2 человек. Размещение втроём не допускается независимо от возраста, так как это не обеспечивает комфорт и безопасность в поездке.'],
+      ['Удобно ли двум пассажирам на одном спальном месте?', 'Размер спального места составляет 85 см в ширину и 1,78 м в длину. Оно подходит для 2 человек с общим весом около 130 кг и обеспечивает достаточно комфортное размещение.'],
+      ['Предоставляет ли перевозчик трансфер?', 'Nhat Duong выполняет трансфер от двери до двери в пределах центра Нячанга, в радиусе менее 7 км. Возможность подачи зависит от маршрута и фактической доступности адреса для трансферного автомобиля.'],
+      ['Можно ли получить счёт-фактуру?', 'Да. Счёт-фактура оформляется в день поездки. Сотрудник отправит форму для заполнения, после чего данные будут переданы в бухгалтерию.'],
+      ['Сколько времени занимает поездка?', 'Ориентировочное время в пути составляет 6-7 часов и зависит от дорожной ситуации и фактических условий движения.'],
+      ['Есть ли в автобусе туалет?', 'Да. Все автобусы Nhat Duong оборудованы туалетом для удобства пассажиров на протяжении всей поездки.'],
+      ['Останавливается ли автобус на станции отдыха?', 'Рейсы с отправлением до 17:00 обычно делают одну остановку на станции отдыха на скоростной автомагистрали. Перед поездкой сотрудник свяжется с вами, сообщит подробный маршрут и подтвердит наличие остановки.'],
+    ],
+  ][$locale];
   $pickupPoints = $route?->pickupPoints ?? collect();
   $dropoffPoints = $route?->dropoffPoints ?? collect();
   $supportPhones = ['0971.799.097', '0789.802.999', '0789.803.999'];
@@ -938,8 +964,8 @@
   <section id="help" class="hn-section hn-shell" aria-labelledby="faq-title">
     <div class="hn-section-heading"><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['faq_kicker'] }}</p><h2 id="faq-title">{{ $copy['faq_title'] }}</h2></div>
     <div class="hn-faq">
-      @foreach($faqItems as [$question, $answer])
-      <details><summary>{{ $question }}</summary><p>{{ $answer }}</p></details>
+      @foreach($faqItems as $index => [$question, $answer])
+      <details><summary><span><b>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</b>{{ $question }}</span></summary><p>{{ $answer }}</p></details>
       @endforeach
     </div>
   </section>
