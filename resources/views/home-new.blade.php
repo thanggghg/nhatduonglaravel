@@ -115,7 +115,7 @@
   .hn-hero__overlay { background:linear-gradient(90deg,rgba(4,35,22,.91),rgba(4,35,22,.62) 58%,rgba(4,35,22,.28)); }
   .hn-hero__content { padding:64px 0 40px; }
   .hn-hero__copy { max-width:760px; }
-  .hn-hero-route { display:inline-flex; width:max-content; align-items:center; gap:9px; margin:0 0 18px; padding:7px 11px; color:#e1f5e7; background:rgba(6,45,28,.34); border:1px solid rgba(225,245,231,.28); border-radius:999px; backdrop-filter:blur(8px); font-size:11px; letter-spacing:.08em; }
+  .hn-hero-route { display:inline-flex; width:max-content; align-items:center; gap:10px; margin:0 0 18px; padding:8px 13px; color:#e1f5e7; background:rgba(6,45,28,.34); border:1px solid rgba(225,245,231,.28); border-radius:999px; backdrop-filter:blur(8px); font-size:14px; letter-spacing:.065em; }
   .hn-hero-route:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(251,177,22,.15); content:''; }
   .hn-hero h1.hn-hero-title { display:grid; gap:7px; max-width:800px; margin:0 0 18px; font-size:clamp(44px,4.7vw,66px); line-height:1; letter-spacing:-.045em; }
   .hn-hero-title__name { display:block; }
@@ -280,7 +280,7 @@
     .hn-actions .hn-button { display:none; }
     .hn-hero { min-height:auto; }
     .hn-hero__content { padding:46px 0 28px; }
-    .hn-hero-route { margin-bottom:15px; padding:6px 10px; font-size:10px; }
+    .hn-hero-route { margin-bottom:15px; padding:7px 11px; font-size:12px; }
     .hn-hero h1.hn-hero-title { gap:6px; margin-bottom:15px; font-size:36px; line-height:1.02; }
     .hn-hero-title__specs { font-size:24px; line-height:1.22; }
     .hn-hero__copy>.hn-hero-tagline { gap:9px; font-size:14px; }
