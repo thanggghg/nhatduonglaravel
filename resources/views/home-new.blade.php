@@ -253,6 +253,9 @@
   .hn-stop-support p { margin:0 0 7px; color:var(--hn-gold); font-size:11px; font-weight:800; text-transform:uppercase; }
   .hn-stop-support strong { font-size:24px; }
   .hn-stop-support span { margin:10px 0 20px; color:#c3ddca; font-size:12px; line-height:1.6; }
+  .hn-stop-support__phones { display:flex; flex-wrap:wrap; gap:7px; margin:1px 0 12px; }
+  .hn-stop-support__phones a { padding:7px 9px; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:7px; font-size:11px; font-weight:800; text-decoration:none; }
+  .hn-stop-support__phones a:hover { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.3); }
   .hn-stop-support .hn-button { margin-top:auto; align-self:flex-start; }
   .hn-review { display:block; padding:76px 0; }
   .hn-review__inner { display:grid; grid-template-columns:1.1fr .9fr; gap:70px; align-items:center; }
@@ -586,6 +589,7 @@
   ];
   $pickupPoints = $route?->pickupPoints ?? collect();
   $dropoffPoints = $route?->dropoffPoints ?? collect();
+  $supportPhones = ['0971.799.097', '0789.802.999', '0789.803.999'];
   $pickupLabels = [
     'vi' => ['pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'support' => 'Cần xác nhận điểm đón?', 'support_text' => 'Liên hệ hỗ trợ trước ngày đi để xác nhận hành lý, điểm đón và chính sách đổi vé.'],
     'en' => ['pickup' => 'Pickup points', 'dropoff' => 'Drop-off points', 'map' => 'Open map', 'support' => 'Need to confirm a pickup point?', 'support_text' => 'Contact support before travel to confirm luggage, pickup details, and change policy.'],
@@ -856,7 +860,7 @@
           @if($dropoffPoints->first()?->phone)<a href="tel:{{ $dropoffPoints->first()->phone }}">{{ $dropoffPoints->first()->phone }}</a>@endif
           @if($dropoffPoints->first()?->map_url)<a href="{{ $dropoffPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
         </article>
-        <aside class="hn-stop-support"><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong><span>{{ $pickupLabels['support_text'] }}</span><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
+        <aside class="hn-stop-support"><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong><div class="hn-stop-support__phones">@foreach($supportPhones as $phone)<a href="tel:{{ str_replace('.', '', $phone) }}">{{ $phone }}</a>@endforeach</div><span>{{ $pickupLabels['support_text'] }}</span><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
       </div>
     </div>
   </section>
