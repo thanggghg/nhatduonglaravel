@@ -23,6 +23,9 @@
         ],
     ][$locale];
     $discount = $originalFare > $fare ? (int) round((1 - ($fare / $originalFare)) * 100) : 0;
+    $displayUsd = $displayUsd ?? false;
+    $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
+    $toUsd = fn (int|float $amount): string => number_format($amount / $vndPerUsd, 0);
     $operatorPolicy = [
         'vi' => [
             'title' => 'Chính sách nhà xe',
@@ -101,7 +104,7 @@
 
 <section class="trip-panel" data-trip-panel="discount" role="tabpanel">
     @if($discount > 0)
-        <div class="trip-price-grid"><div><span>{{ $text['original'] }}</span><del>{{ number_format($originalFare) }} VND</del></div><div><span>{{ $text['sale'] }}</span><strong>{{ number_format($fare) }} VND</strong></div><div class="trip-price-save"><b>-{{ $discount }}%</b><span>{{ $text['saved'] }} {{ number_format($originalFare - $fare) }} VND</span></div></div>
+        <div class="trip-price-grid"><div><span>{{ $text['original'] }}</span><del>{{ number_format($originalFare) }} VND</del>@if($displayUsd)<small class="price-usd">≈ ${{ $toUsd($originalFare) }}</small>@endif</div><div><span>{{ $text['sale'] }}</span><strong>{{ number_format($fare) }} VND</strong>@if($displayUsd)<small class="price-usd">≈ ${{ $toUsd($fare) }}</small>@endif</div><div class="trip-price-save"><b>-{{ $discount }}%</b><span>{{ $text['saved'] }} {{ number_format($originalFare - $fare) }} VND @if($displayUsd)<small class="price-usd">≈ ${{ $toUsd($originalFare - $fare) }}</small>@endif</span></div></div>
     @else
         <p class="trip-empty">{{ $text['no_discount'] }}</p>
     @endif

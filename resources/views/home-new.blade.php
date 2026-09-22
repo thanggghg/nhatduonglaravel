@@ -170,6 +170,9 @@
   .hn-route-summary dl div { padding:5px 22px; border-left:1px solid var(--hn-line); }
   .hn-route-summary dt { color:var(--hn-muted); font-size:11px; font-weight:700; }
   .hn-route-summary dd { margin:5px 0 0; color:var(--hn-deep); font-size:15px; font-weight:800; }
+  .hn-usd-hint,.hn-trip-info .price-usd { display:block; margin-top:3px; color:#718177; font-size:10px; font-weight:700; line-height:1.2; letter-spacing:0; text-transform:none; }
+  .hn-departure-card__fare .hn-usd-hint { color:#718177; font-size:10px; }
+  .hn-vehicle-card footer .hn-usd-hint { color:#718177; font-size:10px; font-weight:700; text-transform:none; }
   .hn-date-badge { display:grid; gap:4px; min-width:150px; padding:12px 15px; color:var(--hn-green); background:#eaf6ed; border:1px solid #cde5d3; border-radius:11px; }
   .hn-date-badge small { color:var(--hn-muted); font-size:10px; font-weight:800; text-transform:uppercase; }
   .hn-date-badge strong { font-size:15px; }
@@ -624,6 +627,8 @@
   $fleetFromId = $selectedDirection === 'nt_sg' ? 417 : 29;
   $fleetToId = $selectedDirection === 'nt_sg' ? 29 : 417;
   $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
+  $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
+  $toUsd = fn (int|float $amount): string => number_format($amount / $vndPerUsd, 0);
   $formatDuration = function ($minutes) use ($locale): string {
     $minutes = (int) $minutes;
     if ($minutes <= 0) return '—';
@@ -731,7 +736,7 @@
     <div class="hn-shell hn-route-summary__inner">
       <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
       <dl>
-        <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND</dd></div>
+        <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div>
         <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
         <div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div>
       </dl>
@@ -758,7 +763,7 @@
                 <div class="hn-departure-card__time"><strong>{{ $schedule['departure']->format('H:i') }}</strong><span>{{ $copy['departure'] }}</span></div>
                 <div class="hn-departure-card__journey"><span>{{ $formatDuration($schedule['duration']) }}</span><i aria-hidden="true"></i><small>{{ $schedule['arrival']->format('H:i') }} · {{ $homeUi['arrival'] }}</small></div>
                 <div class="hn-departure-card__vehicle"><strong>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</strong><span>{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span></div>
-                <div class="hn-departure-card__fare"><span>{{ $copy['price'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong></div>
+                <div class="hn-departure-card__fare"><span>{{ $copy['price'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($schedule['fare']) }}</small></div>
                 <a class="hn-departure-card__action" href="{{ $schedule['checkout_url'] }}">{{ $copy['choose'] }} <span aria-hidden="true">→</span></a>
               </article>
             @empty
@@ -794,11 +799,11 @@
                 <div><dt>{{ $copy['departure'] }}</dt><dd>{{ $trip['departure']->format('H:i') }}</dd></div>
                 <div><dt>{{ $homeUi['remaining'] }}</dt><dd>{{ $trip['available_seats'] }} {{ $copy['seats'] }}</dd></div>
               </dl>
-              <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong></div><a class="hn-vehicle-card__select" href="{{ $trip['checkout_url'] }}">{{ $copy['choose'] }} <b>→</b></a></footer>
+              <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($trip['fare']) }}</small></div><a class="hn-vehicle-card__select" href="{{ $trip['checkout_url'] }}">{{ $copy['choose'] }} <b>→</b></a></footer>
             </div>
           </article>
         @empty
-          <article class="hn-vehicle-card"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>@include('home.vehicle-amenities')<p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong></div><a class="hn-vehicle-card__select" href="#booking">{{ $copy['search'] }} <b>→</b></a></footer></div></article>
+          <article class="hn-vehicle-card"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>@include('home.vehicle-amenities')<p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></div><a class="hn-vehicle-card__select" href="#booking">{{ $copy['search'] }} <b>→</b></a></footer></div></article>
         @endforelse
       </div>
     </div>

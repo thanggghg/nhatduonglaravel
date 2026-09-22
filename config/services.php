@@ -69,6 +69,10 @@ return [
         'api_key' => env('PUBLIC_BOOKING_API_KEY'),
     ],
 
+    'currency' => [
+        'vnd_per_usd' => (int) env('VND_PER_USD', 26000),
+    ],
+
     'translation_ai' => [
         'base_url' => env('TRANSLATION_AI_BASE_URL', 'https://api.vilao.ai/v1'),
         'api_key' => env('TRANSLATION_AI_API_KEY'),

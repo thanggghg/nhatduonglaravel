@@ -138,6 +138,7 @@ class BookingController extends Controller
             'fare' => 'required|integer|min:0|max:20000000',
             'original_fare' => 'nullable|integer|min:0|max:20000000',
             'utilities' => ['nullable', 'string', 'max:200', 'regex:/^\d*(,\d+)*$/'],
+            'display_usd' => 'nullable|boolean',
             'lang' => 'nullable|in:vi,en,ru',
         ]);
         $locale = $this->locale($request);
@@ -152,9 +153,10 @@ class BookingController extends Controller
         if (!$details['amenities'] && filled($validated['utilities'] ?? null)) {
             $details['amenities'] = $this->vexere->amenities(explode(',', $validated['utilities']), $locale);
         }
+        $displayUsd = (bool) ($validated['display_usd'] ?? false);
 
         return response()->json([
-            'html' => view('booking.partials.trip-info-panels', compact('details', 'fare', 'originalFare', 'locale'))->render(),
+            'html' => view('booking.partials.trip-info-panels', compact('details', 'fare', 'originalFare', 'locale', 'displayUsd'))->render(),
         ]);
     }
 
