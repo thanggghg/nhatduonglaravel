@@ -55,7 +55,6 @@ class RouteSeeder extends Seeder
             'route_id' => $route1->id,
             'name' => 'VPSG',
             'address' => '99 Nguyễn Cư Trinh, Quận 1',
-            'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
         ]);
@@ -117,7 +116,6 @@ class RouteSeeder extends Seeder
             'route_id' => $route2->id,
             'name' => 'VPSG',
             'address' => '99 Nguyễn Cư Trinh, Quận 1',
-            'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
         ]);
@@ -126,7 +124,6 @@ class RouteSeeder extends Seeder
             'route_id' => $route2->id,
             'name' => 'Bến xe Nha Trang',
             'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, Phường Nam Nha Trang, Khánh Hòa',
-            'phone' => '0258 3812 586',
             'sort_order' => 1,
             'status' => true,
         ]);
@@ -179,7 +176,6 @@ class RouteSeeder extends Seeder
             'route_id' => $route3->id,
             'name' => 'VPSG',
             'address' => '99 Nguyễn Cư Trinh, Quận 1',
-            'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
         ]);
@@ -231,7 +227,6 @@ class RouteSeeder extends Seeder
             'route_id' => $route4->id,
             'name' => 'VPSG',
             'address' => '99 Nguyễn Cư Trinh, Quận 1',
-            'phone' => '028 3899 3333',
             'sort_order' => 1,
             'status' => true,
         ]);
