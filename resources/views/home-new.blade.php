@@ -122,6 +122,9 @@
   .hn-hero-title__specs { display:block; color:#f8cb5c; font-size:.58em; line-height:1.2; letter-spacing:-.025em; }
   .hn-hero__copy>.hn-hero-tagline { display:flex; align-items:center; gap:11px; max-width:560px; margin:0; color:rgba(255,255,255,.88); font-size:16px; line-height:1.6; }
   .hn-hero-tagline:before { width:30px; height:2px; flex:none; background:var(--hn-gold); content:''; }
+  body.home-new .hn-hero__copy>p.hn-official-site { display:inline-flex; align-items:center; gap:9px; margin:17px 0 0; padding:9px 13px; color:#16442e; background:#fff; border:1px solid rgba(255,255,255,.7); border-radius:10px; box-shadow:0 9px 24px rgba(0,0,0,.14); font-size:16px; font-weight:800; line-height:1.45; }
+  .hn-official-site svg { width:19px; height:19px; flex:none; color:var(--hn-green); fill:#e2f4e7; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; }
+  .hn-official-site strong { color:var(--hn-green); }
   .hn-booking { margin-top:28px; border:1px solid rgba(255,255,255,.25); border-radius:18px; }
   .hn-booking fieldset { padding:18px 20px 20px; }
   .hn-booking__top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
@@ -288,6 +291,7 @@
     .hn-hero-title__specs { font-size:24px; line-height:1.22; }
     .hn-hero__copy>.hn-hero-tagline { gap:9px; font-size:14px; }
     .hn-hero-tagline:before { width:22px; }
+    body.home-new .hn-hero__copy>p.hn-official-site { width:100%; justify-content:center; margin-top:15px; padding:10px 12px; font-size:15px; text-align:center; }
     .hn-booking { margin-top:23px; }
     .hn-booking fieldset { padding:15px; }
     .hn-booking__top { align-items:flex-start; flex-direction:column; gap:8px; }
@@ -465,7 +469,7 @@
     'vi' => [
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
       'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
-      'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
+      'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'official_site' => 'Website chính thức của Nhà xe Nhật Dương', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
@@ -489,7 +493,7 @@
     'en' => [
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
       'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
-      'hero_text' => 'Comfortable space – attentive service', 'one_way' => 'One way', 'round_trip' => 'Round trip',
+      'hero_text' => 'Comfortable space – attentive service', 'official_site' => 'Official website of Nhat Duong Bus', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
@@ -513,7 +517,7 @@
     'ru' => [
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
       'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
-      'hero_text' => 'Комфорт в пути – заботливый сервис', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
+      'hero_text' => 'Комфорт в пути – заботливый сервис', 'official_site' => 'Официальный сайт автобусной компании Nhat Duong', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
@@ -684,6 +688,7 @@
         <p class="hn-eyebrow hn-hero-route">{{ $copy['hero_kicker'] }}</p>
         <h1 id="hero-title" class="hn-hero-title"><span class="hn-hero-title__name">{{ $heroName }}</span><span class="hn-hero-title__specs">{{ $heroSpecs }}</span></h1>
         <p class="hn-hero-tagline">{{ $copy['hero_text'] }}</p>
+        <p class="hn-official-site"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.7-2.8 8.2-7 10-4.2-1.8-7-5.3-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg><strong>{{ $copy['official_site'] }}</strong></p>
       </div>
       <form id="booking" class="hn-booking" action="{{ route('booking.search') }}" method="GET">
         <fieldset>
