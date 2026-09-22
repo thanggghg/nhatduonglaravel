@@ -233,8 +233,13 @@
   .hn-vehicle-card footer b { color:var(--hn-gold); font-size:15px; }
   .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:minmax(0,1.35fr) minmax(350px,.85fr); grid-template-rows:minmax(410px,auto); }
   .hn-proof { padding:34px 0; }
-  .hn-proof>.hn-shell>.hn-eyebrow { color:var(--hn-gold); margin-bottom:0; padding-top:22px; }
-  .hn-proof__grid article { padding-top:22px; padding-bottom:22px; }
+  .hn-proof>.hn-shell { display:grid; grid-template-columns:180px minmax(0,1fr); gap:30px; align-items:start; }
+  .hn-proof>.hn-shell>.hn-eyebrow { margin:0; padding-top:25px; color:var(--hn-gold); line-height:1.5; }
+  .hn-proof__body { min-width:0; }
+  .hn-proof__grid article { min-height:128px; padding-top:22px; padding-bottom:22px; }
+  .hn-proof__transfer { display:flex; align-items:center; gap:13px; margin:0; padding:15px 26px; color:#e5f6ea; background:rgba(255,255,255,.06); border-top:1px solid rgba(212,244,226,.16); font-size:13px; font-weight:700; line-height:1.55; }
+  .hn-proof__transfer svg { width:22px; height:22px; flex:none; color:var(--hn-gold); fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-proof__transfer strong { color:#fff; }
   .hn-stops { background:#fff; }
   .hn-stops__grid { display:grid; grid-template-columns:1fr 1fr .8fr; gap:16px; }
   .hn-stop-card,.hn-stop-support { min-height:230px; padding:24px; border:1px solid var(--hn-line); border-radius:14px; }
@@ -279,6 +284,8 @@
     .hn-stops__grid { grid-template-columns:1fr 1fr; }
     .hn-stop-support { grid-column:1/-1; min-height:auto; }
     .hn-review__inner { grid-template-columns:1fr; gap:32px; }
+    .hn-proof>.hn-shell { grid-template-columns:1fr; gap:6px; }
+    .hn-proof>.hn-shell>.hn-eyebrow { padding-top:0; }
   }
   @media(max-width:620px) {
     body.home-new { padding-bottom:72px; }
@@ -325,6 +332,8 @@
     .hn-vehicle-card footer { align-items:stretch; flex-direction:column; }
     .hn-vehicle-card__select { justify-content:center; }
     .hn-proof { padding:26px 0; }
+    .hn-proof__grid article { min-height:0; }
+    .hn-proof__transfer { align-items:flex-start; padding:16px 0 0; background:transparent; }
     .hn-stops__grid { grid-template-columns:1fr; }
     .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
     .hn-stop-support { grid-column:auto; }
@@ -583,9 +592,9 @@
     'ru' => ['pickup' => 'Места посадки', 'dropoff' => 'Места высадки', 'map' => 'Открыть карту', 'support' => 'Нужно подтвердить место посадки?', 'support_text' => 'Свяжитесь с поддержкой до поездки, чтобы уточнить багаж, посадку и условия изменения билета.'],
   ][$locale];
   $productCopy = [
-    'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'actual_vehicle' => 'Hình ảnh xe thực tế', 'onboard' => 'Thông tin chuyến', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
-    'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Trip details', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
-    'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Информация о рейсе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
+    'vi' => ['live' => 'DỮ LIỆU CHUYẾN ĐI TRỰC TIẾP', 'fleet_kicker' => 'CHỌN CHUYẾN PHÙ HỢP', 'fleet_title' => 'Xem đúng loại xe trước khi đặt', 'fleet_text' => 'Giờ khởi hành, loại xe và giá vé được lấy trực tiếp cho ngày bạn chọn.', 'actual_vehicle' => 'Hình ảnh xe thực tế', 'onboard' => 'Thông tin chuyến', 'seat_map' => 'Sơ đồ ghế thực tế', 'seat_map_text' => 'Chọn ghế đang trống trước khi thanh toán.', 'stops' => 'Điểm đón, trả rõ ràng', 'stops_text' => 'Xem địa chỉ và thời gian theo từng chuyến.', 'payment' => 'Thanh toán có xác nhận', 'payment_text' => 'Nhận mã thanh toán và trạng thái giao dịch rõ ràng.', 'transfer' => 'Hỗ trợ trung chuyển tận nơi trong bán kính 7 km tại Nha Trang.', 'review_kicker' => 'PHẢN HỒI HÀNH KHÁCH', 'review_fallback' => 'Đội ngũ Nhật Dương luôn sẵn sàng hỗ trợ để hành trình của bạn rõ ràng và thuận tiện hơn.', 'support_call' => 'Gọi hỗ trợ', 'support_online' => 'Hỗ trợ đặt vé'],
+    'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Trip details', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'transfer' => 'Door-to-door shuttle support within a 7 km radius in Nha Trang.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
+    'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Информация о рейсе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'transfer' => 'Трансфер от двери до двери в радиусе 7 км в Нячанге.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
       $homeUi = [
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
@@ -815,11 +824,17 @@
   </section>
 
   <section class="hn-proof" aria-labelledby="assurance-title">
-    <div class="hn-shell"><p class="hn-eyebrow" id="assurance-title">{{ $homeUi['assurance'] }}</p><div class="hn-proof__grid">
-      @foreach([[$productCopy['seat_map'], $productCopy['seat_map_text']], [$productCopy['stops'], $productCopy['stops_text']], [$productCopy['payment'], $productCopy['payment_text']]] as $index => [$title, $text])
-        <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
-      @endforeach
-    </div></div>
+    <div class="hn-shell">
+      <p class="hn-eyebrow" id="assurance-title">{{ $homeUi['assurance'] }}</p>
+      <div class="hn-proof__body">
+        <div class="hn-proof__grid">
+          @foreach([[$productCopy['seat_map'], $productCopy['seat_map_text']], [$productCopy['stops'], $productCopy['stops_text']], [$productCopy['payment'], $productCopy['payment_text']]] as $index => [$title, $text])
+            <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
+          @endforeach
+        </div>
+        <p class="hn-proof__transfer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M5 4h7M2 11h4"/></svg><strong>{{ $productCopy['transfer'] }}</strong></p>
+      </div>
+    </div>
   </section>
 
   <section id="pickup" class="hn-section hn-stops" aria-labelledby="stops-title">
