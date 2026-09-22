@@ -263,11 +263,16 @@
   .hn-stop-support__phones a { padding:7px 9px; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:7px; font-size:11px; font-weight:800; text-decoration:none; }
   .hn-stop-support__phones a:hover { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.3); }
   .hn-stop-support .hn-button { margin-top:auto; align-self:flex-start; }
-  .hn-review { display:block; padding:76px 0; }
-  .hn-review__inner { display:grid; grid-template-columns:1.1fr .9fr; gap:70px; align-items:center; }
-  .hn-review__quote { padding:32px; }
-  .hn-review__stars { margin-bottom:16px; color:#b67d00; letter-spacing:.15em; }
-  .hn-review blockquote { font-size:20px; }
+  .hn-why { padding:76px 0; background:#f4f8f4; }
+  .hn-why__inner { display:grid; grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr); gap:64px; align-items:start; }
+  .hn-why__intro { position:sticky; top:100px; }
+  .hn-why__intro h2 { max-width:470px; margin-bottom:17px; font-size:clamp(32px,3.5vw,46px); }
+  .hn-why__intro>p:last-child { max-width:430px; margin:0; color:var(--hn-muted); font-size:14px; line-height:1.7; }
+  .hn-why__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .hn-why__grid article { min-height:180px; padding:24px; background:#fff; border:1px solid #d5e4d9; border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); }
+  .hn-why__grid span { display:inline-flex; align-items:center; gap:9px; color:#9a7000; font-size:11px; font-weight:900; letter-spacing:.1em; }
+  .hn-why__grid span:after { width:28px; height:2px; background:var(--hn-gold); content:''; }
+  .hn-why__grid p { margin:24px 0 0; color:var(--hn-deep); font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:700; line-height:1.6; }
   .hn-faq details { padding:0; }
   .hn-faq summary { display:flex; align-items:center; justify-content:space-between; min-height:60px; padding:14px 0; list-style:none; }
   .hn-faq summary::-webkit-details-marker { display:none; }
@@ -292,7 +297,8 @@
     .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:1fr 1fr; grid-template-rows:minmax(390px,auto); }
     .hn-stops__grid { grid-template-columns:1fr 1fr; }
     .hn-stop-support { grid-column:1/-1; min-height:auto; }
-    .hn-review__inner { grid-template-columns:1fr; gap:32px; }
+    .hn-why__inner { grid-template-columns:1fr; gap:30px; }
+    .hn-why__intro { position:static; }
     .hn-proof>.hn-shell { grid-template-columns:1fr; gap:6px; }
     .hn-proof>.hn-shell>.hn-eyebrow { padding-top:0; }
   }
@@ -346,8 +352,10 @@
     .hn-stops__grid { grid-template-columns:1fr; }
     .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
     .hn-stop-support { grid-column:auto; }
-    .hn-review { padding:54px 0; }
-    .hn-review__quote { padding:26px 21px; }
+    .hn-why { padding:54px 0; }
+    .hn-why__grid { grid-template-columns:1fr; }
+    .hn-why__grid article { min-height:0; padding:21px; }
+    .hn-why__grid p { margin-top:17px; font-size:15px; }
     .hn-news-grid { grid-template-columns:1fr; }
     .hn-final { padding:50px 0; }
     .hn-support-float { display:none; }
@@ -606,6 +614,41 @@
     'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Trip details', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'transfer' => 'Door-to-door shuttle support within a 7 km radius in Nha Trang.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Информация о рейсе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'transfer' => 'Трансфер от двери до двери в радиусе 7 км в Нячанге.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
+  $whyChoose = [
+    'vi' => [
+      'kicker' => 'LÝ DO CHỌN NHẬT DƯƠNG',
+      'title' => 'Tại sao nên chọn Nhật Dương cho hành trình của bạn?',
+      'text' => 'Trải nghiệm cao cấp được chăm chút từ lúc chờ xe đến khi kết thúc hành trình.',
+      'items' => [
+        'Phòng chờ thoải mái, lịch sự, có đồ ăn nhẹ.',
+        'Giá tốt, phù hợp với phân khúc cao cấp.',
+        'Hỗ trợ trung chuyển tận nơi trong bán kính 7 km tại Nha Trang.',
+        'Hủy vé linh hoạt: miễn phí trước 24 giờ so với giờ khởi hành.',
+      ],
+    ],
+    'en' => [
+      'kicker' => 'WHY CHOOSE NHAT DUONG',
+      'title' => 'Why choose Nhat Duong for your journey?',
+      'text' => 'A premium experience thoughtfully prepared from the waiting lounge to your destination.',
+      'items' => [
+        'A comfortable, welcoming lounge with light refreshments.',
+        'Competitive fares suited to a premium travel experience.',
+        'Door-to-door shuttle support within a 7 km radius in Nha Trang.',
+        'Flexible cancellation: free up to 24 hours before departure.',
+      ],
+    ],
+    'ru' => [
+      'kicker' => 'ПОЧЕМУ NHAT DUONG',
+      'title' => 'Почему стоит выбрать Nhat Duong для поездки?',
+      'text' => 'Продуманный сервис премиум-класса от зала ожидания до пункта назначения.',
+      'items' => [
+        'Комфортный зал ожидания и лёгкие закуски.',
+        'Выгодная цена для поездки премиум-класса.',
+        'Трансфер от двери до двери в радиусе 7 км в Нячанге.',
+        'Гибкая отмена: бесплатно не позднее чем за 24 часа до отправления.',
+      ],
+    ],
+  ][$locale];
       $homeUi = [
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
     'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'A variety of departure times', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['English-speaking staff', 'Snacks', 'Toilet', 'Reading light', 'Seat belt', 'Drinking water', 'Pillow', 'Emergency hammer', 'LED TV', 'Phone charging', 'Window curtains', 'Sound system', 'Wi-Fi', 'Air conditioning', 'Cold towel'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
@@ -663,9 +706,6 @@
   };
   $supportPhone = preg_replace('/\D+/', '', $settings['hotline'] ?? '');
   $supportHref = $supportPhone ? 'tel:+'.$supportPhone : route('contact', ['lang' => $locale]);
-  $reviewQuote = $settings['home_routes_review_quote'] ?? $productCopy['review_fallback'];
-  $reviewName = $settings['home_routes_review_name'] ?? 'Nhat Duong passenger';
-  $reviewRole = $settings['home_routes_review_role'] ?? $productCopy['support_online'];
 @endphp
 
 <header class="hn-header">
@@ -871,10 +911,14 @@
     </div>
   </section>
 
-  <section class="hn-review hn-section--mist" aria-labelledby="review-title">
-    <div class="hn-shell hn-review__inner">
-      <div class="hn-review__quote"><div class="hn-review__stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“{{ $reviewQuote }}”</blockquote><footer><strong>{{ $reviewName }}</strong><small>{{ $reviewRole }}</small></footer></div>
-      <div class="hn-review__aside"><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['review_kicker'] }}</p><h2 id="review-title">{{ $copy['support'] }}</h2><p>{{ $pickupLabels['support_text'] }}</p><a class="hn-button hn-button--primary" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div>
+  <section class="hn-why" aria-labelledby="why-title">
+    <div class="hn-shell hn-why__inner">
+      <div class="hn-why__intro"><p class="hn-eyebrow hn-eyebrow--green">{{ $whyChoose['kicker'] }}</p><h2 id="why-title">{{ $whyChoose['title'] }}</h2><p>{{ $whyChoose['text'] }}</p></div>
+      <div class="hn-why__grid">
+        @foreach($whyChoose['items'] as $index => $item)
+          <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><p>{{ $item }}</p></article>
+        @endforeach
+      </div>
     </div>
   </section>
 
