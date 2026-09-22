@@ -23,6 +23,62 @@
         ],
     ][$locale];
     $discount = $originalFare > $fare ? (int) round((1 - ($fare / $originalFare)) * 100) : 0;
+    $operatorPolicy = [
+        'vi' => [
+            'title' => 'Chính sách nhà xe',
+            'sections' => [
+                ['title' => 'Chính sách trẻ em', 'paragraphs' => ['Bé từ 6 tuổi (sinh năm 2020) được tính là 1 khách. Một người lớn đi kèm bé 6 tuổi phải mua vé phòng đôi hoặc tách thành 2 phòng riêng.'], 'bullets' => ['Từ 5 tuổi trở xuống (tính theo năm sinh): miễn phí.', 'Từ 6 tuổi trở lên: phải mua vé như người lớn.']],
+                ['title' => 'Thời gian trung chuyển và thời gian đến', 'paragraphs' => ['Khách đặt vé từ Quận 1 cho chuyến khởi hành từ 05:30 đến 22:00 phải có mặt trước giờ hiển thị 1 tiếng để đi xe trung chuyển ghế ngồi ra bãi xe Quận 2 hoặc Bến xe Miền Đông mới, sau đó lên xe khách giường nằm.', 'Chuyến khởi hành ban ngày có thể đến muộn từ 1–2 giờ so với lịch trình dự kiến.']],
+                ['title' => 'Hành lý', 'paragraphs' => ['Phòng đơn: dưới 30 kg. Phòng đôi: dưới 40 kg.']],
+                ['title' => 'Khách nước ngoài', 'paragraphs' => ['Vui lòng cung cấp số WhatsApp và kiểm tra email thường xuyên để công ty có thể liên hệ.']],
+                ['title' => 'Kích thước và tải trọng giường', 'paragraphs' => ['Giường đôi: dài 178 cm, rộng 85 cm, tải trọng tối đa 130 kg/giường.', 'Phòng đơn nhỏ tầng dưới cuối xe 6D dài 167 cm.']],
+                ['title' => 'Động vật cảnh', 'paragraphs' => ['Nhà xe không nhận vận chuyển động vật cảnh hoặc thú cưng.']],
+                ['title' => 'Hành khách vị thành niên', 'paragraphs' => ['Trẻ vị thành niên dưới 16 tuổi phải có cha mẹ hoặc người giám hộ đi kèm.']],
+                ['title' => 'Hủy hoặc dời vé ngày thường', 'paragraphs' => ['Không áp dụng trước, trong và sau các kỳ nghỉ lễ.'], 'periods' => [
+                    ['title' => 'Trước giờ khởi hành trên 24 giờ', 'bullets' => ['Hủy vé miễn phí.', 'Dời vé miễn phí 1 lần.']],
+                    ['title' => 'Từ 6 đến 24 giờ trước giờ khởi hành', 'bullets' => ['Phí hủy: 30% giá trị vé.', 'Vé giá gốc được dời 1 lần.', 'Vé sử dụng coupon được dời với điều kiện thanh toán phần chênh lệch về vé giá gốc.']],
+                    ['title' => 'Dưới 6 giờ trước giờ khởi hành', 'bullets' => ['Phí hủy: 100% giá trị vé, không được hủy.', 'Không được dời vé.']],
+                ], 'note' => 'Vé sử dụng mã giảm giá, coupon hoặc thuộc chương trình khuyến mãi không áp dụng chính sách hủy vé.'],
+            ],
+            'thanks' => 'Xin cảm ơn quý khách.',
+        ],
+        'en' => [
+            'title' => 'Operator policy',
+            'sections' => [
+                ['title' => 'Child policy', 'paragraphs' => ['Children aged 6 (born in 2020) count as one passenger. One adult travelling with a 6-year-old child must book a double cabin or two separate cabins.'], 'bullets' => ['Children aged 5 and under (calculated by birth year): free of charge.', 'Children aged 6 and over: an adult ticket is required.']],
+                ['title' => 'Shuttle and arrival times', 'paragraphs' => ['Passengers booking from District 1 on departures between 05:30 and 22:00 must arrive one hour before the displayed time to take the seated shuttle to the District 2 parking area or the new Mien Dong Bus Station, where they will board the sleeper bus.', 'Daytime departures may arrive 1–2 hours later than the estimated schedule.']],
+                ['title' => 'Luggage', 'paragraphs' => ['Single cabin: under 30 kg. Double cabin: under 40 kg.']],
+                ['title' => 'International passengers', 'paragraphs' => ['Please provide a WhatsApp number and check your email regularly so the operator can contact you.']],
+                ['title' => 'Bed dimensions and weight limit', 'paragraphs' => ['Double bed: 178 cm long and 85 cm wide, with a maximum load of 130 kg per bed.', 'The small lower single berth 6D at the rear of the bus is 167 cm long.']],
+                ['title' => 'Pets', 'paragraphs' => ['The operator does not transport pets or companion animals.']],
+                ['title' => 'Minor passengers', 'paragraphs' => ['Passengers under 16 must be accompanied by a parent or legal guardian.']],
+                ['title' => 'Weekday cancellation and rescheduling', 'paragraphs' => ['This policy does not apply before, during, or after public holidays.'], 'periods' => [
+                    ['title' => 'More than 24 hours before departure', 'bullets' => ['Free cancellation.', 'One free reschedule.']],
+                    ['title' => 'From 6 to 24 hours before departure', 'bullets' => ['Cancellation fee: 30% of the ticket value.', 'Full-price tickets may be rescheduled once.', 'Coupon tickets may be rescheduled after paying the difference up to the full fare.']],
+                    ['title' => 'Less than 6 hours before departure', 'bullets' => ['Cancellation fee: 100% of the ticket value; cancellation is not permitted.', 'Rescheduling is not permitted.']],
+                ], 'note' => 'Tickets purchased with a discount code, coupon, or promotional programme are not eligible for cancellation.'],
+            ],
+            'thanks' => 'Thank you.',
+        ],
+        'ru' => [
+            'title' => 'Правила перевозчика',
+            'sections' => [
+                ['title' => 'Правила для детей', 'paragraphs' => ['Ребёнок с 6 лет (2020 года рождения) считается отдельным пассажиром. Один взрослый с 6-летним ребёнком должен забронировать двухместное купе или два отдельных купе.'], 'bullets' => ['Дети до 5 лет включительно (по году рождения): бесплатно.', 'Дети с 6 лет: требуется билет по взрослому тарифу.']],
+                ['title' => 'Трансфер и время прибытия', 'paragraphs' => ['Пассажиры с посадкой в Районе 1 на рейсы с 05:30 до 22:00 должны прибыть за один час до указанного времени, чтобы воспользоваться сидячим трансфером до стоянки в Районе 2 или нового автовокзала Миен Донг, где производится посадка в спальный автобус.', 'Дневные рейсы могут прибыть на 1–2 часа позже расчётного времени.']],
+                ['title' => 'Багаж', 'paragraphs' => ['Одноместное купе: до 30 кг. Двухместное купе: до 40 кг.']],
+                ['title' => 'Иностранные пассажиры', 'paragraphs' => ['Укажите номер WhatsApp и регулярно проверяйте электронную почту, чтобы перевозчик мог связаться с вами.']],
+                ['title' => 'Размеры и допустимая нагрузка', 'paragraphs' => ['Двуспальная кровать: длина 178 см, ширина 85 см, максимальная нагрузка 130 кг на кровать.', 'Малое нижнее одноместное место 6D в задней части автобуса имеет длину 167 см.']],
+                ['title' => 'Домашние животные', 'paragraphs' => ['Перевозчик не принимает к перевозке домашних животных.']],
+                ['title' => 'Несовершеннолетние пассажиры', 'paragraphs' => ['Пассажиры младше 16 лет должны путешествовать с родителем или законным опекуном.']],
+                ['title' => 'Отмена и перенос в обычные дни', 'paragraphs' => ['Правила не действуют до, во время и после праздничных дней.'], 'periods' => [
+                    ['title' => 'Более чем за 24 часа до отправления', 'bullets' => ['Бесплатная отмена.', 'Один бесплатный перенос.']],
+                    ['title' => 'За 6–24 часа до отправления', 'bullets' => ['Комиссия за отмену: 30% стоимости билета.', 'Билет по полной цене можно перенести один раз.', 'Билет с купоном можно перенести после доплаты разницы до полной стоимости.']],
+                    ['title' => 'Менее чем за 6 часов до отправления', 'bullets' => ['Комиссия за отмену: 100% стоимости билета; отмена невозможна.', 'Перенос невозможен.']],
+                ], 'note' => 'Билеты со скидочным кодом, купоном или по акции не подлежат отмене.'],
+            ],
+            'thanks' => 'Благодарим вас.',
+        ],
+    ][$locale];
     $amenityIcons = [
         10 => '<svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4V5Z"/><path d="m9 9 2 2 4-4"/></svg>',
         11 => '<svg viewBox="0 0 24 24"><path d="M4 15h16M6 15a6 6 0 0 1 12 0M12 7V5M4 19h16"/></svg>',
@@ -88,4 +144,22 @@
 <section class="trip-panel" data-trip-panel="amenities" role="tabpanel" hidden>
     @if($details['amenities'])<ul class="trip-amenities">@foreach($details['amenities'] as $amenity)<li><span class="trip-amenity-icon" aria-hidden="true">{!! $amenityIcons[$amenity['id']] ?? '<svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>' !!}</span><span class="trip-amenity-copy"><strong>{{ $amenity['name'] }}</strong>@if($amenity['is_free'])<small>{{ $text['free'] }}</small>@endif</span></li>@endforeach</ul>
     @else <p class="trip-empty">{{ $text['no_amenities'] }}</p> @endif
+</section>
+
+<section class="trip-panel trip-operator-policy" data-trip-panel="operator_policy" role="tabpanel" hidden>
+    <h3>{{ $operatorPolicy['title'] }}</h3>
+    <ol>
+        @foreach($operatorPolicy['sections'] as $section)
+            <li>
+                <h4>{{ $section['title'] }}</h4>
+                @foreach($section['paragraphs'] ?? [] as $paragraph)<p>{{ $paragraph }}</p>@endforeach
+                @if(!empty($section['bullets']))<ul>@foreach($section['bullets'] as $bullet)<li>{{ $bullet }}</li>@endforeach</ul>@endif
+                @foreach($section['periods'] ?? [] as $period)
+                    <div class="trip-policy-period"><strong>{{ $period['title'] }}</strong><ul>@foreach($period['bullets'] as $bullet)<li>{{ $bullet }}</li>@endforeach</ul></div>
+                @endforeach
+                @if(!empty($section['note']))<p class="trip-policy-note">{{ $section['note'] }}</p>@endif
+            </li>
+        @endforeach
+    </ol>
+    <p><strong>{{ $operatorPolicy['thanks'] }}</strong></p>
 </section>

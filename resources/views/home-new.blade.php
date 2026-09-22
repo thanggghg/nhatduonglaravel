@@ -391,7 +391,7 @@
 </style>
 <style>
   .hn-trip-info { min-width:0; margin:8px 0 20px; overflow:hidden; border:1px solid #d4e3d8; border-radius:13px; background:#fbfdfb; }
-  .hn-trip-info .trip-tabs { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:3px; padding:6px; background:#edf5ef; }
+  .hn-trip-info .trip-tabs { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; padding:6px; background:#edf5ef; }
   .hn-trip-info .trip-tabs button { position:relative; min-width:0; min-height:42px; padding:7px 5px; color:#607269; background:transparent; border:0; border-radius:8px; font:800 11px/1.2 Inter,sans-serif; white-space:normal; cursor:pointer; transition:color .18s ease,background .18s ease,box-shadow .18s ease; }
   .hn-trip-info .trip-tabs button:after { position:absolute; right:10px; bottom:3px; left:10px; height:2px; border-radius:2px; background:var(--hn-green); content:''; opacity:0; transform:scaleX(.4); transition:.18s ease; }
   .hn-trip-info .trip-tabs button:hover { color:var(--hn-green); background:rgba(255,255,255,.6); }
@@ -442,7 +442,18 @@
   .hn-trip-info .trip-amenity-copy { display:grid; width:auto; height:auto; min-width:0; place-items:initial; gap:3px; color:inherit; background:transparent; border-radius:0; }
   .hn-trip-info .trip-amenities strong { overflow:hidden; color:#385244; font-size:9px; line-height:1.25; text-overflow:ellipsis; }
   .hn-trip-info .trip-amenities small { width:max-content; padding:2px 4px; color:var(--hn-green); background:#e6f5eb; border-radius:4px; font-size:7px; font-weight:900; text-transform:uppercase; }
-  @media(max-width:620px) { .hn-trip-info .trip-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); padding:6px; } .hn-trip-info .trip-tabs button { min-height:44px; padding:7px 4px; } .hn-trip-info .trip-panels { padding:13px 11px; } }
+  .hn-trip-info .trip-operator-policy>h3 { margin:0 0 13px; color:var(--hn-deep); font-size:15px; }
+  .hn-trip-info .trip-operator-policy>ol { display:grid; grid-template-columns:1fr; gap:10px; margin:0; padding:0; background:transparent; border:0; list-style:none; counter-reset:policy; }
+  .hn-trip-info .trip-operator-policy>ol>li { display:block; padding:11px; color:#385244; background:#fff; border:1px solid #dce8df; border-radius:9px; counter-increment:policy; }
+  .hn-trip-info .trip-operator-policy h4 { margin:0 0 6px; color:var(--hn-deep); font-size:11px; line-height:1.4; }
+  .hn-trip-info .trip-operator-policy h4:before { margin-right:5px; color:var(--hn-green); content:counter(policy) '.'; }
+  .hn-trip-info .trip-operator-policy p { margin:5px 0 0; color:#607269; font-size:10px; line-height:1.55; }
+  .hn-trip-info .trip-operator-policy ul { display:grid; grid-template-columns:1fr; gap:5px; margin:7px 0 0; padding:0 0 0 16px; background:transparent; border:0; list-style:disc; }
+  .hn-trip-info .trip-operator-policy ul li { display:list-item; padding:0; color:#52695d; background:transparent; border:0; border-radius:0; font-size:10px; line-height:1.5; }
+  .hn-trip-info .trip-policy-period { margin-top:9px; padding:8px; background:#f3f8f4; border-radius:7px; }
+  .hn-trip-info .trip-policy-period strong { color:var(--hn-green); font-size:10px; }
+  .hn-trip-info .trip-policy-note { padding:8px 9px; color:#76551a!important; background:#fff4d8; border-radius:7px; font-weight:700; }
+  @media(max-width:620px) { .hn-trip-info .trip-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); padding:6px; } .hn-trip-info .trip-tabs button { min-height:44px; padding:7px 4px; } .hn-trip-info .trip-tabs button:last-child:nth-child(7) { grid-column:1/-1; } .hn-trip-info .trip-panels { padding:13px 11px; } }
 </style>
 </head>
 <body class="home-new">
@@ -575,9 +586,9 @@
     'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Разнообразное время отправления', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Англоговорящий персонал', 'Закуски', 'Туалет', 'Лампа для чтения', 'Ремень безопасности', 'Питьевая вода', 'Подушка', 'Аварийный молоток', 'LED-телевизор', 'Зарядка телефона', 'Шторы', 'Аудиосистема', 'Wi-Fi', 'Кондиционер', 'Холодное полотенце'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
   ][$locale];
   $homeTripTabs = [
-    'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích'],
-    'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'policies' => 'Policies', 'images' => 'Images', 'amenities' => 'Amenities'],
-    'ru' => ['discount' => 'Скидка', 'points' => 'Посадка/Высадка', 'reviews' => 'Отзывы', 'policies' => 'Правила', 'images' => 'Фото', 'amenities' => 'Удобства'],
+    'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
+    'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'policies' => 'Policies', 'images' => 'Images', 'amenities' => 'Amenities', 'operator_policy' => 'Operator policy'],
+    'ru' => ['discount' => 'Скидка', 'points' => 'Посадка/Высадка', 'reviews' => 'Отзывы', 'policies' => 'Правила', 'images' => 'Фото', 'amenities' => 'Удобства', 'operator_policy' => 'Правила перевозчика'],
   ][$locale];
   $homeTripCopy = [
     'vi' => ['original' => 'Giá gốc', 'sale' => 'Giá khuyến mãi', 'save' => 'Tiết kiệm', 'no_discount' => 'Chuyến này hiện chưa áp dụng khuyến mãi.', 'loading' => 'Đang tải thông tin chuyến...', 'error' => 'Không thể tải chi tiết chuyến. Vui lòng thử lại.'],
