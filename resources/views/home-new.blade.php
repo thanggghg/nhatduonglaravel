@@ -240,9 +240,15 @@
   .hn-proof__transfer { display:flex; align-items:center; gap:13px; margin:0; padding:15px 26px; color:#e5f6ea; background:rgba(255,255,255,.06); border-top:1px solid rgba(212,244,226,.16); font-size:13px; font-weight:700; line-height:1.55; }
   .hn-proof__transfer svg { width:22px; height:22px; flex:none; color:var(--hn-gold); fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
   .hn-proof__transfer strong { color:#fff; }
-  .hn-stops { background:#fff; }
+  .hn-stops { background:linear-gradient(180deg,#fff 0,#f6faf7 100%); border-top:1px solid #e5eee7; }
+  .hn-stops .hn-section-heading--split { display:block; max-width:790px; margin:0 auto 34px; text-align:center; }
+  .hn-stops .hn-section-heading--split>div { max-width:none; }
+  .hn-stops .hn-section-heading--split .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; margin-bottom:15px; padding:7px 11px; background:#eaf6ed; border:1px solid #cfe6d5; border-radius:999px; letter-spacing:.1em; }
+  .hn-stops .hn-section-heading--split .hn-eyebrow:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 3px rgba(251,177,22,.14); content:''; }
+  .hn-stops .hn-section-heading--split h2 { margin-bottom:13px; font-size:clamp(30px,4vw,44px); }
+  .hn-stops .hn-section-heading--split>p { max-width:650px; margin:0 auto; color:var(--hn-muted); font-size:15px; line-height:1.7; }
   .hn-stops__grid { display:grid; grid-template-columns:1fr 1fr .8fr; gap:16px; }
-  .hn-stop-card,.hn-stop-support { min-height:230px; padding:24px; border:1px solid var(--hn-line); border-radius:14px; }
+  .hn-stop-card,.hn-stop-support { min-height:230px; padding:24px; border:1px solid var(--hn-line); border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); }
   .hn-stop-card__head { display:flex; gap:13px; align-items:flex-start; }
   .hn-stop-card__head svg { width:36px; height:36px; flex:none; padding:8px; color:var(--hn-green); background:#eaf6ed; border-radius:50%; fill:none; stroke:currentColor; stroke-width:1.8; }
   .hn-stop-card__head span { color:var(--hn-green); font-size:10px; font-weight:800; text-transform:uppercase; }
@@ -488,7 +494,7 @@
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
        'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.', 'no_departures' => 'Chưa có chuyến mở bán cho chiều này hôm nay.',
-      'pickup_kicker' => 'Đón trả minh bạch', 'pickup_title' => 'Biết rõ nơi lên xe trước khi khởi hành', 'pickup_text' => 'Xác nhận điểm đón, điểm trả và thời gian có mặt với đội ngũ hỗ trợ trước ngày đi.',
+      'pickup_kicker' => 'Điểm đón & trả khách', 'pickup_title' => 'Lên xe đúng điểm, đúng giờ', 'pickup_text' => 'Địa chỉ đón, trả được hiển thị rõ ràng. Vui lòng liên hệ hỗ trợ để xác nhận thời gian có mặt trước chuyến đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
       'pickup_3_title' => 'Đến sớm', 'pickup_3_text' => 'Nên có mặt trước giờ khởi hành để hoàn tất lên xe thuận tiện.',
@@ -512,7 +518,7 @@
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
        'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.', 'no_departures' => 'No departures are on sale for this direction today.',
-      'pickup_kicker' => 'Clear pickup details', 'pickup_title' => 'Know where to board before you travel', 'pickup_text' => 'Confirm your pickup, drop-off, and check-in time with our support team before departure.',
+      'pickup_kicker' => 'Pickup & drop-off', 'pickup_title' => 'Meet your bus at the right place', 'pickup_text' => 'Pickup and drop-off addresses are clearly listed. Contact support to confirm your check-in time before departure.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
       'pickup_3_title' => 'Arrive early', 'pickup_3_text' => 'Please arrive early for a smooth check-in and boarding process.',
@@ -536,7 +542,7 @@
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
        'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.', 'no_departures' => 'Сегодня рейсы в этом направлении ещё не открыты для продажи.',
-      'pickup_kicker' => 'Понятная посадка', 'pickup_title' => 'Знайте место посадки до начала поездки', 'pickup_text' => 'Подтвердите место посадки, высадки и время регистрации у команды поддержки до отправления.',
+      'pickup_kicker' => 'Посадка и высадка', 'pickup_title' => 'Садитесь в автобус в нужном месте', 'pickup_text' => 'Адреса посадки и высадки указаны ниже. Свяжитесь с поддержкой, чтобы уточнить время прибытия до отправления.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
       'pickup_3_title' => 'Приезжайте заранее', 'pickup_3_text' => 'Приезжайте заранее для спокойной регистрации и посадки.',
@@ -844,8 +850,8 @@
   <section id="pickup" class="hn-section hn-stops" aria-labelledby="stops-title">
     <div class="hn-shell">
       <div class="hn-section-heading hn-section-heading--split">
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['pickup_kicker'] }}</p><h2 id="stops-title">{{ $homeUi['popular_stops'] }}</h2></div>
-        <p>{{ $homeUi['stops_text'] }}</p>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['pickup_kicker'] }}</p><h2 id="stops-title">{{ $copy['pickup_title'] }}</h2></div>
+        <p>{{ $copy['pickup_text'] }}</p>
       </div>
       <div class="hn-stops__grid">
         <article class="hn-stop-card">
