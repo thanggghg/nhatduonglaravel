@@ -50,7 +50,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 <style>
-  :root { --hn-green:#0b7f42; --hn-deep:#062d1c; --hn-gold:#fbb116; --hn-ink:#18332a; --hn-muted:#62766c; --hn-mist:#f5f9f5; --hn-line:#d9e5dc; }
+  :root { --hn-green:#0b7f42; --hn-deep:#062d1c; --hn-gold:#f9df12; --hn-ink:#18332a; --hn-muted:#62766c; --hn-mist:#f5f9f5; --hn-line:#d9e5dc; }
   * { box-sizing:border-box; } html { scroll-behavior:smooth; } body.home-new { margin:0; color:var(--hn-ink); background:#fff; font-family:Inter,system-ui,sans-serif; } .hn-shell { width:min(1160px, calc(100% - 40px)); margin:auto; }
   .hn-header { position:sticky; top:0; z-index:20; background:rgba(255,255,255,.96); border-bottom:1px solid rgba(6,45,28,.1); backdrop-filter:blur(14px); } .hn-nav-wrap { min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
   .hn-brand { display:flex; align-items:center; gap:9px; color:var(--hn-deep); text-decoration:none; font-weight:800; white-space:nowrap; } .hn-brand img { width:34px; height:34px; object-fit:contain; } .hn-nav { display:flex; gap:20px; } .hn-nav a,.hn-contact { color:var(--hn-muted); text-decoration:none; font-size:14px; font-weight:600; } .hn-nav a:hover,.hn-contact:hover { color:var(--hn-green); }
@@ -99,7 +99,7 @@
   @media (max-width:620px) { .hn-route-card__image, .hn-route-card__image img { min-height:280px; } .hn-route-card__actions { align-items:stretch; flex-direction:column; gap:12px; } .hn-route-card__actions .hn-button { width:100%; } .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; padding-bottom:3px; } .hn-direction-tabs button { white-space:nowrap; } .hn-schedule__head { display:none; } .hn-schedule__row { grid-template-columns:1fr 1fr; } .hn-schedule__row .hn-schedule__seats { grid-column:2; grid-row:2; } }
 </style>
 <style>
-  body.home-new { --hn-green:#0b7f42; --hn-green-dark:#075d35; --hn-deep:#062d1c; --hn-gold:#fbb116; --hn-ink:#18332a; --hn-muted:#607269; --hn-mist:#f4f8f4; --hn-line:#d8e5dc; padding-bottom:0; color:var(--hn-ink); }
+  body.home-new { --hn-green:#0b7f42; --hn-green-dark:#075d35; --hn-deep:#062d1c; --hn-gold:#f9df12; --hn-ink:#18332a; --hn-muted:#607269; --hn-mist:#f4f8f4; --hn-line:#d8e5dc; padding-bottom:0; color:var(--hn-ink); }
   .home-new h1,.home-new h2,.home-new h3 { font-family:'Be Vietnam Pro',Inter,sans-serif; }
   .home-new a,.home-new button,.home-new input,.home-new select { touch-action:manipulation; }
   .home-new a:focus-visible,.home-new button:focus-visible,.home-new input:focus-visible,.home-new select:focus-visible,.home-new summary:focus-visible { outline:3px solid var(--hn-gold); outline-offset:3px; }
@@ -119,7 +119,7 @@
   .hn-hero-route:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(251,177,22,.15); content:''; }
   .hn-hero h1.hn-hero-title { display:grid; gap:7px; max-width:800px; margin:0 0 18px; font-size:clamp(44px,4.7vw,66px); line-height:1; letter-spacing:-.045em; }
   .hn-hero-title__name { display:block; }
-  .hn-hero-title__specs { display:block; color:#f8cb5c; font-size:.58em; line-height:1.2; letter-spacing:-.025em; }
+  .hn-hero-title__specs { display:block; color:#f9df12; font-size:.58em; line-height:1.2; letter-spacing:-.025em; }
   .hn-hero__copy>.hn-hero-tagline { display:flex; align-items:center; gap:11px; max-width:560px; margin:0; color:rgba(255,255,255,.88); font-size:16px; line-height:1.6; }
   .hn-hero-tagline:before { width:30px; height:2px; flex:none; background:var(--hn-gold); content:''; }
   body.home-new .hn-hero__copy>p.hn-official-site { display:inline-flex; align-items:center; gap:9px; margin:17px 0 0; padding:9px 13px; color:#16442e; background:#fff; border:1px solid rgba(255,255,255,.7); border-radius:10px; box-shadow:0 9px 24px rgba(0,0,0,.14); font-size:16px; font-weight:800; line-height:1.45; }
@@ -497,6 +497,222 @@
   .hn-trip-info .trip-policy-note { padding:8px 9px; color:#76551a!important; background:#fff4d8; border-radius:7px; font-weight:700; }
   @media(max-width:620px) { .hn-trip-info .trip-tabs { grid-template-columns:repeat(3,minmax(0,1fr)); padding:6px; } .hn-trip-info .trip-tabs button { min-height:44px; padding:7px 4px; } .hn-trip-info .trip-tabs button:last-child:nth-child(7) { grid-column:1/-1; } .hn-trip-info .trip-panels { padding:13px 11px; } }
 </style>
+<style>
+  .hn-nav a,.hn-text-link span,.hn-departure-card__action span,.hn-vehicle-card__select b,.hn-news-card__link { transition:color .2s ease,transform .2s ease; }
+  .hn-route-summary dl div,.hn-stop-card,.hn-stop-support,.hn-proof__grid article,.hn-faq details,.hn-news-card { transition:transform .24s ease,border-color .24s ease,background-color .24s ease,box-shadow .24s ease; }
+  .hn-stop-card__head svg { transition:color .24s ease,background-color .24s ease,transform .24s ease; }
+  .hn-stop-card { position:relative; isolation:isolate; display:flex; overflow:hidden; flex-direction:column; background:linear-gradient(145deg,#fff 20%,#edf8f0 100%); }
+  .hn-stop-card:nth-child(2) { background:linear-gradient(145deg,#fff 20%,#fff8e6 100%); }
+  .hn-stop-card:before { position:absolute; top:0; right:0; left:0; height:5px; background:linear-gradient(90deg,var(--hn-green),#55aa72); content:''; }
+  .hn-stop-card:nth-child(2):before { background:linear-gradient(90deg,#d49708,var(--hn-gold)); }
+  .hn-stop-card:after { position:absolute; right:-46px; bottom:-58px; z-index:-1; width:150px; height:150px; border:24px solid rgba(11,127,66,.055); border-radius:50%; content:''; }
+  .hn-stop-card:nth-child(2):after { border-color:rgba(251,177,22,.08); }
+  .hn-stop-card__head { position:relative; z-index:1; align-items:center; }
+  .hn-stop-card__head svg { width:46px; height:46px; padding:11px; background:#fff; border:1px solid #cbe4d2; border-radius:13px; box-shadow:0 8px 20px rgba(6,45,28,.1); }
+  .hn-stop-card:nth-child(2) .hn-stop-card__head svg { color:#805c00; background:#fffaf0; border-color:#f0d99d; }
+  .hn-stop-card__head span { display:inline-flex; margin-bottom:5px; padding:4px 8px; background:#dff1e4; border-radius:999px; letter-spacing:.08em; }
+  .hn-stop-card:nth-child(2) .hn-stop-card__head span { color:#765400; background:#fff0c9; }
+  .hn-stop-card h3 { margin:0; color:var(--hn-deep); font-size:20px; line-height:1.35; }
+  .hn-stop-card>p { position:relative; min-height:0; margin:24px 0 18px; padding:14px 15px 14px 39px; color:#355345; background:rgba(255,255,255,.76); border:1px solid rgba(179,211,188,.75); border-radius:10px; font-weight:650; }
+  .hn-stop-card>p:before { position:absolute; top:19px; left:17px; width:9px; height:9px; background:var(--hn-green); border:2px solid #fff; border-radius:50%; box-shadow:0 0 0 3px #cfe8d6; content:''; }
+  .hn-stop-card:nth-child(2)>p { border-color:rgba(232,207,143,.82); }
+  .hn-stop-card:nth-child(2)>p:before { background:#c88c00; box-shadow:0 0 0 3px #f7e4ad; }
+  .hn-stop-card>a { position:relative; z-index:1; width:max-content; min-height:38px; margin-right:8px; padding:0 11px; background:rgba(255,255,255,.8); border:1px solid #c7dfce; border-radius:8px; transition:color .2s ease,background-color .2s ease,border-color .2s ease,transform .2s ease; }
+  .hn-stop-card>a:first-of-type { margin-top:auto; }
+  .hn-stop-card:nth-child(2)>a { color:#765400; border-color:#ead394; }
+  .hn-booking { position:relative; overflow:hidden; background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,249,237,.98)); border:1px solid rgba(249,223,18,.58); box-shadow:0 22px 58px rgba(15,40,29,.24); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
+  .hn-booking:before { position:absolute; top:0; right:0; left:0; height:4px; background:linear-gradient(90deg,#0b5438 0 28%,#f9df12 28% 100%); content:''; }
+  .hn-booking:focus-within { border-color:#d5be00; box-shadow:0 26px 64px rgba(15,40,29,.27),0 0 0 3px rgba(249,223,18,.13); }
+  .hn-booking fieldset { position:relative; }
+  .hn-booking legend { color:#073a2a; }
+  .hn-booking__top { padding-bottom:12px; border-bottom:1px solid #ebe4d4; }
+  .hn-booking .hn-live-proof { color:#0b5438!important; background:#e7f3eb; border-color:#bfdac8; }
+  .hn-booking label>span:first-child { color:#516159; transition:color .2s ease; }
+  .hn-booking label:focus-within>span:first-child { color:#0b5438; }
+  .hn-booking select,.hn-booking input:not([type=hidden]),.hn-passenger-stepper { background:#fff; border-color:#d8d4c7; box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 4px 12px rgba(52,48,35,.035); transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease; }
+  .hn-booking select:hover,.hn-booking input:not([type=hidden]):hover,.hn-passenger-stepper:hover { border-color:#d5b75f; }
+  .hn-booking select:focus,.hn-booking input:not([type=hidden]):focus { border-color:#0b5438; box-shadow:0 0 0 3px rgba(11,84,56,.11); }
+  .hn-swap { color:#0b5438; background:#fff3c7; border-color:#e4ca77; box-shadow:0 5px 13px rgba(117,83,0,.08); transition:background-color .2s ease,border-color .2s ease,box-shadow .2s ease; }
+  .hn-swap svg { transition:transform .28s ease; }
+  .hn-passenger-stepper button { color:#0b5438; background:#f3f6f1; transition:color .2s ease,background-color .2s ease,transform .15s ease; }
+  .hn-passenger-stepper output { color:#073a2a; background:#fffdf8; }
+  .hn-search-button { color:#17362b; background:linear-gradient(135deg,#fff36a,#f9df12); box-shadow:0 9px 20px rgba(164,144,0,.2); }
+  .hn-search-button svg { transition:transform .22s ease; }
+  .hn-route-summary { position:relative; overflow:hidden; background:linear-gradient(100deg,#fff,#fffbea 62%,#f3f7f2); border-block:1px solid #e6dfce; }
+  .hn-route-summary:before { position:absolute; top:0; bottom:0; left:0; width:5px; background:#f9df12; content:''; }
+  .hn-route-summary .hn-eyebrow { display:inline-flex; padding:5px 8px; color:#5b5120; background:#fff6a8; border-radius:999px; }
+  .hn-route-summary h2 { color:#073a2a; }
+  .hn-route-summary dl div { transition:background-color .2s ease,transform .2s ease; }
+  .hn-route-summary dl div:first-child dd { color:#806f00; }
+  .hn-route-summary .hn-text-link { min-height:42px; padding:0 14px; color:#17362b; background:#f9df12; border-radius:9px; box-shadow:0 7px 17px rgba(164,144,0,.14); }
+  .hn-departures { position:relative; overflow:hidden; background:linear-gradient(180deg,#fff9ed,#f8f6ef); border-block:1px solid #ebe2ce; }
+  .hn-departures:before { position:absolute; top:-190px; right:-120px; width:390px; height:390px; border:1px solid rgba(249,223,18,.2); border-radius:50%; box-shadow:0 0 0 48px rgba(249,223,18,.04),0 0 0 96px rgba(249,223,18,.022); content:''; }
+  .hn-departures>.hn-shell { position:relative; }
+  .hn-departures .hn-section-heading .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; color:#755700; background:#fff3c7; border:1px solid #ebd58e; border-radius:999px; }
+  .hn-departures .hn-section-heading .hn-eyebrow:before { width:7px; height:7px; background:#f9df12; border-radius:50%; box-shadow:0 0 0 3px rgba(249,223,18,.18); content:''; }
+  .hn-departures .hn-section-heading h2 { color:#073a2a; }
+  .hn-departures .hn-section-heading p:not(.hn-eyebrow) { color:#66736c; }
+  .hn-departures .hn-date-badge { color:#073a2a; background:#fff; border-color:#e7d49b; box-shadow:0 8px 22px rgba(78,58,15,.07); }
+  .hn-departures .hn-date-badge small { color:#876b24; }
+  .hn-departures .hn-direction-tabs button { color:#5d6b64; background:rgba(255,255,255,.78); border-color:#ddd8c9; }
+  .hn-departures .hn-direction-tabs button:hover { color:#073a2a; background:#fff3c7; border-color:#dfbd58; }
+  .hn-departures .hn-direction-tabs button.is-active { color:#fff; background:#0b5438; border-color:#0b5438; box-shadow:0 8px 18px rgba(11,84,56,.16); }
+  .hn-departures .hn-departure-card { background:rgba(255,255,255,.94); border-color:#e3dccb; box-shadow:0 8px 22px rgba(60,51,29,.045); }
+  .hn-departures .hn-departure-card__time strong { color:#073a2a; }
+  .hn-departures .hn-departure-card__time span,.hn-departures .hn-departure-card__fare span { color:#7c776a; }
+  .hn-departures .hn-departure-card__journey i { background:#ded7c6; }
+  .hn-departures .hn-departure-card__vehicle span { color:#0b5438; background:#e7f2eb; }
+  .hn-departures .hn-departure-card__fare strong { color:#9b6b00; }
+  .hn-departures .hn-departure-card__action { color:#17362b; background:#f9df12; box-shadow:0 7px 16px rgba(164,144,0,.16); }
+  .hn-departures .hn-departures__footer .hn-button { color:#0b5438; background:#fff; border-color:#0b5438; }
+  .hn-why { position:relative; overflow:hidden; background:radial-gradient(circle at 8% 12%,rgba(251,177,22,.1),transparent 24%),radial-gradient(circle at 92% 88%,rgba(39,121,102,.08),transparent 27%),#f7f5f0; }
+  .hn-why:before { position:absolute; top:42px; right:-90px; width:250px; height:250px; border:1px solid rgba(70,91,80,.08); border-radius:50%; box-shadow:0 0 0 34px rgba(70,91,80,.02),0 0 0 68px rgba(70,91,80,.015); content:''; }
+  .hn-why__inner { position:relative; }
+  .hn-why__intro .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; color:#745815; background:#fff5d8; border:1px solid #ead69b; border-radius:999px; }
+  .hn-why__intro .hn-eyebrow:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 3px rgba(251,177,22,.15); content:''; }
+  .hn-why__grid article { --why-accent:#c98d09; --why-soft:#fff3cf; --why-border:#ead49a; background:linear-gradient(145deg,#fff 35%,#fff9e9); border-color:var(--why-border); }
+  .hn-why__grid article:nth-child(2) { --why-accent:#b85f47; --why-soft:#fde5dd; --why-border:#e7c2b7; background:linear-gradient(145deg,#fff 35%,#fff3ef); }
+  .hn-why__grid article:nth-child(3) { --why-accent:#187862; --why-soft:#dff3ea; --why-border:#badbce; background:linear-gradient(145deg,#fff 35%,#eff9f5); }
+  .hn-why__grid article:nth-child(4) { --why-accent:#416f9a; --why-soft:#e2edf7; --why-border:#c2d4e4; background:linear-gradient(145deg,#fff 35%,#f0f5fa); }
+  .hn-why__grid article:before { position:absolute; top:0; right:22px; left:22px; height:4px; background:var(--why-accent); border-radius:0 0 5px 5px; content:''; transform:scaleX(.35); transform-origin:left; transition:transform .32s ease; }
+  .hn-why__grid article:after { background:radial-gradient(circle,var(--why-soft),transparent 70%); }
+  .hn-why__icon { color:var(--why-accent); background:var(--why-soft); border-color:var(--why-border); box-shadow:0 7px 18px color-mix(in srgb,var(--why-accent) 16%,transparent); }
+  .hn-why__grid article .hn-why__card-top>span { color:var(--why-accent); }
+  .hn-why__grid article .hn-why__card-top>span:before { background:var(--why-accent); }
+  .hn-why__grid article>p { transition:color .22s ease,transform .22s ease; }
+  .hn-fleet { background:radial-gradient(circle at 94% 8%,rgba(249,223,18,.16),transparent 24%),linear-gradient(180deg,#f3f7f2,#fffdf5); }
+  .hn-fleet .hn-section-heading .hn-eyebrow { display:inline-flex; padding:6px 9px; color:#26362f; background:#f9df12; border:1px solid #ddc700; border-radius:999px; }
+  .hn-vehicle-card { position:relative; border-color:#dcd7c8; box-shadow:0 14px 40px rgba(63,54,28,.075); }
+  .hn-vehicle-card:before { position:absolute; top:0; right:22px; left:22px; z-index:3; height:4px; background:#f9df12; border-radius:0 0 5px 5px; content:''; transform:scaleX(.3); transform-origin:left; transition:transform .3s ease; }
+  .hn-vehicle-card__media { background:linear-gradient(145deg,#163d2d,#071f16); }
+  .hn-vehicle-card__media img { background:linear-gradient(145deg,#f0f4ef,#fff7c7); }
+  .hn-vehicle-card__select { color:#17362b; background:#f9df12; box-shadow:0 8px 18px rgba(164,144,0,.16); transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease; }
+  .hn-stops .hn-section-heading--split .hn-eyebrow { color:#26362f; background:#f9df12; border-color:#ddc700; }
+  .hn-stops .hn-section-heading--split .hn-eyebrow:before { background:#0b5438; box-shadow:0 0 0 3px rgba(11,84,56,.13); }
+  .hn-proof { position:relative; overflow:hidden; padding:62px 0; background:radial-gradient(circle at 88% 0,rgba(251,177,22,.16),transparent 27%),linear-gradient(135deg,#f2ede3,#fbfaf6 58%,#f5efe3); border-block:1px solid #e5dccb; }
+  .hn-proof:before { position:absolute; top:-170px; left:-120px; width:360px; height:360px; border:1px solid rgba(157,119,34,.1); border-radius:50%; box-shadow:0 0 0 48px rgba(157,119,34,.025),0 0 0 96px rgba(157,119,34,.018); content:''; }
+  .hn-proof>.hn-shell { position:relative; display:block; }
+  .hn-proof__body { display:grid; gap:24px; }
+  .hn-proof>.hn-shell>.hn-eyebrow { display:inline-flex; align-items:center; gap:9px; margin:0 0 22px; padding:7px 11px; color:#745815; background:#fff8e5; border:1px solid #ead9a8; border-radius:999px; line-height:1; }
+  .hn-proof>.hn-shell>.hn-eyebrow:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(251,177,22,.14); content:''; }
+  .hn-proof__grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { display:grid; grid-template-columns:48px minmax(0,1fr); gap:16px; min-height:154px; align-items:start; padding:23px; background:rgba(255,255,255,.84); border:1px solid #ddd5c7; border-radius:14px; box-shadow:0 12px 30px rgba(64,48,22,.065); backdrop-filter:blur(8px); }
+  .hn-proof__grid article>span { display:grid; width:48px; height:48px; place-items:center; color:#5b4300; background:linear-gradient(145deg,#ffe591,var(--hn-gold)); border-radius:13px; box-shadow:0 9px 22px rgba(0,0,0,.18); font-size:12px; font-weight:900; letter-spacing:.08em; transition:transform .24s ease; }
+  .hn-proof__grid article h3 { margin:2px 0 8px; color:#26362f; font-size:17px; line-height:1.35; }
+  .hn-proof__grid article p { margin:0; color:#6b706c; font-size:12px; line-height:1.65; }
+  .hn-proof__transfer { position:relative; display:flex; min-height:66px; align-items:center; gap:14px; margin:0; padding:17px 20px; color:#4e554f; background:linear-gradient(105deg,#fffdf8,#f9efd5); border:1px solid #e4cf91; border-radius:13px; box-shadow:0 12px 28px rgba(105,78,24,.09); font-size:13px; font-weight:700; line-height:1.55; }
+  .hn-proof__transfer:after { position:absolute; top:-1px; right:22px; width:76px; height:3px; background:var(--hn-gold); border-radius:0 0 4px 4px; content:''; }
+  .hn-proof__transfer svg { width:36px; height:36px; flex:none; padding:8px; color:#684b00; background:linear-gradient(145deg,#ffe69a,var(--hn-gold)); border-radius:10px; box-shadow:0 7px 16px rgba(166,119,0,.16); }
+  .hn-proof__transfer strong { color:#3b463f; }
+  .hn-faq summary:after { transition:color .2s ease,transform .24s ease; }
+  .hn-faq details[open] summary:after { transform:rotate(180deg); }
+  .hn-faq p { max-width:790px; margin:2px 0 18px 44px; padding:15px 18px; color:#596960; background:linear-gradient(105deg,#fafbf8,#fffaf0); border:1px solid #e3e4da; border-left:3px solid var(--hn-gold); border-radius:0 10px 10px 0; line-height:1.7; white-space:pre-line; }
+  #help { position:relative; isolation:isolate; overflow:hidden; width:min(1160px,calc(100% - 40px)); margin:68px auto; padding:48px; background:radial-gradient(circle at 94% 8%,rgba(249,223,18,.24),transparent 25%),linear-gradient(145deg,#fffdf0,#f5f7f2); border:1px solid #e4dece; border-radius:24px; box-shadow:0 22px 55px rgba(56,48,27,.08); }
+  #help:before { position:absolute; top:-135px; right:-95px; z-index:-1; width:310px; height:310px; border:1px solid rgba(11,84,56,.09); border-radius:50%; box-shadow:0 0 0 38px rgba(11,84,56,.022),0 0 0 76px rgba(11,84,56,.014); content:''; }
+  #help .hn-section-heading { max-width:760px; margin-bottom:28px; }
+  #help .hn-section-heading .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; color:#26362f; background:#f9df12; border:1px solid #dfc600; border-radius:999px; }
+  #help .hn-section-heading .hn-eyebrow:before { width:7px; height:7px; background:#0b5438; border-radius:50%; box-shadow:0 0 0 3px rgba(11,84,56,.13); content:''; }
+  #help .hn-section-heading h2 { display:inline; color:#073a2a; background:linear-gradient(transparent 73%,rgba(249,223,18,.78) 73%); }
+  .hn-faq { display:grid; gap:10px; border:0; }
+  .hn-faq details { --faq-accent:#c58a09; --faq-soft:#fff5d8; margin:0; padding:0 17px; background:rgba(255,255,255,.86); border:1px solid #e3ddce; border-radius:12px; box-shadow:0 6px 18px rgba(58,49,26,.035); }
+  .hn-faq details:nth-child(3n+2) { --faq-accent:#b65e47; --faq-soft:#fde8e1; }
+  .hn-faq details:nth-child(3n) { --faq-accent:#177660; --faq-soft:#e0f3eb; }
+  .hn-faq details[open] { background:#fff; border-color:var(--faq-accent); box-shadow:0 13px 30px color-mix(in srgb,var(--faq-accent) 12%,transparent); }
+  .hn-faq summary { min-height:68px; padding:13px 0; }
+  .hn-faq summary b { color:var(--faq-accent); background:var(--faq-soft); border:1px solid color-mix(in srgb,var(--faq-accent) 24%,transparent); transition:color .22s ease,background-color .22s ease,transform .22s ease; }
+  .hn-faq summary:after { display:grid; width:34px; height:34px; flex:none; place-items:center; color:var(--faq-accent); background:var(--faq-soft); border:1px solid color-mix(in srgb,var(--faq-accent) 22%,transparent); border-radius:50%; line-height:1; }
+  .hn-faq details[open] summary b,.hn-faq details[open] summary:after { color:#fff; background:var(--faq-accent); }
+  .hn-faq details p { max-width:none; margin:0 0 17px 44px; background:linear-gradient(105deg,#fcfcf9,var(--faq-soft)); border-color:color-mix(in srgb,var(--faq-accent) 20%,#e3e4da); border-left-color:var(--faq-accent); }
+  .hn-faq details[open] p { animation:hn-faq-answer .24s ease both; }
+  .hn-news-card__link:after { margin-left:7px; content:'→'; }
+  .hn-news { position:relative; overflow:hidden; background:radial-gradient(circle at 7% 12%,rgba(249,223,18,.18),transparent 23%),linear-gradient(180deg,#fffdf4,#f3f7f2); border-top:1px solid #ebe2c8; }
+  .hn-news:before { position:absolute; right:-105px; bottom:-185px; width:390px; height:390px; border:1px solid rgba(11,84,56,.08); border-radius:50%; box-shadow:0 0 0 42px rgba(11,84,56,.018),0 0 0 84px rgba(11,84,56,.012); content:''; }
+  .hn-news .hn-shell { position:relative; }
+  .hn-news-heading .hn-eyebrow { display:inline-flex; padding:6px 9px; color:#26362f; background:#f9df12; border:1px solid #ddc700; border-radius:999px; }
+  .hn-news-heading>.hn-button { color:#17362b; background:#f9df12; box-shadow:0 8px 18px rgba(164,144,0,.15); }
+  .hn-news-card { position:relative; border-color:#ded8c8; box-shadow:0 10px 28px rgba(63,54,28,.065); }
+  .hn-news-card:before { position:absolute; top:0; right:17px; left:17px; z-index:2; height:4px; background:#f9df12; border-radius:0 0 5px 5px; content:''; transform:scaleX(.32); transform-origin:left; transition:transform .3s ease; }
+  .hn-news-card__image { background:linear-gradient(135deg,#eef4ed,#fff5ac); }
+  .hn-news-card__link { color:#6d6100; }
+  .hn-final { position:relative; overflow:hidden; background:radial-gradient(circle at 88% 15%,rgba(249,223,18,.18),transparent 25%),linear-gradient(120deg,#073a2a,#062d1c); border-top:4px solid #f9df12; }
+  .hn-final:before { position:absolute; right:-70px; bottom:-180px; width:320px; height:320px; border:1px solid rgba(255,255,255,.09); border-radius:50%; box-shadow:0 0 0 34px rgba(255,255,255,.018),0 0 0 68px rgba(255,255,255,.012); content:''; }
+  .hn-final__content { position:relative; }
+  .hn-footer { background:#fffbea; border-top:1px solid #e9dfb9; }
+  .hn-motion-ready .hn-reveal { opacity:0; transform:translateY(18px); transition:opacity .55s ease var(--hn-reveal-delay,0ms),transform .55s cubic-bezier(.2,.72,.25,1) var(--hn-reveal-delay,0ms); }
+  .hn-motion-ready .hn-reveal.is-visible { opacity:1; transform:none; }
+  @keyframes hn-faq-answer { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:none; } }
+  @keyframes hn-hero-breathe { from { transform:scale(1.01); } to { transform:scale(1.055); } }
+  @keyframes hn-status-pulse { 0%,100% { box-shadow:0 0 0 4px rgba(11,127,66,.12); } 50% { box-shadow:0 0 0 8px rgba(11,127,66,0); } }
+  @media (hover:hover) and (pointer:fine) {
+    .hn-nav a { position:relative; }
+    .hn-nav a:after { position:absolute; right:50%; bottom:-8px; left:50%; height:2px; background:var(--hn-gold); border-radius:2px; content:''; transition:right .2s ease,left .2s ease; }
+    .hn-nav a:hover:after { right:0; left:0; }
+    .hn-button:hover { box-shadow:0 9px 22px rgba(6,45,28,.16); transform:translateY(-2px); }
+    .hn-button--gold:hover { box-shadow:0 9px 24px rgba(251,177,22,.24); }
+    .hn-booking:hover { box-shadow:0 27px 66px rgba(15,40,29,.28); transform:translateY(-2px); }
+    .hn-swap:hover { background:#ffe89b; border-color:#d5ae37; box-shadow:0 7px 17px rgba(117,83,0,.13); }
+    .hn-swap:hover svg { transform:rotate(180deg); }
+    .hn-passenger-stepper button:hover { color:#17362b; background:#ffe9a1; }
+    .hn-passenger-stepper button:active { transform:scale(.92); }
+    .hn-search-button:hover { color:#102d23; background:linear-gradient(135deg,#fff67d,#e5cd00); box-shadow:0 12px 26px rgba(164,144,0,.27); }
+    .hn-search-button:hover svg { transform:scale(1.1) rotate(-6deg); }
+    .hn-text-link:hover span,.hn-departure-card__action:hover span,.hn-vehicle-card__select:hover b,.hn-news-card__link:hover:after { transform:translateX(4px); }
+    .hn-route-summary dl div:hover { transform:translateY(-2px); }
+    .hn-route-summary dl div:hover { background:rgba(249,223,18,.1); }
+    .hn-departure-card:hover { box-shadow:0 13px 30px rgba(6,45,28,.1); transform:translateY(-3px); }
+    .hn-departure-card:hover .hn-departure-card__journey i { background:var(--hn-green); }
+    .hn-departures .hn-departure-card:hover { border-color:#d9bd69; box-shadow:0 15px 34px rgba(92,69,17,.11); }
+    .hn-departures .hn-departure-card:hover .hn-departure-card__journey i { background:#d5a71c; }
+    .hn-departures .hn-departure-card__action:hover { color:#102d23; background:#e5cd00; box-shadow:0 9px 20px rgba(164,144,0,.22); }
+    .hn-departures .hn-departures__footer .hn-button:hover { color:#fff; background:#0b5438; box-shadow:0 9px 22px rgba(11,84,56,.15); }
+    .hn-vehicle-card__select:hover { background:var(--hn-green-dark); }
+    .hn-vehicle-card:hover:before,.hn-news-card:hover:before { transform:scaleX(1); }
+    .hn-vehicle-card__select:hover { color:#17362b; background:#e5cd00; box-shadow:0 11px 23px rgba(164,144,0,.22); transform:translateY(-2px); }
+    .hn-proof__grid article:hover { background:#fff; border-color:#d8b75d; box-shadow:0 18px 38px rgba(83,62,25,.12); transform:translateY(-3px); }
+    .hn-proof__grid article:hover>span { transform:rotate(-3deg) scale(1.04); }
+    .hn-stop-card:hover,.hn-stop-support:hover { border-color:#9fc7aa; box-shadow:0 20px 42px rgba(6,45,28,.1); transform:translateY(-5px); }
+    .hn-stop-card:hover .hn-stop-card__head svg { color:#6b4d00; background:#fff1c9; transform:translateY(-2px) rotate(-4deg); }
+    .hn-stop-card>a:hover { color:#fff; background:var(--hn-green); border-color:var(--hn-green); transform:translateX(3px); }
+    .hn-stop-card:nth-child(2)>a:hover { color:#5d4300; background:var(--hn-gold); border-color:var(--hn-gold); }
+    .hn-why__grid article:hover { border-color:var(--why-accent); box-shadow:0 20px 44px color-mix(in srgb,var(--why-accent) 16%,transparent); transform:translateY(-6px); }
+    .hn-why__grid article:hover:before { transform:scaleX(1); }
+    .hn-why__grid article:hover .hn-why__icon { color:#fff; background:var(--why-accent); border-color:var(--why-accent); transform:rotate(-5deg) scale(1.08); }
+    .hn-why__grid article:hover>p { color:#273b31; transform:translateX(2px); }
+    .hn-faq details:hover { background:#fff; border-color:var(--faq-accent); box-shadow:0 12px 28px color-mix(in srgb,var(--faq-accent) 11%,transparent); transform:translateY(-2px); }
+    .hn-faq details:hover summary b { transform:rotate(-3deg) scale(1.05); }
+    .hn-faq details:hover summary:after { color:#fff; background:var(--faq-accent); transform:scale(1.1); }
+    .hn-faq details[open]:hover summary:after { transform:rotate(180deg) scale(1.12); }
+    .hn-news-card:hover { border-color:#a8cbb2; box-shadow:0 18px 38px rgba(6,45,28,.11); transform:translateY(-5px); }
+    .hn-news-heading>.hn-button:hover { color:#17362b; background:#e5cd00; box-shadow:0 11px 23px rgba(164,144,0,.22); }
+    .hn-support-float:hover { transform:translateY(-3px) scale(1.02); }
+  }
+  @media (prefers-reduced-motion:no-preference) {
+    .hn-hero__image { animation:hn-hero-breathe 16s ease-in-out infinite alternate; }
+    .hn-live-proof i { animation:hn-status-pulse 2.4s ease-out infinite; }
+  }
+  @media (max-width:900px) {
+    .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { grid-template-columns:40px minmax(0,1fr); gap:12px; padding:19px; }
+    .hn-proof__grid article>span { width:40px; height:40px; }
+  }
+  @media (max-width:620px) {
+    .hn-proof { padding:48px 0; }
+    .hn-proof__body { gap:20px; }
+    .hn-proof__grid { grid-template-columns:1fr; }
+    .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { min-height:0; }
+    .hn-proof__transfer { align-items:flex-start; padding:16px; background:linear-gradient(105deg,#fffdf8,#f9efd5); }
+    #help { width:min(100% - 28px,1160px); margin:42px auto; padding:30px 16px; border-radius:18px; }
+    #help .hn-section-heading { margin-bottom:22px; }
+    .hn-faq details { padding:0 13px; }
+    .hn-faq summary { min-height:64px; }
+    .hn-faq summary>span { gap:10px; padding-right:10px; }
+    .hn-faq summary b { width:28px; height:28px; }
+    .hn-faq details p { margin:0 0 14px; padding:14px 15px; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    .hn-motion-ready .hn-reveal { opacity:1; transform:none; }
+    .hn-faq details[open] p,.hn-hero__image,.hn-live-proof i { animation:none; }
+  }
+</style>
 </head>
 <body class="home-new">
 @php
@@ -607,31 +823,31 @@
   $selectedSchedules = $directionSchedules[$selectedDirection] ?? [];
   $faqItems = [
     'vi' => [
-      ['Có được nằm 3 người trên một giường không?', 'Dạ không. Theo quy định an toàn, mỗi giường chỉ dành cho tối đa 2 người, không áp dụng nằm 3 người ở bất kỳ độ tuổi nào. Việc nằm 3 không đảm bảo sự thoải mái và an toàn trong suốt hành trình.'],
-      ['Giường nằm 2 người có thoải mái không?', 'Giường rộng 85 cm, dài 1,78 m, phù hợp cho 2 người với tổng cân nặng khoảng 130 kg và vẫn đảm bảo không gian nằm tương đối thoải mái.'],
-      ['Nhà xe có hỗ trợ trung chuyển không?', 'Nhật Dương hỗ trợ đón, trả tận nơi trong nội thành Nha Trang với bán kính dưới 7 km. Việc đón, trả còn tùy thuộc vào cung đường và điều kiện thực tế để xe trung chuyển có thể di chuyển vào.'],
-      ['Nhà xe có xuất hóa đơn không?', 'Nhà xe hỗ trợ xuất hóa đơn trong ngày. Nhân viên sẽ gửi mẫu thông tin để anh/chị điền đầy đủ, sau đó chuyển đến bộ phận kế toán để xuất hóa đơn.'],
-      ['Thời gian di chuyển mất khoảng bao lâu?', 'Thời gian di chuyển dự kiến khoảng 6-7 tiếng, tùy thuộc vào tình hình giao thông và điều kiện lưu thông thực tế trên tuyến đường.'],
-      ['Trên xe có WC không?', 'Dạ có. Toàn bộ hệ thống xe của Nhật Dương đều được trang bị WC trên xe, thuận tiện cho hành khách trong suốt hành trình.'],
-      ['Xe có ghé trạm dừng chân không?', 'Đối với các chuyến khởi hành trước 17:00, xe dự kiến sẽ ghé trạm dừng chân trên cao tốc 1 lần. Trước mỗi chuyến, nhân viên sẽ chủ động liên hệ và thông báo cụ thể về lịch trình cũng như việc xe có ghé trạm hay không.'],
+      ['Có được nằm 3 người trên một giường không?', 'Không. Vì lý do an toàn và đảm bảo sự thoải mái trong suốt hành trình, mỗi giường được bố trí tối đa 2 hành khách. Nhà xe không áp dụng hình thức 3 người sử dụng chung một giường, kể cả khi có trẻ em đi cùng.'],
+      ['Giường nằm 2 người có thoải mái không?', 'Mỗi cabin có kích thước khoảng 85 × 178 cm, được thiết kế phù hợp cho tối đa 2 hành khách. Để có trải nghiệm thoải mái nhất, tổng cân nặng của 2 hành khách nên ở mức khoảng 130 kg trở xuống.'],
+      ['Nhà xe có hỗ trợ trung chuyển không?', "Có. Nhật Dương hỗ trợ đón/trả tận nơi tại một số khu vực trong nội thành Nha Trang, trong phạm vi khoảng 7 km. Phạm vi phục vụ thực tế phụ thuộc vào lộ trình, điều kiện giao thông và khả năng tiếp cận của xe trung chuyển tại từng khu vực.\n\nVui lòng cung cấp địa chỉ đón/trả khi đặt vé để nhân viên kiểm tra và xác nhận."],
+      ['Nhà xe có xuất hóa đơn không?', 'Có. Nhật Dương hỗ trợ xuất hóa đơn theo thông tin khách hàng cung cấp. Quý khách vui lòng gửi đầy đủ thông tin xuất hóa đơn cho nhân viên trong ngày sử dụng dịch vụ để được tiếp nhận và xử lý theo quy định.'],
+      ['Thời gian di chuyển mất khoảng bao lâu?', 'Thời gian di chuyển dự kiến giữa TP.HCM và Nha Trang khoảng 6–7 giờ khi lưu thông thuận lợi trên tuyến cao tốc hoặc Quốc lộ 1A. Thời gian thực tế có thể thay đổi tùy tình hình giao thông, thời tiết và các điều kiện phát sinh trên hành trình.'],
+      ['Trên xe có WC không?', 'Có. Dòng xe Limousine Luxury 22 cabin của Nhật Dương được trang bị WC ngay trên xe, thuận tiện cho hành khách trong suốt hành trình.'],
+      ['Xe có dừng nghỉ giữa hành trình không?', "Có, tùy theo khung giờ khởi hành. Đối với các chuyến khởi hành trước 17:00, xe dự kiến dừng nghỉ 01 lần tại trạm dừng chân trên tuyến cao tốc hoặc Quốc lộ 1A.\n\nLịch dừng nghỉ có thể được điều chỉnh tùy theo tình hình giao thông và lịch trình thực tế. Nhân viên sẽ thông tin cụ thể đến hành khách trước chuyến đi."],
     ],
     'en' => [
-      ['Can three people share one bed?', 'No. For safety, each bed accommodates a maximum of 2 people. Three people may not share a bed, regardless of age, as this would not ensure comfort or safety during the journey.'],
-      ['Is a double bed comfortable for two people?', 'The bed is 85 cm wide and 1.78 m long. It is suitable for 2 people with a combined weight of approximately 130 kg while providing reasonably comfortable sleeping space.'],
-      ['Does the operator provide shuttle service?', 'Nhat Duong provides door-to-door pickup and drop-off within central Nha Trang, within a radius of less than 7 km. Service depends on the route and whether local road conditions allow the shuttle to access the address.'],
-      ['Can the operator issue an invoice?', 'Yes. Invoices can be issued on the day of travel. Our staff will send you a form to complete and forward the information to the accounting team for processing.'],
-      ['How long does the journey take?', 'The estimated travel time is approximately 6-7 hours, depending on traffic and actual road conditions.'],
-      ['Is there a WC on the bus?', 'Yes. All Nhat Duong vehicles are equipped with an onboard WC for passenger convenience throughout the journey.'],
-      ['Does the bus stop at a rest area?', 'Departures before 17:00 are expected to stop once at a highway rest area. Before each trip, our staff will contact you with the specific itinerary and confirm whether the bus will make a rest stop.'],
+      ['Can three people share one bed?', 'No. For safety and comfort throughout the journey, each bed accommodates a maximum of 2 passengers. Three people may not share one bed, even when travelling with a child.'],
+      ['Is a double bed comfortable for two people?', 'Each cabin measures approximately 85 × 178 cm and is designed for up to 2 passengers. For the most comfortable experience, the combined weight of both passengers should be approximately 130 kg or less.'],
+      ['Does the operator provide shuttle service?', "Yes. Nhat Duong provides door-to-door pickup and drop-off in selected areas of central Nha Trang within an approximate 7 km radius. Actual coverage depends on the route, traffic conditions, and shuttle access to each area.\n\nPlease provide your pickup or drop-off address when booking so our staff can check and confirm availability."],
+      ['Can the operator issue an invoice?', 'Yes. Nhat Duong can issue an invoice using the information provided by the customer. Please send the complete invoicing details to our staff on the day of service for processing in accordance with applicable requirements.'],
+      ['How long does the journey take?', 'The estimated journey between Ho Chi Minh City and Nha Trang is approximately 6–7 hours in favorable traffic conditions via the expressway or National Highway 1A. Actual travel time may vary depending on traffic, weather, and other conditions during the journey.'],
+      ['Is there a WC on the bus?', 'Yes. Nhat Duong Luxury Limousine buses with 22 cabins are equipped with an onboard WC for passenger convenience throughout the journey.'],
+      ['Does the bus stop for a break during the journey?', "It depends on the departure time. Departures before 17:00 are expected to make one rest stop along the expressway or National Highway 1A.\n\nThe rest schedule may change depending on traffic and the actual itinerary. Staff will provide passengers with specific information before departure."],
     ],
     'ru' => [
-      ['Можно ли разместиться втроём на одном спальном месте?', 'Нет. По правилам безопасности одно спальное место рассчитано максимум на 2 человек. Размещение втроём не допускается независимо от возраста, так как это не обеспечивает комфорт и безопасность в поездке.'],
-      ['Удобно ли двум пассажирам на одном спальном месте?', 'Размер спального места составляет 85 см в ширину и 1,78 м в длину. Оно подходит для 2 человек с общим весом около 130 кг и обеспечивает достаточно комфортное размещение.'],
-      ['Предоставляет ли перевозчик трансфер?', 'Nhat Duong выполняет трансфер от двери до двери в пределах центра Нячанга, в радиусе менее 7 км. Возможность подачи зависит от маршрута и фактической доступности адреса для трансферного автомобиля.'],
-      ['Можно ли получить счёт-фактуру?', 'Да. Счёт-фактура оформляется в день поездки. Сотрудник отправит форму для заполнения, после чего данные будут переданы в бухгалтерию.'],
-      ['Сколько времени занимает поездка?', 'Ориентировочное время в пути составляет 6-7 часов и зависит от дорожной ситуации и фактических условий движения.'],
-      ['Есть ли в автобусе туалет?', 'Да. Все автобусы Nhat Duong оборудованы туалетом для удобства пассажиров на протяжении всей поездки.'],
-      ['Останавливается ли автобус на станции отдыха?', 'Рейсы с отправлением до 17:00 обычно делают одну остановку на станции отдыха на скоростной автомагистрали. Перед поездкой сотрудник свяжется с вами, сообщит подробный маршрут и подтвердит наличие остановки.'],
+      ['Можно ли разместиться втроём на одном спальном месте?', 'Нет. Для безопасности и комфорта во время поездки каждое спальное место рассчитано максимум на 2 пассажиров. Размещение втроём не допускается, даже если пассажиры путешествуют с ребёнком.'],
+      ['Удобно ли двум пассажирам на одном спальном месте?', 'Размер каждой кабины составляет примерно 85 × 178 см, она рассчитана максимум на 2 пассажиров. Для наиболее комфортной поездки общий вес двух пассажиров рекомендуется не более 130 кг.'],
+      ['Предоставляет ли перевозчик трансфер?', "Да. Nhat Duong выполняет адресный трансфер в отдельных районах центра Нячанга в радиусе около 7 км. Фактическая зона обслуживания зависит от маршрута, дорожной обстановки и доступности конкретного адреса для трансферного автомобиля.\n\nУкажите адрес посадки или высадки при бронировании, чтобы сотрудник мог проверить и подтвердить возможность трансфера."],
+      ['Можно ли получить счёт-фактуру?', 'Да. Nhat Duong оформляет счёт-фактуру по данным, предоставленным клиентом. Передайте сотруднику полные реквизиты в день оказания услуги для оформления в соответствии с установленными требованиями.'],
+      ['Сколько времени занимает поездка?', 'Ориентировочное время в пути между Хошимином и Нячангом составляет 6–7 часов при благоприятной дорожной обстановке по скоростной автомагистрали или Национальному шоссе 1A. Фактическое время зависит от дорожной ситуации, погоды и других условий в пути.'],
+      ['Есть ли в автобусе туалет?', 'Да. Автобусы Nhat Duong Luxury Limousine с 22 кабинами оборудованы туалетом для удобства пассажиров на протяжении всей поездки.'],
+      ['Предусмотрена ли остановка для отдыха?', "Это зависит от времени отправления. Рейсы до 17:00 обычно делают одну остановку для отдыха на скоростной автомагистрали или Национальном шоссе 1A.\n\nРасписание остановок может меняться в зависимости от дорожной обстановки и фактического маршрута. Сотрудники сообщат пассажирам подробности перед отправлением."],
     ],
   ][$locale];
   $pickupPoints = $route?->pickupPoints ?? collect();
@@ -692,6 +908,11 @@
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
     'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'A variety of departure times', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['English-speaking staff', 'Snacks', 'Toilet', 'Reading light', 'Seat belt', 'Drinking water', 'Pillow', 'Emergency hammer', 'LED TV', 'Phone charging', 'Window curtains', 'Sound system', 'Wi-Fi', 'Air conditioning', 'Cold towel'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
     'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Разнообразное время отправления', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Англоговорящий персонал', 'Закуски', 'Туалет', 'Лампа для чтения', 'Ремень безопасности', 'Питьевая вода', 'Подушка', 'Аварийный молоток', 'LED-телевизор', 'Зарядка телефона', 'Шторы', 'Аудиосистема', 'Wi-Fi', 'Кондиционер', 'Холодное полотенце'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
+  ][$locale];
+  $officeLabels = [
+    'vi' => ['pickup' => 'VĂN PHÒNG TP. HỒ CHÍ MINH', 'dropoff' => 'VĂN PHÒNG TP. NHA TRANG'],
+    'en' => ['pickup' => 'HO CHI MINH CITY OFFICE', 'dropoff' => 'NHA TRANG OFFICE'],
+    'ru' => ['pickup' => 'ОФИС В ХОШИМИНЕ', 'dropoff' => 'ОФИС В НЯЧАНГЕ'],
   ][$locale];
   $homeTripTabs = [
     'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
@@ -934,13 +1155,13 @@
       </div>
       <div class="hn-stops__grid">
         <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $pickupPoints->first()?->name ?? $locations[29][$locale] }}</h3></div></div>
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $officeLabels['pickup'] }}</h3></div></div>
           @if($pickupPoints->first()?->address)<p>{{ $pickupPoints->first()->address }}</p>@endif
           @if($pickupPoints->first()?->phone)<a href="tel:{{ $pickupPoints->first()->phone }}">{{ $pickupPoints->first()->phone }}</a>@endif
           @if($pickupPoints->first()?->map_url)<a href="{{ $pickupPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
         </article>
         <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $dropoffPoints->first()?->name ?? $locations[417][$locale] }}</h3></div></div>
+          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $officeLabels['dropoff'] }}</h3></div></div>
           @if($dropoffPoints->first()?->address)<p>{{ $dropoffPoints->first()->address }}</p>@endif
           @if($dropoffPoints->first()?->phone)<a href="tel:{{ $dropoffPoints->first()->phone }}">{{ $dropoffPoints->first()->phone }}</a>@endif
           @if($dropoffPoints->first()?->map_url)<a href="{{ $dropoffPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
@@ -971,7 +1192,7 @@
   </section>
 
   @if($latestPosts->isNotEmpty())
-  <section class="hn-section hn-section--mist" aria-labelledby="news-title">
+  <section class="hn-section hn-section--mist hn-news" aria-labelledby="news-title">
     <div class="hn-shell">
       <div class="hn-section-heading hn-news-heading">
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['news_kicker'] }}</p><h2 id="news-title">{{ $copy['news_title'] }}</h2><p>{{ $copy['news_text'] }}</p></div>
@@ -1117,6 +1338,27 @@
         });
       });
     });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+      const revealItems = [...document.querySelectorAll('.hn-route-summary__inner,.hn-section-heading,.hn-departure-card,.hn-vehicle-card,.hn-proof__grid article,.hn-stop-card,.hn-stop-support,.hn-why__grid article,.hn-faq details,.hn-news-card,.hn-final__content')];
+      document.body.classList.add('hn-motion-ready');
+      revealItems.forEach((item, index) => {
+        item.classList.add('hn-reveal');
+        item.style.setProperty('--hn-reveal-delay', `${(index % 4) * 55}ms`);
+      });
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+          window.setTimeout(() => {
+            entry.target.classList.remove('hn-reveal', 'is-visible');
+            entry.target.style.removeProperty('--hn-reveal-delay');
+          }, 800);
+        });
+      }, { threshold:0.12, rootMargin:'0px 0px -28px' });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    }
 
     if (!form) return;
 

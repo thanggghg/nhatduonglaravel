@@ -52,6 +52,79 @@
     .schedule-empty__icon { color:#7b5a00; background:#fff2cf; }
     @media(max-width:720px){.schedule-card__facts{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
+<style>
+    .live-schedule{--schedule-deep:#073a2a;--schedule-green:#0b5438;--schedule-gold:#f7b916;--schedule-cream:#fff9ed;--schedule-ink:#26362f;--schedule-muted:#66736c;--schedule-line:#e4dece;background:linear-gradient(180deg,#fffdf8,#f5f7f2);color:var(--schedule-ink)}
+    .schedule-hero{position:relative;overflow:hidden;padding:22px 0 62px;color:var(--schedule-ink);background:radial-gradient(circle at 82% 20%,rgba(247,185,22,.24),transparent 23%),radial-gradient(circle at 65% 110%,rgba(11,84,56,.12),transparent 38%),linear-gradient(125deg,#fffaf0,#eef5ef 66%,#fff3c7);border-bottom:1px solid #e5dcc9}
+    .schedule-hero:before{position:absolute;top:-175px;right:-80px;width:410px;height:410px;border:1px solid rgba(11,84,56,.12);border-radius:50%;box-shadow:0 0 0 50px rgba(11,84,56,.025),0 0 0 100px rgba(11,84,56,.014);content:''}
+    .schedule-hero:after{position:absolute;right:19%;bottom:34px;width:170px;height:2px;background:linear-gradient(90deg,transparent,var(--schedule-gold),transparent);content:'';transform:rotate(-8deg)}
+    .schedule-hero .schedule-container{position:relative}
+    .schedule-crumb{color:#728078}.schedule-crumb a{color:var(--schedule-green)}
+    .schedule-hero__content{margin-top:38px}
+    .schedule-eyebrow{padding:7px 11px;color:#745815;background:#fff1c0;border:1px solid #e7ce7c;border-radius:999px}
+    .schedule-eyebrow:before{width:7px;height:7px;background:var(--schedule-gold);border-radius:50%;box-shadow:0 0 0 4px rgba(247,185,22,.17)}
+    .schedule-hero h1{color:var(--schedule-deep);text-shadow:0 1px 0 rgba(255,255,255,.8)}
+    .schedule-hero p{color:var(--schedule-muted)}
+    .schedule-live-badge{position:relative;overflow:hidden;min-width:172px;padding:16px 17px;color:#fff;background:linear-gradient(145deg,#0b5438,#073a2a);border:1px solid #0b5438;box-shadow:0 14px 30px rgba(7,58,42,.18)}
+    .schedule-live-badge:before{position:absolute;top:0;right:0;left:0;height:3px;background:var(--schedule-gold);content:''}
+    .schedule-live-badge span{display:flex;align-items:center;gap:7px;color:#ffe191}
+    .schedule-live-badge span:before{width:7px;height:7px;background:var(--schedule-gold);border-radius:50%;box-shadow:0 0 0 4px rgba(247,185,22,.16);content:''}
+    .schedule-filter{margin-top:-29px}
+    .schedule-filter form{position:relative;overflow:hidden;padding:20px;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,249,237,.98));border:1px solid #e0d6be;border-top:1px solid #e0d6be;box-shadow:0 18px 42px rgba(54,48,29,.12);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease}
+    .schedule-filter form:before{position:absolute;top:0;right:0;left:0;height:4px;background:linear-gradient(90deg,var(--schedule-green) 0 30%,var(--schedule-gold) 30%);content:''}
+    .schedule-filter form:focus-within{border-color:#dcb84d;box-shadow:0 22px 48px rgba(54,48,29,.15),0 0 0 3px rgba(247,185,22,.1)}
+    .schedule-field label{color:#5c665f}
+    .schedule-field input,.schedule-field select{height:48px;color:var(--schedule-deep);background:#fff;border-color:#d9d3c4;box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 12px rgba(52,48,35,.035);transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease}
+    .schedule-field input:hover,.schedule-field select:hover{border-color:#d5b75f}
+    .schedule-field input:focus,.schedule-field select:focus{outline:3px solid rgba(11,84,56,.11);border-color:var(--schedule-green)}
+    .schedule-filter button{min-height:48px;color:#17362b;background:linear-gradient(135deg,#ffc928,var(--schedule-gold));box-shadow:0 9px 20px rgba(178,126,0,.2);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .schedule-results{padding:52px 0 80px}
+    .schedule-results__head h2{color:var(--schedule-deep);font-size:28px}
+    .schedule-results__head>span{color:#0b5438;background:#e7f3eb;border-color:#bfdac8;box-shadow:0 5px 14px rgba(11,84,56,.07)}
+    .schedule-notice{padding:15px 17px;color:#66562c;background:linear-gradient(100deg,#fff9e9,#fff3c7);border:1px solid #ead38b;border-left:4px solid var(--schedule-gold);border-radius:11px;box-shadow:0 8px 20px rgba(109,80,16,.045)}
+    .schedule-grid{gap:16px}
+    .schedule-card{--card-accent:#0b5438;--card-soft:#e8f3eb;position:relative;overflow:hidden;background:rgba(255,255,255,.96);border-color:#ddd8ca;box-shadow:0 11px 28px rgba(53,47,29,.055);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease}
+    .schedule-card:nth-child(3n+2){--card-accent:#b17d06;--card-soft:#fff2ca}
+    .schedule-card:nth-child(3n){--card-accent:#a85b46;--card-soft:#fbe6df}
+    .schedule-card:before{position:absolute;top:0;right:22px;left:22px;z-index:2;height:4px;background:var(--card-accent);border-radius:0 0 5px 5px;content:'';transform:scaleX(.28);transform-origin:left;transition:transform .3s ease}
+    .schedule-time{color:var(--card-accent);background:linear-gradient(155deg,#fff,var(--card-soft));border-right-color:#e1dccf}
+    .schedule-time strong{font-size:27px}
+    .schedule-card__main{padding-top:22px}
+    .schedule-card__route{color:var(--schedule-deep)}
+    .schedule-card__stops b{color:var(--card-accent)}
+    .schedule-card__fact{padding:9px;border:1px solid #ebe6da;border-radius:9px;background:#fafaf7}
+    .schedule-card__fact:nth-child(2){background:#fff9e9;border-color:#eee0b9}
+    .schedule-card__fact:nth-child(3){background:#f8f2ef;border-color:#eadbd5}
+    .schedule-card__fact--seats{background:#eaf4ed!important;border-color:#cde2d3!important}
+    .schedule-card__fact label{color:#7a7c74}
+    .schedule-card__fact span{color:#35463e}
+    .schedule-card__fact--seats,.schedule-card__fact--seats span{color:var(--schedule-green)}
+    .schedule-card__bottom{margin-top:15px;padding-top:15px;border-top:1px solid #e8e2d5}
+    .schedule-card__fare strong{color:#8d6400}
+    .schedule-card__fare small{color:#756b52}
+    .schedule-card__action{color:#17362b;background:linear-gradient(135deg,#ffc928,var(--schedule-gold));box-shadow:0 8px 18px rgba(178,126,0,.17);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .schedule-card__action span{transition:transform .2s ease}
+    .schedule-card__sold{color:#8b594b;background:#fae8e2;border:1px solid #ebc8bc;border-radius:8px}
+    .schedule-empty{background:linear-gradient(145deg,#fff,#fff9ed);border-color:#e1d8c4;box-shadow:0 14px 34px rgba(53,47,29,.06)}
+    .schedule-empty__icon{color:#765400;background:#fff0bf}
+    .schedule-motion-ready .schedule-reveal{opacity:0;transform:translateY(18px);transition:opacity .52s ease var(--schedule-delay,0ms),transform .52s cubic-bezier(.2,.72,.25,1) var(--schedule-delay,0ms)}
+    .schedule-motion-ready .schedule-reveal.is-visible{opacity:1;transform:none}
+    @keyframes schedule-live-pulse{0%,100%{box-shadow:0 0 0 4px rgba(247,185,22,.16)}50%{box-shadow:0 0 0 8px rgba(247,185,22,0)}}
+    @media(hover:hover) and (pointer:fine){
+        .schedule-filter form:hover{border-color:#d8bd6c;box-shadow:0 22px 48px rgba(54,48,29,.15);transform:translateY(-2px)}
+        .schedule-filter button:hover{background:linear-gradient(135deg,#ffd34d,#e9ab0f);box-shadow:0 12px 26px rgba(178,126,0,.27);transform:translateY(-2px)}
+        .schedule-card:hover{border-color:var(--card-accent);box-shadow:0 19px 42px color-mix(in srgb,var(--card-accent) 13%,transparent);transform:translateY(-5px)}
+        .schedule-card:hover:before{transform:scaleX(1)}
+        .schedule-card__action:hover{color:#102d23;background:linear-gradient(135deg,#ffd34d,#e9ab0f);box-shadow:0 11px 24px rgba(178,126,0,.24);transform:translateY(-2px)}
+        .schedule-card__action:hover span{transform:translateX(4px)}
+    }
+    @media(prefers-reduced-motion:no-preference){.schedule-live-badge span:before{animation:schedule-live-pulse 2.4s ease-out infinite}}
+    @media(max-width:720px){
+        .schedule-hero{padding-bottom:54px}.schedule-hero__content{align-items:flex-start;flex-direction:column}.schedule-live-badge{width:100%}
+        .schedule-filter form{grid-template-columns:1fr;padding:18px}.schedule-filter button{width:100%}
+        .schedule-results{padding:42px 0 64px}.schedule-card{grid-template-columns:1fr}.schedule-time{display:flex;align-items:center;justify-content:space-between;padding:17px 19px;border-right:0;border-bottom:1px solid #e1dccf;text-align:left}.schedule-time span{margin:0}.schedule-card__main{padding-top:18px}
+    }
+    @media(prefers-reduced-motion:reduce){.schedule-motion-ready .schedule-reveal{opacity:1;transform:none}.schedule-live-badge span:before{animation:none}}
+</style>
 
 <div class="live-schedule">
     <header class="schedule-hero"><div class="schedule-container"><nav class="schedule-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="schedule-hero__content"><div><span class="schedule-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div><div class="schedule-live-badge"><span>{{ $copy['live'] }}</span><strong>{{ $date->format('d/m/Y') }}</strong></div></div></div></header>
@@ -73,4 +146,27 @@
         @endif
     </div>
 </div>
+<script>
+    (() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+        const items = [...document.querySelectorAll('.schedule-hero__content,.schedule-filter form,.schedule-results__head,.schedule-notice,.schedule-card,.schedule-empty')];
+        document.querySelector('.live-schedule')?.classList.add('schedule-motion-ready');
+        items.forEach((item, index) => {
+            item.classList.add('schedule-reveal');
+            item.style.setProperty('--schedule-delay', `${(index % 4) * 55}ms`);
+        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+                window.setTimeout(() => {
+                    entry.target.classList.remove('schedule-reveal', 'is-visible');
+                    entry.target.style.removeProperty('--schedule-delay');
+                }, 760);
+            });
+        }, { threshold:0.1, rootMargin:'0px 0px -24px' });
+        items.forEach((item) => observer.observe(item));
+    })();
+</script>
 @endsection

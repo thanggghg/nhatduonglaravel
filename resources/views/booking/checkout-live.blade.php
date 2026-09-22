@@ -2,7 +2,7 @@
 
 @php
     $copy = [
-        'vi' => ['back' => 'Quay lai danh sach chuyen', 'title' => 'Chon cho va thong tin dat ve', 'trip' => 'Chuyen da chon', 'passenger' => 'Thong tin hanh khach', 'name' => 'Ho va ten', 'email' => 'Email', 'phone' => 'So dien thoai', 'pickup' => 'Chon diem don', 'dropoff' => 'Chon diem tra', 'seat_map' => 'So do cho thuc te', 'available' => 'cho dang trong', 'selected' => 'Da chon', 'refresh' => 'Tu dong cap nhat moi 30 giay', 'seat_error' => 'Chua the tai so do ghe thuc te. Vui long thu lai sau.', 'terms' => 'Toi dong y de Nhat Duong xu ly thong tin dat ve va thanh toan.', 'pay' => 'Tiep tuc thanh toan', 'paying' => 'Dang tao thanh toan...', 'total' => 'Tong thanh toan', 'seats' => 'so cho', 'notes' => 'Ghi chu'],
+        'vi' => ['back' => 'Quay lại danh sách chuyến', 'title' => 'Chọn chỗ và thông tin đặt vé', 'trip' => 'Chuyến đã chọn', 'passenger' => 'Thông tin hành khách', 'name' => 'Họ và tên', 'email' => 'Email', 'phone' => 'Số điện thoại', 'pickup' => 'Chọn điểm đón', 'dropoff' => 'Chọn điểm trả', 'seat_map' => 'Sơ đồ chỗ thực tế', 'available' => 'chỗ đang trống', 'selected' => 'Đã chọn', 'refresh' => 'Tự động cập nhật mỗi 30 giây', 'seat_error' => 'Chưa thể tải sơ đồ ghế thực tế. Vui lòng thử lại sau.', 'terms' => 'Tôi đồng ý để Nhật Dương xử lý thông tin đặt vé và thanh toán.', 'pay' => 'Tiếp tục thanh toán', 'paying' => 'Đang tạo thanh toán...', 'total' => 'Tổng thanh toán', 'seats' => 'số chỗ', 'notes' => 'Ghi chú'],
         'en' => ['back' => 'Back to departures', 'title' => 'Choose seats and complete booking', 'trip' => 'Selected departure', 'passenger' => 'Passenger details', 'name' => 'Full name', 'email' => 'Email', 'phone' => 'Phone or WhatsApp', 'pickup' => 'Choose pickup point', 'dropoff' => 'Choose drop-off point', 'seat_map' => 'Live seat map', 'available' => 'seats available', 'selected' => 'Selected', 'refresh' => 'Availability refreshes every 30 seconds', 'seat_error' => 'The live seat map is temporarily unavailable. Please try again shortly.', 'terms' => 'I agree that Nhat Duong may process my booking and payment information.', 'pay' => 'Continue to payment', 'paying' => 'Creating payment...', 'total' => 'Total payment', 'seats' => 'seats', 'notes' => 'Notes'],
         'ru' => ['back' => 'Назад к рейсам', 'title' => 'Выберите места и завершите бронирование', 'trip' => 'Выбранный рейс', 'passenger' => 'Данные пассажира', 'name' => 'Полное имя', 'email' => 'Email', 'phone' => 'Телефон или WhatsApp', 'pickup' => 'Выберите место посадки', 'dropoff' => 'Выберите место высадки', 'seat_map' => 'Актуальная схема мест', 'available' => 'мест доступно', 'selected' => 'Выбрано', 'refresh' => 'Доступность обновляется каждые 30 секунд', 'seat_error' => 'Актуальная схема мест временно недоступна. Повторите попытку позже.', 'terms' => 'Я согласен, чтобы Nhat Duong обработал мои данные бронирования и оплаты.', 'pay' => 'Перейти к оплате', 'paying' => 'Создаем оплату...', 'total' => 'Сумма к оплате', 'seats' => 'мест', 'notes' => 'Комментарий'],
     ][$locale];
@@ -28,6 +28,12 @@
         'en' => ['title' => 'Reserving your seats...', 'text' => 'We are holding your seats and creating the payment code. Please keep this page open.'],
         'ru' => ['title' => 'Бронируем места...', 'text' => 'Удерживаем места и создаем код оплаты. Не закрывайте страницу.'],
     ][$locale];
+    $dynamicCopy = [
+        'vi' => ['cabin' => 'Phòng', 'modal_help' => 'Chọn loại phòng và số người sử dụng.', 'cancel' => 'Hủy', 'room' => 'phòng', 'passenger' => 'hành khách', 'select_rooms' => 'Chọn phòng cho từng hành khách.', 'select_one' => 'Chọn ít nhất một phòng.', 'choose_options' => 'Chọn loại phòng', 'max_passengers' => 'Một lượt đặt vé chỉ gồm tối đa 6 hành khách.', 'select_exactly' => 'Vui lòng chọn phòng cho đúng :count hành khách.', 'select_seats' => 'Vui lòng chọn đủ :count ghế.', 'seat_taken' => 'Ghế vừa chọn đã có người đặt. Vui lòng chọn ghế khác.'],
+        'en' => ['cabin' => 'Cabin', 'modal_help' => 'Choose the room type and occupancy.', 'cancel' => 'Cancel', 'room' => 'room', 'passenger' => 'passenger', 'select_rooms' => 'Select rooms for each passenger.', 'select_one' => 'Select at least one room.', 'choose_options' => 'Choose room options', 'max_passengers' => 'A booking can include up to 6 passengers.', 'select_exactly' => 'Select rooms for exactly :count passengers.', 'select_seats' => 'Please select :count seats.', 'seat_taken' => 'A selected seat was just taken. Please choose another seat.'],
+        'ru' => ['cabin' => 'Купе', 'modal_help' => 'Выберите тип купе и количество пассажиров.', 'cancel' => 'Отмена', 'room' => 'купе', 'passenger' => 'пасс.', 'select_rooms' => 'Выберите купе для каждого пассажира.', 'select_one' => 'Выберите хотя бы одно купе.', 'choose_options' => 'Выберите тип купе', 'max_passengers' => 'В одном бронировании может быть не более 6 пассажиров.', 'select_exactly' => 'Выберите купе ровно для :count пассажиров.', 'select_seats' => 'Выберите необходимое количество мест: :count.', 'seat_taken' => 'Выбранное место только что заняли. Выберите другое место.'],
+    ][$locale];
+    $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
 @endphp
 
 @section('content')
@@ -173,6 +179,66 @@
         syncMethod();
     })();
 </script>
+<script>
+    (() => {
+        const copy = @json($dynamicCopy);
+        const locale = @json($locale);
+        const vndPerUsd = {{ $vndPerUsd }};
+        const usdFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
+        const exact = {
+            'Choose the room type and occupancy.': copy.modal_help,
+            'Cancel': copy.cancel,
+            'Select rooms for each passenger': copy.select_rooms,
+            'Select at least one room': copy.select_one,
+            'Choose at least one room option.': copy.select_one,
+            'Choose room options': copy.choose_options,
+            'A booking can include up to 6 passengers.': copy.max_passengers,
+            'A selected seat was just taken. Please choose another seat.': copy.seat_taken,
+        };
+        const translatedSelectors = '.live-room-summary,#seat-selection-error,.live-checkout aside dt,.live-room-modal__card > h2,.live-room-modal__card > p,.live-room-modal__card > button';
+        const priceSelectors = '.live-room-types span,.live-seat span,.live-room-modal__options button,.live-room-summary,.live-checkout aside dd,.live-checkout__total strong';
+        const noun = (key, count) => locale === 'en' && count !== 1 ? `${copy[key]}s` : copy[key];
+
+        const translate = (node) => {
+            const text = node.textContent.trim();
+            let translated = exact[text] || text;
+            let match = text.match(/^Cabin\s+(.+)$/);
+            if (match) translated = `${copy.cabin} ${match[1]}`;
+            match = text.match(/^(\d+) rooms? · (\d+) passengers? · (.+ VND)$/);
+            if (match) translated = `${match[1]} ${noun('room', Number(match[1]))} · ${match[2]} ${noun('passenger', Number(match[2]))} · ${match[3]}`;
+            if (!match) {
+                match = text.match(/^(\d+) rooms? · (.+ VND)$/);
+                if (match) translated = `${match[1]} ${noun('room', Number(match[1]))} · ${match[2]}`;
+            }
+            match = text.match(/^(\d+) rooms? · (\d+) passengers?$/);
+            if (match) translated = `${match[1]} ${noun('room', Number(match[1]))} · ${match[2]} ${noun('passenger', Number(match[2]))}`;
+            match = text.match(/^Select rooms for exactly (\d+) passengers?\.$/);
+            if (match) translated = copy.select_exactly.replace(':count', match[1]);
+            match = text.match(/^Please select (\d+) seats?\.$/);
+            if (match) translated = copy.select_seats.replace(':count', match[1]);
+            if (translated !== text) node.textContent = translated;
+        };
+
+        const addUsdHint = (node) => {
+            if (node.querySelector(':scope > .live-usd-hint')) return;
+            const match = node.textContent.match(/([\d.,]+)\s*VND/);
+            if (!match) return;
+            const amount = Number(match[1].replace(/\D/g, ''));
+            if (!Number.isFinite(amount)) return;
+            const hint = document.createElement('small');
+            hint.className = 'live-usd-hint';
+            hint.textContent = `≈ $${usdFormatter.format(amount / vndPerUsd)}`;
+            node.append(hint);
+        };
+
+        const sync = () => {
+            document.querySelectorAll(translatedSelectors).forEach(translate);
+            document.querySelectorAll(priceSelectors).forEach(addUsdHint);
+        };
+        new MutationObserver(sync).observe(document.body, { childList: true, characterData: true, subtree: true });
+        sync();
+    })();
+</script>
 @endpush
 
 @push('styles')
@@ -183,6 +249,8 @@
 .live-booking-loading__spinner{width:48px;height:48px;border:4px solid #d9e5dc;border-top-color:#0b7f42;border-radius:50%;animation:live-booking-spin .8s linear infinite}
 .live-booking-loading__card strong{color:#173014;font-size:18px}
 .live-booking-loading__card p{margin:0;color:#60776a;font-size:13px;line-height:1.6}
+.live-usd-hint{display:block;margin-top:2px;color:#60776a;font-size:11px;font-weight:600;line-height:1.3}
+.live-room-types .live-usd-hint{display:inline;margin:0 0 0 5px;color:#6f7e75}
 @keyframes live-booking-spin{to{transform:rotate(360deg)}}
 </style>
 @endpush

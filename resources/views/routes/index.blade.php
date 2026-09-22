@@ -14,7 +14,7 @@
             'checkFare' => 'Xem lịch và giá', 'details' => 'Xem chuyến đi', 'emptyTitle' => 'Chưa có tuyến xe',
             'emptyText' => 'Vui lòng quay lại sau để xem các tuyến đang phục vụ.', 'helpTitle' => 'Chưa biết nên chọn chuyến nào?',
             'helpText' => 'Đội ngũ Nhật Dương sẽ hỗ trợ chọn tuyến, giờ chạy và điểm đón phù hợp.', 'call' => 'Gọi 1900 2879',
-            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Tuyến trực tiếp',
+            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Tuyến trực tiếp', 'networkLabel' => 'Mạng lưới tuyến TP. Hồ Chí Minh, Nha Trang và Cam Ranh', 'overviewLabel' => 'Tổng quan dịch vụ',
         ],
         'en' => [
             'home' => 'Home', 'crumb' => 'Routes', 'eyebrow' => 'YOUR JOURNEY', 'title' => 'Travel further, feel at ease.',
@@ -25,7 +25,7 @@
             'checkFare' => 'View schedule & fare', 'details' => 'View departures', 'emptyTitle' => 'No routes available yet',
             'emptyText' => 'Please check back soon for available routes.', 'helpTitle' => 'Not sure which trip to choose?',
             'helpText' => 'The Nhat Duong team can help you choose a route, departure time, and pickup point.', 'call' => 'Call 1900 2879',
-            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct route',
+            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct route', 'networkLabel' => 'Ho Chi Minh City, Nha Trang and Cam Ranh route network', 'overviewLabel' => 'Service overview',
         ],
         'ru' => [
             'home' => 'Главная', 'crumb' => 'Маршруты', 'eyebrow' => 'ВАША ПОЕЗДКА', 'title' => 'Путешествуйте спокойно.',
@@ -36,7 +36,7 @@
             'checkFare' => 'Расписание и цены', 'details' => 'Посмотреть рейсы', 'emptyTitle' => 'Маршрутов пока нет',
             'emptyText' => 'Пожалуйста, зайдите позже, чтобы увидеть доступные маршруты.', 'helpTitle' => 'Нужна помощь с выбором?',
             'helpText' => 'Команда Nhat Duong поможет выбрать маршрут, время отправления и место посадки.', 'call' => 'Позвонить: 1900 2879',
-            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Прямой маршрут',
+            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Прямой маршрут', 'networkLabel' => 'Сеть маршрутов Хошимин, Нячанг и Камрань', 'overviewLabel' => 'Обзор услуг',
         ],
     ][$locale];
     $places = [
@@ -85,6 +85,77 @@
     .route-help p { color:rgba(255,255,255,.7); }
     @media (max-width:640px) { .route-listing { padding-top:54px; padding-bottom:62px; } }
 </style>
+<style>
+    .route-explorer{--route-deep:#073a2a;--route-green:#0b5438;--route-gold:#f9df12;--route-ink:#26362f;--route-muted:#66736c;--route-cream:#fff9ed;background:linear-gradient(180deg,#fffdf8,#f5f7f2);color:var(--route-ink)}
+    .route-hero{background:radial-gradient(circle at 76% 16%,rgba(249,223,18,.25),transparent 25%),radial-gradient(circle at 92% 76%,rgba(11,84,56,.1),transparent 27%),linear-gradient(125deg,#fffaf0,#eef5ef 68%,#fff6b6);color:var(--route-ink);border-bottom:1px solid #e4ddca}
+    .route-hero:after{right:-145px;bottom:-285px;border-color:rgba(11,84,56,.11);box-shadow:0 0 0 38px rgba(11,84,56,.025),0 0 0 76px rgba(11,84,56,.014)}
+    .route-crumb{color:#758078}.route-crumb a{color:var(--route-green)}
+    .route-eyebrow{padding:7px 11px;color:#26362f;background:var(--route-gold);border:1px solid #ddc700;border-radius:999px}
+    .route-eyebrow:before{width:7px;height:7px;background:var(--route-green);border-radius:50%;box-shadow:0 0 0 3px rgba(11,84,56,.13)}
+    .route-hero h1{color:var(--route-deep);text-shadow:0 1px 0 rgba(255,255,255,.8)}
+    .route-hero p{color:var(--route-muted)}
+    .route-btn{color:#17362b;background:linear-gradient(135deg,#fff36a,var(--route-gold));box-shadow:0 9px 20px rgba(164,144,0,.18);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .route-hero .route-btn--ghost{color:var(--route-green);background:rgba(255,255,255,.72);border-color:#9bbda9;box-shadow:none}
+    .route-map{position:relative;overflow:hidden;color:#fff;background:radial-gradient(circle at 88% 12%,rgba(249,223,18,.18),transparent 25%),linear-gradient(145deg,#0b5438,#073a2a);border-color:#1b674b;box-shadow:0 25px 55px rgba(7,58,42,.2)}
+    .route-map:before{position:absolute;top:-75px;right:-58px;width:180px;height:180px;border:1px solid rgba(255,255,255,.1);border-radius:50%;box-shadow:0 0 0 24px rgba(255,255,255,.018),0 0 0 48px rgba(255,255,255,.012);content:''}
+    .route-map>*{position:relative}
+    .route-map__label{color:#26362f;background:var(--route-gold)}
+    .route-map__stops:before{background:rgba(249,223,18,.42)}
+    .route-map__dot{background:var(--route-gold);border-color:#fff8a5;box-shadow:0 0 0 5px rgba(249,223,18,.15)}
+    .route-map__foot{color:#f9e979}
+    .route-overview{background:linear-gradient(100deg,#fff,#fffbea 62%,#f3f7f2);border-bottom-color:#e5decb}
+    .route-overview__inner{gap:12px;padding-block:18px}
+    .route-overview__item{padding:13px 16px;background:rgba(255,255,255,.72);border:1px solid #e5dfd0;border-radius:11px;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+    .route-overview__bar{background:var(--route-gold)}
+    .route-overview__item strong{color:var(--route-deep)}
+    .route-listing{position:relative;padding-top:72px;background:radial-gradient(circle at 96% 8%,rgba(249,223,18,.12),transparent 22%)}
+    .route-listing__head h2{display:inline;color:var(--route-deep);background:linear-gradient(transparent 74%,rgba(249,223,18,.65) 74%)}
+    .route-listing__head p{color:var(--route-muted)}
+    .route-grid{gap:18px}
+    .route-card{--card-accent:#0b5438;--card-soft:#e7f3eb;position:relative;border-color:#ded8c9;background:#fff;box-shadow:0 14px 36px rgba(61,52,27,.07);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease}
+    .route-card:nth-child(3n+2){--card-accent:#b45f47;--card-soft:#f9e4dc}
+    .route-card:nth-child(3n){--card-accent:#446f98;--card-soft:#e3edf6}
+    .route-card:before{position:absolute;top:0;right:20px;left:20px;z-index:4;height:4px;background:var(--route-gold);border-radius:0 0 5px 5px;content:'';transform:scaleX(.3);transform-origin:left;transition:transform .3s ease}
+    .route-card__visual{color:#17362b;background:linear-gradient(135deg,#fff36a,var(--route-gold))!important}
+    .route-card:nth-child(3n+2) .route-card__visual{color:#4c2e26;background:linear-gradient(135deg,#fff6f2,#f3cabc)!important}
+    .route-card:nth-child(3n) .route-card__visual{color:#fff;background:linear-gradient(135deg,#0b5438,#073a2a)!important}
+    .route-card__visual:after{border-color:color-mix(in srgb,var(--card-accent) 24%,transparent);box-shadow:0 0 0 24px rgba(255,255,255,.12),0 0 0 48px rgba(255,255,255,.07)}
+    .route-card__status{color:#fff;background:var(--card-accent);box-shadow:0 6px 15px color-mix(in srgb,var(--card-accent) 22%,transparent)}
+    .route-card:nth-child(3n) .route-card__status{color:#17362b;background:var(--route-gold)}
+    .route-card__path:before{background:color-mix(in srgb,var(--card-accent) 36%,transparent)}
+    .route-card__path span:before{border-color:var(--card-accent);background:#fff}
+    .route-card__body{background:linear-gradient(180deg,#fff,#fffdf8)}
+    .route-card__title{color:var(--route-deep)}
+    .route-card__title span{color:#8b7b28}
+    .route-card__facts{gap:8px}
+    .route-card__fact{padding:10px;background:#fafaf7;border:1px solid #ece6da;border-radius:9px}
+    .route-card__fact:nth-child(2){background:#fff9e5;border-color:#eee0ad}
+    .route-card__fact--fare{background:var(--card-soft);border-color:color-mix(in srgb,var(--card-accent) 22%,#e8e2d6)}
+    .route-card__fact--fare span{color:var(--card-accent)}
+    .route-card__action{color:#17362b;background:var(--route-gold);border-color:var(--route-gold);box-shadow:0 8px 18px rgba(164,144,0,.15);transition:background-color .2s ease,box-shadow .2s ease,transform .2s ease}
+    .route-card__action b{transition:transform .2s ease}
+    .route-help{position:relative;overflow:hidden;color:#fff;background:radial-gradient(circle at 88% 15%,rgba(249,223,18,.19),transparent 25%),linear-gradient(120deg,#073a2a,#062d1c);border-top:4px solid var(--route-gold)}
+    .route-help:before{position:absolute;right:-70px;bottom:-180px;width:320px;height:320px;border:1px solid rgba(255,255,255,.09);border-radius:50%;box-shadow:0 0 0 34px rgba(255,255,255,.018),0 0 0 68px rgba(255,255,255,.012);content:''}
+    .route-help__inner{position:relative}
+    .route-help .route-btn--ghost{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.32);box-shadow:none}
+    .route-motion-ready .route-reveal{opacity:0;transform:translateY(18px);transition:opacity .54s ease var(--route-delay,0ms),transform .54s cubic-bezier(.2,.72,.25,1) var(--route-delay,0ms)}
+    .route-motion-ready .route-reveal.is-visible{opacity:1;transform:none}
+    @keyframes route-dot-pulse{0%,100%{box-shadow:0 0 0 5px rgba(249,223,18,.15)}50%{box-shadow:0 0 0 10px rgba(249,223,18,0)}}
+    @media(hover:hover) and (pointer:fine){
+        .route-btn:hover{color:#17362b;background:linear-gradient(135deg,#fff67d,#e5cd00);box-shadow:0 12px 25px rgba(164,144,0,.24);transform:translateY(-2px)}
+        .route-hero .route-btn--ghost:hover{color:#fff;background:var(--route-green);border-color:var(--route-green)}
+        .route-map:hover{box-shadow:0 30px 64px rgba(7,58,42,.25);transform:translateY(-3px)}
+        .route-overview__item:hover{border-color:#d9c555;box-shadow:0 10px 24px rgba(91,75,21,.08);transform:translateY(-3px)}
+        .route-card:hover{border-color:var(--card-accent);box-shadow:0 22px 48px color-mix(in srgb,var(--card-accent) 14%,transparent);transform:translateY(-6px)}
+        .route-card:hover:before{transform:scaleX(1)}
+        .route-card__action:hover{color:#17362b;background:#e5cd00;border-color:#e5cd00;box-shadow:0 11px 23px rgba(164,144,0,.22);transform:translateY(-2px)}
+        .route-card__action:hover b{transform:translateX(4px)}
+        .route-help .route-btn--ghost:hover{color:#17362b;background:#fff;border-color:#fff}
+    }
+    @media(prefers-reduced-motion:no-preference){.route-map__dot{animation:route-dot-pulse 2.5s ease-out infinite}.route-map{transition:box-shadow .25s ease,transform .25s ease}}
+    @media(max-width:720px){.route-hero__content{gap:34px;padding:46px 0 54px}.route-map{width:100%}.route-overview__inner{gap:9px}.route-overview__item{padding:12px}.route-listing{padding-top:54px}}
+    @media(prefers-reduced-motion:reduce){.route-motion-ready .route-reveal{opacity:1;transform:none}.route-map__dot{animation:none}}
+</style>
 
 <div class="route-explorer">
     <header class="route-hero">
@@ -97,7 +168,7 @@
                     <p>{{ $copy['intro'] }}</p>
                     <div class="route-hero__actions"><a class="route-btn" href="{{ $bookingUrl }}">{{ $copy['book'] }} <span aria-hidden="true">→</span></a><a class="route-btn route-btn--ghost" href="#available-routes">{{ $copy['browse'] }}</a></div>
                 </div>
-                <div class="route-map" aria-label="Ho Chi Minh City, Nha Trang and Cam Ranh route network">
+                <div class="route-map" aria-label="{{ $copy['networkLabel'] }}">
                     <p class="route-map__label">{{ $copy['direct'] }}</p>
                     <div class="route-map__stops"><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('TP. Hồ Chí Minh') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Nha Trang') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Cam Ranh') }}</span></div></div>
                     <span class="route-map__foot">Nhat Duong</span>
@@ -106,7 +177,7 @@
         </div>
     </header>
 
-    <section class="route-overview" aria-label="Service overview"><div class="route-container"><div class="route-overview__inner"><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $routes->count() }}</strong><span>{{ $copy['activeRoutes'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>24/7</strong><span>{{ $copy['support'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $place('TP. Hồ Chí Minh') }} ⇔ {{ $place('Nha Trang') }}</strong><span>{{ $copy['direct'] }}</span></div></div></div></div></section>
+    <section class="route-overview" aria-label="{{ $copy['overviewLabel'] }}"><div class="route-container"><div class="route-overview__inner"><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $routes->count() }}</strong><span>{{ $copy['activeRoutes'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>24/7</strong><span>{{ $copy['support'] }}</span></div></div><div class="route-overview__item"><span class="route-overview__bar"></span><div><strong>{{ $place('TP. Hồ Chí Minh') }} ⇔ {{ $place('Nha Trang') }}</strong><span>{{ $copy['direct'] }}</span></div></div></div></div></section>
 
     <div id="available-routes" class="route-container route-listing">
         <div class="route-listing__head"><div><h2>{{ $copy['section'] }}</h2></div><p>{{ $copy['sectionText'] }}</p></div>
@@ -137,4 +208,27 @@
 
     <section class="route-help"><div class="route-container route-help__inner"><div><h2>{{ $copy['helpTitle'] }}</h2><p>{{ $copy['helpText'] }}</p></div><div class="route-help__actions"><a href="tel:19002879" class="route-btn">{{ $copy['call'] }}</a><a href="{{ route('contact', ['lang' => $locale]) }}" class="route-btn route-btn--ghost">{{ $copy['contact'] }}</a></div></div></section>
 </div>
+<script>
+    (() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+        const items = [...document.querySelectorAll('.route-hero__content,.route-overview__item,.route-listing__head,.route-card,.route-empty,.route-help__inner')];
+        document.querySelector('.route-explorer')?.classList.add('route-motion-ready');
+        items.forEach((item, index) => {
+            item.classList.add('route-reveal');
+            item.style.setProperty('--route-delay', `${(index % 4) * 60}ms`);
+        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+                window.setTimeout(() => {
+                    entry.target.classList.remove('route-reveal', 'is-visible');
+                    entry.target.style.removeProperty('--route-delay');
+                }, 800);
+            });
+        }, { threshold:0.1, rootMargin:'0px 0px -24px' });
+        items.forEach((item) => observer.observe(item));
+    })();
+</script>
 @endsection
