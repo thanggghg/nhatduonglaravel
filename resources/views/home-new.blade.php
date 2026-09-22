@@ -269,10 +269,17 @@
   .hn-why__intro h2 { max-width:470px; margin-bottom:17px; font-size:clamp(32px,3.5vw,46px); }
   .hn-why__intro>p:last-child { max-width:430px; margin:0; color:var(--hn-muted); font-size:14px; line-height:1.7; }
   .hn-why__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-  .hn-why__grid article { min-height:180px; padding:24px; background:#fff; border:1px solid #d5e4d9; border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); }
+  .hn-why__grid article { position:relative; min-height:190px; overflow:hidden; padding:24px; background:#fff; border:1px solid #d5e4d9; border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
+  .hn-why__grid article:after { position:absolute; right:-34px; bottom:-42px; width:110px; height:110px; background:radial-gradient(circle,rgba(251,177,22,.12),rgba(251,177,22,0) 70%); content:''; opacity:0; transform:scale(.7); transition:opacity .22s ease,transform .3s ease; }
+  .hn-why__grid article:hover { border-color:#a7cbb1; box-shadow:0 20px 42px rgba(6,45,28,.1); transform:translateY(-4px); }
+  .hn-why__grid article:hover:after { opacity:1; transform:scale(1); }
+  .hn-why__card-top { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .hn-why__icon { display:grid; width:42px; height:42px; place-items:center; color:var(--hn-green); background:#e9f5ec; border:1px solid #d1e8d7; border-radius:12px; transition:color .22s ease,background .22s ease,transform .22s ease; }
+  .hn-why__icon svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-why__grid article:hover .hn-why__icon { color:#684b00; background:#fff2cf; transform:rotate(-4deg) scale(1.06); }
   .hn-why__grid span { display:inline-flex; align-items:center; gap:9px; color:#9a7000; font-size:11px; font-weight:900; letter-spacing:.1em; }
-  .hn-why__grid span:after { width:28px; height:2px; background:var(--hn-gold); content:''; }
-  .hn-why__grid p { margin:24px 0 0; color:var(--hn-deep); font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:700; line-height:1.6; }
+  .hn-why__grid span:before { width:28px; height:2px; background:var(--hn-gold); content:''; }
+  .hn-why__grid p { position:relative; z-index:1; margin:23px 0 0; color:var(--hn-deep); font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:700; line-height:1.6; }
   .hn-faq details { padding:0; }
   .hn-faq summary { display:flex; align-items:center; justify-content:space-between; min-height:60px; padding:14px 0; list-style:none; }
   .hn-faq summary::-webkit-details-marker { display:none; }
@@ -649,6 +656,12 @@
       ],
     ],
   ][$locale];
+  $whyIcons = [
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11V7a2 2 0 0 1 4 0v4M15 11V7a2 2 0 0 1 4 0v4"/><path d="M3 11v6h18v-6M6 17v3M18 17v3M9 8h6"/></svg>',
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 13 20 4 11V4h7l9 9Z"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m13 10 3 3"/></svg>',
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M5 4h7"/></svg>',
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 5-5"/></svg>',
+  ];
       $homeUi = [
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
     'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'A variety of departure times', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['English-speaking staff', 'Snacks', 'Toilet', 'Reading light', 'Seat belt', 'Drinking water', 'Pillow', 'Emergency hammer', 'LED TV', 'Phone charging', 'Window curtains', 'Sound system', 'Wi-Fi', 'Air conditioning', 'Cold towel'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
@@ -916,7 +929,7 @@
       <div class="hn-why__intro"><p class="hn-eyebrow hn-eyebrow--green">{{ $whyChoose['kicker'] }}</p><h2 id="why-title">{{ $whyChoose['title'] }}</h2><p>{{ $whyChoose['text'] }}</p></div>
       <div class="hn-why__grid">
         @foreach($whyChoose['items'] as $index => $item)
-          <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><p>{{ $item }}</p></article>
+          <article><div class="hn-why__card-top"><i class="hn-why__icon">{!! $whyIcons[$index] !!}</i><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span></div><p>{{ $item }}</p></article>
         @endforeach
       </div>
     </div>
