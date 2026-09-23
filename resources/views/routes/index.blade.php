@@ -6,37 +6,37 @@
     $locale = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     $copy = [
         'vi' => [
-            'home' => 'Trang chủ', 'crumb' => 'Tuyến xe', 'eyebrow' => 'HÀNH TRÌNH CỦA BẠN', 'title' => 'Đi xa thật nhẹ nhàng.',
-            'intro' => 'Các tuyến xe giường nằm kết nối TP. Hồ Chí Minh, Nha Trang và Cam Ranh mỗi ngày.', 'book' => 'Đặt chuyến đi',
-            'browse' => 'Khám phá tuyến xe', 'activeRoutes' => 'tuyến đang phục vụ', 'support' => 'hỗ trợ mỗi ngày',
+            'home' => 'Trang chủ', 'crumb' => 'Tuyến xe', 'eyebrow' => 'MẠNG LƯỚI TUYẾN NHẬT DƯƠNG', 'title' => 'Kết nối Sài Gòn với biển xanh Khánh Hòa.',
+            'intro' => 'Di chuyển mỗi ngày giữa TP. Hồ Chí Minh, Nha Trang và Cam Ranh trên xe giường nằm tiện nghi, với lịch chạy rõ ràng và hỗ trợ đặt vé 24/7.', 'book' => 'Tìm chuyến phù hợp',
+            'browse' => 'Xem các tuyến đang chạy', 'activeRoutes' => 'tuyến đang khai thác', 'support' => 'tư vấn và hỗ trợ đặt vé',
             'section' => 'Các tuyến đang phục vụ', 'sectionText' => 'Chọn chiều đi để xem lịch chạy và giá vé mới nhất.',
             'available' => 'Đang phục vụ', 'distance' => 'Quãng đường', 'duration' => 'Thời gian', 'fare' => 'Giá từ',
             'checkFare' => 'Xem lịch và giá', 'details' => 'Xem chuyến đi', 'emptyTitle' => 'Chưa có tuyến xe',
             'emptyText' => 'Vui lòng quay lại sau để xem các tuyến đang phục vụ.', 'helpTitle' => 'Chưa biết nên chọn chuyến nào?',
             'helpText' => 'Đội ngũ Nhật Dương sẽ hỗ trợ chọn tuyến, giờ chạy và điểm đón phù hợp.', 'call' => 'Gọi 1900 2879',
-            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Tuyến trực tiếp', 'networkLabel' => 'Mạng lưới tuyến TP. Hồ Chí Minh, Nha Trang và Cam Ranh', 'overviewLabel' => 'Tổng quan dịch vụ',
+            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Kết nối trực tiếp mỗi ngày', 'networkLabel' => 'Mạng lưới tuyến TP. Hồ Chí Minh, Nha Trang và Cam Ranh', 'overviewLabel' => 'Tổng quan dịch vụ', 'mapFoot' => 'NHẬT DƯƠNG · AN TÂM TRỌN HÀNH TRÌNH',
         ],
         'en' => [
-            'home' => 'Home', 'crumb' => 'Routes', 'eyebrow' => 'YOUR JOURNEY', 'title' => 'Travel further, feel at ease.',
-            'intro' => 'Daily sleeper-bus routes connecting Ho Chi Minh City, Nha Trang, and Cam Ranh.', 'book' => 'Book a trip',
-            'browse' => 'Explore routes', 'activeRoutes' => 'routes in service', 'support' => 'daily support',
+            'home' => 'Home', 'crumb' => 'Routes', 'eyebrow' => 'NHAT DUONG ROUTE NETWORK', 'title' => 'Connecting Ho Chi Minh City with the Khanh Hoa coast.',
+            'intro' => 'Travel daily between Ho Chi Minh City, Nha Trang, and Cam Ranh in a comfortable sleeper bus, with clear schedules and 24/7 booking support.', 'book' => 'Find a suitable trip',
+            'browse' => 'View active routes', 'activeRoutes' => 'routes in service', 'support' => 'booking advice and support',
             'section' => 'Routes in service', 'sectionText' => 'Choose a direction to see current departures and fares.',
             'available' => 'In service', 'distance' => 'Distance', 'duration' => 'Travel time', 'fare' => 'From',
             'checkFare' => 'View schedule & fare', 'details' => 'View departures', 'emptyTitle' => 'No routes available yet',
             'emptyText' => 'Please check back soon for available routes.', 'helpTitle' => 'Not sure which trip to choose?',
             'helpText' => 'The Nhat Duong team can help you choose a route, departure time, and pickup point.', 'call' => 'Call 1900 2879',
-            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct route', 'networkLabel' => 'Ho Chi Minh City, Nha Trang and Cam Ranh route network', 'overviewLabel' => 'Service overview',
+            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct daily connections', 'networkLabel' => 'Ho Chi Minh City, Nha Trang and Cam Ranh route network', 'overviewLabel' => 'Service overview', 'mapFoot' => 'NHAT DUONG · PEACE OF MIND ALL THE WAY',
         ],
         'ru' => [
-            'home' => 'Главная', 'crumb' => 'Маршруты', 'eyebrow' => 'ВАША ПОЕЗДКА', 'title' => 'Путешествуйте спокойно.',
-            'intro' => 'Ежедневные спальные автобусы между Хошимином, Нячангом и Камранью.', 'book' => 'Забронировать поездку',
-            'browse' => 'Посмотреть маршруты', 'activeRoutes' => 'маршрутов доступно', 'support' => 'поддержка каждый день',
+            'home' => 'Главная', 'crumb' => 'Маршруты', 'eyebrow' => 'МАРШРУТНАЯ СЕТЬ NHAT DUONG', 'title' => 'Из Хошимина к побережью Кханьхоа.',
+            'intro' => 'Ежедневные поездки между Хошимином, Нячангом и Камранью на комфортабельных спальных автобусах с понятным расписанием и поддержкой бронирования 24/7.', 'book' => 'Найти подходящий рейс',
+            'browse' => 'Посмотреть маршруты', 'activeRoutes' => 'маршрутов доступно', 'support' => 'помощь с бронированием',
             'section' => 'Доступные маршруты', 'sectionText' => 'Выберите направление, чтобы увидеть актуальное расписание и цены.',
             'available' => 'Маршрут доступен', 'distance' => 'Расстояние', 'duration' => 'Время в пути', 'fare' => 'Цена от',
             'checkFare' => 'Расписание и цены', 'details' => 'Посмотреть рейсы', 'emptyTitle' => 'Маршрутов пока нет',
             'emptyText' => 'Пожалуйста, зайдите позже, чтобы увидеть доступные маршруты.', 'helpTitle' => 'Нужна помощь с выбором?',
             'helpText' => 'Команда Nhat Duong поможет выбрать маршрут, время отправления и место посадки.', 'call' => 'Позвонить: 1900 2879',
-            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Прямой маршрут', 'networkLabel' => 'Сеть маршрутов Хошимин, Нячанг и Камрань', 'overviewLabel' => 'Обзор услуг',
+            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Ежедневное прямое сообщение', 'networkLabel' => 'Сеть маршрутов Хошимин, Нячанг и Камрань', 'overviewLabel' => 'Обзор услуг', 'mapFoot' => 'NHAT DUONG · СПОКОЙСТВИЕ НА ВСЁМ ПУТИ',
         ],
     ][$locale];
     $places = [
@@ -90,19 +90,24 @@
     .route-hero{background:radial-gradient(circle at 76% 16%,rgba(249,223,18,.25),transparent 25%),radial-gradient(circle at 92% 76%,rgba(11,84,56,.1),transparent 27%),linear-gradient(125deg,#fffaf0,#eef5ef 68%,#fff6b6);color:var(--route-ink);border-bottom:1px solid #e4ddca}
     .route-hero:after{right:-145px;bottom:-285px;border-color:rgba(11,84,56,.11);box-shadow:0 0 0 38px rgba(11,84,56,.025),0 0 0 76px rgba(11,84,56,.014)}
     .route-crumb{color:#758078}.route-crumb a{color:var(--route-green)}
-    .route-eyebrow{padding:7px 11px;color:#26362f;background:var(--route-gold);border:1px solid #ddc700;border-radius:999px}
+    .route-hero__content{grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);gap:72px;padding:64px 0 76px}
+    .route-hero__copy{max-width:660px}
+    .route-eyebrow{padding:8px 12px;color:#26362f;background:var(--route-gold);border:1px solid #ddc700;border-radius:999px;box-shadow:0 6px 16px rgba(164,144,0,.12)}
     .route-eyebrow:before{width:7px;height:7px;background:var(--route-green);border-radius:50%;box-shadow:0 0 0 3px rgba(11,84,56,.13)}
-    .route-hero h1{color:var(--route-deep);text-shadow:0 1px 0 rgba(255,255,255,.8)}
-    .route-hero p{color:var(--route-muted)}
-    .route-btn{color:#17362b;background:linear-gradient(135deg,#fff36a,var(--route-gold));box-shadow:0 9px 20px rgba(164,144,0,.18);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .route-hero h1{max-width:650px;margin:18px 0;color:var(--route-deep);font-size:clamp(42px,5vw,64px);line-height:1.02;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 1px 0 rgba(255,255,255,.8)}
+    .route-hero__copy>p{max-width:630px;color:#53675d;font-size:18px;line-height:1.72}
+    .route-hero__actions{gap:12px;margin-top:30px}
+    .route-btn{min-height:50px;padding-inline:20px;color:#17362b;background:linear-gradient(135deg,#fff36a,var(--route-gold));box-shadow:0 9px 20px rgba(164,144,0,.18);transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
     .route-hero .route-btn--ghost{color:var(--route-green);background:rgba(255,255,255,.72);border-color:#9bbda9;box-shadow:none}
-    .route-map{position:relative;overflow:hidden;color:#fff;background:radial-gradient(circle at 88% 12%,rgba(249,223,18,.18),transparent 25%),linear-gradient(145deg,#0b5438,#073a2a);border-color:#1b674b;box-shadow:0 25px 55px rgba(7,58,42,.2)}
+    .route-map{position:relative;overflow:hidden;padding:30px;color:#fff;background:radial-gradient(circle at 88% 12%,rgba(249,223,18,.2),transparent 25%),linear-gradient(145deg,#0b5438,#073a2a);border:1px solid #1b674b;border-radius:24px;box-shadow:0 25px 55px rgba(7,58,42,.2)}
     .route-map:before{position:absolute;top:-75px;right:-58px;width:180px;height:180px;border:1px solid rgba(255,255,255,.1);border-radius:50%;box-shadow:0 0 0 24px rgba(255,255,255,.018),0 0 0 48px rgba(255,255,255,.012);content:''}
     .route-map>*{position:relative}
-    .route-map__label{color:#26362f;background:var(--route-gold)}
-    .route-map__stops:before{background:rgba(249,223,18,.42)}
-    .route-map__dot{background:var(--route-gold);border-color:#fff8a5;box-shadow:0 0 0 5px rgba(249,223,18,.15)}
-    .route-map__foot{color:#f9e979}
+    .route-map__label{display:inline-flex;margin:0;padding:8px 11px;color:#26362f;background:var(--route-gold);border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.055em;text-transform:uppercase}
+    .route-map__stops{position:relative;display:grid;gap:2px;margin:24px 0 26px;padding:2px 0}
+    .route-map__stops:before{top:24px;bottom:24px;left:8px;width:2px;background:rgba(249,223,18,.42)}
+    .route-map__stop{display:grid;grid-template-columns:18px minmax(0,1fr);gap:15px;align-items:center;min-height:58px;color:#fff;font-size:18px;font-weight:850;letter-spacing:-.015em}
+    .route-map__dot{box-sizing:border-box;width:18px;height:18px;background:var(--route-gold);border:4px solid #fff8a5;box-shadow:0 0 0 5px rgba(249,223,18,.15)}
+    .route-map__foot{display:block;padding-top:17px;color:#f9e979;border-top:1px solid rgba(255,255,255,.15);font-size:11px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
     .route-overview{background:linear-gradient(100deg,#fff,#fffbea 62%,#f3f7f2);border-bottom-color:#e5decb}
     .route-overview__inner{gap:12px;padding-block:18px}
     .route-overview__item{padding:13px 16px;background:rgba(255,255,255,.72);border:1px solid #e5dfd0;border-radius:11px;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
@@ -153,7 +158,8 @@
         .route-help .route-btn--ghost:hover{color:#17362b;background:#fff;border-color:#fff}
     }
     @media(prefers-reduced-motion:no-preference){.route-map__dot{animation:route-dot-pulse 2.5s ease-out infinite}.route-map{transition:box-shadow .25s ease,transform .25s ease}}
-    @media(max-width:720px){.route-hero__content{gap:34px;padding:46px 0 54px}.route-map{width:100%}.route-overview__inner{gap:9px}.route-overview__item{padding:12px}.route-listing{padding-top:54px}}
+    @media(max-width:900px){.route-hero__content{grid-template-columns:1fr;gap:36px}.route-hero__copy{max-width:720px}.route-map{width:100%}}
+    @media(max-width:720px){.route-hero__content{gap:30px;padding:42px 0 50px}.route-hero h1{font-size:clamp(38px,11vw,51px)}.route-hero__copy>p{font-size:16px;line-height:1.65}.route-hero__actions{align-items:stretch;flex-direction:column}.route-btn{width:100%}.route-map{padding:24px}.route-map__stop{font-size:17px}.route-overview__inner{gap:9px}.route-overview__item{padding:12px}.route-listing{padding-top:54px}}
     @media(prefers-reduced-motion:reduce){.route-motion-ready .route-reveal{opacity:1;transform:none}.route-map__dot{animation:none}}
 </style>
 
@@ -162,16 +168,16 @@
         <div class="route-container">
             <nav class="route-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav>
             <div class="route-hero__content">
-                <div>
+                <div class="route-hero__copy">
                     <span class="route-eyebrow">{{ $copy['eyebrow'] }}</span>
                     <h1>{{ $copy['title'] }}</h1>
                     <p>{{ $copy['intro'] }}</p>
-                    <div class="route-hero__actions"><a class="route-btn" href="{{ $bookingUrl }}">{{ $copy['book'] }} <span aria-hidden="true">→</span></a><a class="route-btn route-btn--ghost" href="#available-routes">{{ $copy['browse'] }}</a></div>
+                    <div class="route-hero__actions"><a class="route-btn" href="{{ $bookingUrl }}">{{ $copy['book'] }} <span aria-hidden="true">→</span></a><a class="route-btn route-btn--ghost" href="#available-routes">{{ $copy['browse'] }} <span aria-hidden="true">↓</span></a></div>
                 </div>
                 <div class="route-map" aria-label="{{ $copy['networkLabel'] }}">
                     <p class="route-map__label">{{ $copy['direct'] }}</p>
                     <div class="route-map__stops"><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('TP. Hồ Chí Minh') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Nha Trang') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Cam Ranh') }}</span></div></div>
-                    <span class="route-map__foot">Nhat Duong</span>
+                    <span class="route-map__foot">{{ $copy['mapFoot'] }}</span>
                 </div>
             </div>
         </div>

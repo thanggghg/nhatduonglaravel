@@ -215,9 +215,9 @@
   .hn-vehicle-card__media>span { position:absolute; bottom:16px; left:17px; z-index:1; display:inline-flex; align-items:center; gap:7px;padding:7px 10px;color:#fff;background:rgba(6,45,28,.78);border:1px solid rgba(255,255,255,.26);border-radius:99px;backdrop-filter:blur(8px);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase; }
   .hn-vehicle-card__media>span i { width:6px; height:6px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 3px rgba(251,177,22,.2); }
   .hn-vehicle-card__body { display:flex; min-width:0; flex-direction:column; padding:25px; }
-  .hn-vehicle-card__route { margin:0 0 8px; color:var(--hn-green); font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-  .hn-vehicle-card h3 { margin:0; color:var(--hn-deep); font-size:clamp(20px,2.1vw,27px); line-height:1.25; letter-spacing:-.025em; }
-  .hn-vehicle-card__comfort { margin:18px 0 8px; color:var(--hn-muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+  .hn-vehicle-card__route { margin:0 0 10px; color:var(--hn-green); font-size:15px; font-weight:850; letter-spacing:.035em; text-transform:uppercase; }
+  .hn-vehicle-card h3 { width:fit-content; max-width:100%; margin:0; padding:10px 14px; color:var(--hn-deep); background:#fffbea; border:1px solid #e4d680; border-left:4px solid var(--hn-gold); border-radius:10px; box-shadow:0 6px 16px rgba(128,108,0,.08); font-size:clamp(20px,2.1vw,27px); line-height:1.25; letter-spacing:-.025em; }
+  .hn-vehicle-card__comfort { margin:18px 0 9px; color:#4d665a; font-size:14px; font-weight:850; letter-spacing:.035em; text-transform:uppercase; }
   .hn-vehicle-card ul { display:flex; flex-wrap:wrap; gap:8px 18px; padding:0; margin:0 0 22px; list-style:none; }
   .hn-vehicle-card li { display:flex; align-items:center; gap:6px; color:#365145; font-size:11px; font-weight:700; }
   .hn-vehicle-card li span { display:grid; width:18px; height:18px; place-items:center; color:var(--hn-green); background:#e9f5ec; border-radius:50%; font-size:9px; }
@@ -503,23 +503,49 @@
   .hn-stop-card__head svg { transition:color .24s ease,background-color .24s ease,transform .24s ease; }
   .hn-stop-card { position:relative; isolation:isolate; display:flex; overflow:hidden; flex-direction:column; background:linear-gradient(145deg,#fff 20%,#edf8f0 100%); }
   .hn-stop-card:nth-child(2) { background:linear-gradient(145deg,#fff 20%,#fff8e6 100%); }
+  .hn-stop-card:nth-child(3) { background:linear-gradient(145deg,#fff 20%,#edf4fa 100%); }
   .hn-stop-card:before { position:absolute; top:0; right:0; left:0; height:5px; background:linear-gradient(90deg,var(--hn-green),#55aa72); content:''; }
   .hn-stop-card:nth-child(2):before { background:linear-gradient(90deg,#d49708,var(--hn-gold)); }
+  .hn-stop-card:nth-child(3):before { background:linear-gradient(90deg,#315f88,#71a6d2); }
   .hn-stop-card:after { position:absolute; right:-46px; bottom:-58px; z-index:-1; width:150px; height:150px; border:24px solid rgba(11,127,66,.055); border-radius:50%; content:''; }
   .hn-stop-card:nth-child(2):after { border-color:rgba(251,177,22,.08); }
+  .hn-stop-card:nth-child(3):after { border-color:rgba(49,95,136,.07); }
   .hn-stop-card__head { position:relative; z-index:1; align-items:center; }
   .hn-stop-card__head svg { width:46px; height:46px; padding:11px; background:#fff; border:1px solid #cbe4d2; border-radius:13px; box-shadow:0 8px 20px rgba(6,45,28,.1); }
   .hn-stop-card:nth-child(2) .hn-stop-card__head svg { color:#805c00; background:#fffaf0; border-color:#f0d99d; }
+  .hn-stop-card:nth-child(3) .hn-stop-card__head svg { color:#315f88; background:#f3f8fc; border-color:#c7ddec; }
   .hn-stop-card__head span { display:inline-flex; margin-bottom:5px; padding:4px 8px; background:#dff1e4; border-radius:999px; letter-spacing:.08em; }
   .hn-stop-card:nth-child(2) .hn-stop-card__head span { color:#765400; background:#fff0c9; }
+  .hn-stop-card:nth-child(3) .hn-stop-card__head span { color:#315f88; background:#dfedf7; }
   .hn-stop-card h3 { margin:0; color:var(--hn-deep); font-size:20px; line-height:1.35; }
   .hn-stop-card>p { position:relative; min-height:0; margin:24px 0 18px; padding:14px 15px 14px 39px; color:#355345; background:rgba(255,255,255,.76); border:1px solid rgba(179,211,188,.75); border-radius:10px; font-weight:650; }
   .hn-stop-card>p:before { position:absolute; top:19px; left:17px; width:9px; height:9px; background:var(--hn-green); border:2px solid #fff; border-radius:50%; box-shadow:0 0 0 3px #cfe8d6; content:''; }
   .hn-stop-card:nth-child(2)>p { border-color:rgba(232,207,143,.82); }
+  .hn-stop-card:nth-child(3)>p { border-color:rgba(187,211,228,.9); }
   .hn-stop-card:nth-child(2)>p:before { background:#c88c00; box-shadow:0 0 0 3px #f7e4ad; }
+  .hn-stop-card:nth-child(3)>p:before { background:#447aa8; box-shadow:0 0 0 3px #d7e8f4; }
   .hn-stop-card>a { position:relative; z-index:1; width:max-content; min-height:38px; margin-right:8px; padding:0 11px; background:rgba(255,255,255,.8); border:1px solid #c7dfce; border-radius:8px; transition:color .2s ease,background-color .2s ease,border-color .2s ease,transform .2s ease; }
   .hn-stop-card>a:first-of-type { margin-top:auto; }
   .hn-stop-card:nth-child(2)>a { color:#765400; border-color:#ead394; }
+  .hn-stop-card:nth-child(3)>a { color:#315f88; border-color:#bfd5e5; }
+  .hn-stops__grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .hn-stop-support { grid-column:1/-1; display:grid; grid-template-columns:minmax(190px,.65fr) minmax(260px,1fr) auto; gap:24px; align-items:center; min-height:auto; }
+  .hn-stop-support>div:first-child { display:grid; gap:4px; }
+  .hn-stop-support>div:nth-child(2) { display:grid; gap:4px; }
+  .hn-stop-support span { margin:0; }
+  .hn-stop-support .hn-button { margin-top:0; white-space:nowrap; }
+  .hn-header { background:linear-gradient(100deg,rgba(255,255,255,.98),rgba(255,253,238,.98)); border-bottom:1px solid rgba(249,223,18,.55); box-shadow:0 8px 28px rgba(53,48,24,.1); }
+  .hn-nav-wrap { min-height:84px; gap:24px; }
+  .hn-brand { position:relative; min-width:174px; min-height:64px; padding:5px 8px 5px 0; }
+  .hn-brand:before { position:absolute; inset:8px 0 8px -10px; background:radial-gradient(ellipse,rgba(249,223,18,.3),rgba(249,223,18,0) 70%); filter:blur(7px); content:''; opacity:.75; transition:opacity .25s ease,transform .25s ease; }
+  .hn-brand img { position:relative; z-index:1; width:166px; height:54px; object-fit:contain; filter:drop-shadow(0 3px 7px rgba(151,130,0,.2)); transition:filter .25s ease,transform .25s ease; }
+  .hn-nav { gap:5px; }
+  .hn-nav a { min-height:46px; display:inline-flex; align-items:center; padding:0 13px; border-radius:9px; color:#43584e; font-size:15px; font-weight:700; transition:color .2s ease,background-color .2s ease,transform .2s ease; }
+  .hn-locale { gap:3px; padding:4px; background:#fff; border-color:#dcd7c8; box-shadow:0 5px 14px rgba(54,48,29,.06); }
+  .hn-locale a { min-width:40px; min-height:38px; padding:0 8px; font-size:12px; }
+  .hn-locale a[aria-current="page"] { color:#17362b; background:#f9df12; box-shadow:0 4px 11px rgba(164,144,0,.16); }
+  .hn-actions { gap:10px; }
+  .hn-actions>.hn-button { min-height:48px; padding:0 19px; color:#17362b; background:linear-gradient(135deg,#fff36a,#f9df12); box-shadow:0 8px 21px rgba(164,144,0,.22),0 0 0 1px rgba(213,190,0,.25); }
   .hn-booking { position:relative; overflow:hidden; background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,249,237,.98)); border:1px solid rgba(249,223,18,.58); box-shadow:0 22px 58px rgba(15,40,29,.24); transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease; }
   .hn-booking:before { position:absolute; top:0; right:0; left:0; height:4px; background:linear-gradient(90deg,#0b5438 0 28%,#f9df12 28% 100%); content:''; }
   .hn-booking:focus-within { border-color:#d5be00; box-shadow:0 26px 64px rgba(15,40,29,.27),0 0 0 3px rgba(249,223,18,.13); }
@@ -564,7 +590,7 @@
   .hn-departures .hn-departure-card__vehicle span { color:#0b5438; background:#e7f2eb; }
   .hn-departures .hn-departure-card__fare strong { color:#9b6b00; }
   .hn-departures .hn-departure-card__action { color:#17362b; background:#f9df12; box-shadow:0 7px 16px rgba(164,144,0,.16); }
-  .hn-departures .hn-departures__footer .hn-button { color:#0b5438; background:#fff; border-color:#0b5438; }
+  .hn-departures .hn-departures__footer .hn-button { color:#17362b; background:#f9df12; border-color:#d9c200; box-shadow:0 8px 20px rgba(164,144,0,.2); }
   .hn-why { position:relative; overflow:hidden; background:radial-gradient(circle at 8% 12%,rgba(251,177,22,.1),transparent 24%),radial-gradient(circle at 92% 88%,rgba(39,121,102,.08),transparent 27%),#f7f5f0; }
   .hn-why:before { position:absolute; top:42px; right:-90px; width:250px; height:250px; border:1px solid rgba(70,91,80,.08); border-radius:50%; box-shadow:0 0 0 34px rgba(70,91,80,.02),0 0 0 68px rgba(70,91,80,.015); content:''; }
   .hn-why__inner { position:relative; }
@@ -647,6 +673,10 @@
     .hn-nav a { position:relative; }
     .hn-nav a:after { position:absolute; right:50%; bottom:-8px; left:50%; height:2px; background:var(--hn-gold); border-radius:2px; content:''; transition:right .2s ease,left .2s ease; }
     .hn-nav a:hover:after { right:0; left:0; }
+    .hn-nav a:hover { color:#073a2a; background:#fff9d8; transform:translateY(-1px); }
+    .hn-brand:hover:before { opacity:1; transform:scale(1.08); }
+    .hn-brand:hover img { filter:drop-shadow(0 4px 10px rgba(164,144,0,.32)); transform:translateY(-1px) scale(1.015); }
+    .hn-actions>.hn-button:hover { color:#102d23; background:linear-gradient(135deg,#fff67d,#e5cd00); box-shadow:0 11px 27px rgba(164,144,0,.3),0 0 18px rgba(249,223,18,.22); }
     .hn-button:hover { box-shadow:0 9px 22px rgba(6,45,28,.16); transform:translateY(-2px); }
     .hn-button--gold:hover { box-shadow:0 9px 24px rgba(251,177,22,.24); }
     .hn-booking:hover { box-shadow:0 27px 66px rgba(15,40,29,.28); transform:translateY(-2px); }
@@ -664,7 +694,7 @@
     .hn-departures .hn-departure-card:hover { border-color:#d9bd69; box-shadow:0 15px 34px rgba(92,69,17,.11); }
     .hn-departures .hn-departure-card:hover .hn-departure-card__journey i { background:#d5a71c; }
     .hn-departures .hn-departure-card__action:hover { color:#102d23; background:#e5cd00; box-shadow:0 9px 20px rgba(164,144,0,.22); }
-    .hn-departures .hn-departures__footer .hn-button:hover { color:#fff; background:#0b5438; box-shadow:0 9px 22px rgba(11,84,56,.15); }
+    .hn-departures .hn-departures__footer .hn-button:hover { color:#102d23; background:#e5cd00; border-color:#c4af00; box-shadow:0 11px 25px rgba(164,144,0,.28); }
     .hn-vehicle-card__select:hover { background:var(--hn-green-dark); }
     .hn-vehicle-card:hover:before,.hn-news-card:hover:before { transform:scaleX(1); }
     .hn-vehicle-card__select:hover { color:#17362b; background:#e5cd00; box-shadow:0 11px 23px rgba(164,144,0,.22); transform:translateY(-2px); }
@@ -674,6 +704,7 @@
     .hn-stop-card:hover .hn-stop-card__head svg { color:#6b4d00; background:#fff1c9; transform:translateY(-2px) rotate(-4deg); }
     .hn-stop-card>a:hover { color:#fff; background:var(--hn-green); border-color:var(--hn-green); transform:translateX(3px); }
     .hn-stop-card:nth-child(2)>a:hover { color:#5d4300; background:var(--hn-gold); border-color:var(--hn-gold); }
+    .hn-stop-card:nth-child(3)>a:hover { color:#fff; background:#315f88; border-color:#315f88; }
     .hn-why__grid article:hover { border-color:var(--why-accent); box-shadow:0 20px 44px color-mix(in srgb,var(--why-accent) 16%,transparent); transform:translateY(-6px); }
     .hn-why__grid article:hover:before { transform:scaleX(1); }
     .hn-why__grid article:hover .hn-why__icon { color:#fff; background:var(--why-accent); border-color:var(--why-accent); transform:rotate(-5deg) scale(1.08); }
@@ -690,16 +721,34 @@
     .hn-hero__image { animation:hn-hero-breathe 16s ease-in-out infinite alternate; }
     .hn-live-proof i { animation:hn-status-pulse 2.4s ease-out infinite; }
   }
+  @media (max-width:1080px) {
+    .hn-nav { display:none; }
+    .hn-menu-button { display:block; }
+  }
   @media (max-width:900px) {
     .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { grid-template-columns:40px minmax(0,1fr); gap:12px; padding:19px; }
     .hn-proof__grid article>span { width:40px; height:40px; }
+    .hn-stops__grid { grid-template-columns:1fr 1fr; }
+    .hn-stop-card:nth-child(3) { grid-column:1/-1; }
+    .hn-stop-support { grid-template-columns:1fr 1fr; }
+    .hn-stop-support .hn-button { grid-column:1/-1; justify-self:start; }
   }
   @media (max-width:620px) {
+    .hn-nav-wrap { min-height:72px; gap:10px; }
+    .hn-brand { min-width:120px; min-height:54px; padding-right:0; }
+    .hn-brand img { width:120px; height:42px; }
+    .hn-locale { gap:1px; padding:3px; }
+    .hn-locale a { min-width:34px; min-height:36px; padding:0 5px; font-size:11px; }
+    .hn-actions { gap:6px; }
     .hn-proof { padding:48px 0; }
     .hn-proof__body { gap:20px; }
     .hn-proof__grid { grid-template-columns:1fr; }
     .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { min-height:0; }
     .hn-proof__transfer { align-items:flex-start; padding:16px; background:linear-gradient(105deg,#fffdf8,#f9efd5); }
+    .hn-stops__grid { grid-template-columns:1fr; }
+    .hn-stop-card:nth-child(3),.hn-stop-support { grid-column:auto; }
+    .hn-stop-support { display:flex; align-items:stretch; flex-direction:column; gap:10px; }
+    .hn-stop-support .hn-button { align-self:flex-start; }
     #help { width:min(100% - 28px,1160px); margin:42px auto; padding:30px 16px; border-radius:18px; }
     #help .hn-section-heading { margin-bottom:22px; }
     .hn-faq details { padding:0 13px; }
@@ -727,7 +776,7 @@
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
        'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.', 'no_departures' => 'Chưa có chuyến mở bán cho chiều này hôm nay.',
-      'pickup_kicker' => 'Điểm đón & trả khách', 'pickup_title' => 'Lên xe đúng điểm, đúng giờ', 'pickup_text' => 'Địa chỉ đón, trả được hiển thị rõ ràng. Vui lòng liên hệ hỗ trợ để xác nhận thời gian có mặt trước chuyến đi.',
+      'pickup_kicker' => 'Hệ thống văn phòng', 'pickup_title' => 'Ba điểm hỗ trợ trên hành trình', 'pickup_text' => 'Ghé văn phòng Nhật Dương tại TP. Hồ Chí Minh, Nha Trang hoặc Cam Ranh để được hỗ trợ đặt vé và xác nhận thông tin chuyến đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
       'pickup_3_title' => 'Đến sớm', 'pickup_3_text' => 'Nên có mặt trước giờ khởi hành để hoàn tất lên xe thuận tiện.',
@@ -751,7 +800,7 @@
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
        'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.', 'no_departures' => 'No departures are on sale for this direction today.',
-      'pickup_kicker' => 'Pickup & drop-off', 'pickup_title' => 'Meet your bus at the right place', 'pickup_text' => 'Pickup and drop-off addresses are clearly listed. Contact support to confirm your check-in time before departure.',
+      'pickup_kicker' => 'Office network', 'pickup_title' => 'Three offices along your journey', 'pickup_text' => 'Visit a Nhat Duong office in Ho Chi Minh City, Nha Trang, or Cam Ranh for booking assistance and trip confirmation.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
       'pickup_3_title' => 'Arrive early', 'pickup_3_text' => 'Please arrive early for a smooth check-in and boarding process.',
@@ -775,7 +824,7 @@
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
        'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.', 'no_departures' => 'Сегодня рейсы в этом направлении ещё не открыты для продажи.',
-      'pickup_kicker' => 'Посадка и высадка', 'pickup_title' => 'Садитесь в автобус в нужном месте', 'pickup_text' => 'Адреса посадки и высадки указаны ниже. Свяжитесь с поддержкой, чтобы уточнить время прибытия до отправления.',
+      'pickup_kicker' => 'Сеть офисов', 'pickup_title' => 'Три офиса по маршруту', 'pickup_text' => 'Обратитесь в офис Nhat Duong в Хошимине, Нячанге или Камрани для помощи с бронированием и подтверждения деталей поездки.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
       'pickup_3_title' => 'Приезжайте заранее', 'pickup_3_text' => 'Приезжайте заранее для спокойной регистрации и посадки.',
@@ -910,10 +959,15 @@
     'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Разнообразное время отправления', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Англоговорящий персонал', 'Закуски', 'Туалет', 'Лампа для чтения', 'Ремень безопасности', 'Питьевая вода', 'Подушка', 'Аварийный молоток', 'LED-телевизор', 'Зарядка телефона', 'Шторы', 'Аудиосистема', 'Wi-Fi', 'Кондиционер', 'Холодное полотенце'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
   ][$locale];
   $officeLabels = [
-    'vi' => ['pickup' => 'VĂN PHÒNG TP. HỒ CHÍ MINH', 'dropoff' => 'VĂN PHÒNG TP. NHA TRANG'],
-    'en' => ['pickup' => 'HO CHI MINH CITY OFFICE', 'dropoff' => 'NHA TRANG OFFICE'],
-    'ru' => ['pickup' => 'ОФИС В ХОШИМИНЕ', 'dropoff' => 'ОФИС В НЯЧАНГЕ'],
+    'vi' => ['label' => 'Văn phòng', 'hcm' => 'VP TP. HỒ CHÍ MINH', 'nha_trang' => 'VP NHA TRANG', 'cam_ranh' => 'VP CAM RANH'],
+    'en' => ['label' => 'Office', 'hcm' => 'HO CHI MINH CITY OFFICE', 'nha_trang' => 'NHA TRANG OFFICE', 'cam_ranh' => 'CAM RANH OFFICE'],
+    'ru' => ['label' => 'Офис', 'hcm' => 'ОФИС В ХОШИМИНЕ', 'nha_trang' => 'ОФИС В НЯЧАНГЕ', 'cam_ranh' => 'ОФИС В КАМРАНИ'],
   ][$locale];
+  $offices = [
+    ['name' => $officeLabels['hcm'], 'address' => '99 Nguyễn Cư Trinh, P. Cầu Ông Lãnh, TP. HCM'],
+    ['name' => $officeLabels['nha_trang'], 'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, P. Nam Nha Trang, Khánh Hoà'],
+    ['name' => $officeLabels['cam_ranh'], 'address' => '44 Huỳnh Thúc Kháng, P. Cam Ranh, Khánh Hoà'],
+  ];
   $homeTripTabs = [
     'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
     'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'policies' => 'Policies', 'images' => 'Images', 'amenities' => 'Amenities', 'operator_policy' => 'Operator policy'],
@@ -972,7 +1026,6 @@
   <div class="hn-shell hn-nav-wrap">
     <a class="hn-brand" href="{{ route('home', ['lang' => $locale]) }}" aria-label="Nhat Duong home">
       <img src="{{ asset('Nhat-Duong-Logo-1-768x543.png') }}" alt="Nhat Duong">
-      <span>Nhat Duong</span>
     </a>
     <nav id="hn-desktop-nav" class="hn-nav" aria-label="Primary navigation">
       <a href="{{ route('routes.index', ['lang' => $locale]) }}">{{ $copy['nav_routes'] }}</a>
@@ -1154,19 +1207,14 @@
         <p>{{ $copy['pickup_text'] }}</p>
       </div>
       <div class="hn-stops__grid">
-        <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['pickup'] }}</span><h3>{{ $officeLabels['pickup'] }}</h3></div></div>
-          @if($pickupPoints->first()?->address)<p>{{ $pickupPoints->first()->address }}</p>@endif
-          @if($pickupPoints->first()?->phone)<a href="tel:{{ $pickupPoints->first()->phone }}">{{ $pickupPoints->first()->phone }}</a>@endif
-          @if($pickupPoints->first()?->map_url)<a href="{{ $pickupPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
-        </article>
-        <article class="hn-stop-card">
-          <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $homeUi['dropoff'] }}</span><h3>{{ $officeLabels['dropoff'] }}</h3></div></div>
-          @if($dropoffPoints->first()?->address)<p>{{ $dropoffPoints->first()->address }}</p>@endif
-          @if($dropoffPoints->first()?->phone)<a href="tel:{{ $dropoffPoints->first()->phone }}">{{ $dropoffPoints->first()->phone }}</a>@endif
-          @if($dropoffPoints->first()?->map_url)<a href="{{ $dropoffPoints->first()->map_url }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>@endif
-        </article>
-        <aside class="hn-stop-support"><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong><div class="hn-stop-support__phones">@foreach($supportPhones as $phone)<a href="tel:{{ str_replace('.', '', $phone) }}">{{ $phone }}</a>@endforeach</div><span>{{ $pickupLabels['support_text'] }}</span><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
+        @foreach($offices as $office)
+          <article class="hn-stop-card">
+            <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $officeLabels['label'] }}</span><h3>{{ $office['name'] }}</h3></div></div>
+            <p>{{ $office['address'] }}</p>
+            <a href="https://www.google.com/maps/search/?api=1&amp;query={{ rawurlencode($office['address']) }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>
+          </article>
+        @endforeach
+        <aside class="hn-stop-support"><div><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong></div><div><div class="hn-stop-support__phones">@foreach($supportPhones as $phone)<a href="tel:{{ str_replace('.', '', $phone) }}">{{ $phone }}</a>@endforeach</div><span>{{ $pickupLabels['support_text'] }}</span></div><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
       </div>
     </div>
   </section>

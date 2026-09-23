@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Setting;
+use App\Services\ContactEmailService;
 use App\Support\Seo;
 use Illuminate\Http\Request;
 
@@ -26,18 +27,25 @@ class ContactController extends Controller
         return view('contact.index', compact('locale', 'settings', 'seoAlternates'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, ContactEmailService $emailService)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
-            'message' => 'required|string|max:1000',
+            'message' => 'nullable|string|max:1000',
         ]);
 
-        Contact::create($validated);
-
         $locale = $this->locale($request);
+        $validated['message'] = $validated['message'] ?? '';
+        $contact = Contact::create($validated);
+
+        try {
+            $emailService->sendNotification($contact, route('contact', ['lang' => $locale]));
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
+
         $messages = [
             'vi' => 'Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.',
             'en' => 'Thank you for contacting us. Our team will respond as soon as possible.',

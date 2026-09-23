@@ -2,21 +2,21 @@
 
 @php
     $copy = [
-        'vi' => ['title' => 'Da thanh toan ve', 'text' => 'Thanh toan cua ban da duoc ghi nhan. Nha xe se gui thong tin len xe truoc gio khoi hanh.', 'reference' => 'Ma tham chieu', 'status' => 'Trang thai', 'pending' => 'Cho xac nhan', 'paid' => 'Da thanh toan', 'trip' => 'Chuyen di', 'return' => 'Chuyen ve', 'total' => 'Tong thanh toan', 'home' => 'Ve trang chu', 'help' => 'Can dieu chinh thong tin?'],
-        'en' => ['title' => 'Your ticket payment is confirmed', 'text' => 'Your payment has been recorded. The operator will send boarding details before departure.', 'reference' => 'Booking reference', 'status' => 'Status', 'pending' => 'Pending confirmation', 'paid' => 'Paid', 'trip' => 'Outbound', 'return' => 'Return', 'total' => 'Total paid', 'home' => 'Back to home', 'help' => 'Need to change details?'],
-        'ru' => ['title' => 'Оплата билета подтверждена', 'text' => 'Ваш платеж получен. Перевозчик пришлет информацию о посадке до отправления.', 'reference' => 'Номер заявки', 'status' => 'Статус', 'pending' => 'Ожидает подтверждения', 'paid' => 'Оплачено', 'trip' => 'Туда', 'return' => 'Обратно', 'total' => 'Сумма оплаты', 'home' => 'На главную', 'help' => 'Нужно изменить данные?'],
+        'vi' => ['title' => 'Thanh toán vé thành công', 'text' => 'Thanh toán của bạn đã được ghi nhận. Nhà xe Nhật Dương sẽ gửi thông tin lên xe trước giờ khởi hành.', 'reference' => 'Mã đặt vé', 'status' => 'Trạng thái', 'pending' => 'Chờ xác nhận', 'paid' => 'Đã thanh toán', 'trip' => 'Chuyến đi', 'return' => 'Chuyến về', 'total' => 'Tổng tiền đã thanh toán', 'home' => 'Về trang chủ', 'help' => 'Cần hỗ trợ điều chỉnh?', 'vehicle' => 'Xe giường nằm'],
+        'en' => ['title' => 'Your ticket payment is confirmed', 'text' => 'Your payment has been recorded. The operator will send boarding details before departure.', 'reference' => 'Booking reference', 'status' => 'Status', 'pending' => 'Pending confirmation', 'paid' => 'Paid', 'trip' => 'Outbound', 'return' => 'Return', 'total' => 'Total paid', 'home' => 'Back to home', 'help' => 'Need to change details?', 'vehicle' => 'Sleeper bus'],
+        'ru' => ['title' => 'Оплата билета подтверждена', 'text' => 'Ваш платеж получен. Перевозчик пришлет информацию о посадке до отправления.', 'reference' => 'Номер заявки', 'status' => 'Статус', 'pending' => 'Ожидает подтверждения', 'paid' => 'Оплачено', 'trip' => 'Туда', 'return' => 'Обратно', 'total' => 'Сумма оплаты', 'home' => 'На главную', 'help' => 'Нужно изменить данные?', 'vehicle' => 'Спальный автобус'],
     ][$locale];
     if ($booking->payment_provider === 'cash') {
         $cashCopy = [
-            'vi' => ['title' => 'Đặt vé thành công', 'text' => 'Thông tin đặt vé đã được ghi nhận. Nhân viên Nhật Dương sẽ liên hệ xác nhận; bạn thanh toán tiền mặt khi lên xe.', 'total' => 'Tổng tiền cần thanh toán'],
+            'vi' => ['title' => 'Đặt vé thành công', 'text' => 'Thông tin đặt vé đã được ghi nhận. Nhân viên Nhật Dương sẽ liên hệ để xác nhận. Bạn vui lòng thanh toán tiền mặt khi lên xe.', 'pending' => 'Chờ nhà xe xác nhận', 'total' => 'Tổng tiền cần thanh toán'],
             'en' => ['title' => 'Booking received', 'text' => 'Your booking has been recorded. Our team will contact you to confirm; payment is due in cash when boarding.', 'total' => 'Amount due'],
             'ru' => ['title' => 'Бронирование принято', 'text' => 'Ваше бронирование записано. Сотрудник свяжется для подтверждения; оплата наличными при посадке.', 'total' => 'Сумма к оплате'],
         ][$locale];
         $copy = array_replace($copy, $cashCopy);
     }
-    $vehicle = fn ($item) => $item->vehicle_type ?: ($item->bus_type ?: 'Sleeper cabin');
+    $vehicle = fn ($item) => $item->vehicle_type ?: ($item->bus_type ?: $copy['vehicle']);
     $departure = $booking->schedule?->departure_time ?? $booking->departure_at;
-    $vehicleType = $booking->schedule ? $vehicle($booking->schedule) : ($booking->vehicle_type ?: 'Sleeper cabin');
+    $vehicleType = $booking->schedule ? $vehicle($booking->schedule) : ($booking->vehicle_type ?: $copy['vehicle']);
 @endphp
 
 @section('content')

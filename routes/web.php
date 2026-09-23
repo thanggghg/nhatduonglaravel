@@ -43,7 +43,7 @@ Route::get('/lich-trinh', [ScheduleController::class, 'index'])->name('schedules
 
 // Contact
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
-Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/lien-he', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 
 // Booking and internal endpoints must never appear in search results.
 Route::middleware('noindex')->group(function () {

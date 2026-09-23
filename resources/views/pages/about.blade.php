@@ -4,45 +4,48 @@
 @php
     $copy = [
         'vi' => [
-            'home' => 'Trang chủ', 'crumb' => 'Về chúng tôi', 'eyebrow' => 'NHÀ XE NHẬT DƯƠNG', 'title' => 'Mỗi hành trình đều được chăm chút.',
-            'intro' => 'Từ năm 2010, Nhật Dương phục vụ hành khách bằng sự an toàn, chỉn chu và tận tâm trên từng chặng đường.',
-            'since' => 'Đồng hành từ', 'storyTitle' => 'Chuyến đi tốt bắt đầu từ sự tin cậy.',
-            'story' => 'Chúng tôi tin rằng một hành trình thoải mái không chỉ là đưa bạn đến đúng nơi, mà còn là sự yên tâm trong từng điểm đón, từng giờ khởi hành và từng cuộc trò chuyện hỗ trợ.',
-            'valuesLabel' => 'CAM KẾT CỦA CHÚNG TÔI', 'valuesTitle' => 'Chăm sóc trải nghiệm từ lúc đặt vé đến khi bạn đến nơi.',
-            'safety' => 'An toàn là ưu tiên', 'safetyText' => 'Đặt sự an tâm của hành khách ở vị trí đầu tiên trên mọi chuyến đi.',
-            'quality' => 'Dịch vụ chỉn chu', 'qualityText' => 'Không ngừng hoàn thiện để chuyến đi sạch sẽ, thuận tiện và dễ chịu hơn.',
-            'care' => 'Hỗ trợ tận tâm', 'careText' => 'Đội ngũ sẵn sàng tư vấn lộ trình, lịch chạy và điểm đón phù hợp.',
-            'reliable' => 'Đồng hành tin cậy', 'reliableText' => 'Giữ lời hẹn qua mỗi chuyến xe và mỗi lần bạn quay lại.',
-            'fleetTitle' => 'Không gian để bạn nghỉ ngơi trên đường.', 'fleetText' => 'Xe được trang bị các tiện nghi cần thiết cho chuyến đi đường dài thoải mái hơn.',
-            'ctaTitle' => 'Sẵn sàng cho hành trình tiếp theo?', 'ctaText' => 'Xem lịch chạy trực tuyến và chọn chuyến phù hợp với bạn.', 'book' => 'Đặt chuyến đi', 'call' => 'Gọi 1900 2879',
+            'home' => 'Trang chủ', 'crumb' => 'Về chúng tôi', 'eyebrow' => 'NHẬT DƯƠNG · AN TOÀN · ĐÚNG GIỜ · TẬN TÂM', 'title' => 'Kết nối hành trình bằng sự an toàn, đúng giờ và tận tâm.',
+            'intro' => 'Từ năm 2010, Nhật Dương kết nối TP. Hồ Chí Minh với Nha Trang và Cam Ranh bằng dịch vụ xe giường nằm chú trọng an toàn, đúng giờ và trải nghiệm hành khách.',
+            'since' => 'Bắt đầu phục vụ từ', 'storyLabel' => 'CÂU CHUYỆN NHẬT DƯƠNG', 'storyTitle' => 'Chỉn chu từ lúc đặt vé đến khi hành khách đến nơi.',
+            'story' => 'Nhật Dương bắt đầu từ một mục tiêu giản dị: giúp hành khách đi đường dài nhẹ nhàng và an tâm hơn. Vì vậy, từng khâu từ tư vấn, đặt vé, xác nhận điểm đón đến phục vụ trên xe đều được tổ chức rõ ràng, chủ động và nhất quán.',
+            'valuesLabel' => 'CAM KẾT VỚI HÀNH KHÁCH', 'valuesTitle' => 'Những cam kết được thể hiện trong từng chuyến đi.',
+            'safety' => 'An toàn trong từng chặng', 'safetyText' => 'Đặt sự an tâm của hành khách làm nền tảng cho mọi quyết định vận hành.',
+            'quality' => 'Chỉn chu trong dịch vụ', 'qualityText' => 'Không ngừng hoàn thiện không gian xe, quy trình phục vụ và chất lượng mỗi chuyến đi.',
+            'care' => 'Tận tâm khi hỗ trợ', 'careText' => 'Tư vấn rõ lịch chạy, điểm đón và thông tin cần thiết để hành khách chủ động hơn.',
+            'reliable' => 'Tin cậy trong từng lời hẹn', 'reliableText' => 'Trân trọng thời gian, sự lựa chọn và niềm tin của hành khách trên mỗi hành trình.',
+            'fleetLabel' => 'TRẢI NGHIỆM TRÊN XE', 'fleetTitle' => 'Một không gian riêng để nghỉ ngơi suốt hành trình.', 'fleetText' => 'Thiết kế phòng nằm riêng tư cùng những tiện nghi thiết yếu giúp chuyến đi đường dài trở nên thư thái, sạch sẽ và thuận tiện hơn.',
+            'fleetFeatures' => ['Phòng nằm riêng tư, không gian nghỉ ngơi thoải mái', 'Điều hòa, Wi-Fi, cổng sạc và tiện nghi thiết yếu', 'Thông tin chuyến đi và hỗ trợ hành khách rõ ràng'],
+            'ctaTitle' => 'Hành trình tiếp theo của bạn bắt đầu từ đây.', 'ctaText' => 'Xem giờ khởi hành, chọn chuyến phù hợp và đặt vé trực tuyến cùng Nhật Dương.', 'book' => 'Tìm chuyến phù hợp', 'call' => 'Gọi 1900 2879',
             'storyImageAlt' => 'Xe Nhật Dương trên hành trình đến Nha Trang', 'fleetImageAlt' => 'Không gian phòng nằm tiện nghi trên xe Nhật Dương',
         ],
         'en' => [
-            'home' => 'Home', 'crumb' => 'About', 'eyebrow' => 'NHAT DUONG BUS', 'title' => 'Every journey deserves care.',
-            'intro' => 'Since 2010, Nhat Duong has served passengers with safety, attention to detail, and genuine care on every route.',
-            'since' => 'Serving travellers since', 'storyTitle' => 'A better trip begins with trust.',
-            'story' => 'We believe a comfortable journey is more than arriving at the right destination. It is the reassurance of clear pickup points, dependable departures, and a helpful team whenever you need one.',
-            'valuesLabel' => 'OUR COMMITMENT', 'valuesTitle' => 'Care for your experience, from booking until arrival.',
-            'safety' => 'Safety first', 'safetyText' => 'Your peace of mind comes first on every journey.',
-            'quality' => 'Thoughtful service', 'qualityText' => 'We keep improving so each trip is cleaner, easier, and more comfortable.',
-            'care' => 'Helpful support', 'careText' => 'Our team can help with routes, departures, and pickup points.',
-            'reliable' => 'Travel with confidence', 'reliableText' => 'We honour each departure and every return journey.',
-            'fleetTitle' => 'A space to rest on the road.', 'fleetText' => 'Our vehicles include the essentials for a more comfortable long-distance journey.',
-            'ctaTitle' => 'Ready for your next journey?', 'ctaText' => 'View live departures and choose the trip that works for you.', 'book' => 'Book a trip', 'call' => 'Call 1900 2879',
+            'home' => 'Home', 'crumb' => 'About', 'eyebrow' => 'NHAT DUONG · SAFE · PUNCTUAL · CARING', 'title' => 'Connecting every journey through safety, punctuality, and thoughtful service.',
+            'intro' => 'Since 2010, Nhat Duong has connected Ho Chi Minh City with Nha Trang and Cam Ranh through sleeper-bus services focused on safety, punctuality, and passenger comfort.',
+            'since' => 'Serving passengers since', 'storyLabel' => 'THE NHAT DUONG STORY', 'storyTitle' => 'Carefully managed from booking until passengers arrive.',
+            'story' => 'Nhat Duong began with a simple goal: to make long-distance travel easier and more reassuring. From advice and booking to pickup confirmation and onboard service, every step is organised to be clear, proactive, and consistent.',
+            'valuesLabel' => 'OUR PASSENGER COMMITMENTS', 'valuesTitle' => 'Commitments demonstrated on every journey.',
+            'safety' => 'Safety throughout the journey', 'safetyText' => 'Passenger peace of mind is the foundation of every operational decision.',
+            'quality' => 'Care in every detail', 'qualityText' => 'We continually improve our vehicles, service process, and the quality of every trip.',
+            'care' => 'Support that listens', 'careText' => 'Clear guidance on schedules, pickup points, and essential travel information.',
+            'reliable' => 'Promises you can trust', 'reliableText' => 'We value your time, your choice, and the trust placed in us on every journey.',
+            'fleetLabel' => 'ONBOARD EXPERIENCE', 'fleetTitle' => 'A private space to rest throughout the journey.', 'fleetText' => 'Private sleeper cabins and practical amenities make long-distance travel calmer, cleaner, and more convenient.',
+            'fleetFeatures' => ['Private sleeper cabins designed for comfortable rest', 'Air conditioning, Wi-Fi, charging, and essential amenities', 'Clear trip information and attentive passenger support'],
+            'ctaTitle' => 'Your next journey starts here.', 'ctaText' => 'View departure times, choose the right trip, and book online with Nhat Duong.', 'book' => 'Find a suitable trip', 'call' => 'Call 1900 2879',
             'storyImageAlt' => 'Nhat Duong bus travelling to Nha Trang', 'fleetImageAlt' => 'Comfortable sleeper cabins inside a Nhat Duong bus',
         ],
         'ru' => [
-            'home' => 'Главная', 'crumb' => 'О компании', 'eyebrow' => 'АВТОБУСЫ NHAT DUONG', 'title' => 'Каждая поездка заслуживает заботы.',
-            'intro' => 'С 2010 года Nhat Duong перевозит пассажиров безопасно, внимательно и с искренней заботой на каждом маршруте.',
-            'since' => 'С нами с', 'storyTitle' => 'Хорошая поездка начинается с доверия.',
-            'story' => 'Мы считаем, что комфортная поездка - это не только правильный пункт назначения. Это понятные места посадки, надёжное расписание и команда, готовая помочь в нужный момент.',
-            'valuesLabel' => 'НАШИ ОБЯЗАТЕЛЬСТВА', 'valuesTitle' => 'Забота о вашей поездке от бронирования до прибытия.',
-            'safety' => 'Безопасность прежде всего', 'safetyText' => 'Спокойствие пассажиров - наш главный приоритет в каждой поездке.',
-            'quality' => 'Продуманный сервис', 'qualityText' => 'Мы постоянно улучшаем сервис, чтобы поездка была чище, проще и комфортнее.',
-            'care' => 'Поддержка рядом', 'careText' => 'Команда поможет с маршрутом, временем отправления и местом посадки.',
-            'reliable' => 'Уверенность в пути', 'reliableText' => 'Мы ценим каждую поездку и ваше возвращение к нам.',
-            'fleetTitle' => 'Пространство для отдыха в дороге.', 'fleetText' => 'В автобусах есть всё необходимое для более комфортной длительной поездки.',
-            'ctaTitle' => 'Готовы к следующей поездке?', 'ctaText' => 'Посмотрите актуальное расписание и выберите подходящий рейс.', 'book' => 'Забронировать', 'call' => 'Позвонить: 1900 2879',
+            'home' => 'Главная', 'crumb' => 'О компании', 'eyebrow' => 'NHAT DUONG · БЕЗОПАСНО · ВОВРЕМЯ · С ЗАБОТОЙ', 'title' => 'Безопасность, пунктуальность и забота в каждой поездке.',
+            'intro' => 'С 2010 года Nhat Duong соединяет Хошимин, Нячанг и Камрань, уделяя особое внимание безопасности, пунктуальности и комфорту пассажиров.',
+            'since' => 'Работаем для пассажиров с', 'storyLabel' => 'ИСТОРИЯ NHAT DUONG', 'storyTitle' => 'Внимание к деталям от бронирования до прибытия.',
+            'story' => 'Nhat Duong начинался с простой цели: сделать дальние поездки легче и спокойнее. Консультация, бронирование, подтверждение места посадки и обслуживание в автобусе организованы понятно, внимательно и последовательно.',
+            'valuesLabel' => 'НАШИ ОБЯЗАТЕЛЬСТВА', 'valuesTitle' => 'Обязательства, которые мы выполняем в каждой поездке.',
+            'safety' => 'Безопасность на всём пути', 'safetyText' => 'Спокойствие пассажиров лежит в основе каждого решения по организации рейса.',
+            'quality' => 'Внимание к деталям', 'qualityText' => 'Мы постоянно улучшаем автобусы, процессы обслуживания и качество каждой поездки.',
+            'care' => 'Поддержка, которая слышит', 'careText' => 'Понятная информация о расписании, местах посадки и важных деталях поездки.',
+            'reliable' => 'Обещания, которым доверяют', 'reliableText' => 'Мы ценим ваше время, ваш выбор и доверие в каждом путешествии.',
+            'fleetLabel' => 'КОМФОРТ В АВТОБУСЕ', 'fleetTitle' => 'Личное пространство для отдыха в пути.', 'fleetText' => 'Спальные места и необходимые удобства делают дальнюю поездку спокойнее, чище и комфортнее.',
+            'fleetFeatures' => ['Личные спальные места для комфортного отдыха', 'Кондиционер, Wi-Fi, зарядка и необходимые удобства', 'Понятная информация о рейсе и внимательная поддержка'],
+            'ctaTitle' => 'Следующее путешествие начинается здесь.', 'ctaText' => 'Посмотрите время отправления, выберите рейс и забронируйте поездку онлайн.', 'book' => 'Найти подходящий рейс', 'call' => 'Позвонить: 1900 2879',
             'storyImageAlt' => 'Автобус Nhat Duong по пути в Нячанг', 'fleetImageAlt' => 'Комфортные спальные места в автобусе Nhat Duong',
         ],
     ][$locale];
@@ -52,12 +55,71 @@
     .about-page{background:#f5f8f4;color:#173d2b}.about-container{width:min(1120px,calc(100% - 40px));margin:0 auto}.about-hero{position:relative;overflow:hidden;background:radial-gradient(circle at 79% 17%,rgba(249,178,26,.25),transparent 22%),linear-gradient(126deg,#052c1a,#087945);color:#fff}.about-hero:after{position:absolute;right:-91px;bottom:-178px;width:410px;height:410px;border:1px solid rgba(255,255,255,.16);border-radius:50%;box-shadow:0 0 0 37px rgba(255,255,255,.035),0 0 0 74px rgba(255,255,255,.025);content:''}.about-crumb{position:relative;z-index:1;display:flex;gap:8px;padding-top:18px;color:rgba(255,255,255,.66);font-size:13px}.about-crumb a{color:#fff;font-weight:750;text-decoration:none}.about-hero__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(250px,.7fr);gap:50px;align-items:end;padding:60px 0 66px}.about-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#f9b21a;font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.about-eyebrow:before{width:28px;height:2px;background:#f9b21a;content:''}.about-hero h1{max-width:630px;margin:15px 0;color:#fff;font-size:clamp(39px,5.5vw,67px);font-weight:900;letter-spacing:-.06em;line-height:.98}.about-hero p{max-width:600px;margin:0;color:rgba(255,255,255,.78);font-size:17px;line-height:1.65}.about-year{display:grid;gap:8px;align-content:center;justify-items:center;min-height:214px;border:1px solid rgba(255,255,255,.2);border-radius:20px;background:rgba(255,255,255,.09);backdrop-filter:blur(10px);text-align:center}.about-year span{color:#c6dccb;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.about-year strong{color:#f9b21a;font-size:62px;font-weight:900;letter-spacing:-.07em;line-height:1}.about-story{padding:68px 0}.about-story__grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:68px;align-items:center}.about-story__marker{position:relative;min-height:280px;overflow:hidden;border-radius:18px;background:linear-gradient(145deg,#dff0e3,#b7ddc2)}.about-story__marker:before{position:absolute;top:46px;left:45px;width:115px;height:115px;border:21px solid #0b7f42;border-radius:50%;box-shadow:79px 74px 0 -38px #f9b21a;content:''}.about-story__marker:after{position:absolute;right:-86px;bottom:-87px;width:260px;height:260px;border:1px solid rgba(8,104,58,.23);border-radius:50%;box-shadow:0 0 0 30px rgba(8,104,58,.06);content:''}.about-story h2,.about-values h2,.about-fleet h2{margin:0;color:#173d2b;font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-.045em;line-height:1.08}.about-story p{margin:17px 0 0;color:#5a7566;font-size:16px;line-height:1.75}.about-values{padding:68px 0;background:#e5f2e8}.about-section-label{display:block;margin-bottom:10px;color:#087841;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.about-values__head{max-width:670px}.about-values__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}.about-value{padding:22px;border:1px solid #d1e4d6;border-radius:14px;background:#fff}.about-value__number{display:block;margin-bottom:25px;color:#f1b218;font-size:13px;font-weight:900}.about-value h3{margin:0 0 8px;color:#173d2b;font-size:17px;font-weight:900}.about-value p{margin:0;color:#638071;font-size:13px;line-height:1.55}.about-fleet{padding:68px 0}.about-fleet__inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:55px;align-items:center}.about-fleet p{max-width:570px;margin:15px 0 0;color:#5a7566;font-size:16px;line-height:1.7}.about-fleet__card{position:relative;min-height:205px;overflow:hidden;border-radius:17px;background:linear-gradient(145deg,#073b27,#0b7f42);color:#fff}.about-fleet__card:before{position:absolute;right:30px;bottom:42px;width:170px;height:70px;border:5px solid rgba(255,255,255,.84);border-radius:35px 40px 15px 15px;content:''}.about-fleet__card:after{position:absolute;right:57px;bottom:24px;width:25px;height:25px;border:5px solid #f9b21a;border-radius:50%;box-shadow:82px 0 0 -5px #f9b21a;content:''}.about-fleet__card span{position:absolute;top:27px;left:28px;color:#d2e7d8;font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.about-cta{padding:52px 0;background:#063b26;color:#fff}.about-cta__inner{display:flex;align-items:center;justify-content:space-between;gap:26px}.about-cta h2{margin:0 0 8px;font-size:28px;font-weight:900;letter-spacing:-.035em}.about-cta p{max-width:580px;margin:0;color:rgba(255,255,255,.72);line-height:1.6}.about-cta__actions{display:flex;flex-wrap:wrap;gap:10px}.about-btn{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:0 17px;border:1px solid transparent;border-radius:9px;background:#f9b21a;color:#493200;font-size:13px;font-weight:900;text-decoration:none;white-space:nowrap}.about-btn:hover{background:#ffca47}.about-btn--outline{border-color:rgba(255,255,255,.45);background:transparent;color:#fff}.about-btn--outline:hover{background:rgba(255,255,255,.11)}.about-btn:focus-visible{outline:3px solid #fff;outline-offset:3px}@media(max-width:850px){.about-hero__content,.about-story__grid,.about-fleet__inner{grid-template-columns:1fr;gap:30px}.about-year{max-width:340px;min-height:165px}.about-story__marker{min-height:215px}.about-values__grid{grid-template-columns:repeat(2,1fr)}.about-cta__inner{align-items:start;flex-direction:column}}@media(max-width:560px){.about-container{width:min(100% - 28px,1120px)}.about-hero__content{padding:43px 0 52px}.about-hero h1{font-size:42px}.about-story,.about-values,.about-fleet{padding:48px 0}.about-values__grid{grid-template-columns:1fr}.about-year{display:none}.about-fleet__card{min-height:170px}.about-cta{padding:38px 0}.about-cta__actions{width:100%}.about-btn{flex:1}}@media(prefers-reduced-motion:reduce){.about-btn{transition:none}}
     .about-story__marker img,.about-fleet__card img{display:block;width:100%;height:100%;object-fit:cover}.about-story__marker img{position:absolute;inset:0}.about-story__marker:before,.about-story__marker:after,.about-fleet__card:before,.about-fleet__card:after{display:none}.about-fleet__card{padding:0}.about-fleet__card img{min-height:310px}
 </style>
+<style>
+    .about-page{--about-deep:#073a2a;--about-green:#0b5438;--about-gold:#f9df12;--about-ink:#26362f;--about-muted:#65736c;--about-cream:#fff9e8;background:linear-gradient(180deg,#fffdf8,#f4f7f2);color:var(--about-ink)}
+    .about-container{width:min(1160px,calc(100% - 40px))}
+    .about-hero{background:radial-gradient(circle at 79% 16%,rgba(249,223,18,.24),transparent 24%),radial-gradient(circle at 8% 92%,rgba(255,255,255,.07),transparent 27%),linear-gradient(125deg,#062d1c,#0b5438);border-bottom:5px solid var(--about-gold)}
+    .about-hero:after{border-color:rgba(249,223,18,.18);box-shadow:0 0 0 37px rgba(249,223,18,.025),0 0 0 74px rgba(249,223,18,.015)}
+    .about-hero__content{grid-template-columns:minmax(0,1.25fr) minmax(260px,.55fr);gap:74px;padding:68px 0 78px}
+    .about-hero__copy{max-width:760px}
+    .about-eyebrow{padding:8px 12px;color:#17362b;background:var(--about-gold);border:1px solid #ddc700;border-radius:999px;box-shadow:0 7px 18px rgba(0,0,0,.11)}
+    .about-eyebrow:before{width:7px;height:7px;background:var(--about-green);border-radius:50%;box-shadow:0 0 0 3px rgba(11,84,56,.14)}
+    .about-hero h1{max-width:760px;margin:19px 0 17px;font-size:clamp(43px,5.4vw,68px);font-weight:950;line-height:1.01;letter-spacing:-.055em;text-wrap:balance}
+    .about-hero__copy>p{max-width:700px;color:rgba(255,255,255,.78);font-size:18px;font-weight:550;line-height:1.72}
+    .about-year{position:relative;overflow:hidden;min-height:230px;padding:26px;color:#17362b;background:linear-gradient(145deg,#fff8a3,var(--about-gold));border:1px solid rgba(255,255,255,.46);box-shadow:0 24px 50px rgba(0,0,0,.18);backdrop-filter:none}
+    .about-year:after{position:absolute;right:-50px;bottom:-67px;width:170px;height:170px;border:27px solid rgba(11,84,56,.08);border-radius:50%;content:''}
+    .about-year span,.about-year strong{position:relative;z-index:1}
+    .about-year span{color:#4f512b;font-size:11px;font-weight:900;letter-spacing:.1em}
+    .about-year strong{color:var(--about-deep);font-size:70px;font-weight:950}
+    .about-story{padding:88px 0;background:#fff}
+    .about-story__grid{grid-template-columns:minmax(0,1.03fr) minmax(0,.97fr);gap:76px}
+    .about-story__marker{min-height:410px;border:1px solid #d7d0bc;border-radius:22px;box-shadow:0 22px 50px rgba(52,45,24,.12)}
+    .about-story__marker:before{display:block;position:absolute;inset:16px -16px -16px 16px;z-index:-1;background:var(--about-gold);border-radius:22px;content:''}
+    .about-story__marker>span{position:absolute;right:17px;bottom:17px;z-index:2;padding:9px 12px;color:#17362b;background:var(--about-gold);border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.07em}
+    .about-story__content{max-width:550px}
+    .about-section-label{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;color:#17362b;background:var(--about-gold);border:1px solid #ddc700;border-radius:999px;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+    .about-section-label:before{width:7px;height:7px;background:var(--about-green);border-radius:50%;content:''}
+    .about-story h2,.about-values h2,.about-fleet h2,.about-cta h2{font-weight:950;letter-spacing:-.045em;text-wrap:balance}
+    .about-story h2{margin:17px 0 19px;color:var(--about-deep);font-size:clamp(34px,4vw,48px);line-height:1.08}
+    .about-story__content>p{margin:0;color:#53675d;font-size:17px;font-weight:550;line-height:1.82}
+    .about-values{padding:86px 0 94px;background:radial-gradient(circle at 95% 8%,rgba(249,223,18,.15),transparent 23%),linear-gradient(180deg,#f8f5ec,#f1f5ef)}
+    .about-values__head{max-width:760px;margin-bottom:38px}
+    .about-values__head h2{max-width:720px;margin-top:16px;color:var(--about-deep);font-size:clamp(35px,4.2vw,50px);line-height:1.08}
+    .about-values__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .about-value{--value-accent:#0b5438;position:relative;overflow:hidden;min-height:270px;padding:25px;background:#fff;border:1px solid #ddd7c9;border-radius:16px;box-shadow:0 14px 34px rgba(56,48,26,.07);transition:border-color .24s ease,box-shadow .24s ease,transform .24s ease}
+    .about-value:nth-child(2){--value-accent:#b28700}.about-value:nth-child(3){--value-accent:#a85b46}.about-value:nth-child(4){--value-accent:#446f98}
+    .about-value:before{position:absolute;top:0;right:20px;left:20px;height:5px;background:var(--value-accent);border-radius:0 0 5px 5px;content:'';transform:scaleX(.35);transform-origin:left;transition:transform .25s ease}
+    .about-value__number{display:grid;width:50px;height:50px;place-items:center;margin-bottom:31px;color:#fff;background:var(--value-accent);border-radius:13px;font-size:13px;font-weight:950;box-shadow:0 8px 18px color-mix(in srgb,var(--value-accent) 20%,transparent)}
+    .about-value h3{margin:0 0 11px;color:var(--about-deep);font-size:20px;font-weight:900;line-height:1.25}
+    .about-value p{margin:0;color:var(--about-muted);font-size:13px;font-weight:550;line-height:1.65}
+    .about-fleet{padding:86px 0;background:#fff}
+    .about-fleet__inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:45px;align-items:center;padding:38px;color:#fff;background:radial-gradient(circle at 12% 90%,rgba(249,223,18,.1),transparent 28%),linear-gradient(135deg,#073a2a,#062d1c);border-top:5px solid var(--about-gold);border-radius:25px;box-shadow:0 24px 55px rgba(7,58,42,.18)}
+    .about-fleet__content{padding:8px 0 8px 8px}
+    .about-fleet h2{margin:17px 0 15px;color:#fff;font-size:clamp(34px,4vw,49px);line-height:1.06}
+    .about-fleet__content>p{margin:0;color:rgba(255,255,255,.7);font-size:15px;font-weight:550;line-height:1.7}
+    .about-fleet__content ul{display:grid;gap:10px;margin:24px 0 0;padding:0;list-style:none}
+    .about-fleet__content li{display:grid;grid-template-columns:27px minmax(0,1fr);gap:10px;align-items:center;color:#e8f2ec;font-size:13px;font-weight:700;line-height:1.5}
+    .about-fleet__content li>span{display:grid;width:27px;height:27px;place-items:center;color:#17362b;background:var(--about-gold);border-radius:50%;font-size:12px;font-weight:950}
+    .about-fleet__card{overflow:hidden;border:1px solid rgba(255,255,255,.18);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.22)}
+    .about-fleet__card img{min-height:430px;transition:transform .35s ease}
+    .about-cta{padding:62px 0;color:#17362b;background:linear-gradient(110deg,#fff48a,var(--about-gold));border-top:1px solid #d7c200}
+    .about-cta__inner{gap:40px}
+    .about-cta h2{max-width:680px;margin-bottom:10px;color:var(--about-deep);font-size:clamp(32px,4vw,47px);line-height:1.08}
+    .about-cta p{color:#5c5a31;font-size:15px;font-weight:650}
+    .about-btn{min-height:50px;padding-inline:20px;color:#fff;background:var(--about-green);border-color:var(--about-green);box-shadow:0 9px 21px rgba(7,58,42,.2);font-weight:900}
+    .about-btn--outline{color:var(--about-deep);background:rgba(255,255,255,.55);border-color:var(--about-green);box-shadow:none}
+    @media(hover:hover) and (pointer:fine){.about-value:hover{border-color:var(--value-accent);box-shadow:0 20px 44px color-mix(in srgb,var(--value-accent) 14%,transparent);transform:translateY(-6px)}.about-value:hover:before{transform:scaleX(1)}.about-fleet__inner:hover .about-fleet__card img{transform:scale(1.025)}.about-btn:hover{color:#17362b;background:#fff;border-color:#fff;transform:translateY(-2px)}.about-btn--outline:hover{color:#fff;background:var(--about-deep);border-color:var(--about-deep)}.about-year{transition:transform .24s ease,box-shadow .24s ease}.about-year:hover{box-shadow:0 29px 58px rgba(0,0,0,.22);transform:translateY(-4px)}}
+    @media(max-width:940px){.about-hero__content{grid-template-columns:minmax(0,1fr) 250px;gap:35px}.about-story__grid{gap:45px}.about-values__grid{grid-template-columns:1fr 1fr}.about-fleet__inner{grid-template-columns:1fr}.about-fleet__card img{min-height:350px}}
+    @media(max-width:700px){.about-container{width:min(100% - 28px,1160px)}.about-hero__content,.about-story__grid{grid-template-columns:1fr}.about-hero__content{gap:28px;padding:46px 0 54px}.about-hero h1{font-size:clamp(39px,11vw,51px)}.about-hero__copy>p{font-size:16px}.about-year{min-height:175px}.about-story{padding:65px 0}.about-story__grid{gap:46px}.about-story__marker{min-height:300px}.about-story__marker:before{inset:11px -8px -11px 8px}.about-values{padding:64px 0 70px}.about-values__grid{grid-template-columns:1fr}.about-value{min-height:0}.about-fleet{padding:62px 0}.about-fleet__inner{gap:28px;padding:24px 20px}.about-fleet__content{padding:0}.about-fleet__card img{min-height:280px}.about-cta{padding:52px 0}.about-cta__inner{align-items:stretch;flex-direction:column}.about-cta__actions{width:100%}.about-btn{flex:1}}
+    @media(max-width:420px){.about-cta__actions{align-items:stretch;flex-direction:column}.about-btn{width:100%}.about-story__content>p{font-size:15px}}
+    @media(prefers-reduced-motion:reduce){.about-value,.about-value:before,.about-fleet__card img,.about-year{transition:none}}
+</style>
 
 <div class="about-page">
-    <header class="about-hero"><div class="about-container"><nav class="about-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="about-hero__content"><div><span class="about-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div><div class="about-year"><span>{{ $copy['since'] }}</span><strong>2010</strong><span>Nhat Duong</span></div></div></div></header>
-    <section class="about-story"><div class="about-container about-story__grid"><div class="about-story__marker"><img src="{{ asset('storage/image/b6c6290cc.jpg') }}" alt="{{ $copy['storyImageAlt'] }}"></div><div><h2>{{ $copy['storyTitle'] }}</h2><p>{{ $copy['story'] }}</p></div></div></section>
+    <header class="about-hero"><div class="about-container"><nav class="about-crumb" aria-label="Breadcrumb"><a href="{{ route('home', ['lang' => $locale]) }}">{{ $copy['home'] }}</a><span aria-hidden="true">/</span><span>{{ $copy['crumb'] }}</span></nav><div class="about-hero__content"><div class="about-hero__copy"><span class="about-eyebrow">{{ $copy['eyebrow'] }}</span><h1>{{ $copy['title'] }}</h1><p>{{ $copy['intro'] }}</p></div><div class="about-year"><span>{{ $copy['since'] }}</span><strong>2010</strong><span>NHẬT DƯƠNG</span></div></div></div></header>
+    <section class="about-story"><div class="about-container about-story__grid"><div class="about-story__marker"><img src="{{ asset('storage/image/b6c6290cc.jpg') }}" alt="{{ $copy['storyImageAlt'] }}"><span aria-hidden="true">2010 — {{ now()->year }}</span></div><div class="about-story__content"><span class="about-section-label">{{ $copy['storyLabel'] }}</span><h2>{{ $copy['storyTitle'] }}</h2><p>{{ $copy['story'] }}</p></div></div></section>
     <section class="about-values"><div class="about-container"><div class="about-values__head"><span class="about-section-label">{{ $copy['valuesLabel'] }}</span><h2>{{ $copy['valuesTitle'] }}</h2></div><div class="about-values__grid"><article class="about-value"><span class="about-value__number">01</span><h3>{{ $copy['safety'] }}</h3><p>{{ $copy['safetyText'] }}</p></article><article class="about-value"><span class="about-value__number">02</span><h3>{{ $copy['quality'] }}</h3><p>{{ $copy['qualityText'] }}</p></article><article class="about-value"><span class="about-value__number">03</span><h3>{{ $copy['care'] }}</h3><p>{{ $copy['careText'] }}</p></article><article class="about-value"><span class="about-value__number">04</span><h3>{{ $copy['reliable'] }}</h3><p>{{ $copy['reliableText'] }}</p></article></div></div></section>
-    <section class="about-fleet"><div class="about-container about-fleet__inner"><div><h2>{{ $copy['fleetTitle'] }}</h2><p>{{ $copy['fleetText'] }}</p></div><div class="about-fleet__card"><img src="{{ asset('storage/image/03bf4.jpg') }}" alt="{{ $copy['fleetImageAlt'] }}" loading="lazy"></div></div></section>
+    <section class="about-fleet"><div class="about-container about-fleet__inner"><div class="about-fleet__content"><span class="about-section-label">{{ $copy['fleetLabel'] }}</span><h2>{{ $copy['fleetTitle'] }}</h2><p>{{ $copy['fleetText'] }}</p><ul>@foreach($copy['fleetFeatures'] as $feature)<li><span aria-hidden="true">✓</span>{{ $feature }}</li>@endforeach</ul></div><div class="about-fleet__card"><img src="{{ asset('storage/image/03bf4.jpg') }}" alt="{{ $copy['fleetImageAlt'] }}" loading="lazy"></div></div></section>
     <section class="about-cta"><div class="about-container about-cta__inner"><div><h2>{{ $copy['ctaTitle'] }}</h2><p>{{ $copy['ctaText'] }}</p></div><div class="about-cta__actions"><a class="about-btn" href="{{ route('home', ['lang' => $locale]) }}#booking">{{ $copy['book'] }} <span aria-hidden="true">→</span></a><a class="about-btn about-btn--outline" href="tel:19002879">{{ $copy['call'] }}</a></div></div></section>
 </div>
 @endsection

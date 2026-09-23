@@ -2,60 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\VexereTripService;
 use App\Support\Seo;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOMeta;
 
 class ScheduleController extends Controller
 {
-    public function __construct(private VexereTripService $vexere)
-    {
-    }
-
     public function index(Request $request)
     {
         $locale = $this->locale($request);
-        $date = $this->date($request);
-        $areas = config('services.vexere.areas', []);
-        $routes = collect(array_keys($areas))->flatMap(function (string $from) use ($areas) {
-            return collect(array_keys($areas))
-                ->reject(fn (string $to) => $from === $to)
-                ->map(fn (string $to) => [
-                    'key' => $areas[$from].'-'.$areas[$to],
-                    'from' => $from,
-                    'to' => $to,
-                ]);
-        })->values();
-
-        $selectedRoutes = $request->filled('route')
-            ? $routes->where('key', $request->string('route')->value())
-            : $routes;
-
-        try {
-            $liveTrips = $this->vexere->searchMany(
-                $selectedRoutes->mapWithKeys(fn (array $route) => [$route['key'] => [
-                    'from' => $route['from'],
-                    'to' => $route['to'],
-                ]])->all(),
-                $date,
-                $locale
-            );
-            $schedules = $selectedRoutes->flatMap(function (array $route) use ($liveTrips) {
-                return collect($liveTrips[$route['key']] ?? [])->map(fn (array $trip) => $trip + ['route' => $route]);
-            })->sortBy('departure')->values();
-            $apiError = false;
-        } catch (\Throwable $exception) {
-            report($exception);
-            $schedules = collect();
-            $apiError = true;
-        }
 
         $metadata = [
-            'vi' => ['Lịch Trình Trực Tuyến', 'Lịch chạy cập nhật trực tiếp từ hệ thống đặt vé của Nhà Xe Nhật Dương.'],
-            'en' => ['Live Departure Schedule', 'Live Nhat Duong departure times and seat availability.'],
-            'ru' => ['Актуальное расписание', 'Актуальное расписание и наличие мест Nhat Duong.'],
+            'vi' => ['Lịch Trình Xe Nhật Dương', 'Khung giờ khởi hành cố định hằng ngày tuyến TP. Hồ Chí Minh - Nha Trang của Nhà xe Nhật Dương.'],
+            'en' => ['Nhat Duong Bus Schedule', 'Fixed daily Nhat Duong departure times between Ho Chi Minh City and Nha Trang.'],
+            'ru' => ['Расписание автобусов Nhat Duong', 'Фиксированное ежедневное расписание Nhat Duong между Хошимином и Нячангом.'],
         ][$locale];
         Seo::configure($metadata[0], $metadata[1], Seo::route('schedules.index', ['lang' => $locale]), $locale);
         if ($request->filled('date') || $request->filled('route')) {
@@ -63,23 +23,7 @@ class ScheduleController extends Controller
         }
         $seoAlternates = Seo::alternates('schedules.index');
 
-        return view('schedules.index', compact('schedules', 'routes', 'date', 'locale', 'apiError', 'seoAlternates'));
-    }
-
-    private function date(Request $request): Carbon
-    {
-        $value = $request->input('date');
-        if (!$value) {
-            return today();
-        }
-
-        try {
-            $date = Carbon::createFromFormat('Y-m-d', $value)->startOfDay();
-        } catch (\Throwable) {
-            return today();
-        }
-
-        return $date->isBefore(today()) ? today() : $date;
+        return view('schedules.index', compact('locale', 'seoAlternates'));
     }
 
     private function locale(Request $request): string
