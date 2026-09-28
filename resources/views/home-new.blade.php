@@ -46,7 +46,7 @@
   <script type="application/ld+json">{!! json_encode($homeSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Be+Vietnam+Pro:wght@600;700;800&family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 <style>
@@ -126,12 +126,28 @@
   .hn-official-site svg { width:19px; height:19px; flex:none; color:var(--hn-green); fill:#e2f4e7; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; }
   .hn-official-site strong { color:var(--hn-green); }
   .hn-booking { margin-top:28px; border:1px solid rgba(255,255,255,.25); border-radius:18px; }
-  .hn-booking fieldset { padding:18px 20px 20px; }
+  .hn-booking fieldset { min-width:0; padding:18px 20px 20px; }
   .hn-booking__top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:12px; }
   .hn-booking legend { padding:0; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:800; }
   .hn-live-proof { margin:0!important; color:#326044!important; background:#eef8f0; border-color:#d4ead9; }
   .hn-live-proof i { background:var(--hn-green); box-shadow:0 0 0 4px rgba(11,127,66,.12); }
-  .hn-booking__fields { display:grid; grid-template-columns:minmax(150px,1.05fr) 44px minmax(150px,1.05fr) minmax(150px,.75fr) minmax(120px,.55fr) auto; gap:10px; align-items:end; }
+  .hn-booking__fields { display:grid; gap:12px; align-items:end; }
+  @media(min-width:901px) {
+    .hn-booking__fields { grid-template-columns:repeat(8,minmax(0,1fr)); }
+    .hn-location-field--from { grid-column:1/4; }
+    .hn-swap { grid-column:4; }
+    .hn-location-field--to { grid-column:5/9; }
+    .hn-depart-date-field { grid-column:1/3; }
+    .hn-return-date-field { grid-column:3/5; }
+    .hn-passenger-field { grid-column:5/7; }
+    .hn-search-button { grid-column:7/9; }
+  }
+  @media(min-width:1180px) {
+    .hn-booking { left:50%; width:min(1280px,calc(100vw - 48px)); max-width:none; translate:-50% 0; }
+    .hn-booking__fields { grid-template-columns:minmax(180px,1.25fr) 48px minmax(180px,1.25fr) minmax(150px,.82fr) minmax(150px,.82fr) minmax(130px,.68fr) minmax(180px,.95fr); gap:12px; }
+    .hn-location-field--from,.hn-swap,.hn-location-field--to,.hn-depart-date-field,.hn-return-date-field,.hn-passenger-field,.hn-search-button { grid-column:auto; grid-row:auto; }
+    .hn-search-button { min-width:0; }
+  }
   .hn-booking label { gap:6px; }
   .hn-booking label>span:first-child { min-height:16px; }
   .hn-booking label>span small { margin-left:4px; color:#8a9a91; font-size:9px; font-weight:600; letter-spacing:0; text-transform:none; }
@@ -151,7 +167,7 @@
   }
   .hn-passenger-stepper output { background:#fff; }
   .hn-passenger-stepper button { background:#eaf5ed; }
-  #hn-depart-date { width:140px; }
+  #hn-depart-date,#hn-return-date { width:100%; }
   .hn-swap { display:grid; width:44px; height:48px; place-items:center; padding:0; color:var(--hn-green); background:#eef8f0; border:1px solid #cfe4d5; border-radius:9px; cursor:pointer; }
   .hn-swap:hover { background:#dff2e4; }
   .hn-swap svg,.hn-search-button svg { width:19px; height:19px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2; }
@@ -160,19 +176,41 @@
   .hn-passenger-stepper output { display:grid; place-items:center; color:var(--hn-deep); background:#fff; font-size:14px; font-weight:800; }
   .hn-search-button { gap:8px; min-width:132px; }
   .hn-search-button[aria-busy=true] { opacity:.78; cursor:wait; }
+  .hn-booking-tools { display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; margin-top:14px; padding-top:14px; border-top:1px solid #e7e0d0; }
+  .hn-booking-tools__group { display:flex; align-items:center; gap:7px; }
+  .hn-booking-tools__label { display:inline-flex; align-items:center; gap:6px; color:#65756c; font-size:10px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+  .hn-booking-tools__label svg { width:16px; height:16px; fill:none; stroke:#0b7f42; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-booking-tools__label img { width:22px; height:22px; object-fit:contain; }
+  .hn-booking-tool { display:inline-flex; min-height:38px; align-items:center; justify-content:center; padding:7px 11px; color:#40564b; background:#fff; border:1px solid #d9ded8; border-radius:999px; font:800 10px Inter,sans-serif; cursor:pointer; white-space:nowrap; transition:border-color .18s ease,background-color .18s ease,color .18s ease,box-shadow .18s ease; }
+  .hn-booking-tool:hover { color:#075338; background:#f0f8f2; border-color:#a9cdb5; }
+  .hn-booking-tool.is-active,.hn-booking-tool[aria-pressed=true] { color:#fff; background:#075338; border-color:#075338; box-shadow:0 5px 12px rgba(7,83,56,.14); }
+  .hn-booking-status { display:flex; min-height:38px; align-items:center; gap:8px; margin-left:auto; padding:7px 11px; color:#315347; background:#edf7f0; border:1px solid #cee5d5; border-radius:9px; font-size:10px; font-weight:800; }
+  .hn-booking-status:before { width:8px; height:8px; background:#0b7f42; border-radius:50%; box-shadow:0 0 0 4px rgba(11,127,66,.1); content:''; }
+  .hn-clear-return { min-height:38px; padding:7px 10px; color:#b32830; background:#fff5f5; border:1px solid #f0c9cc; border-radius:9px; font:800 10px Inter,sans-serif; cursor:pointer; }
+  .hn-clear-return[hidden] { display:none; }
   .hn-section { padding:76px 0; }
   .hn-section-heading { margin-bottom:28px; }
   .hn-section-heading--split { display:flex; align-items:end; justify-content:space-between; gap:36px; max-width:none; }
   .hn-section-heading--split>div { max-width:720px; }
   .hn-section-heading--split>p { max-width:390px; margin:0 0 5px; color:var(--hn-muted); line-height:1.65; }
-  .hn-route-summary { padding:32px 0; background:#fff; border-bottom:1px solid var(--hn-line); }
-  .hn-route-summary__inner { display:grid; grid-template-columns:1.15fr 1.5fr auto; gap:30px; align-items:center; }
-  .hn-route-summary .hn-eyebrow { margin-bottom:7px; }
-  .hn-route-summary h2 { margin:0; font-size:clamp(24px,3vw,34px); }
+  .hn-route-summary { padding:18px 0; background:#fff; border-bottom:1px solid var(--hn-line); }
+  .hn-route-summary__inner { display:grid; grid-template-columns:minmax(290px,1.2fr) minmax(0,2fr) auto; gap:0; align-items:center; }
+  .hn-route-summary__route { display:flex; min-width:0; align-items:center; gap:16px; padding-right:24px; }
+  .hn-route-summary__route>div { min-width:0; }
+  .hn-route-summary__icon,.hn-route-stat__icon { display:grid; flex:none; place-items:center; color:#b98708; }
+  .hn-route-summary__icon { width:42px; height:42px; }
+  .hn-route-summary__icon svg { width:40px; height:40px; }
+  .hn-route-summary__icon img { width:52px; height:52px; object-fit:contain; }
+  .hn-route-summary .hn-eyebrow { margin-bottom:4px; }
+  .hn-route-summary h2 { margin:0; font-size:clamp(19px,1.7vw,25px); white-space:nowrap; }
   .hn-route-summary dl { display:grid; grid-template-columns:repeat(3,1fr); margin:0; }
-  .hn-route-summary dl div { padding:5px 22px; border-left:1px solid var(--hn-line); }
+  .hn-route-summary dl>div { display:flex; min-height:54px; align-items:center; gap:12px; padding:4px 20px; border-left:1px solid var(--hn-line); }
+  .hn-route-stat__icon { width:27px; height:27px; }
+  .hn-route-stat__icon svg { width:25px; height:25px; }
+  .hn-route-stat__icon img { width:34px; height:34px; object-fit:contain; }
+  .hn-route-summary svg { fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
   .hn-route-summary dt { color:var(--hn-muted); font-size:11px; font-weight:700; }
-  .hn-route-summary dd { margin:5px 0 0; color:var(--hn-deep); font-size:15px; font-weight:800; }
+  .hn-route-summary dd { margin:3px 0 0; color:var(--hn-deep); font-size:14px; font-weight:800; line-height:1.25; }
   .hn-usd-hint,.hn-trip-info .price-usd { display:block; margin-top:3px; color:#718177; font-size:10px; font-weight:700; line-height:1.2; letter-spacing:0; text-transform:none; }
   .hn-departure-card__fare .hn-usd-hint { color:#718177; font-size:10px; }
   .hn-vehicle-card footer .hn-usd-hint { color:#718177; font-size:10px; font-weight:700; text-transform:none; }
@@ -251,6 +289,7 @@
   .hn-stop-card,.hn-stop-support { min-height:230px; padding:24px; border:1px solid var(--hn-line); border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); }
   .hn-stop-card__head { display:flex; gap:13px; align-items:flex-start; }
   .hn-stop-card__head svg { width:36px; height:36px; flex:none; padding:8px; color:var(--hn-green); background:#eaf6ed; border-radius:50%; fill:none; stroke:currentColor; stroke-width:1.8; }
+  .hn-stop-card__pin { width:46px; height:46px; flex:none; object-fit:contain; filter:drop-shadow(0 7px 10px rgba(6,45,28,.14)); transition:transform .24s ease; }
   .hn-stop-card__head span { color:var(--hn-green); font-size:10px; font-weight:800; text-transform:uppercase; }
   .hn-stop-card h3 { margin:4px 0 0; font-size:18px; }
   .hn-stop-card>p { min-height:42px; margin:22px 0 12px; color:var(--hn-muted); font-size:13px; line-height:1.6; }
@@ -263,23 +302,51 @@
   .hn-stop-support__phones a { padding:7px 9px; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:7px; font-size:11px; font-weight:800; text-decoration:none; }
   .hn-stop-support__phones a:hover { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.3); }
   .hn-stop-support .hn-button { margin-top:auto; align-self:flex-start; }
-  .hn-why { padding:76px 0; background:#f4f8f4; }
-  .hn-why__inner { display:grid; grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr); gap:64px; align-items:start; }
-  .hn-why__intro { position:sticky; top:100px; }
-  .hn-why__intro h2 { max-width:470px; margin-bottom:17px; font-size:clamp(32px,3.5vw,46px); }
-  .hn-why__intro>p:last-child { max-width:430px; margin:0; color:var(--hn-muted); font-size:14px; line-height:1.7; }
-  .hn-why__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-  .hn-why__grid article { position:relative; min-height:190px; overflow:hidden; padding:24px; background:#fff; border:1px solid #d5e4d9; border-radius:14px; box-shadow:0 12px 32px rgba(6,45,28,.055); transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease; }
-  .hn-why__grid article:after { position:absolute; right:-34px; bottom:-42px; width:110px; height:110px; background:radial-gradient(circle,rgba(251,177,22,.12),rgba(251,177,22,0) 70%); content:''; opacity:0; transform:scale(.7); transition:opacity .22s ease,transform .3s ease; }
-  .hn-why__grid article:hover { border-color:#a7cbb1; box-shadow:0 20px 42px rgba(6,45,28,.1); transform:translateY(-4px); }
-  .hn-why__grid article:hover:after { opacity:1; transform:scale(1); }
-  .hn-why__card-top { display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .hn-why__icon { display:grid; width:42px; height:42px; place-items:center; color:var(--hn-green); background:#e9f5ec; border:1px solid #d1e8d7; border-radius:12px; transition:color .22s ease,background .22s ease,transform .22s ease; }
-  .hn-why__icon svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
-  .hn-why__grid article:hover .hn-why__icon { color:#684b00; background:#fff2cf; transform:rotate(-4deg) scale(1.06); }
-  .hn-why__grid span { display:inline-flex; align-items:center; gap:9px; color:#9a7000; font-size:11px; font-weight:900; letter-spacing:.1em; }
-  .hn-why__grid span:before { width:28px; height:2px; background:var(--hn-gold); content:''; }
-  .hn-why__grid p { position:relative; z-index:1; margin:23px 0 0; color:var(--hn-deep); font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:16px; font-weight:700; line-height:1.6; }
+  .hn-why { position:relative; overflow:hidden; padding:58px 0; background:radial-gradient(circle at 26% 88%,rgba(251,206,71,.2),transparent 28%),radial-gradient(circle at 65% 8%,rgba(245,217,145,.24),transparent 30%),linear-gradient(115deg,#fffdf8,#fffaf0 50%,#fffdf9); }
+  .hn-why:before { position:absolute; inset:0; background:linear-gradient(130deg,transparent 0 44%,rgba(247,225,160,.2) 44% 50%,transparent 50%); content:''; pointer-events:none; }
+  .hn-why__inner { position:relative; display:grid; grid-template-columns:minmax(320px,34%) minmax(0,66%); gap:26px; }
+  .hn-why__intro { position:relative; min-height:584px; padding-top:4px; }
+  .hn-why__intro .hn-eyebrow { display:inline-flex; align-items:center; gap:10px; margin:0; padding:8px 14px; color:#173f39; background:#fff9dc; border:1px solid #ebd89a; border-radius:999px; font-size:12px; letter-spacing:.05em; }
+  .hn-why__intro .hn-eyebrow:before { width:8px; height:8px; flex:none; background:#ffd31b; border-radius:50%; box-shadow:0 0 0 4px rgba(255,211,27,.18); content:''; }
+  .hn-why__intro h2 { max-width:440px; margin:20px 0 13px; color:#083f3a; font-size:clamp(38px,3.3vw,50px); line-height:1.04; letter-spacing:-.045em; }
+  .hn-why__intro h2 span,.hn-why__intro h2 em { display:block; }
+  .hn-why__intro h2 em { color:#f3b814; font-style:normal; }
+  .hn-why__lead { max-width:420px; margin:0; color:#78807e; font-size:15px; line-height:1.55; }
+  .hn-why__signature { position:absolute; top:330px; left:2px; z-index:2; width:160px; color:#315d5a; font-family:"Brush Script MT","Segoe Script",cursive; font-size:27px; line-height:1.02; text-align:center; transform:rotate(-6deg); }
+  .hn-why__signature:after { display:block; width:104px; height:4px; margin:8px 0 0 28px; background:#f2c418; content:''; transform:skewX(-24deg); }
+  .hn-why__bus { position:absolute; right:-14px; bottom:-20px; left:-42px; height:278px; overflow:hidden; clip-path:polygon(0 16%,32% 1%,100% 12%,100% 100%,0 100%); }
+  .hn-why__bus:after { position:absolute; inset:0; background:linear-gradient(to top,rgba(255,252,242,.18),transparent 30%); content:''; }
+  .hn-why__bus img { width:100%; height:100%; object-fit:cover; object-position:center; }
+  .hn-why__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+  .hn-why__card { --why-accent:#d89f00; --why-soft:#fffdf3; position:relative; min-height:280px; overflow:hidden; background:#fff; border:1px solid #e9e2d5; border-radius:17px; box-shadow:0 6px 20px rgba(33,61,48,.045); isolation:isolate; transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease; }
+  .hn-why__card:nth-child(2) { --why-accent:#d95543; --why-soft:#fff8f5; }
+  .hn-why__card:nth-child(3) { --why-accent:#098a7e; --why-soft:#f2fffc; }
+  .hn-why__card:nth-child(4) { --why-accent:#2b79bd; --why-soft:#f5f9ff; }
+  .hn-why__card:before { position:absolute; top:0; left:0; z-index:4; width:40%; height:4px; background:var(--why-accent); border-radius:0 0 8px; content:''; }
+  .hn-why__photo { position:absolute; top:0; right:0; bottom:0; z-index:-2; width:53%; }
+  .hn-why__photo img { width:100%; height:100%; object-fit:cover; }
+  .hn-why__fade { position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,var(--why-soft) 0 50%,rgba(255,255,255,.78) 61%,transparent 80%); }
+  .hn-why__content { display:flex; width:64%; min-height:280px; padding:20px 12px 18px 20px; flex-direction:column; }
+  .hn-why__number { display:flex; align-items:center; gap:9px; margin-bottom:9px; color:var(--why-accent); font-size:19px; font-weight:900; }
+  .hn-why__number:after { width:46px; height:2px; background:color-mix(in srgb,var(--why-accent) 70%,white); content:''; }
+  .hn-why__icon { display:grid; width:44px; height:44px; flex:none; place-items:center; margin:0 0 11px; color:var(--why-accent); background:color-mix(in srgb,var(--why-accent) 12%,white); border-radius:11px; transition:color .22s ease,background .22s ease,transform .22s ease; }
+  .hn-why__icon svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-why__icon img { width:44px; height:44px; object-fit:contain; }
+  .hn-why__card h3 { margin:0 0 7px; color:#083f3a; font-size:16px; line-height:1.3; letter-spacing:-.025em; }
+  .hn-why__card p { margin:0; color:#5f6e6b; font-size:12px; line-height:1.55; }
+  .hn-why__arrow { display:none; }
+  .hn-why__badge { position:absolute; right:14px; bottom:14px; padding:6px 12px; color:#263f28; background:#f7d61d; border-radius:18px; box-shadow:0 2px 3px rgba(0,0,0,.1); font-size:12px; font-weight:900; }
+  @media(max-width:1100px) {
+    .hn-why { padding:50px 0; }
+    .hn-why__inner { grid-template-columns:1fr; gap:26px; }
+    .hn-why__intro { min-height:0; }
+    .hn-why__intro h2 { max-width:820px; margin:18px 0 10px; font-size:40px; }
+    .hn-why__intro h2 span,.hn-why__intro h2 em { display:inline; }
+    .hn-why__intro h2 em { margin:0 .16em; }
+    .hn-why__lead { max-width:720px; }
+    .hn-why__signature,.hn-why__bus { display:none; }
+    .hn-why__card,.hn-why__content { min-height:255px; }
+  }
   .hn-faq details { padding:0; }
   .hn-faq summary { display:flex; align-items:center; justify-content:space-between; min-height:60px; padding:14px 0; list-style:none; }
   .hn-faq summary>span { display:flex; align-items:center; gap:14px; padding-right:20px; }
@@ -297,7 +364,8 @@
     .hn-booking__fields>label:last-of-type { grid-column:1; }
     .hn-search-button { grid-column:2/4; }
     .hn-route-summary__inner { grid-template-columns:1fr; gap:20px; }
-    .hn-route-summary dl div:first-child { border-left:0; padding-left:0; }
+    .hn-route-summary dl>div:first-child { border-left:0; padding-left:0; }
+    .hn-route-summary .hn-text-link { width:max-content; margin-left:0; }
     .hn-departure-card { grid-template-columns:80px 1fr 1fr; }
     .hn-departure-card__journey { display:none; }
     .hn-departure-card__fare { text-align:right; }
@@ -306,8 +374,7 @@
     .hn-vehicle-grid--single .hn-vehicle-card { grid-template-columns:1fr 1fr; grid-template-rows:minmax(390px,auto); }
     .hn-stops__grid { grid-template-columns:1fr 1fr; }
     .hn-stop-support { grid-column:1/-1; min-height:auto; }
-    .hn-why__inner { grid-template-columns:1fr; gap:30px; }
-    .hn-why__intro { position:static; }
+    .hn-why__inner { grid-template-columns:1fr; }
     .hn-proof>.hn-shell { grid-template-columns:1fr; gap:6px; }
     .hn-proof>.hn-shell>.hn-eyebrow { padding-top:0; }
   }
@@ -316,7 +383,7 @@
     .hn-header { position:sticky; }
     .hn-actions .hn-button { display:none; }
     .hn-hero { min-height:auto; }
-    .hn-hero__content { padding:46px 0 28px; }
+    .hn-hero__content { width:calc(100% - 28px); max-width:calc(100% - 28px); min-width:0; padding:46px 0 28px; }
     .hn-hero-route { margin-bottom:15px; padding:7px 11px; font-size:12px; }
     .hn-hero h1.hn-hero-title { gap:6px; margin-bottom:15px; font-size:36px; line-height:1.02; }
     .hn-hero-title__specs { font-size:24px; line-height:1.22; }
@@ -332,14 +399,21 @@
     .hn-depart-date-field,.hn-return-date-field,.hn-booking__fields>label:last-of-type { grid-column:auto; }
     .hn-booking__fields>label:nth-of-type(n+3),.hn-search-button { grid-column:auto; grid-row:auto; }
     .hn-search-button { width:100%; min-height:52px; }
+    .hn-booking-tools { min-width:0; align-items:stretch; flex-direction:column; gap:10px; }
+    .hn-booking-tools__group { width:100%; min-width:0; max-width:100%; overflow-x:auto; padding-bottom:2px; scrollbar-width:none; }
+    .hn-booking-tools__group::-webkit-scrollbar { display:none; }
+    .hn-booking-tool { flex:0 0 auto; min-height:44px; }
+    .hn-booking-status { width:100%; min-height:44px; margin-left:0; }
+    .hn-clear-return { min-height:44px; }
     .hn-trust { gap:9px 14px; font-size:11px; }
     .hn-section { padding:54px 0; }
     .hn-section-heading--split { align-items:flex-start; flex-direction:column; gap:12px; }
     .hn-route-summary { padding:26px 0; }
     .hn-route-summary dl { grid-template-columns:1fr 1fr; }
-    .hn-route-summary dl div { padding:8px 14px; }
-    .hn-route-summary dl div:nth-child(odd) { padding-left:0; border-left:0; }
-    .hn-route-summary dl div:last-child { grid-column:1/-1; padding-top:14px; border-top:1px solid var(--hn-line); }
+    .hn-route-summary h2 { white-space:normal; }
+    .hn-route-summary dl>div { padding:8px 14px; }
+    .hn-route-summary dl>div:nth-child(odd) { padding-left:0; border-left:0; }
+    .hn-route-summary dl>div:last-child { grid-column:1/-1; padding-top:14px; border-top:1px solid var(--hn-line); }
     .hn-date-badge { min-width:0; }
     .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; width:calc(100vw - 28px); padding-bottom:3px; }
     .hn-direction-tabs button { min-height:44px; white-space:nowrap; }
@@ -361,10 +435,18 @@
     .hn-stops__grid { grid-template-columns:1fr; }
     .hn-stop-card,.hn-stop-support { min-height:auto; padding:21px; }
     .hn-stop-support { grid-column:auto; }
-    .hn-why { padding:54px 0; }
+    .hn-why { padding:42px 0; }
+    .hn-why__inner { gap:22px; }
+    .hn-why__intro .hn-eyebrow { padding:7px 11px; font-size:10px; }
+    .hn-why__intro h2 { margin:15px 0 10px; font-size:32px; line-height:1.08; }
+    .hn-why__lead { font-size:14px; }
     .hn-why__grid { grid-template-columns:1fr; }
-    .hn-why__grid article { min-height:0; padding:21px; }
-    .hn-why__grid p { margin-top:17px; font-size:15px; }
+    .hn-why__card,.hn-why__content { min-height:238px; }
+    .hn-why__content { width:67%; padding:17px 11px 16px 17px; }
+    .hn-why__number { margin-bottom:7px; font-size:17px; }
+    .hn-why__icon { width:40px; height:40px; margin-bottom:9px; }
+    .hn-why__card h3 { font-size:15px; }
+    .hn-why__card p { font-size:11px; }
     .hn-news-grid { grid-template-columns:1fr; }
     .hn-final { padding:50px 0; }
     .hn-support-float { display:none; }
@@ -450,9 +532,9 @@
   .hn-trip-info .trip-price-grid span { color:#718177; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; }
   .hn-trip-info .trip-price-grid del { color:#7d8d84; font-size:13px; }
   .hn-trip-info .trip-price-grid strong { color:var(--hn-green); font-size:16px; }
-  .hn-trip-info .trip-price-save { grid-column:1/-1; display:flex!important; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; background:#fff4d8; }
-  .hn-trip-info .trip-price-save b { color:#b76b00; font-size:16px; }
-  .hn-trip-info .trip-price-save span { color:#75551d; text-transform:none; }
+  .hn-trip-info .trip-price-save { grid-column:1/-1; display:flex!important; align-items:center; gap:8px; padding:8px 10px; background:#fff0f1; border:1px solid #ffc8cc; border-radius:9px; }
+  .hn-trip-info .trip-price-save b { color:#f01824; font-size:16px; }
+  .hn-trip-info .trip-price-save span,.hn-trip-info .trip-price-save .price-usd { color:#d80e19; text-transform:none; }
   .hn-trip-info .trip-point-columns,.hn-trip-info .trip-policy-grid { display:grid; grid-template-columns:1fr; gap:15px; }
   .hn-trip-info .trip-point-columns h4,.hn-trip-info .trip-policy-grid h4 { margin:0 0 9px; color:var(--hn-deep); font-size:12px; }
   .hn-trip-info .trip-point { display:grid; grid-template-columns:8px minmax(0,1fr); gap:8px; padding:8px 0; border-top:1px solid #e2ebe5; }
@@ -499,7 +581,7 @@
 </style>
 <style>
   .hn-nav a,.hn-text-link span,.hn-departure-card__action span,.hn-vehicle-card__select b,.hn-news-card__link { transition:color .2s ease,transform .2s ease; }
-  .hn-route-summary dl div,.hn-stop-card,.hn-stop-support,.hn-proof__grid article,.hn-faq details,.hn-news-card { transition:transform .24s ease,border-color .24s ease,background-color .24s ease,box-shadow .24s ease; }
+  .hn-route-summary dl>div,.hn-stop-card,.hn-stop-support,.hn-proof__grid article,.hn-faq details,.hn-news-card { transition:transform .24s ease,border-color .24s ease,background-color .24s ease,box-shadow .24s ease; }
   .hn-stop-card__head svg { transition:color .24s ease,background-color .24s ease,transform .24s ease; }
   .hn-stop-card { position:relative; isolation:isolate; display:flex; overflow:hidden; flex-direction:column; background:linear-gradient(145deg,#fff 20%,#edf8f0 100%); }
   .hn-stop-card:nth-child(2) { background:linear-gradient(145deg,#fff 20%,#fff8e6 100%); }
@@ -564,13 +646,13 @@
   .hn-passenger-stepper output { color:#073a2a; background:#fffdf8; }
   .hn-search-button { color:#17362b; background:linear-gradient(135deg,#fff36a,#f9df12); box-shadow:0 9px 20px rgba(164,144,0,.2); }
   .hn-search-button svg { transition:transform .22s ease; }
-  .hn-route-summary { position:relative; overflow:hidden; background:linear-gradient(100deg,#fff,#fffbea 62%,#f3f7f2); border-block:1px solid #e6dfce; }
-  .hn-route-summary:before { position:absolute; top:0; bottom:0; left:0; width:5px; background:#f9df12; content:''; }
-  .hn-route-summary .hn-eyebrow { display:inline-flex; padding:5px 8px; color:#5b5120; background:#fff6a8; border-radius:999px; }
+  .hn-route-summary { position:relative; overflow:hidden; background:linear-gradient(100deg,#fffef9,#fffdf2 70%,#fff9dc); border-block:1px solid #e9e2cf; box-shadow:0 9px 24px rgba(80,65,25,.055); }
+  .hn-route-summary:before { display:none; }
+  .hn-route-summary .hn-eyebrow { display:block; padding:0; color:#4d5b54; background:transparent; border-radius:0; font-size:9px; letter-spacing:.08em; }
   .hn-route-summary h2 { color:#073a2a; }
-  .hn-route-summary dl div { transition:background-color .2s ease,transform .2s ease; }
-  .hn-route-summary dl div:first-child dd { color:#806f00; }
-  .hn-route-summary .hn-text-link { min-height:42px; padding:0 14px; color:#17362b; background:#f9df12; border-radius:9px; box-shadow:0 7px 17px rgba(164,144,0,.14); }
+  .hn-route-summary dl>div { transition:background-color .2s ease,transform .2s ease; }
+  .hn-route-summary dl>div:first-child dd { color:#9a6b00; font-size:17px; white-space:nowrap; }
+  .hn-route-summary .hn-text-link { min-height:48px; margin-left:18px; padding:0 24px; color:#17362b; background:#f9df12; border-radius:8px; box-shadow:0 8px 18px rgba(164,144,0,.17); }
   .hn-departures { position:relative; overflow:hidden; background:linear-gradient(180deg,#fff9ed,#f8f6ef); border-block:1px solid #ebe2ce; }
   .hn-departures:before { position:absolute; top:-190px; right:-120px; width:390px; height:390px; border:1px solid rgba(249,223,18,.2); border-radius:50%; box-shadow:0 0 0 48px rgba(249,223,18,.04),0 0 0 96px rgba(249,223,18,.022); content:''; }
   .hn-departures>.hn-shell { position:relative; }
@@ -591,21 +673,6 @@
   .hn-departures .hn-departure-card__fare strong { color:#9b6b00; }
   .hn-departures .hn-departure-card__action { color:#17362b; background:#f9df12; box-shadow:0 7px 16px rgba(164,144,0,.16); }
   .hn-departures .hn-departures__footer .hn-button { color:#17362b; background:#f9df12; border-color:#d9c200; box-shadow:0 8px 20px rgba(164,144,0,.2); }
-  .hn-why { position:relative; overflow:hidden; background:radial-gradient(circle at 8% 12%,rgba(251,177,22,.1),transparent 24%),radial-gradient(circle at 92% 88%,rgba(39,121,102,.08),transparent 27%),#f7f5f0; }
-  .hn-why:before { position:absolute; top:42px; right:-90px; width:250px; height:250px; border:1px solid rgba(70,91,80,.08); border-radius:50%; box-shadow:0 0 0 34px rgba(70,91,80,.02),0 0 0 68px rgba(70,91,80,.015); content:''; }
-  .hn-why__inner { position:relative; }
-  .hn-why__intro .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; color:#745815; background:#fff5d8; border:1px solid #ead69b; border-radius:999px; }
-  .hn-why__intro .hn-eyebrow:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 3px rgba(251,177,22,.15); content:''; }
-  .hn-why__grid article { --why-accent:#c98d09; --why-soft:#fff3cf; --why-border:#ead49a; background:linear-gradient(145deg,#fff 35%,#fff9e9); border-color:var(--why-border); }
-  .hn-why__grid article:nth-child(2) { --why-accent:#b85f47; --why-soft:#fde5dd; --why-border:#e7c2b7; background:linear-gradient(145deg,#fff 35%,#fff3ef); }
-  .hn-why__grid article:nth-child(3) { --why-accent:#187862; --why-soft:#dff3ea; --why-border:#badbce; background:linear-gradient(145deg,#fff 35%,#eff9f5); }
-  .hn-why__grid article:nth-child(4) { --why-accent:#416f9a; --why-soft:#e2edf7; --why-border:#c2d4e4; background:linear-gradient(145deg,#fff 35%,#f0f5fa); }
-  .hn-why__grid article:before { position:absolute; top:0; right:22px; left:22px; height:4px; background:var(--why-accent); border-radius:0 0 5px 5px; content:''; transform:scaleX(.35); transform-origin:left; transition:transform .32s ease; }
-  .hn-why__grid article:after { background:radial-gradient(circle,var(--why-soft),transparent 70%); }
-  .hn-why__icon { color:var(--why-accent); background:var(--why-soft); border-color:var(--why-border); box-shadow:0 7px 18px color-mix(in srgb,var(--why-accent) 16%,transparent); }
-  .hn-why__grid article .hn-why__card-top>span { color:var(--why-accent); }
-  .hn-why__grid article .hn-why__card-top>span:before { background:var(--why-accent); }
-  .hn-why__grid article>p { transition:color .22s ease,transform .22s ease; }
   .hn-fleet { background:radial-gradient(circle at 94% 8%,rgba(249,223,18,.16),transparent 24%),linear-gradient(180deg,#f3f7f2,#fffdf5); }
   .hn-fleet .hn-section-heading .hn-eyebrow { display:inline-flex; padding:6px 9px; color:#26362f; background:#f9df12; border:1px solid #ddc700; border-radius:999px; }
   .hn-vehicle-card { position:relative; border-color:#dcd7c8; box-shadow:0 14px 40px rgba(63,54,28,.075); }
@@ -629,6 +696,7 @@
   .hn-proof__transfer { position:relative; display:flex; min-height:66px; align-items:center; gap:14px; margin:0; padding:17px 20px; color:#4e554f; background:linear-gradient(105deg,#fffdf8,#f9efd5); border:1px solid #e4cf91; border-radius:13px; box-shadow:0 12px 28px rgba(105,78,24,.09); font-size:13px; font-weight:700; line-height:1.55; }
   .hn-proof__transfer:after { position:absolute; top:-1px; right:22px; width:76px; height:3px; background:var(--hn-gold); border-radius:0 0 4px 4px; content:''; }
   .hn-proof__transfer svg { width:36px; height:36px; flex:none; padding:8px; color:#684b00; background:linear-gradient(145deg,#ffe69a,var(--hn-gold)); border-radius:10px; box-shadow:0 7px 16px rgba(166,119,0,.16); }
+  .hn-proof__transfer>img { width:58px; height:48px; flex:none; object-fit:contain; filter:drop-shadow(0 7px 9px rgba(26,46,36,.13)); }
   .hn-proof__transfer strong { color:#3b463f; }
   .hn-faq summary:after { transition:color .2s ease,transform .24s ease; }
   .hn-faq details[open] summary:after { transform:rotate(180deg); }
@@ -687,8 +755,8 @@
     .hn-search-button:hover { color:#102d23; background:linear-gradient(135deg,#fff67d,#e5cd00); box-shadow:0 12px 26px rgba(164,144,0,.27); }
     .hn-search-button:hover svg { transform:scale(1.1) rotate(-6deg); }
     .hn-text-link:hover span,.hn-departure-card__action:hover span,.hn-vehicle-card__select:hover b,.hn-news-card__link:hover:after { transform:translateX(4px); }
-    .hn-route-summary dl div:hover { transform:translateY(-2px); }
-    .hn-route-summary dl div:hover { background:rgba(249,223,18,.1); }
+    .hn-route-summary dl>div:hover { transform:translateY(-2px); }
+    .hn-route-summary dl>div:hover { background:rgba(249,223,18,.1); }
     .hn-departure-card:hover { box-shadow:0 13px 30px rgba(6,45,28,.1); transform:translateY(-3px); }
     .hn-departure-card:hover .hn-departure-card__journey i { background:var(--hn-green); }
     .hn-departures .hn-departure-card:hover { border-color:#d9bd69; box-shadow:0 15px 34px rgba(92,69,17,.11); }
@@ -702,13 +770,12 @@
     .hn-proof__grid article:hover>span { transform:rotate(-3deg) scale(1.04); }
     .hn-stop-card:hover,.hn-stop-support:hover { border-color:#9fc7aa; box-shadow:0 20px 42px rgba(6,45,28,.1); transform:translateY(-5px); }
     .hn-stop-card:hover .hn-stop-card__head svg { color:#6b4d00; background:#fff1c9; transform:translateY(-2px) rotate(-4deg); }
+    .hn-stop-card:hover .hn-stop-card__pin { transform:translateY(-3px) rotate(-4deg) scale(1.06); }
     .hn-stop-card>a:hover { color:#fff; background:var(--hn-green); border-color:var(--hn-green); transform:translateX(3px); }
     .hn-stop-card:nth-child(2)>a:hover { color:#5d4300; background:var(--hn-gold); border-color:var(--hn-gold); }
     .hn-stop-card:nth-child(3)>a:hover { color:#fff; background:#315f88; border-color:#315f88; }
-    .hn-why__grid article:hover { border-color:var(--why-accent); box-shadow:0 20px 44px color-mix(in srgb,var(--why-accent) 16%,transparent); transform:translateY(-6px); }
-    .hn-why__grid article:hover:before { transform:scaleX(1); }
-    .hn-why__grid article:hover .hn-why__icon { color:#fff; background:var(--why-accent); border-color:var(--why-accent); transform:rotate(-5deg) scale(1.08); }
-    .hn-why__grid article:hover>p { color:#273b31; transform:translateX(2px); }
+    .hn-why__card:hover { border-color:var(--why-accent); box-shadow:0 20px 44px color-mix(in srgb,var(--why-accent) 16%,transparent); transform:translateY(-6px); }
+    .hn-why__card:hover .hn-why__icon { color:#fff; background:var(--why-accent); transform:rotate(-5deg) scale(1.08); }
     .hn-faq details:hover { background:#fff; border-color:var(--faq-accent); box-shadow:0 12px 28px color-mix(in srgb,var(--faq-accent) 11%,transparent); transform:translateY(-2px); }
     .hn-faq details:hover summary b { transform:rotate(-3deg) scale(1.05); }
     .hn-faq details:hover summary:after { color:#fff; background:var(--faq-accent); transform:scale(1.1); }
@@ -757,6 +824,432 @@
     .hn-faq summary b { width:28px; height:28px; }
     .hn-faq details p { margin:0 0 14px; padding:14px 15px; }
   }
+  /* Vehicle showcase follows the live trip hierarchy: vehicle, amenities, fare, timing, action. */
+  .hn-fleet { isolation:isolate; padding:64px 0 70px; background:radial-gradient(circle at 18% 10%,rgba(249,223,18,.2),transparent 23%),radial-gradient(circle at 82% 16%,rgba(89,183,205,.17),transparent 25%),linear-gradient(112deg,#fff9e8 0,#f8faf3 45%,#edf7f4 72%,#fff8e7 100%); }
+  .hn-fleet:before,.hn-fleet:after { position:absolute; z-index:-1; top:96px; bottom:0; width:min(31vw,470px); height:auto; border:0; border-radius:0; box-shadow:none; content:''; background-repeat:no-repeat; background-size:cover; pointer-events:none; }
+  .hn-fleet:before { left:0; background-image:linear-gradient(90deg,rgba(255,249,232,.05),rgba(248,250,243,.38) 56%,#f8faf3 100%),var(--hn-fleet-left); background-position:center; clip-path:polygon(0 5%,78% 0,100% 16%,91% 100%,0 100%); opacity:.58; }
+  .hn-fleet:after { right:0; background-image:linear-gradient(270deg,rgba(237,247,244,.03),rgba(237,247,244,.36) 56%,#f8faf3 100%),var(--hn-fleet-right); background-position:center; clip-path:polygon(22% 5%,100% 0,100% 100%,9% 100%,0 16%); opacity:.5; }
+  .hn-fleet .hn-shell { position:relative; z-index:1; }
+  .hn-fleet .hn-shell:before { position:absolute; top:118px; right:5%; left:5%; z-index:-1; height:1px; background:linear-gradient(90deg,transparent,rgba(22,111,77,.14) 20% 80%,transparent); content:''; }
+  .hn-fleet .hn-section-heading { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:36px; align-items:end; max-width:none; margin-bottom:26px; }
+  .hn-fleet .hn-section-heading>div { max-width:720px; }
+  .hn-fleet .hn-section-heading h2 { margin:10px 0 8px; font-size:clamp(34px,4vw,50px); letter-spacing:-.045em; }
+  .hn-fleet .hn-section-heading>div>p:last-child { margin:0; color:var(--hn-muted); font-size:14px; line-height:1.6; }
+  .hn-fleet-context { display:grid; grid-template-columns:44px minmax(190px,1fr) auto; gap:12px; align-items:center; min-width:400px; padding:12px 14px; background:rgba(255,255,255,.78); border:1px solid #dce7df; border-radius:15px; box-shadow:0 10px 28px rgba(25,66,47,.07); backdrop-filter:blur(10px); }
+  .hn-fleet-context>svg { width:44px; height:44px; padding:9px; color:var(--hn-green); background:#eef7f0; border-radius:11px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-fleet-context strong,.hn-fleet-context span { display:block; }
+  .hn-fleet-context strong { color:var(--hn-deep); font-size:13px; }
+  .hn-fleet-context span { margin-top:4px; color:#587066; font-size:11px; }
+  .hn-fleet-context a { display:inline-flex; min-height:42px; align-items:center; padding:0 16px; color:var(--hn-deep); background:#fff; border:1px solid #d7e1da; border-radius:10px; font-size:11px; font-weight:800; text-decoration:none; white-space:nowrap; }
+  .hn-vehicle-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+  .hn-vehicle-grid--single .hn-vehicle-card,.hn-vehicle-card { display:grid; grid-template-columns:1fr; grid-template-rows:230px 1fr; overflow:hidden; border-color:#d9dfd8; border-radius:17px; box-shadow:0 16px 42px rgba(57,61,38,.09); }
+  .hn-vehicle-card:before { right:auto; left:20px; width:120px; transform:none; }
+  .hn-vehicle-card__media { margin:8px 8px 0; border-radius:12px; }
+  .hn-vehicle-card__media:after { background:linear-gradient(180deg,rgba(5,31,21,.05) 45%,rgba(5,31,21,.46)); }
+  .hn-vehicle-card__media>span { top:14px; bottom:auto; color:#17362b; background:#f9df12; border-color:#dfc700; box-shadow:0 6px 14px rgba(95,80,0,.16); }
+  .hn-vehicle-card__media>span i { background:#17362b; box-shadow:none; }
+  .hn-vehicle-card__image-detail { position:absolute; right:14px; bottom:14px; z-index:2; padding:8px 12px; color:#fff; background:rgba(5,31,21,.68); border:1px solid rgba(255,255,255,.55); border-radius:999px; font-size:10px; font-weight:800; }
+  .hn-vehicle-card__body { padding:18px 20px 20px; }
+  .hn-vehicle-card__route { width:max-content; margin:0 0 7px; padding:5px 9px; color:#243a31; background:#fff2a9; border-radius:999px; font-size:9px; letter-spacing:.05em; }
+  .hn-vehicle-card h3 { width:auto; padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; font-size:clamp(21px,2.1vw,28px); }
+  .hn-vehicle-card__comfort { margin:6px 0 14px; color:#53675e; font-size:12px; font-weight:600; letter-spacing:0; text-transform:none; }
+  .hn-vehicle-card .hn-vehicle-amenities { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:0; margin:0 0 14px; padding:10px 0; background:transparent; border:0; border-block:1px solid #e5e8e2; border-radius:0; list-style:none; }
+  .hn-vehicle-amenities li { display:grid; min-width:0; gap:5px; justify-items:center; padding:3px 5px; color:#345247; border:0; border-right:1px solid #e5e8e2; border-radius:0; background:transparent; font-size:9px; line-height:1.2; text-align:center; }
+  .hn-vehicle-amenities li:last-child { border-right:0; }
+  .hn-vehicle-card .hn-vehicle-amenities .hn-amenity-icon { display:grid; width:28px; height:28px; place-items:center; color:var(--hn-green); background:transparent; border-radius:0; box-shadow:none; animation:none; }
+  .hn-vehicle-amenities .hn-amenity-icon svg { width:20px; height:20px; }
+  .hn-vehicle-card .hn-trip-info { margin:0 0 13px; border-color:#e1e5df; background:#fffdf7; }
+  .hn-vehicle-card .hn-trip-info .trip-tabs { display:flex; overflow-x:auto; gap:0; padding:4px; background:#f4f5f1; scrollbar-width:none; }
+  .hn-vehicle-card .hn-trip-info .trip-tabs button { flex:1 0 auto; min-height:34px; padding:6px 10px; font-size:9px; white-space:nowrap; }
+  .hn-vehicle-card .hn-trip-info .trip-panels { min-height:62px; padding:12px; }
+  .hn-vehicle-card .hn-trip-info .trip-price-grid { grid-template-columns:.8fr 1fr 1.2fr; }
+  .hn-vehicle-card .hn-trip-info .trip-price-save { grid-column:auto; min-height:48px; }
+  .hn-vehicle-card dl { grid-template-columns:repeat(3,1fr); margin:0 0 14px; padding:11px 0; }
+  .hn-vehicle-card dl div { padding:0 12px; }
+  .hn-vehicle-card dl div:first-child { padding-left:0; }
+  .hn-vehicle-card dl div+div { padding-left:12px; }
+  .hn-vehicle-card dd { font-size:14px; }
+  .hn-vehicle-card footer { display:grid; grid-template-columns:1fr; gap:10px; align-items:stretch; }
+  .hn-vehicle-card footer>div { display:flex; align-items:baseline; gap:8px; }
+  .hn-vehicle-card footer>div small:first-child { margin-right:auto; }
+  .hn-vehicle-card footer strong { font-size:20px; }
+  .hn-vehicle-card footer .hn-usd-hint { margin:0; }
+  .hn-vehicle-card__select { min-height:48px; justify-content:center; color:#17362b; background:#f9df12; border-radius:9px; font-size:13px; }
+  @media(max-width:900px) {
+    .hn-fleet:before,.hn-fleet:after { display:none; }
+    .hn-fleet { background:radial-gradient(circle at 90% 7%,rgba(89,183,205,.13),transparent 24%),linear-gradient(145deg,#fff9e9,#f2f8f3 58%,#fffaf0); }
+    .hn-fleet .hn-section-heading { grid-template-columns:1fr; gap:18px; }
+    .hn-fleet-context { min-width:0; width:100%; }
+    .hn-vehicle-grid { grid-template-columns:1fr; }
+  }
+  @media(max-width:620px) {
+    .hn-fleet { padding:46px 0; }
+    .hn-fleet .hn-section-heading h2 { font-size:32px; }
+    .hn-fleet-context { grid-template-columns:38px 1fr; padding:11px; }
+    .hn-fleet-context>svg { width:38px; height:38px; }
+    .hn-fleet-context a { grid-column:1/-1; justify-content:center; }
+    .hn-vehicle-grid--single .hn-vehicle-card,.hn-vehicle-card { grid-template-rows:205px 1fr; }
+    .hn-vehicle-card__body { padding:16px; }
+    .hn-vehicle-card h3 { font-size:21px; }
+    .hn-vehicle-card .hn-vehicle-amenities { grid-template-columns:repeat(3,1fr); }
+    .hn-vehicle-amenities li:nth-child(3) { border-right:0; }
+    .hn-vehicle-amenities li:nth-child(-n+3) { border-bottom:1px solid #e5e8e2; }
+    .hn-vehicle-card .hn-trip-info .trip-price-grid { grid-template-columns:1fr 1fr; }
+    .hn-vehicle-card .hn-trip-info .trip-price-save { grid-column:1/-1; }
+    .hn-vehicle-card dl { grid-template-columns:1fr 1fr; }
+    .hn-vehicle-card dl div:nth-child(2) { padding-right:0; }
+    .hn-vehicle-card dl div:nth-child(3) { grid-column:1/-1; margin-top:10px; padding:10px 0 0; border-top:1px solid var(--hn-line); border-left:0; }
+  }
+  /* FAQ mirrors the reference: editorial story panel beside a compact accordion. */
+  #help { width:min(1280px,calc(100% - 40px)); margin:70px auto; padding:42px; background-image:linear-gradient(90deg,rgba(255,250,240,.42) 0,rgba(255,250,240,.76) 36%,rgba(246,248,241,.96) 58%,rgba(241,247,242,.98) 100%),linear-gradient(180deg,rgba(255,250,240,.94) 0,rgba(255,250,240,.3) 42%,rgba(246,248,241,.12) 100%),var(--hn-faq-bg); background-color:#f5f7ef; background-position:center; background-size:cover; border-color:#e8dfc8; border-radius:28px; box-shadow:0 24px 64px rgba(65,54,26,.1); }
+  #help:before { top:-90px; right:-55px; z-index:-1; width:330px; height:190px; background:linear-gradient(145deg,rgba(249,223,18,.2),rgba(16,105,67,.12)); border:0; border-radius:0 0 0 100%; box-shadow:none; transform:rotate(8deg); }
+  #help:after { position:absolute; bottom:-100px; left:-85px; z-index:-1; width:300px; height:210px; background:linear-gradient(135deg,rgba(16,105,67,.1),rgba(249,223,18,.25)); border-radius:0 100% 0 0; content:''; transform:rotate(-8deg); }
+  .hn-faq-layout { display:grid; grid-template-columns:minmax(330px,.8fr) minmax(0,1.2fr); gap:34px; }
+  .hn-faq-intro { display:flex; min-width:0; min-height:628px; flex-direction:column; }
+  #help .hn-section-heading { max-width:510px; margin:0; }
+  #help .hn-section-heading .hn-eyebrow { margin-bottom:20px; padding:9px 14px; }
+  #help .hn-section-heading h2 { display:block; max-width:470px; margin:0 0 18px; background:none; font-size:clamp(42px,4.5vw,62px); line-height:1.06; letter-spacing:-.055em; }
+  #help .hn-section-heading h2 span { position:relative; z-index:1; }
+  #help .hn-section-heading h2 span:after { position:absolute; right:0; bottom:3px; left:0; z-index:-1; height:9px; background:#f9df12; content:''; transform:skewX(-17deg) rotate(-1deg); }
+  .hn-faq-intro__text { max-width:450px; margin:0; color:#68746e; font-size:15px; line-height:1.7; }
+  .hn-faq-background-signature { align-self:flex-end; margin:auto 34px 4px 0; color:#173f39; font-family:"Brush Script MT","Segoe Script",cursive; font-size:29px; line-height:1.05; text-align:center; text-shadow:0 1px 12px rgba(255,255,255,.85); transform:rotate(-5deg); }
+  .hn-faq-background-signature:after { display:block; width:92px; height:4px; margin:7px auto 0; background:#f2c418; content:''; transform:skewX(-22deg); }
+  .hn-faq { align-content:start; gap:11px; }
+  .hn-faq details { --faq-accent:#c58a09; --faq-soft:#fff3c2; padding:0 15px; border-color:#e4dece; border-radius:15px; box-shadow:0 8px 22px rgba(58,49,26,.055); }
+  .hn-faq details:nth-child(3n+2) { --faq-accent:#b95543; --faq-soft:#fde5df; }
+  .hn-faq details:nth-child(3n) { --faq-accent:#07806b; --faq-soft:#ddf3eb; }
+  .hn-faq summary { display:grid; grid-template-columns:50px 30px minmax(0,1fr) 36px; gap:12px; min-height:78px; align-items:center; padding:10px 0; }
+  .hn-faq summary:after { grid-column:4; width:36px; height:36px; content:'+'; }
+  .hn-faq details[open] summary:after { content:'−'; transform:none; }
+  .hn-faq summary>.hn-faq__icon { display:grid; width:50px; height:50px; place-items:center; gap:0; padding:0; color:var(--faq-accent); background:var(--faq-soft); border:1px solid color-mix(in srgb,var(--faq-accent) 18%,transparent); border-radius:13px; box-shadow:0 6px 14px color-mix(in srgb,var(--faq-accent) 12%,transparent); }
+  .hn-faq__icon svg { width:25px; height:25px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-faq__icon b { font-size:15px; letter-spacing:-.04em; }
+  .hn-faq summary>b { display:block; width:auto; height:auto; color:var(--faq-accent); background:transparent; border:0; border-radius:0; font-size:12px; letter-spacing:.05em; }
+  .hn-faq summary>strong { color:#173f39; font-size:15px; line-height:1.4; }
+  .hn-faq details[open] summary>b { color:var(--faq-accent); background:transparent; }
+  .hn-faq details p { margin:0 2px 16px 104px; padding:14px 16px; font-size:12px; line-height:1.65; }
+  @media(max-width:900px) {
+    #help { padding:34px; background-image:linear-gradient(120deg,rgba(255,250,240,.94),rgba(242,248,243,.96)),var(--hn-faq-bg); }
+    .hn-faq-layout { grid-template-columns:1fr; }
+    .hn-faq-intro { min-height:0; }
+    #help .hn-section-heading { max-width:720px; }
+    #help .hn-section-heading h2 { max-width:650px; }
+    .hn-faq-background-signature { display:none; }
+  }
+  @media(max-width:620px) {
+    #help { width:min(100% - 28px,1280px); margin:42px auto; padding:26px 14px 18px; border-radius:20px; }
+    #help .hn-section-heading .hn-eyebrow { margin-bottom:15px; }
+    #help .hn-section-heading h2 { margin-bottom:12px; font-size:36px; }
+    .hn-faq-intro__text { font-size:14px; }
+    .hn-faq-layout { gap:24px; }
+    .hn-faq details { padding:0 11px; }
+    .hn-faq summary { grid-template-columns:42px 24px minmax(0,1fr) 32px; gap:8px; min-height:72px; }
+    .hn-faq__icon { width:42px; height:42px; border-radius:11px; }
+    .hn-faq__icon svg { width:21px; height:21px; }
+    .hn-faq summary:after { width:32px; height:32px; }
+    .hn-faq summary>strong { font-size:13px; }
+    .hn-faq details p { margin:0 0 13px; padding:13px 14px; }
+  }
+  /* Live departures use a route-led hero and information-dense trip rows. */
+  .hn-departures { padding:0 0 64px; background:#f7f4ec; border-block:0; }
+  .hn-departures:before { display:none; }
+  .hn-departures__hero { position:relative; min-height:250px; overflow:hidden; background-image:linear-gradient(90deg,rgba(4,38,27,.9),rgba(4,38,27,.54) 55%,rgba(4,38,27,.15)),var(--hn-schedule-bg); background-position:center; background-size:cover; }
+  .hn-departures__hero:after { position:absolute; inset:auto 0 0; height:5px; background:linear-gradient(90deg,var(--hn-gold),#fff36a,var(--hn-gold)); content:''; }
+  .hn-departures__hero .hn-shell { display:flex; min-height:250px; align-items:center; }
+  .hn-departures__hero-copy { max-width:1160px; color:#fff; }
+  .hn-departures__hero .hn-eyebrow { display:inline-flex; margin-bottom:13px; padding:7px 11px; color:#24362f; background:#f9df12; border:1px solid #d8c300; border-radius:999px; }
+  .hn-departures__hero h2 { margin:0 0 9px; color:#fff; font-size:clamp(38px,3.8vw,52px); line-height:1.06; letter-spacing:-.05em; }
+  .hn-departures__hero h2 em { color:#f9df12; font-style:normal; }
+  .hn-departures__hero-copy>p:last-child { margin:0; color:#e5eee8; font-size:15px; }
+  .hn-departures__body { position:relative; margin-top:-26px; }
+  .hn-departures__controls { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:18px; align-items:center; margin-bottom:22px; padding:18px; background:rgba(255,253,247,.96); border:1px solid #e4ddcb; border-radius:20px; box-shadow:0 16px 38px rgba(55,49,29,.1); backdrop-filter:blur(12px); }
+  .hn-departures .hn-direction-tabs { display:flex; gap:9px; margin:0; }
+  .hn-departures .hn-direction-tabs button { display:inline-flex; min-height:48px; align-items:center; padding:10px 18px; color:#51665b; background:#fff; border:1px solid #d9ddd5; border-radius:999px; box-shadow:0 4px 12px rgba(40,54,45,.04); }
+  .hn-departures .hn-direction-tabs button.is-active { color:#fff; background:#075338; border-color:#075338; }
+  .hn-schedule-context { display:flex; align-items:center; gap:9px; }
+  .hn-schedule-context>span { display:flex; min-height:48px; align-items:center; gap:9px; padding:0 14px; color:#29463a; background:#fff; border:1px solid #d9ddd5; border-radius:10px; font-size:11px; font-weight:800; }
+  .hn-schedule-context svg { width:18px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-schedule-context a { display:inline-flex; min-height:48px; align-items:center; padding:0 17px; color:#17362b; background:#f9df12; border-radius:10px; box-shadow:0 7px 16px rgba(164,144,0,.16); font-size:11px; font-weight:800; text-decoration:none; }
+  .hn-schedule-toolbar { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:16px; }
+  .hn-time-filters { display:flex; gap:8px; }
+  .hn-time-filters button { min-height:44px; padding:0 16px; color:#51665b; background:#fff; border:1px solid #dddcd4; border-radius:999px; font:800 11px Inter,sans-serif; cursor:pointer; }
+  .hn-time-filters button.is-active { color:#fff; background:#075338; border-color:#075338; box-shadow:0 7px 16px rgba(7,83,56,.16); }
+  .hn-schedule-sort { display:flex; align-items:center; gap:9px; color:#617168; font-size:11px; font-weight:700; }
+  .hn-schedule-sort select { min-height:44px; padding:0 34px 0 12px; color:#29463a; background:#fff; border:1px solid #dddcd4; border-radius:9px; font:700 11px Inter,sans-serif; }
+  .hn-schedule-list { gap:11px; }
+  .hn-departure-card { grid-template-areas:"time journey image vehicle fare action"; grid-template-columns:90px 170px 130px minmax(190px,1fr) 150px 132px; gap:14px; min-height:118px; padding:13px 15px; border-color:#e3ded2; box-shadow:0 8px 24px rgba(57,51,31,.055); }
+  .hn-departure-card__time { grid-area:time; }
+  .hn-departure-card__time strong { font-size:29px; }
+  .hn-departure-card__time small { margin-top:5px; color:#36584a; font-size:10px; font-weight:800; }
+  .hn-departure-card__journey { display:grid; grid-area:journey; }
+  .hn-departure-card__journey i:before { position:absolute; top:-3px; left:0; width:6px; height:6px; background:#075338; border-radius:50%; content:''; }
+  .hn-departure-card__image { grid-area:image; width:130px; height:88px; object-fit:cover; border-radius:9px; }
+  .hn-departure-card__vehicle { grid-area:vehicle; align-content:center; }
+  .hn-departure-card__vehicle>div { display:flex; flex-wrap:wrap; gap:6px; }
+  .hn-departure-card__vehicle span { color:#29463a; background:#e2f3e8; }
+  .hn-departure-card__vehicle span+span { color:#75551d; background:#fff1bd; }
+  .hn-departure-card__fare { grid-area:fare; align-content:center; padding-left:14px; border-left:1px solid #e6e2d8; }
+  .hn-departure-card__fare strong { color:#075338; font-size:20px; }
+  .hn-departure-card__action { grid-area:action; color:#17362b; background:#f9df12; box-shadow:0 7px 16px rgba(164,144,0,.14); }
+  .hn-schedule-filter-empty { margin:14px 0 0; padding:24px; color:#617168; background:#fff; border:1px dashed #ccd7cf; border-radius:12px; text-align:center; }
+  @media(max-width:1080px) {
+    .hn-departure-card { grid-template-areas:"time journey fare" "image vehicle action"; grid-template-columns:100px minmax(0,1fr) 150px; }
+    .hn-departure-card__image { width:100%; }
+    .hn-departure-card__fare { border-left:0; }
+  }
+  @media(max-width:760px) {
+    .hn-departures__hero,.hn-departures__hero .hn-shell { min-height:220px; }
+    .hn-departures__hero h2 { font-size:36px; }
+    .hn-departures__controls { grid-template-columns:1fr; padding:13px; }
+    .hn-departures .hn-direction-tabs,.hn-time-filters { overflow-x:auto; flex-wrap:nowrap; width:100%; max-width:100%; padding-bottom:3px; scrollbar-width:none; }
+    .hn-departures .hn-direction-tabs button,.hn-time-filters button { flex:0 0 auto; white-space:nowrap; }
+    .hn-schedule-context { display:grid; grid-template-columns:1fr 1fr; }
+    .hn-schedule-context a { grid-column:1/-1; justify-content:center; }
+    .hn-schedule-toolbar { align-items:stretch; flex-direction:column; }
+    .hn-schedule-sort { justify-content:space-between; }
+    .hn-departure-card { grid-template-areas:"time fare" "journey journey" "image image" "vehicle vehicle" "action action"; grid-template-columns:1fr auto; gap:12px; padding:14px; }
+    .hn-departure-card__fare { text-align:right; }
+    .hn-departure-card__journey { min-height:28px; }
+    .hn-departure-card__image { width:100%; height:170px; }
+    .hn-departure-card__action { min-height:48px; }
+  }
+  /* Rich departure cards keep live schedule data scannable from image to checkout. */
+  .hn-schedule-list { gap:14px; }
+  .hn-departure-card { position:relative; display:grid; grid-template-areas:"media details purchase"; grid-template-columns:220px minmax(0,1fr) 196px; gap:0; min-height:198px; overflow:hidden; padding:0; background:#fff; border-color:#ded9cc; border-radius:17px; box-shadow:0 10px 28px rgba(57,51,31,.07); }
+  .hn-departure-card[hidden] { display:none; }
+  .hn-departure-card__media { position:relative; grid-area:media; min-height:198px; overflow:hidden; background:#dfe8e2; }
+  .hn-departure-card__image { width:100%; height:100%; object-fit:cover; border-radius:0; transition:transform .35s ease; }
+  .hn-departure-card__badge { position:absolute; top:12px; left:12px; display:inline-flex; min-height:30px; align-items:center; gap:6px; padding:5px 9px; color:#17362b; background:#f9df12; border:1px solid rgba(106,91,0,.18); border-radius:999px; box-shadow:0 5px 15px rgba(37,33,12,.16); font-size:10px; font-weight:900; letter-spacing:.03em; text-transform:uppercase; }
+  .hn-departure-card__badge:before { width:7px; height:7px; background:#087a47; border-radius:50%; box-shadow:0 0 0 3px rgba(8,122,71,.14); content:''; }
+  .hn-departure-card__badge.is-discount { color:#fff; background:#f01824; border-color:#d80e19; box-shadow:0 6px 16px rgba(240,24,36,.3); }
+  .hn-departure-card__badge.is-discount:before { background:#fff; box-shadow:0 0 0 3px rgba(255,255,255,.2); }
+  .hn-departure-card__availability { position:absolute; right:12px; bottom:12px; left:12px; display:flex; min-height:36px; align-items:center; justify-content:center; gap:7px; padding:7px 10px; color:#fff; background:rgba(3,48,33,.88); border:1px solid rgba(255,255,255,.18); border-radius:9px; backdrop-filter:blur(7px); font-size:11px; font-weight:800; }
+  .hn-departure-card__availability svg { width:16px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-departure-card__availability img { width:22px; height:22px; object-fit:contain; }
+  .hn-departure-card__details { display:grid; grid-area:details; grid-template-columns:minmax(0,1fr); align-content:center; gap:17px; min-width:0; padding:22px 25px; }
+  .hn-departure-card__vehicle { display:flex; grid-area:auto; min-width:0; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .hn-departure-card__vehicle>div:first-child { display:block; min-width:0; }
+  .hn-departure-card__vehicle strong { display:block; color:#123a2e; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:17px; line-height:1.35; }
+  .hn-departure-card__vehicle small { display:block; overflow:hidden; margin-top:4px; color:#6b7a72; font-size:11px; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
+  .hn-departure-card__duration { flex:0 0 auto; width:auto!important; padding:6px 9px!important; color:#4d6257!important; background:#f3f6f2!important; border:1px solid #dfe5df; border-radius:999px; font-size:10px!important; font-weight:800; white-space:nowrap; }
+  .hn-departure-card__timeline { display:grid; grid-template-columns:minmax(92px,.75fr) minmax(110px,1.2fr) minmax(92px,.75fr); gap:11px; min-width:0; align-items:center; }
+  .hn-departure-card__time { display:grid; grid-area:auto; gap:3px; min-width:0; }
+  .hn-departure-card__time:last-child { text-align:right; }
+  .hn-departure-card__time strong { color:#073a2a; font-size:27px; line-height:1; letter-spacing:-.045em; }
+  .hn-departure-card__time span { color:#77827c; font-size:9px; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+  .hn-departure-card__time small { overflow:hidden; margin:0; color:#294b3e; font-size:11px; font-weight:800; text-overflow:ellipsis; white-space:nowrap; }
+  .hn-departure-card__journey { display:grid; grid-area:auto; grid-template-columns:8px 1fr 22px; gap:0; align-items:center; }
+  .hn-departure-card__journey i { position:relative; height:2px; background:linear-gradient(90deg,#087a47,#d8bd17); }
+  .hn-departure-card__journey i:before,.hn-departure-card__journey i:after { position:absolute; top:50%; width:8px; height:8px; background:#fff; border:2px solid #087a47; border-radius:50%; content:''; transform:translateY(-50%); }
+  .hn-departure-card__journey i:before { left:-7px; }
+  .hn-departure-card__journey i:after { right:-7px; border-color:#d8bd17; transform:translateY(-50%); }
+  .hn-departure-card__journey svg { width:16px; margin:auto; padding:2px; color:#557067; background:#fff; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-departure-card__specs { display:flex; flex-wrap:wrap; gap:7px; margin:0; padding:0; list-style:none; }
+  .hn-departure-card__specs li { display:inline-flex; min-height:29px; align-items:center; gap:6px; padding:5px 8px; color:#35564a; background:#edf6f0; border:1px solid #d7e9dc; border-radius:7px; font-size:10px; font-weight:800; }
+  .hn-departure-card__specs li:nth-child(2) { color:#70571e; background:#fff7d8; border-color:#eee0a4; }
+  .hn-departure-card__specs svg { width:15px; height:15px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
+  .hn-departure-card__specs img { width:20px; height:20px; flex:none; object-fit:contain; }
+  .hn-departure-card__purchase { display:grid; grid-area:purchase; align-content:center; gap:15px; padding:22px 18px; background:linear-gradient(160deg,#f7faf7,#fffaf0); border-left:1px solid #e6e2d8; }
+  .hn-departure-card__fare { display:grid; grid-area:auto; gap:4px; padding:0; border:0; text-align:right; }
+  .hn-departure-card__fare>span { color:#77827c; font-size:10px; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
+  .hn-departure-card__fare strong { color:#075338; font-size:21px; line-height:1.15; white-space:nowrap; }
+  .hn-departure-card__fare .hn-usd-hint { color:#718177; font-size:11px; }
+  .hn-departure-card__action { grid-area:auto; min-height:48px; color:#17362b; background:#f9df12; border:1px solid #e1c900; border-radius:10px; box-shadow:0 8px 18px rgba(164,144,0,.17); }
+  .hn-departure-card__secure { display:flex; align-items:center; justify-content:center; gap:5px; color:#6c776f; font-size:9px; font-weight:700; text-align:center; }
+  .hn-departure-card__secure svg { width:13px; fill:none; stroke:currentColor; stroke-width:1.8; }
+  @media(hover:hover) and (pointer:fine) { .hn-departure-card:hover .hn-departure-card__image { transform:scale(1.04); } }
+  @media(max-width:1080px) {
+    .hn-departure-card { grid-template-areas:"media details" "purchase purchase"; grid-template-columns:210px minmax(0,1fr); }
+    .hn-departure-card__purchase { grid-template-columns:minmax(0,1fr) 180px; align-items:center; padding:15px 18px; border-top:1px solid #e6e2d8; border-left:0; }
+    .hn-departure-card__fare { text-align:left; }
+    .hn-departure-card__secure { display:none; }
+  }
+  @media(max-width:760px) {
+    .hn-departure-card { grid-template-areas:"media" "details" "purchase"; grid-template-columns:1fr; gap:0; padding:0; }
+    .hn-departure-card__media { min-height:190px; }
+    .hn-departure-card__image { position:absolute; inset:0; width:100%; height:100%; }
+    .hn-departure-card__details { gap:16px; padding:19px 16px; }
+    .hn-departure-card__vehicle { grid-column:auto; }
+    .hn-departure-card__vehicle strong { font-size:15px; }
+    .hn-departure-card__duration { padding:5px 7px!important; }
+    .hn-departure-card__timeline { grid-template-columns:minmax(74px,.8fr) minmax(72px,1fr) minmax(74px,.8fr); gap:8px; }
+    .hn-departure-card__time { grid-row:auto; align-self:auto; }
+    .hn-departure-card__time strong { font-size:24px; }
+    .hn-departure-card__time small { font-size:10px; }
+    .hn-departure-card__specs { display:grid; grid-template-columns:1fr 1fr; }
+    .hn-departure-card__specs li:last-child { grid-column:1/-1; }
+    .hn-departure-card__purchase { grid-template-columns:1fr; gap:12px; padding:17px 16px; }
+    .hn-departure-card__fare { grid-template-columns:1fr auto; align-items:end; text-align:left; }
+    .hn-departure-card__fare strong { grid-column:2; grid-row:1/3; align-self:center; font-size:20px; }
+    .hn-departure-card__fare .hn-usd-hint { grid-column:1; }
+    .hn-departure-card__action { grid-column:auto; }
+    .hn-departure-card__secure { display:flex; }
+  }
+  /* Assurance and offices read as one compact journey-support system. */
+  .hn-proof { padding:44px 0 30px; background:radial-gradient(circle at 8% 12%,rgba(249,223,18,.13),transparent 23%),linear-gradient(180deg,#fffaf0,#fffdf7); border-bottom:0; }
+  .hn-proof__heading { display:flex; align-items:end; justify-content:space-between; gap:32px; margin-bottom:24px; }
+  .hn-proof__heading>div { max-width:620px; }
+  .hn-proof__heading .hn-eyebrow { display:inline-flex; align-items:center; gap:8px; margin:0 0 10px; padding:7px 11px; color:#745815; background:#fff8e5; border:1px solid #ead9a8; border-radius:999px; line-height:1; }
+  .hn-proof__heading .hn-eyebrow:before { width:7px; height:7px; background:var(--hn-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(251,177,22,.14); content:''; }
+  .hn-proof__heading h2 { margin:0; font-size:clamp(32px,3.5vw,44px); }
+  .hn-proof__heading>p { max-width:430px; margin:0 0 4px; color:#66736c; font-size:14px; line-height:1.65; }
+  .hn-proof__body { gap:12px; }
+  .hn-proof__grid { gap:12px; }
+  .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { grid-template-areas:"number visual" "copy copy"; grid-template-columns:auto minmax(0,1fr); grid-template-rows:auto 1fr; gap:14px; min-height:204px; align-items:start; padding:21px 22px; background:rgba(255,255,255,.92); }
+  .hn-proof__grid article:nth-child(2) { background:linear-gradient(145deg,#fff,#f4fbf6); }
+  .hn-proof__grid article:nth-child(3) { background:linear-gradient(145deg,#fff,#f4f9fd); }
+  .hn-proof__grid article>span { width:46px; height:46px; box-shadow:0 8px 18px rgba(166,119,0,.14); }
+  .hn-proof__grid article>span { grid-area:number; }
+  .hn-proof__grid article>div { grid-area:copy; padding-top:2px; }
+  .hn-proof__visual { grid-area:visual; justify-self:end; display:grid; width:64px; height:64px; place-items:center; color:#8b6600; background:#fff8d4; border:1px solid #ebd681; border-radius:16px; }
+  .hn-proof__visual svg { width:39px; height:39px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.55; }
+  .hn-proof__visual img { width:66px; height:66px; object-fit:contain; filter:drop-shadow(0 7px 10px rgba(26,46,36,.12)); }
+  .hn-proof__visual svg .hn-proof__tone { fill:currentColor; stroke:none; opacity:.12; }
+  .hn-proof__visual svg .hn-proof__accent { fill:currentColor; stroke:none; opacity:.24; }
+  .hn-proof__grid article:nth-child(2) .hn-proof__visual { color:#0b7f42; background:#eaf7ee; border-color:#bee0c8; }
+  .hn-proof__grid article:nth-child(3) .hn-proof__visual { color:#315f88; background:#edf6fc; border-color:#c4dceb; }
+  .hn-proof__grid article h3 { margin:0 0 8px; font-size:19px; }
+  .hn-proof__grid article p { max-width:300px; font-size:13px; }
+  .hn-proof__transfer { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:14px; min-height:70px; padding:14px 18px; }
+  .hn-proof__transfer>a { display:inline-flex; min-height:42px; align-items:center; padding:0 15px; color:#17362b; background:#f9df12; border-radius:9px; font-size:11px; font-weight:800; text-decoration:none; white-space:nowrap; }
+  .hn-stops { padding:50px 0 72px; background:radial-gradient(circle at 94% 12%,rgba(11,127,66,.08),transparent 22%),linear-gradient(180deg,#fffdf7,#f6faf7); border-top:0; }
+  .hn-stops .hn-section-heading--split { margin-bottom:28px; }
+  .hn-stop-card { min-height:230px; padding:22px; }
+  .hn-stop-card>*:not(.hn-stop-card__photo) { position:relative; z-index:2; width:59%; }
+  .hn-stop-card__photo { position:absolute; top:0; right:0; bottom:0; z-index:0; width:48%; overflow:hidden; }
+  .hn-stop-card__photo:after { position:absolute; inset:0; background:linear-gradient(90deg,#f6fcf8 0,rgba(246,252,248,.75) 18%,transparent 62%); content:''; }
+  .hn-stop-card:nth-child(2) .hn-stop-card__photo:after { background:linear-gradient(90deg,#fffaf0 0,rgba(255,250,240,.76) 18%,transparent 62%); }
+  .hn-stop-card:nth-child(3) .hn-stop-card__photo:after { background:linear-gradient(90deg,#f5f9fd 0,rgba(245,249,253,.76) 18%,transparent 62%); }
+  .hn-stop-card__photo img { width:100%; height:100%; object-fit:cover; object-position:center; filter:saturate(.92) contrast(.96); transition:transform .35s ease; }
+  .hn-stop-card:after { display:none; }
+  .hn-stop-card>p { min-height:72px; margin:18px 0 14px; padding:12px 12px 12px 34px; background:rgba(255,255,255,.88); backdrop-filter:blur(5px); }
+  .hn-stop-card>p:before { top:17px; left:14px; }
+  .hn-stop-card>a { width:max-content; min-height:44px; }
+  .hn-stop-support { min-height:118px; background:radial-gradient(circle at 67% 120%,rgba(249,223,18,.12),transparent 34%),linear-gradient(110deg,#063c2a,#032d20); border-radius:16px; }
+  @media(hover:hover) and (pointer:fine) {
+    .hn-stop-card:hover .hn-stop-card__photo img { transform:scale(1.045); }
+    .hn-proof__transfer>a:hover { background:#e5cd00; transform:translateY(-1px); }
+  }
+  @media(max-width:900px) {
+    .hn-proof__heading { align-items:flex-start; flex-direction:column; gap:10px; }
+    .hn-proof__heading>p { max-width:620px; }
+    .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { padding:18px; }
+    .hn-proof__visual { width:54px; height:54px; }
+    .hn-proof__visual svg { width:32px; height:32px; }
+    .hn-proof__visual img { width:56px; height:56px; }
+    .hn-proof__transfer { grid-template-columns:auto 1fr; }
+    .hn-proof__transfer>a { grid-column:1/-1; justify-self:start; }
+  }
+  @media(max-width:620px) {
+    .hn-proof { padding:36px 0 22px; }
+    .hn-proof__heading { margin-bottom:18px; }
+    .hn-proof__heading .hn-eyebrow { margin-bottom:7px; }
+    .hn-proof__heading h2 { font-size:32px; }
+    .hn-proof__heading>p { font-size:13px; }
+    .hn-proof__grid article,.hn-proof__grid article:first-child,.hn-proof__grid article:last-child { grid-template-areas:"number visual copy"; grid-template-columns:40px 48px minmax(0,1fr); grid-template-rows:auto; gap:10px; min-height:0; padding:15px 13px; }
+    .hn-proof__grid article>div { padding-top:0; }
+    .hn-proof__grid article>span { width:40px; height:40px; }
+    .hn-proof__visual { width:48px; height:48px; border-radius:13px; }
+    .hn-proof__visual svg { width:28px; height:28px; }
+    .hn-proof__visual img { width:50px; height:50px; }
+    .hn-proof__grid article h3 { font-size:15px; }
+    .hn-proof__grid article p { font-size:11px; }
+    .hn-proof__transfer { grid-template-columns:auto minmax(0,1fr); padding:14px; }
+    .hn-proof__transfer>a { width:100%; justify-content:center; }
+    .hn-stops { padding:42px 0 54px; }
+    .hn-stop-card>*:not(.hn-stop-card__photo) { width:auto; }
+    .hn-stop-card__photo { display:none; }
+    .hn-stop-card>p { min-height:0; }
+  }
+  /* The booking form stays intact while the hero gains a vehicle-led travel scene. */
+  .hn-hero { min-height:680px; background:#073b2b; }
+  .hn-hero__image { z-index:-3; object-position:center 54%; }
+  .hn-hero__vehicle-scene { position:absolute; inset:0 0 auto 38%; z-index:-2; width:62%; height:calc(100% + 42px); object-fit:cover; object-position:left center; clip-path:polygon(17% 0,100% 0,100% 100%,0 100%); filter:saturate(1.06) contrast(1.02); transform:translateY(-42px); }
+  .hn-hero__overlay { z-index:-1; background:linear-gradient(90deg,rgba(2,37,26,.96) 0,rgba(2,42,29,.91) 33%,rgba(2,42,29,.58) 56%,rgba(2,42,29,.12) 82%),linear-gradient(180deg,rgba(3,31,23,.08) 45%,rgba(3,32,23,.67) 100%); }
+  .hn-hero:before { position:absolute; top:0; right:0; left:0; z-index:0; height:5px; background:linear-gradient(90deg,#f9df12 0 18%,rgba(249,223,18,.2) 45%,transparent 72%); content:''; pointer-events:none; }
+  .hn-hero:after { position:absolute; right:-120px; bottom:-285px; z-index:0; width:510px; height:510px; border:1px solid rgba(249,223,18,.2); border-radius:50%; box-shadow:0 0 0 52px rgba(249,223,18,.035),0 0 0 104px rgba(249,223,18,.018); content:''; pointer-events:none; }
+  .hn-hero__content { position:relative; z-index:1; padding:52px 0 34px; }
+  .hn-hero__copy { max-width:650px; }
+  .hn-hero-route { margin-bottom:16px; color:#fff9c9; background:rgba(4,45,31,.66); border-color:rgba(249,223,18,.58); box-shadow:0 10px 24px rgba(0,0,0,.12); }
+  .hn-hero h1.hn-hero-title { max-width:690px; margin-bottom:15px; font-size:clamp(46px,4.45vw,64px); text-shadow:0 8px 26px rgba(0,0,0,.2); }
+  .hn-hero-title__name { display:flex; align-items:baseline; flex-wrap:wrap; gap:.12em; font-family:'Cormorant Garamond',Georgia,serif; font-size:1.08em; font-weight:700; letter-spacing:-.035em; }
+  .hn-hero-title__name em { display:inline-block; color:#f5d94e; font-family:Allura,'Brush Script MT',cursive; font-size:1.3em; font-weight:400; line-height:.72; letter-spacing:0; text-shadow:0 5px 20px rgba(61,45,0,.25); transform:rotate(-3deg) translateY(.04em); }
+  .hn-hero-title__specs { color:#fff; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:.5em; font-weight:700; line-height:1.25; letter-spacing:-.018em; text-shadow:0 5px 20px rgba(0,0,0,.22); }
+  .hn-hero__copy>.hn-hero-tagline { color:rgba(255,255,255,.9); }
+  body.home-new .hn-hero__copy>p.hn-official-site { color:#fff; background:rgba(3,43,29,.52); border-color:rgba(255,255,255,.48); box-shadow:0 10px 28px rgba(0,0,0,.16); backdrop-filter:blur(10px); }
+  .hn-official-site strong { color:#fff; }
+  .hn-official-site svg { color:#ffe315; fill:rgba(249,223,18,.12); }
+  .hn-trust { gap:10px; padding-top:17px; }
+  .hn-trust li { min-height:36px; padding:0 12px; color:#f5fbf7; background:rgba(3,45,31,.5); border:1px solid rgba(255,255,255,.18); border-radius:999px; backdrop-filter:blur(8px); }
+  .hn-route-summary { background:linear-gradient(100deg,#fffdf6 0,#fff 44%,#fff8d8 100%); }
+  .hn-mobile-booking-bar { transition:opacity .2s ease,transform .2s ease,visibility .2s; }
+  .hn-mobile-booking-bar.is-form-visible { visibility:hidden; opacity:0; pointer-events:none; transform:translateY(100%); }
+  @media(max-width:900px) {
+    .hn-hero { min-height:auto; }
+    .hn-hero__vehicle-scene { inset:0; width:100%; height:100%; clip-path:none; object-position:36% center; opacity:.58; transform:none; }
+    .hn-hero__overlay { background:linear-gradient(90deg,rgba(2,37,26,.96),rgba(2,42,29,.82) 72%,rgba(2,42,29,.64)),linear-gradient(180deg,transparent 35%,rgba(3,32,23,.68)); }
+    .hn-hero__content { padding-top:48px; }
+  }
+  @media(max-width:620px) {
+    .hn-hero__vehicle-scene { object-position:30% center; opacity:.36; }
+    .hn-hero__overlay { background:linear-gradient(180deg,rgba(2,37,26,.9),rgba(2,42,29,.79) 45%,rgba(2,35,25,.95)); }
+    .hn-hero__content { padding:38px 0 28px; }
+    .hn-hero h1.hn-hero-title { font-size:38px; }
+    .hn-hero-title__name { gap:.1em; font-size:1.04em; }
+    .hn-hero-title__name em { font-size:1.2em; }
+    .hn-hero-title__specs { font-size:22px; }
+    .hn-trust { gap:7px; }
+    .hn-trust li { min-height:34px; padding:0 10px; }
+  }
+  /* News and closing CTA share the coastal journey art direction. */
+  .hn-news { isolation:isolate; padding:64px 0 72px; background:linear-gradient(180deg,#fffaf0,#f7f8ef 58%,#fffbed); border-top:1px solid #eee2c7; }
+  .hn-news:before { position:absolute; inset:0 0 auto; z-index:0; width:auto; height:330px; background-image:linear-gradient(90deg,#fffaf0 0,rgba(255,250,240,.9) 31%,rgba(255,250,240,.24) 64%,rgba(255,250,240,.08)),var(--hn-news-coast); background-position:center; background-size:cover; border:0; border-radius:0; box-shadow:none; content:''; }
+  .hn-news:after { position:absolute; top:0; right:0; z-index:0; width:min(37vw,530px); height:330px; background-image:linear-gradient(90deg,rgba(255,250,240,.96),rgba(255,250,240,.08) 35%),var(--hn-news-bus); background-position:center; background-size:cover; clip-path:polygon(19% 0,100% 0,100% 100%,0 83%); content:''; opacity:.72; }
+  .hn-news .hn-shell { position:relative; z-index:1; }
+  .hn-news .hn-section-heading { min-height:185px; align-items:start; margin-bottom:22px; }
+  .hn-news-heading>div { max-width:670px; }
+  .hn-news-heading .hn-eyebrow { margin-bottom:12px; }
+  .hn-news-heading h2 { margin:0 0 10px; font-size:clamp(38px,4.5vw,58px); line-height:1.02; letter-spacing:-.055em; }
+  .hn-news-heading h2 span,.hn-news-heading h2 em { display:block; }
+  .hn-news-heading h2 em { color:#dfaa09; font-style:normal; }
+  .hn-news-heading>div>p:last-child { max-width:590px; margin:0; color:#586c62; font-size:14px; line-height:1.65; }
+  .hn-news-heading>.hn-button { align-self:end; margin-bottom:18px; }
+  .hn-news-grid { gap:18px; }
+  .hn-news-card { border-color:#e3dccd; border-radius:16px; box-shadow:0 16px 38px rgba(66,56,30,.1); }
+  .hn-news-card__image { height:215px; }
+  .hn-news-card__body { min-height:244px; padding:19px 20px; }
+  .hn-news-card h3 { font-size:17px; line-height:1.35; }
+  .hn-final { width:min(1360px,calc(100% - 40px)); margin:0 auto 36px; padding:0; background-image:linear-gradient(90deg,rgba(3,61,42,.98) 0,rgba(3,61,42,.94) 53%,rgba(3,61,42,.34) 100%),var(--hn-final-bg); background-position:center; background-size:cover; border:0; border-radius:22px; box-shadow:0 20px 48px rgba(3,49,33,.2); }
+  .hn-final:before { inset:0 auto 0 0; width:29%; height:auto; background:radial-gradient(circle at 0 50%,rgba(249,223,18,.16),transparent 68%); border:0; border-radius:0; box-shadow:none; }
+  .hn-final__content { display:grid; grid-template-columns:250px minmax(0,1fr) auto; min-height:180px; gap:34px; align-items:center; }
+  .hn-final__signature { color:#fff; font-family:"Brush Script MT","Segoe Script",cursive; font-size:28px; line-height:1.05; text-align:center; transform:rotate(-5deg); }
+  .hn-final__signature:after { display:block; width:110px; height:4px; margin:8px auto 0; background:#f9df12; content:''; transform:skewX(-22deg); }
+  .hn-final__content>div:nth-child(2) h2 { margin:0 0 8px; font-size:34px; }
+  .hn-final__content>div:nth-child(2) p { font-size:14px; }
+  .hn-final__content>div:last-child { display:flex; align-items:center; gap:12px; }
+  .hn-final .hn-contact { min-height:46px; padding:0 18px; border:1px solid rgba(255,255,255,.5); border-radius:10px; text-decoration:none; }
+  @media(max-width:900px) {
+    .hn-news:after { display:none; }
+    .hn-news:before { opacity:.55; }
+    .hn-news .hn-section-heading { min-height:0; }
+    .hn-final__content { grid-template-columns:1fr auto; padding:34px 0; }
+    .hn-final__signature { display:none; }
+  }
+  @media(max-width:620px) {
+    .hn-news { padding:48px 0; }
+    .hn-news:before { height:285px; background-image:linear-gradient(180deg,rgba(255,250,240,.86),rgba(255,250,240,.96)),var(--hn-news-coast); }
+    .hn-news-heading { gap:18px; }
+    .hn-news-heading h2 { font-size:38px; }
+    .hn-news-heading h2 span,.hn-news-heading h2 em { display:inline; }
+    .hn-news-heading h2 em { margin-left:.16em; }
+    .hn-news-heading>.hn-button { align-self:flex-start; margin:0; }
+    .hn-news-card__image { height:200px; }
+    .hn-final { width:min(100% - 28px,1360px); margin-bottom:22px; background-image:linear-gradient(120deg,rgba(3,61,42,.98),rgba(3,61,42,.82)),var(--hn-final-bg); }
+    .hn-final__content { display:flex; min-height:0; align-items:flex-start; padding:30px 22px; flex-direction:column; gap:22px; }
+    .hn-final__content>div:nth-child(2) h2 { font-size:29px; }
+    .hn-final__content>div:last-child { width:100%; align-items:stretch; flex-direction:column; }
+    .hn-final__content>div:last-child a { justify-content:center; }
+  }
   @media (prefers-reduced-motion:reduce) {
     .hn-motion-ready .hn-reveal { opacity:1; transform:none; }
     .hn-faq details[open] p,.hn-hero__image,.hn-live-proof i { animation:none; }
@@ -770,7 +1263,7 @@
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
       'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
       'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'official_site' => 'Website chính thức của Nhà xe Nhật Dương', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
-      'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
+      'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'return_date' => 'Ngày về (tùy chọn)', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
@@ -794,7 +1287,7 @@
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
       'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
       'hero_text' => 'Comfortable space – attentive service', 'official_site' => 'Official website of Nhat Duong Bus', 'one_way' => 'One way', 'round_trip' => 'Round trip',
-      'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'passengers' => 'Passengers', 'search' => 'Find departures',
+      'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'return_date' => 'Return (optional)', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
@@ -818,7 +1311,7 @@
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
       'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
       'hero_text' => 'Комфорт в пути – заботливый сервис', 'official_site' => 'Официальный сайт автобусной компании Nhat Duong', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
-      'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
+      'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'return_date' => 'Возврат (необяз.)', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
@@ -899,6 +1392,20 @@
       ['Предусмотрена ли остановка для отдыха?', "Это зависит от времени отправления. Рейсы до 17:00 обычно делают одну остановку для отдыха на скоростной автомагистрали или Национальном шоссе 1A.\n\nРасписание остановок может меняться в зависимости от дорожной обстановки и фактического маршрута. Сотрудники сообщат пассажирам подробности перед отправлением."],
     ],
   ][$locale];
+  $faqUi = [
+    'vi' => ['kicker' => 'CÂU HỎI THƯỜNG GẶP', 'intro' => 'Giải đáp các thắc mắc phổ biến để bạn dễ dàng chọn chuyến và có hành trình thuận tiện nhất cùng Nhật Dương.'],
+    'en' => ['kicker' => 'FREQUENTLY ASKED QUESTIONS', 'intro' => 'Clear answers to common questions, helping you choose a suitable departure and travel comfortably with Nhat Duong.'],
+    'ru' => ['kicker' => 'ЧАСТЫЕ ВОПРОСЫ', 'intro' => 'Ответы на частые вопросы помогут выбрать подходящий рейс и комфортно путешествовать с Nhat Duong.'],
+  ][$locale];
+  $faqIcons = [
+    '<svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 19v-2a5 5 0 0 1 10 0v2M12 19v-2a5 5 0 0 1 10 0v2"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M3 18V7M3 14h18v4M7 14V9h5a4 4 0 0 1 4 4v1M3 18v2M21 18v2"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+    '<svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h4"/></svg>',
+    '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>',
+    '<b>WC</b>',
+    '<svg viewBox="0 0 24 24"><path d="M4 8h13v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8Z"/><path d="M17 10h2a3 3 0 0 1 0 6h-2M8 4v2M12 3v3"/></svg>',
+  ];
   $pickupPoints = $route?->pickupPoints ?? collect();
   $dropoffPoints = $route?->dropoffPoints ?? collect();
   $supportPhones = ['0971.799.097', '0789.802.999', '0789.803.999'];
@@ -912,51 +1419,86 @@
     'en' => ['live' => 'LIVE TRIP DATA', 'fleet_kicker' => 'CHOOSE A SUITABLE TRIP', 'fleet_title' => 'See the actual vehicle before booking', 'fleet_text' => 'Departure time, vehicle type, and fare come directly from the selected travel date.', 'actual_vehicle' => 'Actual vehicle image', 'onboard' => 'Trip details', 'seat_map' => 'Live seat map', 'seat_map_text' => 'Choose an available seat before payment.', 'stops' => 'Clear pickup and drop-off points', 'stops_text' => 'See the address and time for each trip.', 'payment' => 'Confirmed payment', 'payment_text' => 'Receive a payment reference and clear transaction status.', 'transfer' => 'Door-to-door shuttle support within a 7 km radius in Nha Trang.', 'review_kicker' => 'PASSENGER FEEDBACK', 'review_fallback' => 'The Nhat Duong team is ready to make your journey clearer and more comfortable.', 'support_call' => 'Call support', 'support_online' => 'Booking support'],
     'ru' => ['live' => 'АКТУАЛЬНЫЕ ДАННЫЕ О РЕЙСАХ', 'fleet_kicker' => 'ВЫБЕРИТЕ ПОДХОДЯЩИЙ РЕЙС', 'fleet_title' => 'Узнайте тип автобуса до бронирования', 'fleet_text' => 'Время отправления, тип автобуса и стоимость загружаются для выбранной даты.', 'actual_vehicle' => 'Фактическое фото автобуса', 'onboard' => 'Информация о рейсе', 'seat_map' => 'Актуальная схема мест', 'seat_map_text' => 'Выберите свободное место до оплаты.', 'stops' => 'Понятные места посадки и высадки', 'stops_text' => 'Адрес и время указаны для каждого рейса.', 'payment' => 'Подтверждённая оплата', 'payment_text' => 'Получите код оплаты и понятный статус транзакции.', 'transfer' => 'Трансфер от двери до двери в радиусе 7 км в Нячанге.', 'review_kicker' => 'ОТЗЫВЫ ПАССАЖИРОВ', 'review_fallback' => 'Команда Nhật Dương готова сделать вашу поездку понятнее и комфортнее.', 'support_call' => 'Позвонить в поддержку', 'support_online' => 'Помощь с бронированием'],
   ][$locale];
+  $scheduleUi = [
+    'vi' => ['trips' => 'Các chuyến', 'passenger' => 'khách', 'change' => 'Đổi tìm kiếm', 'all' => 'Tất cả', 'morning' => 'Buổi sáng', 'afternoon' => 'Buổi chiều', 'evening' => 'Buổi tối', 'sort' => 'Sắp xếp', 'earliest' => 'Giờ sớm nhất', 'latest' => 'Giờ muộn nhất', 'lowest' => 'Giá thấp nhất', 'open' => 'Đang mở bán', 'room' => 'Phòng đôi', 'size' => 'Giường 85 × 178 cm', 'wc' => 'WC trên xe', 'secure' => 'Xác nhận chỗ trước khi thanh toán', 'empty' => 'Không có chuyến phù hợp với bộ lọc này.'],
+    'en' => ['trips' => 'Departures', 'passenger' => 'passenger', 'change' => 'Change search', 'all' => 'All', 'morning' => 'Morning', 'afternoon' => 'Afternoon', 'evening' => 'Evening', 'sort' => 'Sort by', 'earliest' => 'Earliest', 'latest' => 'Latest', 'lowest' => 'Lowest fare', 'open' => 'Now booking', 'room' => 'Double cabin', 'size' => 'Bed 85 × 178 cm', 'wc' => 'Onboard WC', 'secure' => 'Confirm your place before payment', 'empty' => 'No departures match this filter.'],
+    'ru' => ['trips' => 'Рейсы', 'passenger' => 'пассажир', 'change' => 'Изменить поиск', 'all' => 'Все', 'morning' => 'Утро', 'afternoon' => 'День', 'evening' => 'Вечер', 'sort' => 'Сортировка', 'earliest' => 'Самые ранние', 'latest' => 'Самые поздние', 'lowest' => 'Низкая цена', 'open' => 'Продажа открыта', 'room' => 'Двухместное купе', 'size' => 'Спальное место 85 × 178 см', 'wc' => 'Туалет в автобусе', 'secure' => 'Подтвердите место до оплаты', 'empty' => 'Нет рейсов, соответствующих фильтру.'],
+  ][$locale];
+  $bookingToolsUi = [
+    'vi' => ['routes' => 'Tuyến nhanh', 'dates' => 'Chọn ngày', 'today' => 'Hôm nay', 'tomorrow' => 'Ngày mai', 'one_way' => 'Hành trình một chiều', 'round_trip' => 'Hành trình khứ hồi', 'clear_return' => 'Xóa ngày về'],
+    'en' => ['routes' => 'Quick routes', 'dates' => 'Travel date', 'today' => 'Today', 'tomorrow' => 'Tomorrow', 'one_way' => 'One-way journey', 'round_trip' => 'Round trip', 'clear_return' => 'Clear return'],
+    'ru' => ['routes' => 'Быстрый маршрут', 'dates' => 'Дата поездки', 'today' => 'Сегодня', 'tomorrow' => 'Завтра', 'one_way' => 'Поездка в одну сторону', 'round_trip' => 'Поездка туда и обратно', 'clear_return' => 'Удалить дату возврата'],
+  ][$locale];
+  $newsUi = [
+    'vi' => ['title_before' => 'Cập nhật cho hành trình', 'title_accent' => 'tiếp theo', 'signature' => 'Nhật Dương<br>luôn đồng hành<br>cùng bạn!'],
+    'en' => ['title_before' => 'Updates for your', 'title_accent' => 'next journey', 'signature' => 'Nhat Duong<br>travels with you'],
+    'ru' => ['title_before' => 'Новости для вашей', 'title_accent' => 'следующей поездки', 'signature' => 'Nhat Duong<br>всегда рядом'],
+  ][$locale];
+  $fleetUi = [
+    'vi' => ['comfort' => 'Không gian riêng tư · Êm ái · Đầy đủ tiện nghi', 'detail' => 'Xem ảnh chi tiết', 'change' => 'Thay đổi', 'guest' => 'khách'],
+    'en' => ['comfort' => 'Private space · Smooth ride · Fully equipped', 'detail' => 'View photos', 'change' => 'Change', 'guest' => 'passenger'],
+    'ru' => ['comfort' => 'Личное пространство · Комфорт · Все удобства', 'detail' => 'Смотреть фото', 'change' => 'Изменить', 'guest' => 'пассажир'],
+  ][$locale];
   $whyChoose = [
     'vi' => [
       'kicker' => 'LÝ DO CHỌN NHẬT DƯƠNG',
-      'title' => 'Tại sao nên chọn Nhật Dương cho hành trình của bạn?',
+      'title_before' => 'Tại sao nên chọn', 'title_accent' => 'Nhật Dương', 'title_after' => 'cho hành trình của bạn?',
       'text' => 'Trải nghiệm cao cấp được chăm chút từ lúc chờ xe đến khi kết thúc hành trình.',
+      'signature' => ['Hành trình', 'An toàn', 'Thoải mái'],
       'items' => [
-        'Phòng chờ thoải mái, lịch sự, có đồ ăn nhẹ.',
-        'Giá tốt, phù hợp với phân khúc cao cấp.',
-        'Hỗ trợ trung chuyển tận nơi trong bán kính 7 km tại Nha Trang.',
-        'Hủy vé linh hoạt: miễn phí trước 24 giờ so với giờ khởi hành.',
+        ['Phòng chờ thoải mái, lịch sự, có đồ ăn nhẹ.', 'Không gian hiện đại, sạch sẽ, nước uống và đồ ăn nhẹ miễn phí trước giờ khởi hành.'],
+        ['Giá tốt, phù hợp với phân khúc cao cấp.', 'Chất lượng dịch vụ xứng tầm với mức giá hợp lý, nhiều ưu đãi và chính sách linh hoạt.'],
+        ['Hỗ trợ trung chuyển tận nơi trong bán kính 7 km tại Nha Trang.', 'Xe trung chuyển hiện đại, đưa đón thuận tiện, tiết kiệm thời gian và công sức.'],
+        ['Hủy vé linh hoạt: miễn phí trước 24 giờ so với giờ khởi hành.', 'Dễ dàng thay đổi kế hoạch, an tâm đặt vé bất cứ lúc nào.'],
       ],
     ],
     'en' => [
       'kicker' => 'WHY CHOOSE NHAT DUONG',
-      'title' => 'Why choose Nhat Duong for your journey?',
+      'title_before' => 'Why choose', 'title_accent' => 'Nhat Duong', 'title_after' => 'for your journey?',
       'text' => 'A premium experience thoughtfully prepared from the waiting lounge to your destination.',
+      'signature' => ['A journey that is', 'Safe', 'Comfortable'],
       'items' => [
-        'A comfortable, welcoming lounge with light refreshments.',
-        'Competitive fares suited to a premium travel experience.',
-        'Door-to-door shuttle support within a 7 km radius in Nha Trang.',
-        'Flexible cancellation: free up to 24 hours before departure.',
+        ['A comfortable, welcoming lounge with light refreshments.', 'A modern, clean waiting space with complimentary drinks and light snacks before departure.'],
+        ['Competitive fares suited to a premium travel experience.', 'Premium service at a sensible fare, with attractive offers and flexible policies.'],
+        ['Door-to-door shuttle support within a 7 km radius in Nha Trang.', 'Modern shuttle vehicles make pickup convenient and save you time and effort.'],
+        ['Flexible cancellation: free up to 24 hours before departure.', 'Change your plans more easily and book with confidence at any time.'],
       ],
     ],
     'ru' => [
       'kicker' => 'ПОЧЕМУ NHAT DUONG',
-      'title' => 'Почему стоит выбрать Nhat Duong для поездки?',
+      'title_before' => 'Почему стоит выбрать', 'title_accent' => 'Nhat Duong', 'title_after' => 'для поездки?',
       'text' => 'Продуманный сервис премиум-класса от зала ожидания до пункта назначения.',
+      'signature' => ['Путешествие', 'Безопасно', 'Комфортно'],
       'items' => [
-        'Комфортный зал ожидания и лёгкие закуски.',
-        'Выгодная цена для поездки премиум-класса.',
-        'Трансфер от двери до двери в радиусе 7 км в Нячанге.',
-        'Гибкая отмена: бесплатно не позднее чем за 24 часа до отправления.',
+        ['Комфортный зал ожидания и лёгкие закуски.', 'Современное чистое пространство, бесплатные напитки и лёгкие закуски перед отправлением.'],
+        ['Выгодная цена для поездки премиум-класса.', 'Высокое качество сервиса по разумной цене, выгодные предложения и гибкие условия.'],
+        ['Трансфер от двери до двери в радиусе 7 км в Нячанге.', 'Современный трансфер обеспечивает удобную посадку и помогает экономить время.'],
+        ['Гибкая отмена: бесплатно не позднее чем за 24 часа до отправления.', 'Легко меняйте планы и бронируйте поездку с уверенностью.'],
       ],
     ],
   ][$locale];
+  $whyImages = [$vehicleFallbackImage, $heroImage, asset('storage/image/03bf4.jpg'), $routeImage];
+  $iconAsset = fn (string $name): string => asset('nhat-duong-icon-assets/clean/'.$name);
   $whyIcons = [
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11V7a2 2 0 0 1 4 0v4M15 11V7a2 2 0 0 1 4 0v4"/><path d="M3 11v6h18v-6M6 17v3M18 17v3M9 8h6"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 13 20 4 11V4h7l9 9Z"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m13 10 3 3"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M5 4h7"/></svg>',
-    '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 15l2 2 5-5"/></svg>',
+    '<img src="'.$iconAsset('icon-bed.png').'" alt="">',
+    '<img src="'.$iconAsset('icon-tag.png').'" alt="">',
+    '<img src="'.$iconAsset('icon-transfer.png').'" alt="">',
+    '<img src="'.$iconAsset('icon-calendar.png').'" alt="">',
   ];
-      $homeUi = [
+  $proofIcons = [
+    '<img src="'.$iconAsset('img-seat.png').'" alt="">',
+    '<img src="'.$iconAsset('img-map.png').'" alt="">',
+    '<img src="'.$iconAsset('img-wallet.png').'" alt="">',
+  ];
+  $homeUi = [
     'vi' => ['where_go' => 'Bạn muốn đi đâu?', 'swap' => 'Đổi chiều', 'live_date' => 'Chuyến đang mở bán', 'today' => 'Hôm nay', 'frequency' => 'Đa dạng các khung giờ', 'arrival' => 'Đến', 'travel_time' => 'Thời gian', 'remaining' => 'Còn', 'view_all' => 'Xem tất cả giờ chạy', 'amenities' => ['Nhân viên sử dụng tiếng Anh', 'Bánh ngọt', 'Toilet', 'Đèn đọc sách', 'Dây đai an toàn', 'Nước uống', 'Gối nằm', 'Búa phá kính', 'Tivi LED', 'Sạc điện thoại', 'Rèm cửa', 'Dàn âm thanh', 'Wi-Fi', 'Điều hòa', 'Khăn lạnh'], 'popular_stops' => 'Điểm đón, trả phổ biến', 'stops_text' => 'Địa chỉ chính xác và thời gian có mặt được xác nhận theo chuyến bạn chọn.', 'pickup' => 'Điểm đón', 'dropoff' => 'Điểm trả', 'map' => 'Mở bản đồ', 'assurance' => 'An tâm đặt vé', 'back_booking' => 'Về form đặt vé', 'call' => 'Gọi hỗ trợ', 'searching' => 'Đang tìm chuyến...'],
     'en' => ['where_go' => 'Where would you like to go?', 'swap' => 'Swap locations', 'live_date' => 'Available departures', 'today' => 'Today', 'frequency' => 'A variety of departure times', 'arrival' => 'Arrival', 'travel_time' => 'Duration', 'remaining' => 'Left', 'view_all' => 'View all departures', 'amenities' => ['English-speaking staff', 'Snacks', 'Toilet', 'Reading light', 'Seat belt', 'Drinking water', 'Pillow', 'Emergency hammer', 'LED TV', 'Phone charging', 'Window curtains', 'Sound system', 'Wi-Fi', 'Air conditioning', 'Cold towel'], 'popular_stops' => 'Popular pickup and drop-off points', 'stops_text' => 'The exact address and check-in time are confirmed for your selected departure.', 'pickup' => 'Pickup', 'dropoff' => 'Drop-off', 'map' => 'Open map', 'assurance' => 'Book with confidence', 'back_booking' => 'Back to booking', 'call' => 'Call support', 'searching' => 'Finding departures...'],
     'ru' => ['where_go' => 'Куда вы хотите поехать?', 'swap' => 'Поменять местами', 'live_date' => 'Доступные рейсы', 'today' => 'Сегодня', 'frequency' => 'Разнообразное время отправления', 'arrival' => 'Прибытие', 'travel_time' => 'В пути', 'remaining' => 'Осталось', 'view_all' => 'Все рейсы', 'amenities' => ['Англоговорящий персонал', 'Закуски', 'Туалет', 'Лампа для чтения', 'Ремень безопасности', 'Питьевая вода', 'Подушка', 'Аварийный молоток', 'LED-телевизор', 'Зарядка телефона', 'Шторы', 'Аудиосистема', 'Wi-Fi', 'Кондиционер', 'Холодное полотенце'], 'popular_stops' => 'Популярные места посадки и высадки', 'stops_text' => 'Точный адрес и время регистрации подтверждаются для выбранного рейса.', 'pickup' => 'Посадка', 'dropoff' => 'Высадка', 'map' => 'Открыть карту', 'assurance' => 'Бронируйте уверенно', 'back_booking' => 'К форме бронирования', 'call' => 'Позвонить', 'searching' => 'Ищем рейсы...'],
+  ][$locale];
+  $assuranceUi = [
+    'vi' => ['kicker' => 'AN TÂM TRÊN MỖI HÀNH TRÌNH', 'intro' => 'Kiểm tra chỗ trống, điểm đón trả và trạng thái thanh toán trước khi khởi hành.'],
+    'en' => ['kicker' => 'CLEAR AT EVERY STEP', 'intro' => 'Review seat availability, pickup details, and payment confirmation before departure.'],
+    'ru' => ['kicker' => 'ВСЁ ПОНЯТНО ДО ПОЕЗДКИ', 'intro' => 'Проверьте свободные места, пункты посадки и подтверждение оплаты до отправления.'],
   ][$locale];
   $officeLabels = [
     'vi' => ['label' => 'Văn phòng', 'hcm' => 'VP TP. HỒ CHÍ MINH', 'nha_trang' => 'VP NHA TRANG', 'cam_ranh' => 'VP CAM RANH'],
@@ -968,10 +1510,12 @@
     ['name' => $officeLabels['nha_trang'], 'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, P. Nam Nha Trang, Khánh Hoà'],
     ['name' => $officeLabels['cam_ranh'], 'address' => '44 Huỳnh Thúc Kháng, P. Cam Ranh, Khánh Hoà'],
   ];
+  $officeImages = [$heroImage, $vehicleFallbackImage, asset('storage/image/03bf4.jpg')];
+  $officePins = [$iconAsset('pin-hcm.png'), $iconAsset('pin-nhatrang.png'), $iconAsset('pin-camranh.png')];
   $homeTripTabs = [
-    'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'policies' => 'Chính sách', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
-    'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'policies' => 'Policies', 'images' => 'Images', 'amenities' => 'Amenities', 'operator_policy' => 'Operator policy'],
-    'ru' => ['discount' => 'Скидка', 'points' => 'Посадка/Высадка', 'reviews' => 'Отзывы', 'policies' => 'Правила', 'images' => 'Фото', 'amenities' => 'Удобства', 'operator_policy' => 'Правила перевозчика'],
+    'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
+    'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'images' => 'Images', 'amenities' => 'Amenities', 'operator_policy' => 'Operator policy'],
+    'ru' => ['discount' => 'Скидка', 'points' => 'Посадка/Высадка', 'reviews' => 'Отзывы', 'images' => 'Фото', 'amenities' => 'Удобства', 'operator_policy' => 'Правила перевозчика'],
   ][$locale];
   $homeTripCopy = [
     'vi' => ['original' => 'Giá gốc', 'sale' => 'Giá khuyến mãi', 'save' => 'Tiết kiệm', 'no_discount' => 'Chuyến này hiện chưa áp dụng khuyến mãi.', 'loading' => 'Đang tải thông tin chuyến...', 'error' => 'Không thể tải chi tiết chuyến. Vui lòng thử lại.'],
@@ -997,6 +1541,7 @@
   ];
   $amenityGroups = ['service', 'service', 'comfort', 'comfort', 'safety', 'service', 'comfort', 'safety', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'service'];
   $featuredAmenities = [2, 5, 8, 9, 12, 13];
+  $fleetAmenityIndexes = [6, 2, 13, 12, 8, 9];
   $amenityTabs = [
     'vi' => ['featured' => 'Nổi bật', 'all' => 'Tất cả (15)', 'comfort' => 'Tiện nghi', 'service' => 'Dịch vụ', 'safety' => 'An toàn'],
     'en' => ['featured' => 'Featured', 'all' => 'All (15)', 'comfort' => 'Comfort', 'service' => 'Service', 'safety' => 'Safety'],
@@ -1009,6 +1554,12 @@
   $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
   $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
   $toUsd = fn (int|float $amount): string => number_format($amount / $vndPerUsd, 0);
+  $weekdays = [
+    'vi' => ['Chủ nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
+    'en' => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    'ru' => ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+  ];
+  $liveTravelDateLabel = $weekdays[$locale][$liveTravelDate->dayOfWeek].', '.$liveTravelDate->format('d/m/Y');
   $formatDuration = function ($minutes) use ($locale): string {
     $minutes = (int) $minutes;
     if ($minutes <= 0) return '—';
@@ -1054,11 +1605,12 @@
 <main>
   <section class="hn-hero" aria-labelledby="hero-title">
     <img class="hn-hero__image" src="{{ $heroImage }}" alt="" aria-hidden="true" fetchpriority="high" loading="eager" decoding="async">
+    <img class="hn-hero__vehicle-scene" src="{{ $vehicleFallbackImage }}" alt="" aria-hidden="true" fetchpriority="high" loading="eager" decoding="async">
     <div class="hn-hero__overlay"></div>
     <div class="hn-shell hn-hero__content">
       <div class="hn-hero__copy">
         <p class="hn-eyebrow hn-hero-route">{{ $copy['hero_kicker'] }}</p>
-        <h1 id="hero-title" class="hn-hero-title"><span class="hn-hero-title__name">{{ $heroName }}</span><span class="hn-hero-title__specs">{{ $heroSpecs }}</span></h1>
+        <h1 id="hero-title" class="hn-hero-title"><span class="hn-hero-title__name">{!! str_replace('Luxury', '<em>Luxury</em>', e($heroName)) !!}</span><span class="hn-hero-title__specs">{{ $heroSpecs }}</span></h1>
         <p class="hn-hero-tagline">{{ $copy['hero_text'] }}</p>
         <p class="hn-official-site"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.7-2.8 8.2-7 10-4.2-1.8-7-5.3-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg><strong>{{ $copy['official_site'] }}</strong></p>
       </div>
@@ -1069,7 +1621,7 @@
             <span class="hn-live-proof"><i></i>{{ $productCopy['live'] }}</span>
           </div>
           <div class="hn-booking__fields">
-            <label class="hn-location-field"><span>{{ $copy['from'] }}</span>
+            <label class="hn-location-field hn-location-field--from"><span>{{ $copy['from'] }}</span>
               <select id="hn-from-location" name="from_id" required>
                 @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 29)>{{ $labels[$locale] }}</option>@endforeach
               </select>
@@ -1077,13 +1629,14 @@
             <button id="hn-swap-locations" class="hn-swap" type="button" aria-label="{{ $homeUi['swap'] }}" title="{{ $homeUi['swap'] }}">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12m0 0-3-3m3 3-3 3M17 17H5m0 0 3 3m-3-3 3-3"/></svg>
             </button>
-            <label class="hn-location-field"><span>{{ $copy['to'] }}</span>
+            <label class="hn-location-field hn-location-field--to"><span>{{ $copy['to'] }}</span>
               <select id="hn-to-location" name="to_id" required>
                 @foreach($locations as $value => $labels)<option value="{{ $value }}" @selected($value === 417)>{{ $labels[$locale] }}</option>@endforeach
               </select>
             </label>
             <label class="hn-depart-date-field"><span>{{ $copy['date'] }}</span><input id="hn-depart-date" type="date" value="{{ now()->toDateString() }}" min="{{ now()->toDateString() }}"></label>
-            <label><span>{{ $copy['passengers'] }}</span>
+            <label class="hn-return-date-field"><span>{{ $copy['return_date'] }}</span><input id="hn-return-date" type="date" min="{{ now()->addDay()->toDateString() }}"></label>
+            <label class="hn-passenger-field"><span>{{ $copy['passengers'] }}</span>
               <span class="hn-passenger-stepper">
                 <button type="button" data-passenger-step="-1" aria-label="Decrease passengers">−</button>
                 <output id="hn-passenger-count" for="hn-passenger-value">1</output>
@@ -1092,11 +1645,27 @@
               <input id="hn-passenger-value" type="hidden" name="seats" value="1">
             </label>
             <input id="hn-depart-date-value" type="hidden" name="departDate" value="{{ now()->format('d-m-Y') }}">
+            <input id="hn-return-date-value" type="hidden" name="returnDate" value="">
+            <input id="hn-round-trip-value" type="hidden" name="is_round_trip" value="0">
             <input type="hidden" name="lang" value="{{ $locale }}">
             <button class="hn-button hn-button--primary hn-search-button" type="submit" data-loading="{{ $homeUi['searching'] }}">
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
               <span>{{ $copy['search'] }}</span>
             </button>
+          </div>
+          <div class="hn-booking-tools" aria-label="{{ $bookingToolsUi['routes'] }}">
+            <div class="hn-booking-tools__group">
+              <span class="hn-booking-tools__label"><img src="{{ $iconAsset('img-map.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['routes'] }}</span>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="29" data-to="417" aria-pressed="true">{{ $locations[29][$locale] }} → {{ $locations[417][$locale] }}</button>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="29" aria-pressed="false">{{ $locations[417][$locale] }} → {{ $locations[29][$locale] }}</button>
+            </div>
+            <div class="hn-booking-tools__group">
+              <span class="hn-booking-tools__label"><img src="{{ $iconAsset('icon-calendar.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['dates'] }}</span>
+              <button class="hn-booking-tool" type="button" data-depart-offset="0" aria-pressed="true">{{ $bookingToolsUi['today'] }}</button>
+              <button class="hn-booking-tool" type="button" data-depart-offset="1" aria-pressed="false">{{ $bookingToolsUi['tomorrow'] }}</button>
+            </div>
+            <output class="hn-booking-status" data-trip-status data-one-way="{{ $bookingToolsUi['one_way'] }}" data-round-trip="{{ $bookingToolsUi['round_trip'] }}" aria-live="polite">{{ $bookingToolsUi['one_way'] }}</output>
+            <button class="hn-clear-return" type="button" data-clear-return hidden>{{ $bookingToolsUi['clear_return'] }}</button>
           </div>
           @error('route')<p class="hn-form-error" role="alert">{{ $message }}</p>@enderror
         </fieldset>
@@ -1111,53 +1680,76 @@
 
   <section id="route" class="hn-route-summary" aria-labelledby="route-title">
     <div class="hn-shell hn-route-summary__inner">
-      <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
+      <div class="hn-route-summary__route">
+        <span class="hn-route-summary__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-route.png') }}" alt=""></span>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
+      </div>
       <dl>
-        <div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div>
-        <div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div>
-        <div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-wallet-small.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('img-calendar.png') }}" alt=""></span><div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-calendar.png') }}" alt=""></span><div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div></div>
       </dl>
       <a class="hn-text-link" href="{{ $routeDetailsUrl }}">{{ $copy['route_details'] }} <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
-  <section id="departures" class="hn-section hn-section--mist hn-departures" aria-labelledby="departure-title">
-    <div class="hn-shell">
-      <div class="hn-section-heading hn-section-heading--split">
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['schedule_kicker'] }}</p><h2 id="departure-title">{{ $copy['schedule_title'] }}</h2><p>{{ $copy['schedule_text'] }}</p></div>
-        <span class="hn-date-badge"><small>{{ $homeUi['live_date'] }}</small><strong>{{ $liveTravelDate->format('d/m/Y') }}</strong></span>
+  <section id="departures" class="hn-section hn-section--mist hn-departures" aria-labelledby="departure-title" style="--hn-schedule-bg:url('{{ $routeImage }}')">
+    <div class="hn-departures__hero"><div class="hn-shell"><div class="hn-departures__hero-copy"><p class="hn-eyebrow">{{ $copy['schedule_kicker'] }}</p><h2 id="departure-title"><span>{{ $scheduleUi['trips'] }}</span> <em data-departure-route>{{ $directionLabels[$selectedDirection] }}</em></h2><p>{{ $copy['schedule_text'] }}</p></div></div></div>
+    <div class="hn-shell hn-departures__body">
+      <div class="hn-departures__controls">
+        <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">@foreach($directionLabels as $direction => $label)<button id="direction-tab-{{ $direction }}" type="button" role="tab" aria-controls="direction-panel-{{ $direction }}" aria-selected="{{ $selectedDirection === $direction ? 'true' : 'false' }}" class="{{ $selectedDirection === $direction ? 'is-active' : '' }}" data-direction-tab="{{ $direction }}">{{ $label }}</button>@endforeach</div>
+        <div class="hn-schedule-context"><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>{{ $liveTravelDateLabel }}</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 19v-2a6 6 0 0 1 12 0v2M16 11a5 5 0 0 1 5 5v3"/></svg><b data-schedule-passengers>1</b> {{ $scheduleUi['passenger'] }}</span><a href="#booking">{{ $scheduleUi['change'] }}</a></div>
       </div>
-      <div class="hn-direction-tabs" role="tablist" aria-label="{{ $copy['choose_direction'] }}">
-        @foreach($directionLabels as $direction => $label)
-          <button id="direction-tab-{{ $direction }}" type="button" role="tab" aria-controls="direction-panel-{{ $direction }}" aria-selected="{{ $selectedDirection === $direction ? 'true' : 'false' }}" class="{{ $selectedDirection === $direction ? 'is-active' : '' }}" data-direction-tab="{{ $direction }}">{{ $label }}</button>
-        @endforeach
-      </div>
+      <div class="hn-schedule-toolbar"><div class="hn-time-filters" role="group" aria-label="{{ $copy['schedule_kicker'] }}"><button type="button" class="is-active" aria-pressed="true" data-time-filter="all">{{ $scheduleUi['all'] }}</button><button type="button" aria-pressed="false" data-time-filter="morning">{{ $scheduleUi['morning'] }}</button><button type="button" aria-pressed="false" data-time-filter="afternoon">{{ $scheduleUi['afternoon'] }}</button><button type="button" aria-pressed="false" data-time-filter="evening">{{ $scheduleUi['evening'] }}</button></div><label class="hn-schedule-sort">{{ $scheduleUi['sort'] }}<select data-schedule-sort><option value="earliest">{{ $scheduleUi['earliest'] }}</option><option value="latest">{{ $scheduleUi['latest'] }}</option><option value="lowest">{{ $scheduleUi['lowest'] }}</option></select></label></div>
       @foreach($directionSchedules as $direction => $directionTrips)
         <div id="direction-panel-{{ $direction }}" class="hn-schedule-panel" role="tabpanel" aria-labelledby="direction-tab-{{ $direction }}" data-direction-panel="{{ $direction }}" {{ $selectedDirection === $direction ? '' : 'hidden' }}>
           <div class="hn-schedule-list">
-            @forelse(array_slice($directionTrips, 0, 6) as $schedule)
-              <article class="hn-departure-card">
-                <div class="hn-departure-card__time"><strong>{{ $schedule['departure']->format('H:i') }}</strong><span>{{ $copy['departure'] }}</span></div>
-                <div class="hn-departure-card__journey"><span>{{ $formatDuration($schedule['duration']) }}</span><i aria-hidden="true"></i><small>{{ $schedule['arrival']->format('H:i') }} · {{ $homeUi['arrival'] }}</small></div>
-                <div class="hn-departure-card__vehicle"><strong>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</strong><span>{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span></div>
-                <div class="hn-departure-card__fare"><span>{{ $copy['price'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($schedule['fare']) }}</small></div>
-                <a class="hn-departure-card__action" href="{{ $schedule['checkout_url'] }}">{{ $copy['choose'] }} <span aria-hidden="true">→</span></a>
+            @forelse($directionTrips as $schedule)
+              @php
+                $departurePoint = $schedule['pickup'] ?: ($direction === 'nt_sg' ? $locations[417][$locale] : $locations[29][$locale]);
+                $arrivalPoint = $schedule['dropoff'] ?: ($direction === 'nt_sg' ? $locations[29][$locale] : $locations[417][$locale]);
+                $discountPercent = max(0, (int) ($schedule['discount_percent'] ?? 0));
+              @endphp
+              <article class="hn-departure-card" data-departure-hour="{{ $schedule['departure']->format('G') }}" data-departure-time="{{ $schedule['departure']->format('Hi') }}" data-departure-fare="{{ $schedule['fare'] }}">
+                <div class="hn-departure-card__media">
+                  <img class="hn-departure-card__image" src="{{ $schedule['image'] ?: $vehicleFallbackImage }}" alt="{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}" loading="lazy">
+                  <span class="hn-departure-card__badge {{ $discountPercent > 0 ? 'is-discount' : '' }}">{{ $discountPercent > 0 ? '-'.$discountPercent.'%' : $scheduleUi['open'] }}</span>
+                  <span class="hn-departure-card__availability"><img src="{{ $iconAsset('icon-people.png') }}" alt="" aria-hidden="true">{{ $schedule['available_seats'] }} {{ $copy['seats'] }}</span>
+                </div>
+                <div class="hn-departure-card__details">
+                  <div class="hn-departure-card__vehicle"><div><strong>{{ $schedule['vehicle_type'] ?: $copy['vehicle_default'] }}</strong><small>{{ $departurePoint }} → {{ $arrivalPoint }}</small></div><span class="hn-departure-card__duration">{{ $formatDuration($schedule['duration']) }}</span></div>
+                  <div class="hn-departure-card__timeline">
+                    <div class="hn-departure-card__time"><span>{{ $copy['departure'] }}</span><strong>{{ $schedule['departure']->format('H:i') }}</strong><small>{{ $departurePoint }}</small></div>
+                    <div class="hn-departure-card__journey" aria-hidden="true"><span></span><i></i><svg viewBox="0 0 24 24"><path d="M4 12h16M15 7l5 5-5 5"/></svg></div>
+                    <div class="hn-departure-card__time"><span>{{ $homeUi['arrival'] }}</span><strong>{{ $schedule['arrival']->format('H:i') }}</strong><small>{{ $arrivalPoint }}</small></div>
+                  </div>
+                  <ul class="hn-departure-card__specs">
+                    <li><img src="{{ $iconAsset('icon-bed.png') }}" alt="" aria-hidden="true">{{ $scheduleUi['room'] }}</li>
+                    <li><img src="{{ $iconAsset('icon-seat-small.png') }}" alt="" aria-hidden="true">{{ $scheduleUi['size'] }}</li>
+                    <li><img src="{{ $iconAsset('icon-wc.png') }}" alt="" aria-hidden="true">{{ $scheduleUi['wc'] }}</li>
+                  </ul>
+                </div>
+                <div class="hn-departure-card__purchase">
+                  <div class="hn-departure-card__fare"><span>{{ $copy['price'] }}</span><strong>{{ number_format($schedule['fare']) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($schedule['fare']) }} USD</small></div>
+                  <a class="hn-departure-card__action" href="{{ $schedule['checkout_url'] }}">{{ $copy['choose'] }} <span aria-hidden="true">→</span></a>
+                  <small class="hn-departure-card__secure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"/></svg>{{ $scheduleUi['secure'] }}</small>
+                </div>
               </article>
             @empty
               <div class="hn-empty-state"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span><p>{{ $hasLiveSchedules ? $copy['no_departures'] : $copy['live_unavailable'] }}</p></div>
             @endforelse
-          </div>
+          </div><p class="hn-schedule-filter-empty" hidden>{{ $scheduleUi['empty'] }}</p>
         </div>
       @endforeach
       <div class="hn-departures__footer"><a class="hn-button hn-button--outline" href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $homeUi['view_all'] }}</a></div>
     </div>
   </section>
 
-  <section class="hn-section hn-fleet" aria-labelledby="fleet-title">
+  <section class="hn-section hn-fleet" aria-labelledby="fleet-title" style="--hn-fleet-left:url('{{ $vehicleFallbackImage }}');--hn-fleet-right:url('{{ $routeImage }}')">
     <div class="hn-shell">
       <div class="hn-section-heading hn-section-heading--split">
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2></div>
-        <p>{{ $productCopy['fleet_text'] }}</p>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $productCopy['fleet_kicker'] }}</p><h2 id="fleet-title">{{ $productCopy['fleet_title'] }}</h2><p>{{ $productCopy['fleet_text'] }}</p></div>
+        <aside class="hn-fleet-context"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 14h2M12 14h2M16 14h2M8 18h2M12 18h2"/></svg><div><strong>{{ $directionLabels[$selectedDirection] }}</strong><span>{{ $liveTravelDateLabel }} · <b data-fleet-passengers>1</b> {{ $fleetUi['guest'] }}</span></div><a href="#booking">{{ $fleetUi['change'] }}</a></aside>
       </div>
       <div class="hn-vehicle-grid {{ $fleetTrips->count() <= 1 ? 'hn-vehicle-grid--single' : '' }}">
         @forelse($fleetTrips as $trip)
@@ -1165,22 +1757,25 @@
             <div class="hn-vehicle-card__media">
               <img src="{{ $trip['image'] ?: $vehicleFallbackImage }}" alt="{{ $trip['vehicle_type'] }}" loading="lazy">
               <span><i></i>{{ $productCopy['actual_vehicle'] }}</span>
+              <b class="hn-vehicle-card__image-detail">{{ $fleetUi['detail'] }} →</b>
             </div>
             <div class="hn-vehicle-card__body">
               <p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p>
               <h3>{{ $trip['vehicle_type'] }}</h3>
-               <p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>
+               <p class="hn-vehicle-card__comfort">{{ $fleetUi['comfort'] }}</p>
+               <ul class="hn-vehicle-amenities">@foreach($fleetAmenityIndexes as $amenityIndex)<li><span class="hn-amenity-icon" aria-hidden="true">{!! $amenityIcons[$amenityIndex] !!}</span>{{ $homeUi['amenities'][$amenityIndex] }}</li>@endforeach</ul>
                @php $tabsId = 'home-trip-tabs-'.$loop->index; @endphp
                @include('home.trip-info-tabs')
               <dl>
                 <div><dt>{{ $copy['departure'] }}</dt><dd>{{ $trip['departure']->format('H:i') }}</dd></div>
+                <div><dt>{{ $homeUi['travel_time'] }}</dt><dd>{{ $formatDuration($trip['duration'] ?? 0) }}</dd></div>
                 <div><dt>{{ $homeUi['remaining'] }}</dt><dd>{{ $trip['available_seats'] }} {{ $copy['seats'] }}</dd></div>
               </dl>
               <footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($trip['fare']) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($trip['fare']) }}</small></div><a class="hn-vehicle-card__select" href="{{ $trip['checkout_url'] }}">{{ $copy['choose'] }} <b>→</b></a></footer>
             </div>
           </article>
         @empty
-          <article class="hn-vehicle-card"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $productCopy['onboard'] }}</p>@include('home.vehicle-amenities')<p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></div><a class="hn-vehicle-card__select" href="#booking">{{ $copy['search'] }} <b>→</b></a></footer></div></article>
+          <article class="hn-vehicle-card"><div class="hn-vehicle-card__media"><img src="{{ $vehicleFallbackImage }}" alt="{{ $copy['vehicle_default'] }}" loading="lazy"><span><i></i>{{ $productCopy['actual_vehicle'] }}</span><b class="hn-vehicle-card__image-detail">{{ $fleetUi['detail'] }} →</b></div><div class="hn-vehicle-card__body"><p class="hn-vehicle-card__route">{{ $directionLabels[$selectedDirection] }}</p><h3>{{ $copy['vehicle_default'] }}</h3><p class="hn-vehicle-card__comfort">{{ $fleetUi['comfort'] }}</p><ul class="hn-vehicle-amenities">@foreach($fleetAmenityIndexes as $amenityIndex)<li><span class="hn-amenity-icon" aria-hidden="true">{!! $amenityIcons[$amenityIndex] !!}</span>{{ $homeUi['amenities'][$amenityIndex] }}</li>@endforeach</ul><p class="hn-vehicle-card__note">{{ $copy['daily'] }}</p><footer><div><small>{{ $copy['price'] }}</small><strong>{{ number_format($startingFare) }} VND</strong><small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></div><a class="hn-vehicle-card__select" href="#booking">{{ $copy['search'] }} <b>→</b></a></footer></div></article>
         @endforelse
       </div>
     </div>
@@ -1188,14 +1783,14 @@
 
   <section class="hn-proof" aria-labelledby="assurance-title">
     <div class="hn-shell">
-      <p class="hn-eyebrow" id="assurance-title">{{ $homeUi['assurance'] }}</p>
+      <header class="hn-proof__heading"><div><p class="hn-eyebrow">{{ $assuranceUi['kicker'] }}</p><h2 id="assurance-title">{{ $homeUi['assurance'] }}</h2></div><p>{{ $assuranceUi['intro'] }}</p></header>
       <div class="hn-proof__body">
         <div class="hn-proof__grid">
           @foreach([[$productCopy['seat_map'], $productCopy['seat_map_text']], [$productCopy['stops'], $productCopy['stops_text']], [$productCopy['payment'], $productCopy['payment_text']]] as $index => [$title, $text])
-            <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
+            <article><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span><i class="hn-proof__visual">{!! $proofIcons[$index] !!}</i><div><h3>{{ $title }}</h3><p>{{ $text }}</p></div></article>
           @endforeach
         </div>
-        <p class="hn-proof__transfer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11v10H3zM14 10h3l4 4v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M5 4h7M2 11h4"/></svg><strong>{{ $productCopy['transfer'] }}</strong></p>
+        <p class="hn-proof__transfer"><img src="{{ $iconAsset('shuttle-3d.png') }}" alt="" aria-hidden="true"><strong>{{ $productCopy['transfer'] }}</strong><a href="{{ route('schedules.index', ['lang' => $locale]) }}">{{ $homeUi['view_all'] }} →</a></p>
       </div>
     </div>
   </section>
@@ -1209,9 +1804,10 @@
       <div class="hn-stops__grid">
         @foreach($offices as $office)
           <article class="hn-stop-card">
-            <div class="hn-stop-card__head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"/><circle cx="12" cy="10" r="2"/></svg><div><span>{{ $officeLabels['label'] }}</span><h3>{{ $office['name'] }}</h3></div></div>
+            <div class="hn-stop-card__head"><img class="hn-stop-card__pin" src="{{ $officePins[$loop->index] }}" alt="" aria-hidden="true"><div><span>{{ $officeLabels['label'] }}</span><h3>{{ $office['name'] }}</h3></div></div>
             <p>{{ $office['address'] }}</p>
             <a href="https://www.google.com/maps/search/?api=1&amp;query={{ rawurlencode($office['address']) }}" target="_blank" rel="noopener">{{ $homeUi['map'] }} →</a>
+            <div class="hn-stop-card__photo" aria-hidden="true"><img src="{{ $officeImages[$loop->index] }}" alt="" loading="lazy"></div>
           </article>
         @endforeach
         <aside class="hn-stop-support"><div><p>{{ $pickupLabels['support'] }}</p><strong>1900 2879</strong></div><div><div class="hn-stop-support__phones">@foreach($supportPhones as $phone)<a href="tel:{{ str_replace('.', '', $phone) }}">{{ $phone }}</a>@endforeach</div><span>{{ $pickupLabels['support_text'] }}</span></div><a class="hn-button hn-button--gold" href="{{ $supportHref }}">{{ $homeUi['call'] }}</a></aside>
@@ -1221,29 +1817,51 @@
 
   <section class="hn-why" aria-labelledby="why-title">
     <div class="hn-shell hn-why__inner">
-      <div class="hn-why__intro"><p class="hn-eyebrow hn-eyebrow--green">{{ $whyChoose['kicker'] }}</p><h2 id="why-title">{{ $whyChoose['title'] }}</h2><p>{{ $whyChoose['text'] }}</p></div>
+      <div class="hn-why__intro">
+        <p class="hn-eyebrow">{{ $whyChoose['kicker'] }}</p>
+        <h2 id="why-title"><span>{{ $whyChoose['title_before'] }}</span><em>{{ $whyChoose['title_accent'] }}</em><span>{{ $whyChoose['title_after'] }}</span></h2>
+        <p class="hn-why__lead">{{ $whyChoose['text'] }}</p>
+        <div class="hn-why__signature" aria-hidden="true">{!! implode('<br>', array_map('e', $whyChoose['signature'])) !!}</div>
+        <div class="hn-why__bus" aria-hidden="true"><img src="{{ $vehicleFallbackImage }}" alt=""></div>
+      </div>
       <div class="hn-why__grid">
-        @foreach($whyChoose['items'] as $index => $item)
-          <article><div class="hn-why__card-top"><i class="hn-why__icon">{!! $whyIcons[$index] !!}</i><span>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span></div><p>{{ $item }}</p></article>
+        @foreach($whyChoose['items'] as $index => [$title, $description])
+          <article class="hn-why__card">
+            <div class="hn-why__photo" aria-hidden="true"><img src="{{ $whyImages[$index] }}" alt="" loading="lazy"></div>
+            <div class="hn-why__fade" aria-hidden="true"></div>
+            <div class="hn-why__content">
+              <div class="hn-why__number">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</div>
+              <i class="hn-why__icon">{!! $whyIcons[$index] !!}</i>
+              <h3>{{ $title }}</h3>
+              <p>{{ $description }}</p>
+              <span class="hn-why__arrow" aria-hidden="true">→</span>
+            </div>
+            @if($index === 2)<span class="hn-why__badge">7 km</span>@endif
+          </article>
         @endforeach
       </div>
     </div>
   </section>
 
-  <section id="help" class="hn-section hn-shell" aria-labelledby="faq-title">
-    <div class="hn-section-heading"><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['faq_kicker'] }}</p><h2 id="faq-title">{{ $copy['faq_title'] }}</h2></div>
-    <div class="hn-faq">
-      @foreach($faqItems as $index => [$question, $answer])
-      <details><summary><span><b>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</b>{{ $question }}</span></summary><p>{{ $answer }}</p></details>
-      @endforeach
+  <section id="help" class="hn-section hn-shell" aria-labelledby="faq-title" style="--hn-faq-bg:url('{{ $vehicleFallbackImage }}')">
+    <div class="hn-faq-layout">
+      <div class="hn-faq-intro">
+        <div class="hn-section-heading"><p class="hn-eyebrow hn-eyebrow--green">{{ $faqUi['kicker'] }}</p><h2 id="faq-title"><span>{{ $copy['faq_title'] }}</span></h2><p class="hn-faq-intro__text">{{ $faqUi['intro'] }}</p></div>
+        <span class="hn-faq-background-signature" aria-hidden="true">{!! implode('<br>', array_map('e', $whyChoose['signature'])) !!}</span>
+      </div>
+      <div class="hn-faq">
+        @foreach($faqItems as $index => [$question, $answer])
+        <details><summary><span class="hn-faq__icon" aria-hidden="true">{!! $faqIcons[$index] !!}</span><b>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</b><strong>{{ $question }}</strong></summary><p>{{ $answer }}</p></details>
+        @endforeach
+      </div>
     </div>
   </section>
 
   @if($latestPosts->isNotEmpty())
-  <section class="hn-section hn-section--mist hn-news" aria-labelledby="news-title">
+  <section class="hn-section hn-section--mist hn-news" aria-labelledby="news-title" style="--hn-news-coast:url('{{ $routeImage }}');--hn-news-bus:url('{{ $vehicleFallbackImage }}')">
     <div class="hn-shell">
       <div class="hn-section-heading hn-news-heading">
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['news_kicker'] }}</p><h2 id="news-title">{{ $copy['news_title'] }}</h2><p>{{ $copy['news_text'] }}</p></div>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['news_kicker'] }}</p><h2 id="news-title"><span>{{ $newsUi['title_before'] }}</span><em>{{ $newsUi['title_accent'] }}</em></h2><p>{{ $copy['news_text'] }}</p></div>
         <a class="hn-button hn-button--primary" href="{{ route('posts.index', ['lang' => $locale]) }}">{{ $copy['read_news'] }}</a>
       </div>
       <div class="hn-news-grid">
@@ -1269,8 +1887,8 @@
   </section>
   @endif
 
-  <section class="hn-final" aria-labelledby="final-title">
-    <div class="hn-shell hn-final__content"><div><h2 id="final-title">{{ $copy['final_title'] }}</h2><p>{{ $copy['final_text'] }}</p></div><div><a class="hn-button hn-button--gold" href="#booking">{{ $copy['book'] }}</a><a class="hn-contact" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div></div>
+  <section class="hn-final" aria-labelledby="final-title" style="--hn-final-bg:url('{{ $vehicleFallbackImage }}')">
+    <div class="hn-shell hn-final__content"><span class="hn-final__signature" aria-hidden="true">{!! $newsUi['signature'] !!}</span><div><h2 id="final-title">{{ $copy['final_title'] }}</h2><p>{{ $copy['final_text'] }}</p></div><div><a class="hn-button hn-button--gold" href="#booking">{{ $copy['book'] }}</a><a class="hn-contact" href="{{ route('contact', ['lang' => $locale]) }}">{{ $copy['contact'] }}</a></div></div>
   </section>
 </main>
 
@@ -1308,7 +1926,48 @@
         item.setAttribute('aria-selected', String(active));
       });
       directionPanels.forEach((panel) => { panel.hidden = panel.dataset.directionPanel !== direction; });
+      const routeTitle = document.querySelector('[data-departure-route]');
+      if (routeTitle) routeTitle.textContent = tab.textContent.trim();
+      window.applyScheduleControls?.();
     }));
+
+    const timeFilters = [...document.querySelectorAll('[data-time-filter]')];
+    const scheduleSort = document.querySelector('[data-schedule-sort]');
+    window.applyScheduleControls = () => {
+      const activeFilter = document.querySelector('[data-time-filter].is-active')?.dataset.timeFilter || 'all';
+      const sort = scheduleSort?.value || 'earliest';
+      directionPanels.forEach((panel) => {
+        const list = panel.querySelector('.hn-schedule-list');
+        if (!list) return;
+        const cards = [...list.querySelectorAll('.hn-departure-card')];
+        cards.sort((a, b) => sort === 'lowest'
+          ? Number(a.dataset.departureFare) - Number(b.dataset.departureFare)
+          : (sort === 'latest' ? -1 : 1) * (Number(a.dataset.departureTime) - Number(b.dataset.departureTime)));
+        let matchingCards = 0;
+        cards.forEach((card) => {
+          list.appendChild(card);
+          const hour = Number(card.dataset.departureHour);
+          const matches = activeFilter === 'morning' ? hour >= 5 && hour < 12
+            : activeFilter === 'afternoon' ? hour >= 12 && hour < 18
+            : activeFilter === 'evening' ? hour >= 18 || hour < 5
+            : true;
+          card.hidden = !matches || matchingCards >= 6;
+          if (matches) matchingCards += 1;
+        });
+        const empty = panel.querySelector('.hn-schedule-filter-empty');
+        if (empty) empty.hidden = matchingCards > 0;
+      });
+    };
+    timeFilters.forEach((button) => button.addEventListener('click', () => {
+      timeFilters.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle('is-active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+      window.applyScheduleControls();
+    }));
+    scheduleSort?.addEventListener('change', window.applyScheduleControls);
+    window.applyScheduleControls();
     directionTabs.forEach((tab, index) => tab.addEventListener('keydown', (event) => {
       if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
       event.preventDefault();
@@ -1410,20 +2069,78 @@
 
     if (!form) return;
 
+    const mobileBookingBar = document.querySelector('.hn-mobile-booking-bar');
+    if (mobileBookingBar && 'IntersectionObserver' in window) {
+      const setBookingBarVisibility = (formVisible) => {
+        mobileBookingBar.classList.toggle('is-form-visible', formVisible);
+        mobileBookingBar.setAttribute('aria-hidden', String(formVisible));
+      };
+      const formRect = form.getBoundingClientRect();
+      setBookingBarVisibility(formRect.bottom > 0 && formRect.top < window.innerHeight);
+      new IntersectionObserver(([entry]) => setBookingBarVisibility(entry.isIntersecting), {
+        threshold:0,
+        rootMargin:'0px 0px -72px',
+      }).observe(form);
+    }
+
     const depart = document.getElementById('hn-depart-date');
     const departValue = document.getElementById('hn-depart-date-value');
+    const returnDate = document.getElementById('hn-return-date');
+    const returnDateValue = document.getElementById('hn-return-date-value');
+    const roundTripValue = document.getElementById('hn-round-trip-value');
     const fromLocation = document.getElementById('hn-from-location');
     const toLocation = document.getElementById('hn-to-location');
     const swapLocations = document.getElementById('hn-swap-locations');
     const passengerValue = document.getElementById('hn-passenger-value');
     const passengerCount = document.getElementById('hn-passenger-count');
+    const quickRouteButtons = [...form.querySelectorAll('[data-quick-route]')];
+    const departShortcutButtons = [...form.querySelectorAll('[data-depart-offset]')];
+    const tripStatus = form.querySelector('[data-trip-status]');
+    const clearReturn = form.querySelector('[data-clear-return]');
     const formatDate = (value) => value ? value.split('-').reverse().join('-') : '';
+    const dateInputValue = (date) => [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+    const dateFromToday = (offset) => {
+      const date = new Date();
+      date.setHours(0, 0, 0, 0);
+      date.setDate(date.getDate() + offset);
+      return dateInputValue(date);
+    };
+    const syncToolStates = () => {
+      quickRouteButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.from === fromLocation.value && button.dataset.to === toLocation.value)));
+      departShortcutButtons.forEach((button) => button.setAttribute('aria-pressed', String(depart.value === dateFromToday(Number(button.dataset.departOffset)))));
+      const isRoundTrip = Boolean(returnDate.value);
+      tripStatus.textContent = isRoundTrip ? tripStatus.dataset.roundTrip : tripStatus.dataset.oneWay;
+      clearReturn.hidden = !isRoundTrip;
+    };
 
     const syncDates = () => {
       departValue.value = formatDate(depart.value);
+      const minimumReturn = new Date(`${depart.value}T00:00:00`);
+      minimumReturn.setDate(minimumReturn.getDate() + 1);
+      returnDate.min = dateInputValue(minimumReturn);
+      if (returnDate.value && returnDate.value < returnDate.min) returnDate.value = returnDate.min;
+      returnDateValue.value = formatDate(returnDate.value);
+      roundTripValue.value = returnDate.value ? '1' : '0';
+      syncToolStates();
     };
 
     depart.addEventListener('change', syncDates);
+    returnDate.addEventListener('change', syncDates);
+    quickRouteButtons.forEach((button) => button.addEventListener('click', () => {
+      fromLocation.value = button.dataset.from;
+      fromLocation.dispatchEvent(new Event('change'));
+      toLocation.value = button.dataset.to;
+      toLocation.dispatchEvent(new Event('change'));
+    }));
+    departShortcutButtons.forEach((button) => button.addEventListener('click', () => {
+      depart.value = dateFromToday(Number(button.dataset.departOffset));
+      syncDates();
+    }));
+    clearReturn.addEventListener('click', () => {
+      returnDate.value = '';
+      syncDates();
+      returnDate.focus();
+    });
     swapLocations.addEventListener('click', () => {
       const previousFrom = fromLocation.value;
       fromLocation.value = toLocation.value;
@@ -1434,13 +2151,17 @@
       const value = Math.min(6, Math.max(1, Number(passengerValue.value) + Number(button.dataset.passengerStep)));
       passengerValue.value = String(value);
       passengerCount.value = String(value);
+      document.querySelectorAll('[data-fleet-passengers]').forEach((label) => label.textContent = String(value));
+      document.querySelectorAll('[data-schedule-passengers]').forEach((label) => label.textContent = String(value));
     }));
     fromLocation.addEventListener('change', () => {
       [...toLocation.options].forEach((option) => option.disabled = option.value === fromLocation.value);
       if (toLocation.value === fromLocation.value) {
         toLocation.selectedIndex = [...toLocation.options].findIndex((option) => !option.disabled);
       }
+      syncToolStates();
     });
+    toLocation.addEventListener('change', syncToolStates);
     form.addEventListener('submit', () => {
       syncDates();
       const submit = form.querySelector('[type=submit]');
