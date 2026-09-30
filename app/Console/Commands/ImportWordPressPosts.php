@@ -122,7 +122,7 @@ class ImportWordPressPosts extends Command
         $thumbnail = $this->featuredImage($wordpressPost);
 
         Post::updateOrCreate(
-            ['slug' => $wordpressPost['slug']],
+            ['slug' => rawurldecode($wordpressPost['slug'])],
             [
                 'post_category_id' => $category?->id,
                 'locale' => 'vi',

@@ -1,0 +1,16 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - img [ref=e8]
+    - heading "Đăng nhập" [level=2] [ref=e11]
+    - paragraph [ref=e12]: NhatDuong Management System
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]: Tên đăng nhập
+        - textbox "Tên đăng nhập" [ref=e17]:
+          - /placeholder: Nhập tên đăng nhập
+      - generic [ref=e18]:
+        - generic [ref=e19]: Mật khẩu
+        - textbox "Mật khẩu" [ref=e20]:
+          - /placeholder: Nhập mật khẩu
+    - button "Đăng nhập" [ref=e22] [cursor=pointer]
