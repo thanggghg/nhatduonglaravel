@@ -194,20 +194,19 @@
   .hn-section-heading--split>div { max-width:720px; }
   .hn-section-heading--split>p { max-width:390px; margin:0 0 5px; color:var(--hn-muted); line-height:1.65; }
   .hn-route-summary { padding:18px 0; background:#fff; border-bottom:1px solid var(--hn-line); }
-  .hn-route-summary__inner { display:grid; grid-template-columns:minmax(290px,1.2fr) minmax(0,2fr) auto; gap:0; align-items:center; }
+  .hn-route-summary__inner { display:grid; grid-template-columns:minmax(290px,1fr) minmax(0,2fr) auto; gap:0; align-items:center; }
   .hn-route-summary__route { display:flex; min-width:0; align-items:center; gap:16px; padding-right:24px; }
   .hn-route-summary__route>div { min-width:0; }
-  .hn-route-summary__icon,.hn-route-stat__icon { display:grid; flex:none; place-items:center; color:#b98708; }
-  .hn-route-summary__icon { width:42px; height:42px; }
+  .hn-route-summary__icon,.hn-route-stat__icon { display:grid; width:46px; height:46px; flex:none; place-items:center; overflow:hidden; color:#b98708; background:linear-gradient(145deg,#fff,#fff4c7); border:1px solid #ead58d; border-radius:13px; box-shadow:0 7px 16px rgba(117,83,0,.13),inset 0 1px 0 #fff; }
   .hn-route-summary__icon svg { width:40px; height:40px; }
-  .hn-route-summary__icon img { width:52px; height:52px; object-fit:contain; }
+  .hn-route-summary__icon img { width:42px; height:34px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(25,52,39,.18)); }
   .hn-route-summary .hn-eyebrow { margin-bottom:4px; }
-  .hn-route-summary h2 { margin:0; font-size:clamp(19px,1.7vw,25px); white-space:nowrap; }
-  .hn-route-summary dl { display:grid; grid-template-columns:repeat(3,1fr); margin:0; }
-  .hn-route-summary dl>div { display:flex; min-height:54px; align-items:center; gap:12px; padding:4px 20px; border-left:1px solid var(--hn-line); }
-  .hn-route-stat__icon { width:27px; height:27px; }
+  .hn-route-summary h2 { margin:0; font-size:clamp(18px,1.55vw,23px); white-space:nowrap; }
+  .hn-route-summary dl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; }
+  .hn-route-summary dl>div { display:flex; min-width:0; min-height:54px; align-items:center; gap:10px; padding:4px 14px; border-left:1px solid var(--hn-line); }
+  .hn-route-summary dl>div>div { min-width:0; }
   .hn-route-stat__icon svg { width:25px; height:25px; }
-  .hn-route-stat__icon img { width:34px; height:34px; object-fit:contain; }
+  .hn-route-stat__icon img { width:36px; height:36px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(25,52,39,.16)); }
   .hn-route-summary svg { fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:1.8; }
   .hn-route-summary dt { color:var(--hn-muted); font-size:11px; font-weight:700; }
   .hn-route-summary dd { margin:3px 0 0; color:var(--hn-deep); font-size:14px; font-weight:800; line-height:1.25; }
@@ -409,11 +408,11 @@
     .hn-section { padding:54px 0; }
     .hn-section-heading--split { align-items:flex-start; flex-direction:column; gap:12px; }
     .hn-route-summary { padding:26px 0; }
-    .hn-route-summary dl { grid-template-columns:1fr 1fr; }
+    .hn-route-summary dl { grid-template-columns:1fr; }
     .hn-route-summary h2 { white-space:normal; }
-    .hn-route-summary dl>div { padding:8px 14px; }
-    .hn-route-summary dl>div:nth-child(odd) { padding-left:0; border-left:0; }
-    .hn-route-summary dl>div:last-child { grid-column:1/-1; padding-top:14px; border-top:1px solid var(--hn-line); }
+    .hn-route-summary dl>div { padding:10px 0; border-top:1px solid var(--hn-line); border-left:0; }
+    .hn-route-summary dl>div:first-child { border-top:0; }
+    .hn-route-summary dl>div:last-child { grid-column:auto; padding-top:10px; }
     .hn-date-badge { min-width:0; }
     .hn-direction-tabs { overflow:auto; flex-wrap:nowrap; width:calc(100vw - 28px); padding-bottom:3px; }
     .hn-direction-tabs button { min-height:44px; white-space:nowrap; }
@@ -1263,7 +1262,7 @@
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
       'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
       'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'official_site' => 'Website chính thức của Nhà xe Nhật Dương', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
-      'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'return_date' => 'Ngày về (tùy chọn)', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
+      'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'return_date' => 'Ngày về (Khứ Hồi)', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
       'route_kicker' => 'Tuyến phổ biến', 'route_title' => 'Chuyến đi được chuẩn bị cho hành trình dài', 'from_price' => 'Giá từ', 'duration' => 'Thời gian đi',
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
@@ -1287,7 +1286,7 @@
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
       'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
       'hero_text' => 'Comfortable space – attentive service', 'official_site' => 'Official website of Nhat Duong Bus', 'one_way' => 'One way', 'round_trip' => 'Round trip',
-      'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'return_date' => 'Return (optional)', 'passengers' => 'Passengers', 'search' => 'Find departures',
+      'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'return_date' => 'Return date (Round trip)', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
       'route_kicker' => 'Popular route', 'route_title' => 'Prepared for a comfortable long-distance journey', 'from_price' => 'From', 'duration' => 'Travel time',
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
@@ -1311,7 +1310,7 @@
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
       'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
       'hero_text' => 'Комфорт в пути – заботливый сервис', 'official_site' => 'Официальный сайт автобусной компании Nhat Duong', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
-      'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'return_date' => 'Возврат (необяз.)', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
+      'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'return_date' => 'Дата возвращения (туда-обратно)', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
       'route_kicker' => 'Популярный маршрут', 'route_title' => 'Всё подготовлено для комфортной дальней поездки', 'from_price' => 'Цена от', 'duration' => 'Время в пути',
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
@@ -1681,13 +1680,13 @@
   <section id="route" class="hn-route-summary" aria-labelledby="route-title">
     <div class="hn-shell hn-route-summary__inner">
       <div class="hn-route-summary__route">
-        <span class="hn-route-summary__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-route.png') }}" alt=""></span>
+        <span class="hn-route-summary__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/route.png') }}" alt=""></span>
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
       </div>
       <dl>
-        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-wallet-small.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div></div>
-        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('img-calendar.png') }}" alt=""></span><div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div></div>
-        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('icon-calendar.png') }}" alt=""></span><div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/wallet.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/time.png') }}" alt=""></span><div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/calendar.png') }}" alt=""></span><div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div></div>
       </dl>
       <a class="hn-text-link" href="{{ $routeDetailsUrl }}">{{ $copy['route_details'] }} <span aria-hidden="true">→</span></a>
     </div>

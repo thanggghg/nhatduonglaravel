@@ -2,9 +2,9 @@
 
 @php
     $copy = [
-        'vi' => ['back' => 'Quay lại danh sách chuyến', 'title' => 'Chọn chỗ và thông tin đặt vé', 'trip' => 'Chuyến đã chọn', 'passenger' => 'Thông tin hành khách', 'name' => 'Họ và tên', 'email' => 'Email', 'phone' => 'Số điện thoại', 'pickup' => 'Chọn điểm đón', 'dropoff' => 'Chọn điểm trả', 'seat_map' => 'Sơ đồ chỗ thực tế', 'available' => 'chỗ đang trống', 'selected' => 'Đã chọn', 'refresh' => 'Tự động cập nhật mỗi 30 giây', 'seat_error' => 'Chưa thể tải sơ đồ ghế thực tế. Vui lòng thử lại sau.', 'terms' => 'Tôi đồng ý để Nhật Dương xử lý thông tin đặt vé và thanh toán.', 'pay' => 'Tiếp tục thanh toán', 'paying' => 'Đang tạo thanh toán...', 'total' => 'Tổng thanh toán', 'seats' => 'số chỗ', 'notes' => 'Ghi chú'],
-        'en' => ['back' => 'Back to departures', 'title' => 'Choose seats and complete booking', 'trip' => 'Selected departure', 'passenger' => 'Passenger details', 'name' => 'Full name', 'email' => 'Email', 'phone' => 'Phone or WhatsApp', 'pickup' => 'Choose pickup point', 'dropoff' => 'Choose drop-off point', 'seat_map' => 'Live seat map', 'available' => 'seats available', 'selected' => 'Selected', 'refresh' => 'Availability refreshes every 30 seconds', 'seat_error' => 'The live seat map is temporarily unavailable. Please try again shortly.', 'terms' => 'I agree that Nhat Duong may process my booking and payment information.', 'pay' => 'Continue to payment', 'paying' => 'Creating payment...', 'total' => 'Total payment', 'seats' => 'seats', 'notes' => 'Notes'],
-        'ru' => ['back' => 'Назад к рейсам', 'title' => 'Выберите места и завершите бронирование', 'trip' => 'Выбранный рейс', 'passenger' => 'Данные пассажира', 'name' => 'Полное имя', 'email' => 'Email', 'phone' => 'Телефон или WhatsApp', 'pickup' => 'Выберите место посадки', 'dropoff' => 'Выберите место высадки', 'seat_map' => 'Актуальная схема мест', 'available' => 'мест доступно', 'selected' => 'Выбрано', 'refresh' => 'Доступность обновляется каждые 30 секунд', 'seat_error' => 'Актуальная схема мест временно недоступна. Повторите попытку позже.', 'terms' => 'Я согласен, чтобы Nhat Duong обработал мои данные бронирования и оплаты.', 'pay' => 'Перейти к оплате', 'paying' => 'Создаем оплату...', 'total' => 'Сумма к оплате', 'seats' => 'мест', 'notes' => 'Комментарий'],
+        'vi' => ['back' => 'Quay lại danh sách chuyến', 'title' => 'Chọn chỗ và thông tin đặt vé', 'trip' => 'Chuyến đã chọn', 'passenger' => 'Thông tin hành khách', 'name' => 'Họ và tên', 'email' => 'Email', 'phone' => 'Số điện thoại', 'pickup' => 'Chọn điểm đón', 'dropoff' => 'Chọn điểm trả', 'seat_map' => 'Sơ đồ chỗ thực tế', 'available' => 'chỗ đang trống', 'selected' => 'Đã chọn', 'refresh' => 'Tự động cập nhật mỗi 30 giây', 'seat_error' => 'Chưa thể tải sơ đồ ghế thực tế. Vui lòng thử lại sau.', 'terms' => 'Tôi đồng ý với chính sách của Nhật Dương và để Nhật Dương xử lý thông tin đặt vé của mình.', 'pay' => 'Tiếp tục thanh toán', 'paying' => 'Đang tạo thanh toán...', 'total' => 'Tổng thanh toán', 'seats' => 'số chỗ', 'notes' => 'Ghi chú'],
+        'en' => ['back' => 'Back to departures', 'title' => 'Choose seats and complete booking', 'trip' => 'Selected departure', 'passenger' => 'Passenger details', 'name' => 'Full name', 'email' => 'Email', 'phone' => 'Phone or WhatsApp', 'pickup' => 'Choose pickup point', 'dropoff' => 'Choose drop-off point', 'seat_map' => 'Live seat map', 'available' => 'seats available', 'selected' => 'Selected', 'refresh' => 'Availability refreshes every 30 seconds', 'seat_error' => 'The live seat map is temporarily unavailable. Please try again shortly.', 'terms' => "I agree to Nhat Duong's policies and authorize Nhat Duong to process my booking information.", 'pay' => 'Continue to payment', 'paying' => 'Creating payment...', 'total' => 'Total payment', 'seats' => 'seats', 'notes' => 'Notes'],
+        'ru' => ['back' => 'Назад к рейсам', 'title' => 'Выберите места и завершите бронирование', 'trip' => 'Выбранный рейс', 'passenger' => 'Данные пассажира', 'name' => 'Полное имя', 'email' => 'Email', 'phone' => 'Телефон или WhatsApp', 'pickup' => 'Выберите место посадки', 'dropoff' => 'Выберите место высадки', 'seat_map' => 'Актуальная схема мест', 'available' => 'мест доступно', 'selected' => 'Выбрано', 'refresh' => 'Доступность обновляется каждые 30 секунд', 'seat_error' => 'Актуальная схема мест временно недоступна. Повторите попытку позже.', 'terms' => 'Я соглашаюсь с правилами Nhat Duong и разрешаю Nhat Duong обрабатывать информацию о моем бронировании.', 'pay' => 'Перейти к оплате', 'paying' => 'Создаем оплату...', 'total' => 'Сумма к оплате', 'seats' => 'мест', 'notes' => 'Комментарий'],
     ][$locale];
     $chosenSeats = old('selected_seats', []);
     $seatRefreshUrl = route('booking.live.seats', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]);
@@ -19,9 +19,53 @@
         'ru' => ['reassurance' => 'Выберите места и посадку, затем перейдите к QR-коду с точной суммой и назначением перевода.', 'available' => 'Свободно', 'selected' => 'Выбрано', 'unavailable' => 'Недоступно', 'payment' => 'На следующем шаге вы увидите QR-код и точное назначение перевода до оплаты.'],
     ][$locale];
     $paymentMethods = [
-        'vi' => ['title' => 'Hình thức thanh toán', 'bank' => 'Chuyển khoản', 'bank_help' => 'Quét mã QR và chuyển khoản đúng nội dung ở bước tiếp theo.', 'cash' => 'Tiền mặt', 'cash_help' => 'Thanh toán trực tiếp khi lên xe. Nhân viên sẽ liên hệ xác nhận.', 'cash_submit' => 'Hoàn tất đặt vé'],
-        'en' => ['title' => 'Payment method', 'bank' => 'Bank transfer', 'bank_help' => 'Scan the QR code and use the exact transfer reference on the next step.', 'cash' => 'Cash', 'cash_help' => 'Pay when boarding. Our team will contact you to confirm.', 'cash_submit' => 'Complete booking'],
-        'ru' => ['title' => 'Способ оплаты', 'bank' => 'Банковский перевод', 'bank_help' => 'На следующем шаге отсканируйте QR-код и укажите точное назначение.', 'cash' => 'Наличные', 'cash_help' => 'Оплата при посадке. Сотрудник свяжется с вами для подтверждения.', 'cash_submit' => 'Завершить бронирование'],
+        'vi' => ['title' => 'Hình thức thanh toán', 'cash' => 'Tiền mặt/Chuyển khoản', 'cash_help' => 'Nhân viên sẽ liên hệ xác nhận.', 'cash_submit' => 'Hoàn tất đặt vé'],
+        'en' => ['title' => 'Payment method', 'cash' => 'Cash/Bank transfer', 'cash_help' => 'Our team will contact you to confirm.', 'cash_submit' => 'Complete booking'],
+        'ru' => ['title' => 'Способ оплаты', 'cash' => 'Наличные/Банковский перевод', 'cash_help' => 'Сотрудник свяжется с вами для подтверждения.', 'cash_submit' => 'Завершить бронирование'],
+    ][$locale];
+    $policyUi = [
+        'vi' => [
+            'kicker' => 'CẦN BIẾT TRƯỚC KHI ĐẶT', 'title' => 'Chính sách nhà xe', 'intro' => 'Vui lòng đọc các quy định quan trọng để chủ động chuẩn bị cho hành trình.',
+            'sections' => [
+                ['title' => 'Trẻ em và hành khách vị thành niên', 'bullets' => ['Trẻ từ 5 tuổi trở xuống (tính theo năm sinh) được miễn phí.', 'Trẻ từ 6 tuổi trở lên phải mua vé như người lớn.', 'Hành khách dưới 16 tuổi phải có cha mẹ hoặc người giám hộ đi cùng.']],
+                ['title' => 'Trung chuyển và thời gian đến', 'bullets' => ['Khách đón tại Quận 1 trên chuyến từ 05:30 đến 22:00 cần có mặt trước giờ hiển thị 1 tiếng để đi xe trung chuyển.', 'Chuyến ban ngày có thể đến muộn 1–2 giờ so với lịch trình dự kiến.', 'Khách nước ngoài vui lòng cung cấp WhatsApp và kiểm tra email thường xuyên.']],
+                ['title' => 'Hành lý, giường và thú cưng', 'bullets' => ['Phòng đơn: hành lý dưới 30 kg. Phòng đôi: hành lý dưới 40 kg.', 'Giường đôi dài 178 cm, rộng 85 cm, tải trọng tối đa 130 kg/giường; phòng đơn nhỏ 6D dài 167 cm.', 'Nhà xe không nhận vận chuyển động vật cảnh hoặc thú cưng.']],
+            ],
+            'cancellation' => ['title' => 'Hủy hoặc dời vé ngày thường', 'intro' => 'Không áp dụng trước, trong và sau các kỳ nghỉ lễ.', 'periods' => [
+                ['time' => 'Trên 24 giờ', 'tone' => 'good', 'text' => 'Hủy vé miễn phí và được dời vé miễn phí 1 lần.'],
+                ['time' => 'Từ 6–24 giờ', 'tone' => 'warning', 'text' => 'Phí hủy 30%. Vé giá gốc được dời 1 lần; vé coupon cần thanh toán phần chênh lệch.'],
+                ['time' => 'Dưới 6 giờ', 'tone' => 'danger', 'text' => 'Phí hủy 100%, không được hủy hoặc dời vé.'],
+            ], 'note' => 'Vé dùng mã giảm giá, coupon hoặc thuộc chương trình khuyến mãi không áp dụng chính sách hủy vé.'],
+            'thanks' => 'Cần làm rõ chính sách? Liên hệ Nhật Dương trước khi hoàn tất đặt vé.',
+        ],
+        'en' => [
+            'kicker' => 'IMPORTANT BEFORE BOOKING', 'title' => 'Operator policy', 'intro' => 'Please review these important rules so you can prepare for your journey.',
+            'sections' => [
+                ['title' => 'Children and minor passengers', 'bullets' => ['Children aged 5 and under (calculated by birth year) travel free of charge.', 'Children aged 6 and over require an adult ticket.', 'Passengers under 16 must travel with a parent or legal guardian.']],
+                ['title' => 'Shuttle and arrival times', 'bullets' => ['Passengers picked up in District 1 on departures from 05:30 to 22:00 must arrive one hour before the displayed time for the shuttle.', 'Daytime departures may arrive 1–2 hours later than estimated.', 'International passengers should provide WhatsApp and check email regularly.']],
+                ['title' => 'Luggage, beds and pets', 'bullets' => ['Single cabin: luggage under 30 kg. Double cabin: luggage under 40 kg.', 'Double bed: 178 × 85 cm, maximum 130 kg per bed; small single cabin 6D is 167 cm long.', 'The operator does not transport pets or companion animals.']],
+            ],
+            'cancellation' => ['title' => 'Weekday cancellation and rescheduling', 'intro' => 'Not applicable before, during, or after public holidays.', 'periods' => [
+                ['time' => 'More than 24 hours', 'tone' => 'good', 'text' => 'Free cancellation and one free reschedule.'],
+                ['time' => 'From 6–24 hours', 'tone' => 'warning', 'text' => '30% cancellation fee. Full-price tickets may be rescheduled once; coupon tickets require payment of the fare difference.'],
+                ['time' => 'Less than 6 hours', 'tone' => 'danger', 'text' => '100% cancellation fee; cancellation and rescheduling are not permitted.'],
+            ], 'note' => 'Tickets purchased with a discount code, coupon, or promotion are not eligible for cancellation.'],
+            'thanks' => 'Need clarification? Contact Nhat Duong before completing your booking.',
+        ],
+        'ru' => [
+            'kicker' => 'ВАЖНО ПЕРЕД БРОНИРОВАНИЕМ', 'title' => 'Правила перевозчика', 'intro' => 'Ознакомьтесь с важными правилами, чтобы подготовиться к поездке.',
+            'sections' => [
+                ['title' => 'Дети и несовершеннолетние пассажиры', 'bullets' => ['Дети до 5 лет включительно (по году рождения) путешествуют бесплатно.', 'Для детей с 6 лет требуется взрослый билет.', 'Пассажиры младше 16 лет должны путешествовать с родителем или законным опекуном.']],
+                ['title' => 'Трансфер и время прибытия', 'bullets' => ['Пассажирам с посадкой в Районе 1 на рейсы с 05:30 до 22:00 нужно прибыть за час до указанного времени для трансфера.', 'Дневные рейсы могут прибыть на 1–2 часа позже расчётного времени.', 'Иностранным пассажирам следует указать WhatsApp и регулярно проверять email.']],
+                ['title' => 'Багаж, спальные места и животные', 'bullets' => ['Одноместное купе: багаж до 30 кг. Двухместное купе: до 40 кг.', 'Двуспальная кровать: 178 × 85 см, до 130 кг на кровать; малое одноместное место 6D имеет длину 167 см.', 'Перевозчик не принимает к перевозке домашних животных.']],
+            ],
+            'cancellation' => ['title' => 'Отмена и перенос в обычные дни', 'intro' => 'Не применяется до, во время и после праздничных дней.', 'periods' => [
+                ['time' => 'Более чем за 24 часа', 'tone' => 'good', 'text' => 'Бесплатная отмена и один бесплатный перенос.'],
+                ['time' => 'За 6–24 часа', 'tone' => 'warning', 'text' => 'Комиссия за отмену 30%. Билет по полной цене можно перенести один раз; для билета с купоном требуется доплата разницы.'],
+                ['time' => 'Менее чем за 6 часов', 'tone' => 'danger', 'text' => 'Комиссия 100%; отмена и перенос не допускаются.'],
+            ], 'note' => 'Билеты со скидочным кодом, купоном или по акции не подлежат отмене.'],
+            'thanks' => 'Нужны разъяснения? Свяжитесь с Nhat Duong до завершения бронирования.',
+        ],
     ][$locale];
     $loadingCopy = [
         'vi' => ['title' => 'Đang giữ chỗ...', 'text' => 'Hệ thống đang giữ ghế và tạo mã thanh toán. Vui lòng không tắt trang.'],
@@ -135,7 +179,7 @@
 
 @push('styles')
 <style>
-    .live-payment-methods{gap:11px!important}.live-payment-methods__grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.live-payment-option{position:relative;display:block!important;padding:15px 15px 15px 43px;border:1px solid #cddbd0;border-radius:10px;cursor:pointer}.live-payment-option:has(input:checked){border-color:#0b7f42;background:#f0f9f2;box-shadow:0 0 0 1px #0b7f42}.live-payment-option input{position:absolute;top:17px;left:15px;width:17px;height:17px;accent-color:#0b7f42}.live-payment-option strong,.live-payment-option span{display:block}.live-payment-option strong{color:#173014;font-size:14px}.live-payment-option span{margin-top:4px;color:#60776a;font-size:11px;font-weight:600;line-height:1.45}.live-payment-methods__error{margin:0;color:#991b1b;font-size:12px;font-weight:700}@media(max-width:560px){.live-payment-methods__grid{grid-template-columns:1fr}}
+    .live-payment-methods{gap:11px!important}.live-payment-methods__grid{display:grid;gap:11px}.live-payment-option{position:relative;display:block!important;padding:15px 15px 15px 43px;border:1px solid #cddbd0;border-radius:10px;cursor:pointer}.live-payment-option:has(input:checked){border-color:#0b7f42;background:#f0f9f2;box-shadow:0 0 0 1px #0b7f42}.live-payment-option input{position:absolute;top:17px;left:15px;width:17px;height:17px;accent-color:#0b7f42}.live-payment-option strong,.live-payment-option span{display:block}.live-payment-option strong{color:#173014;font-size:14px}.live-payment-option span{margin-top:4px;color:#60776a;font-size:11px;font-weight:600;line-height:1.45}.live-payment-methods__error{margin:0;color:#991b1b;font-size:12px;font-weight:700}
 </style>
 @endpush
 
@@ -154,10 +198,6 @@
         fieldset.innerHTML = `
             <legend>${copy.title}</legend>
             <div class="live-payment-methods__grid">
-                <label class="live-payment-option" hidden style="display:none">
-                    <input type="radio" name="payment_method" value="bank_transfer">
-                    <strong>${copy.bank}</strong><span>${copy.bank_help}</span>
-                </label>
                 <label class="live-payment-option">
                     <input type="radio" name="payment_method" value="cash" checked>
                     <strong>${copy.cash}</strong><span>${copy.cash_help}</span>
@@ -167,16 +207,9 @@
         `;
         terms.insertAdjacentElement('beforebegin', fieldset);
 
-        const transferSubmit = submit.textContent;
         const paymentNote = form.querySelector('.live-checkout__payment-note span');
-        const transferNote = paymentNote?.textContent;
-        const syncMethod = () => {
-            const method = form.querySelector('input[name="payment_method"]:checked')?.value;
-            submit.textContent = method === 'cash' ? copy.cash_submit : transferSubmit;
-            if (paymentNote) paymentNote.textContent = method === 'cash' ? copy.cash_help : transferNote;
-        };
-        fieldset.addEventListener('change', syncMethod);
-        syncMethod();
+        submit.textContent = copy.cash_submit;
+        if (paymentNote) paymentNote.textContent = copy.cash_help;
     })();
 </script>
 <script>
@@ -253,4 +286,87 @@
 .live-room-types .live-usd-hint{display:inline;margin:0 0 0 5px;color:#6f7e75}
 @keyframes live-booking-spin{to{transform:rotate(360deg)}}
 </style>
+@endpush
+
+@push('styles')
+<style>
+.live-policy{position:relative;overflow:hidden;padding:20px;border:1px solid #dfd5a9;border-radius:14px;background:linear-gradient(145deg,#fffdf5,#f4faf5);box-shadow:0 10px 26px rgba(42,73,54,.06)}
+.live-policy:after{position:absolute;top:-75px;right:-68px;width:170px;height:170px;border:1px solid rgba(11,127,66,.11);border-radius:50%;box-shadow:0 0 0 24px rgba(249,223,18,.06);content:'';pointer-events:none}
+.live-policy__head{position:relative;z-index:1;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;margin-bottom:16px}
+.live-policy__icon{display:grid;width:44px;height:44px;place-items:center;color:#075f38;background:#ffed74;border:1px solid #e0c940;border-radius:12px;box-shadow:0 6px 14px rgba(151,126,0,.14)}
+.live-policy__icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.9}
+.live-policy__kicker{display:block;margin-bottom:3px;color:#856600;font-size:9px;font-weight:900;letter-spacing:.1em}
+.live-policy h2{margin:0;color:#173c2b;font-size:20px;letter-spacing:-.025em}
+.live-policy__intro{grid-column:1/-1;margin:0;color:#5f7467;font-size:12px;line-height:1.55}
+.live-policy__list{position:relative;z-index:1;display:grid;gap:9px}
+.live-policy details{overflow:hidden;border:1px solid #dce7df;border-radius:10px;background:rgba(255,255,255,.9)}
+.live-policy summary{display:grid;grid-template-columns:30px minmax(0,1fr) 20px;gap:9px;align-items:center;min-height:52px;padding:9px 12px;color:#244936;font-size:13px;font-weight:850;list-style:none;cursor:pointer}
+.live-policy summary::-webkit-details-marker{display:none}
+.live-policy summary>i{display:grid;width:28px;height:28px;place-items:center;color:#0b7f42;background:#e9f6ed;border-radius:8px;font-style:normal;font-size:11px}
+.live-policy summary:after{color:#0b7f42;font-size:20px;font-weight:500;content:'+'}
+.live-policy details[open] summary{color:#073a2a;background:#f5faf6;border-bottom:1px solid #e1eae3}
+.live-policy details[open] summary:after{content:'−'}
+.live-policy__body{padding:12px 15px 14px 49px}
+.live-policy__body>p{margin:0 0 9px;color:#667a6d;font-size:11px;line-height:1.55}
+.live-policy__body ul{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.live-policy__body li{position:relative;padding-left:14px;color:#496052;font-size:11px;line-height:1.55}
+.live-policy__body li:before{position:absolute;top:.65em;left:0;width:5px;height:5px;background:#e1b900;border-radius:50%;content:''}
+.live-policy__periods{display:grid;gap:8px}
+.live-policy__period{display:grid;grid-template-columns:minmax(112px,.42fr) minmax(0,1fr);gap:10px;padding:10px;border-left:3px solid #0b7f42;border-radius:7px;background:#f2f8f4}
+.live-policy__period.is-warning{border-left-color:#dda900;background:#fff8e5}
+.live-policy__period.is-danger{border-left-color:#d4493f;background:#fff2f0}
+.live-policy__period strong{color:#214b36;font-size:10px;line-height:1.45}
+.live-policy__period span{color:#566d5f;font-size:10px;line-height:1.5}
+.live-policy__note{margin:10px 0 0!important;padding:9px 10px;color:#76551a!important;background:#fff1c8;border-radius:7px;font-weight:750}
+.live-policy__help{position:relative;z-index:1;display:flex;gap:7px;align-items:flex-start;margin:13px 0 0;padding-top:12px;color:#52695d;font-size:11px;font-weight:700;line-height:1.5;border-top:1px solid #e0e8e1}
+.live-policy__help svg{width:15px;height:15px;flex:none;margin-top:1px;fill:none;stroke:#0b7f42;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}
+@media(max-width:520px){.live-policy{padding:16px 13px}.live-policy__body{padding:11px 12px 13px}.live-policy__period{grid-template-columns:1fr;gap:4px}.live-policy summary{padding:9px 10px}}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    (() => {
+        const form = document.getElementById('live-booking-form');
+        const terms = form?.querySelector('input[name="terms"]')?.closest('label');
+        if (!form || !terms) return;
+
+        const copy = @json($policyUi);
+        const section = document.createElement('section');
+        section.id = 'operator-policy';
+        section.className = 'live-policy';
+        section.setAttribute('aria-labelledby', 'operator-policy-title');
+
+        const standardSections = copy.sections.map((item, index) => `
+            <details>
+                <summary><i aria-hidden="true">0${index + 1}</i><span>${item.title}</span></summary>
+                <div class="live-policy__body"><ul>${item.bullets.map((bullet) => `<li>${bullet}</li>`).join('')}</ul></div>
+            </details>
+        `).join('');
+        const cancellation = copy.cancellation;
+        const cancellationSection = `
+            <details open>
+                <summary><i aria-hidden="true">04</i><span>${cancellation.title}</span></summary>
+                <div class="live-policy__body">
+                    <p>${cancellation.intro}</p>
+                    <div class="live-policy__periods">${cancellation.periods.map((period) => `
+                        <div class="live-policy__period is-${period.tone}"><strong>${period.time}</strong><span>${period.text}</span></div>
+                    `).join('')}</div>
+                    <p class="live-policy__note">${cancellation.note}</p>
+                </div>
+            </details>
+        `;
+
+        section.innerHTML = `
+            <header class="live-policy__head">
+                <span class="live-policy__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5c0 4.5 3.1 8.6 7.5 10 4.4-1.4 7.5-5.5 7.5-10V6L12 3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></span>
+                <div><span class="live-policy__kicker">${copy.kicker}</span><h2 id="operator-policy-title">${copy.title}</h2></div>
+                <p class="live-policy__intro">${copy.intro}</p>
+            </header>
+            <div class="live-policy__list">${standardSections}${cancellationSection}</div>
+            <p class="live-policy__help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2C9.7 21 3 14.3 3 6a2 2 0 0 1 2-2Z"/></svg><span>${copy.thanks}</span></p>
+        `;
+        terms.insertAdjacentElement('beforebegin', section);
+    })();
+</script>
 @endpush
