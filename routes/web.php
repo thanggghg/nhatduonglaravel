@@ -82,6 +82,7 @@ Route::prefix('admin')->name('admin.')->middleware('noindex')->group(function ()
 
         // Content
         Route::resource('routes', AdminRouteController::class);
+        Route::post('/posts/images', [AdminPostController::class, 'uploadImage'])->name('posts.images.store');
         Route::resource('posts', AdminPostController::class);
         Route::resource('post-categories', AdminPostCategoryController::class)->except(['show']);
         Route::resource('banners', AdminBannerController::class)->except(['show']);

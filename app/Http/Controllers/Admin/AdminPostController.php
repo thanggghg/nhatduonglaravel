@@ -125,6 +125,17 @@ class AdminPostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Bài viết đã được xóa!');
     }
 
+    public function uploadImage(Request $request)
+    {
+        $validated = $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,webp|max:20480',
+        ]);
+
+        $path = $validated['image']->store('posts/content', 'public');
+
+        return response()->json(['url' => Storage::url($path)]);
+    }
+
     private function deleteThumbnailIfUnused(?string $thumbnail): void
     {
         if ($thumbnail && ! Post::where('thumbnail', $thumbnail)->exists()) {
@@ -134,15 +145,16 @@ class AdminPostController extends Controller
 
     private function sanitizeContent(string $content): string
     {
-        $document = new \DOMDocument();
+        $document = new \DOMDocument('1.0', 'UTF-8');
         $previousInternalErrors = libxml_use_internal_errors(true);
-        $document->loadHTML('<div id="article-content">'.$content.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $document->loadHTML('<?xml encoding="UTF-8"><div id="article-content">'.$content.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
         libxml_use_internal_errors($previousInternalErrors);
 
-        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'figcaption', 'figure', 'h2', 'h3', 'h4', 'img', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
+        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'figcaption', 'figure', 'font', 'h2', 'h3', 'h4', 'img', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
         $allowedAttributes = [
             'a' => ['href', 'target', 'rel'],
+            'font' => ['face', 'size'],
             'img' => ['src', 'alt', 'width', 'height', 'loading'],
         ];
         $container = $document->getElementById('article-content');
@@ -177,6 +189,16 @@ class AdminPostController extends Controller
                 }
                 if ($element->getAttribute('target') === '_blank') {
                     $element->setAttribute('rel', 'noopener noreferrer');
+                }
+            }
+
+            if ($element->tagName === 'font') {
+                $allowedFaces = ['Inter', 'Arial', 'Georgia', 'Times New Roman', 'monospace'];
+                if (!in_array($element->getAttribute('face'), $allowedFaces, true)) {
+                    $element->removeAttribute('face');
+                }
+                if (!in_array($element->getAttribute('size'), ['1', '2', '3', '4', '5', '6', '7'], true)) {
+                    $element->removeAttribute('size');
                 }
             }
 

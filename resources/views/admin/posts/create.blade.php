@@ -61,7 +61,7 @@
                         </div>
                         <div id="content-editor" class="post-create__editable" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="true">{!! old('content') !!}</div>
                     </div>
-                    <textarea id="content" name="content" class="sr-only">{{ old('content') }}</textarea>
+                    <input id="content" type="hidden" name="content" value="{{ old('content') }}">
                     <p class="post-create__hint">Dùng tiêu đề, danh sách và liên kết để nội dung dễ đọc hơn.</p>
                     @error('content')<p class="post-create__error">{{ $message }}</p>@enderror
                 </div>

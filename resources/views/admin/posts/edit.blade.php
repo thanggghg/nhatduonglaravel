@@ -27,7 +27,6 @@
     <div class="post-editor__actionbar">
             <div><strong>{{ strtoupper($post->locale) }}</strong><span>ID #{{ $post->id }}</span></div>
             <div>
-                <a href="{{ route('posts.show', ['slug' => $post->slug, 'lang' => $post->locale]) }}" target="_blank" rel="noopener" class="post-editor__preview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4"/></svg>Xem bài viết</a>
                 <button type="submit" form="post-edit-form" class="post-editor__top-save"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.5 17 19 7.5"/></svg>Lưu thay đổi</button>
             </div>
     </div>
@@ -71,6 +70,19 @@
                                 <option value="h3">Tiêu đề vừa</option>
                                 <option value="blockquote">Trích dẫn</option>
                             </select>
+                            <select id="editor-font" aria-label="Phông chữ">
+                                <option value="Inter">Inter</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                            <select id="editor-font-size" aria-label="Cỡ chữ">
+                                <option value="2">Nhỏ</option>
+                                <option value="3" selected>Vừa</option>
+                                <option value="4">Lớn</option>
+                                <option value="5">Rất lớn</option>
+                            </select>
                             <span></span>
                             <button type="button" data-editor-command="bold" aria-label="In đậm"><b>B</b></button>
                             <button type="button" data-editor-command="italic" aria-label="In nghiêng"><i>I</i></button>
@@ -79,12 +91,15 @@
                             <button type="button" data-editor-command="insertUnorderedList" aria-label="Danh sách chấm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></button>
                             <button type="button" data-editor-command="insertOrderedList" aria-label="Danh sách số"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10M4 5h1v3M4 12h1v3M4 19h2l-2-3"/></svg></button>
                             <button type="button" data-editor-command="createLink" aria-label="Chèn liên kết"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.2 1.2M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.2-1.2"/></svg></button>
+                            <button id="editor-image-button" type="button" aria-label="Chèn ảnh" title="Chèn ảnh vào nội dung"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></button>
                             <button type="button" data-editor-command="removeFormat" aria-label="Xóa định dạng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 16 12M14 5h6M5 19h6"/></svg></button>
+                            <input id="editor-image-input" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+                            <small id="editor-upload-status" class="post-editor__upload-status" aria-live="polite"></small>
                         </div>
                         <div id="content-editor" class="post-editor__editable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Nội dung bài viết" spellcheck="true">{!! old('content', $post->content) !!}</div>
                     </div>
-                    <textarea id="content" name="content" class="sr-only">{{ old('content', $post->content) }}</textarea>
-                    <p class="post-editor__hint">Dùng thanh công cụ để định dạng tiêu đề, đoạn văn, danh sách và liên kết.</p>
+                    <input id="content" type="hidden" name="content" value="{{ old('content', $post->content) }}">
+                    <p class="post-editor__hint">Dùng thanh công cụ để chỉnh phông, cỡ chữ, chèn ảnh, danh sách và liên kết.</p>
                     @error('content')<p class="post-editor__error">{{ $message }}</p>@enderror
                 </div>
             </section>
@@ -181,6 +196,12 @@
 <style>.post-editor__actionbar{margin:-10px 0 24px}</style>
 @endpush
 
+@push('styles')
+<style>
+    .post-editor__toolbar #editor-font{min-width:105px}.post-editor__toolbar #editor-font-size{min-width:76px}.post-editor__upload-status{margin-left:auto;padding:0 5px;color:#0b7f42;font-size:10px;font-weight:800}.post-editor__upload-status.is-error{color:#b42318}.post-editor__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px}.post-editor__editable font[face="Georgia"],.post-editor__editable font[face="Times New Roman"]{line-height:1.75}@media(max-width:640px){.post-editor__toolbar #editor-font{min-width:88px}.post-editor__upload-status{width:100%;margin:3px 5px 0}}
+</style>
+@endpush
+
 @push('scripts')
 <script>
     (() => {
@@ -235,15 +256,38 @@
         const editor = document.getElementById('content-editor');
         const source = document.getElementById('content');
         const block = document.getElementById('editor-block');
-        if (!form || !editor || !source || !block) return;
+        const font = document.getElementById('editor-font');
+        const fontSize = document.getElementById('editor-font-size');
+        const imageButton = document.getElementById('editor-image-button');
+        const imageInput = document.getElementById('editor-image-input');
+        const uploadStatus = document.getElementById('editor-upload-status');
+        if (!form || !editor || !source || !block || !font || !fontSize || !imageButton || !imageInput || !uploadStatus) return;
 
         const sync = () => { source.value = editor.innerHTML.trim(); };
+        let savedRange = null;
+        const saveSelection = () => {
+            const selection = window.getSelection();
+            if (!selection?.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            if (editor.contains(range.commonAncestorContainer)) savedRange = range.cloneRange();
+        };
+        const restoreSelection = () => {
+            if (!savedRange) {
+                editor.focus();
+                return;
+            }
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(savedRange);
+        };
         editor.addEventListener('input', sync);
+        ['keyup', 'mouseup', 'focus'].forEach((eventName) => editor.addEventListener(eventName, saveSelection));
 
         document.querySelectorAll('[data-editor-command]').forEach((button) => {
             button.addEventListener('mousedown', (event) => event.preventDefault());
             button.addEventListener('click', () => {
                 const command = button.dataset.editorCommand;
+                restoreSelection();
                 if (command === 'createLink') {
                     const url = window.prompt('Dán liên kết (https://...)');
                     if (!url) return;
@@ -252,14 +296,71 @@
                     document.execCommand(command, false, null);
                 }
                 editor.focus();
+                saveSelection();
                 sync();
             });
         });
 
         block.addEventListener('change', () => {
+            restoreSelection();
             document.execCommand('formatBlock', false, block.value);
             editor.focus();
+            saveSelection();
             sync();
+        });
+
+        font.addEventListener('change', () => {
+            restoreSelection();
+            document.execCommand('fontName', false, font.value);
+            editor.focus();
+            saveSelection();
+            sync();
+        });
+
+        fontSize.addEventListener('change', () => {
+            restoreSelection();
+            document.execCommand('fontSize', false, fontSize.value);
+            editor.focus();
+            saveSelection();
+            sync();
+        });
+
+        imageButton.addEventListener('mousedown', () => saveSelection());
+        imageButton.addEventListener('click', () => imageInput.click());
+        imageInput.addEventListener('change', async () => {
+            const file = imageInput.files[0];
+            if (!file) return;
+
+            uploadStatus.classList.remove('is-error');
+            uploadStatus.textContent = 'Đang tải ảnh...';
+            imageButton.disabled = true;
+            const body = new FormData();
+            body.append('image', file);
+
+            try {
+                const response = await fetch(@json(route('admin.posts.images.store')), {
+                    method: 'POST',
+                    headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())},
+                    body,
+                });
+                if (!response.ok) throw new Error('upload_failed');
+                const result = await response.json();
+                const alt = window.prompt('Mô tả ngắn cho ảnh', file.name.replace(/\.[^.]+$/, '')) || '';
+                restoreSelection();
+                document.execCommand('insertImage', false, result.url);
+                const insertedImage = Array.from(editor.querySelectorAll('img')).find((image) => image.getAttribute('src') === result.url);
+                if (insertedImage) insertedImage.alt = alt;
+                editor.focus();
+                saveSelection();
+                sync();
+                uploadStatus.textContent = 'Đã chèn ảnh';
+            } catch (error) {
+                uploadStatus.classList.add('is-error');
+                uploadStatus.textContent = 'Không thể tải ảnh. Vui lòng thử lại.';
+            } finally {
+                imageButton.disabled = false;
+                imageInput.value = '';
+            }
         });
 
         form.addEventListener('submit', (event) => {
