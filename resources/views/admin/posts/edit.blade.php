@@ -88,15 +88,37 @@
                             <button type="button" data-editor-command="italic" aria-label="In nghiêng"><i>I</i></button>
                             <button type="button" data-editor-command="underline" aria-label="Gạch chân"><u>U</u></button>
                             <span></span>
-                            <button type="button" data-editor-command="insertUnorderedList" aria-label="Danh sách chấm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></button>
-                            <button type="button" data-editor-command="insertOrderedList" aria-label="Danh sách số"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10M4 5h1v3M4 12h1v3M4 19h2l-2-3"/></svg></button>
+                            <button type="button" data-editor-command="insertUnorderedList" aria-label="Danh sách dấu đầu dòng" title="Danh sách dấu đầu dòng"><svg class="post-editor__list-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="4" cy="6" r="1.25"/><circle cx="4" cy="12" r="1.25"/><circle cx="4" cy="18" r="1.25"/><path d="M9 6h11M9 12h11M9 18h11"/></svg></button>
+                            <button type="button" data-editor-command="insertOrderedList" aria-label="Danh sách đánh số" title="Danh sách đánh số"><svg class="post-editor__list-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10"/><text x="1.2" y="8.1">1</text><text x="1.2" y="14.1">2</text><text x="1.2" y="20.1">3</text></svg></button>
                             <button type="button" data-editor-command="createLink" aria-label="Chèn liên kết"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.2 1.2M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.2-1.2"/></svg></button>
-                            <button id="editor-image-button" type="button" aria-label="Chèn ảnh" title="Chèn ảnh vào nội dung"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></button>
+                            <select id="editor-image-layout" aria-label="Bố cục ảnh" title="Chọn bố cục trước khi tải ảnh">
+                                <option value="single">1 ảnh</option>
+                                <option value="pair-portrait">2 ảnh xếp dọc</option>
+                                <option value="pair-landscape">2 ảnh xếp ngang</option>
+                                <option value="trio-left">3 ảnh · lớn bên trái</option>
+                                <option value="trio-top">3 ảnh · lớn phía trên</option>
+                                <option value="quad-grid">4 ảnh · lưới vuông</option>
+                                <option value="quad-feature">4 ảnh · 1 trên, 3 dưới</option>
+                                <option value="five-grid">5 ảnh · 2 trên, 3 dưới</option>
+                            </select>
+                            <button id="editor-image-button" type="button" aria-label="Chèn ảnh hoặc bộ ảnh" title="Tải ảnh theo bố cục đã chọn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></button>
                             <button type="button" data-editor-command="removeFormat" aria-label="Xóa định dạng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 16 12M14 5h6M5 19h6"/></svg></button>
-                            <input id="editor-image-input" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+                            <input id="editor-image-input" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
                             <small id="editor-upload-status" class="post-editor__upload-status" aria-live="polite"></small>
                         </div>
                         <div id="content-editor" class="post-editor__editable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Nội dung bài viết" spellcheck="true">{!! old('content', $post->content) !!}</div>
+                        <div id="editor-image-resizer" class="post-editor__image-resizer" hidden>
+                            <strong>Kích thước ảnh</strong>
+                            <input id="editor-image-width" type="range" min="20" max="100" step="5" value="100" aria-label="Chiều rộng ảnh">
+                            <output id="editor-image-width-output">100%</output>
+                            <div aria-label="Kích thước nhanh">
+                                <button type="button" data-image-width="25">25%</button>
+                                <button type="button" data-image-width="50">50%</button>
+                                <button type="button" data-image-width="75">75%</button>
+                                <button type="button" data-image-width="100">100%</button>
+                            </div>
+                            <button id="editor-image-remove" type="button" class="post-editor__image-remove">Xóa ảnh</button>
+                        </div>
                     </div>
                     <input id="content" type="hidden" name="content" value="{{ old('content', $post->content) }}">
                     <p class="post-editor__hint">Dùng thanh công cụ để chỉnh phông, cỡ chữ, chèn ảnh, danh sách và liên kết.</p>
@@ -188,6 +210,12 @@
 
 @push('styles')
 <style>
+    .post-editor__editable .article-gallery{display:grid!important;gap:8px;width:100%;margin:20px 0}.post-editor__editable .article-gallery figure{min-width:0;overflow:hidden;margin:0;background:#e8efe9;border-radius:9px}.post-editor__editable .article-gallery img{display:block;width:100%!important;height:100%;margin:0;object-fit:cover;border-radius:0;cursor:pointer}.post-editor__editable .article-gallery--pair-portrait{grid-template-columns:minmax(0,1fr)!important}.post-editor__editable .article-gallery--pair-portrait figure{aspect-ratio:2/1}.post-editor__editable .article-gallery--pair-landscape{grid-template-columns:repeat(2,minmax(0,1fr))!important}.post-editor__editable .article-gallery--pair-landscape figure{aspect-ratio:4/3}.post-editor__editable .article-gallery--trio-left{grid-template-columns:1.05fr .95fr;grid-template-rows:repeat(2,155px)}.post-editor__editable .article-gallery--trio-left figure:first-child{grid-row:1/3}.post-editor__editable .article-gallery--trio-top{grid-template-columns:repeat(2,1fr)}.post-editor__editable .article-gallery--trio-top figure:first-child{grid-column:1/3;aspect-ratio:2/1}.post-editor__editable .article-gallery--trio-top figure:not(:first-child){aspect-ratio:1/1}.post-editor__editable .article-gallery--quad-grid{grid-template-columns:repeat(2,1fr)}.post-editor__editable .article-gallery--quad-grid figure{aspect-ratio:1/1}.post-editor__editable .article-gallery--quad-feature{grid-template-columns:repeat(3,1fr)}.post-editor__editable .article-gallery--quad-feature figure:first-child{grid-column:1/4;aspect-ratio:2/1}.post-editor__editable .article-gallery--quad-feature figure:not(:first-child){aspect-ratio:1/1}.post-editor__editable .article-gallery--five-grid{grid-template-columns:repeat(6,1fr)}.post-editor__editable .article-gallery--five-grid figure:nth-child(-n+2){grid-column:span 3;aspect-ratio:4/3}.post-editor__editable .article-gallery--five-grid figure:nth-child(n+3){grid-column:span 2;aspect-ratio:1/1}@media(max-width:540px){.post-editor__editable .article-gallery{gap:5px}.post-editor__editable .article-gallery--trio-left{grid-template-rows:repeat(2,110px)}}
+</style>
+@endpush
+
+@push('styles')
+<style>
     .post-editor__form{grid-template-columns:minmax(0,1fr) 350px}.post-editor__actionbar{position:sticky;top:77px;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:22px;padding:12px 14px;background:rgba(255,255,255,.94);border:1px solid #cfddd3;border-radius:13px;box-shadow:0 10px 25px rgba(6,45,28,.1);backdrop-filter:blur(12px)}.post-editor__actionbar>div{display:flex;align-items:center;gap:9px}.post-editor__actionbar>div:first-child strong{display:grid;min-width:34px;height:28px;place-items:center;color:#fff;background:#062d1c;border-radius:7px;font-size:10px}.post-editor__actionbar>div:first-child span{color:#819188;font-size:11px;font-weight:700}.post-editor__preview,.post-editor__top-save{display:inline-flex;min-height:40px;align-items:center;justify-content:center;gap:7px;padding:0 13px;border-radius:8px;font-size:11px;font-weight:800;text-decoration:none}.post-editor__preview{color:#365145;background:#fff;border:1px solid #cadbd0}.post-editor__top-save{color:#fff;background:#0b7f42;border:1px solid #0b7f42;cursor:pointer}.post-editor__preview svg,.post-editor__top-save svg{width:15px;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:2}.post-editor__permalink{display:grid;gap:8px;padding:14px 15px;margin-bottom:23px;background:#f7faf8;border:1px solid #e0e9e2;border-radius:10px}.post-editor__permalink>div{display:flex;align-items:center;justify-content:space-between;gap:12px}.post-editor__permalink span{color:#0b7f42;font-size:9px;font-weight:900;letter-spacing:.1em}.post-editor__permalink small{overflow:hidden;color:#8a9c92;font-size:9px;text-overflow:ellipsis;white-space:nowrap}.post-editor__permalink input{width:100%;padding:9px 10px;color:#365145;background:#fff;border:1px solid #d1ddd5;border-radius:7px;font:600 11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;outline:0}.post-editor__permalink input:focus{border-color:#0b7f42;box-shadow:0 0 0 3px rgba(11,127,66,.12)}.post-editor__image-picker{aspect-ratio:5/4;min-height:0;background:#edf3ee}.post-editor__image-picker img{width:100%;height:100%;object-fit:contain}.post-editor__image-picker #thumbnail-placeholder small{display:block;margin-top:5px;color:#8a9c92;font-size:9px;font-weight:600}.post-editor__image-info{display:grid;gap:4px;margin-top:11px;color:#819188;font-size:9px;line-height:1.45}.post-editor__image-info span:first-child{color:#365145;font-weight:800}.post-editor__image-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.post-editor__image-actions label,.post-editor__image-actions button{display:grid;min-height:38px;place-items:center;border-radius:8px;font-size:10px;font-weight:800;cursor:pointer}.post-editor__image-actions label{color:#0b7f42;background:#eaf6ed;border:1px solid #c8dfce}.post-editor__image-actions button{color:#a23830;background:#fff5f3;border:1px solid #edd1cc}.post-editor__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px}.post-editor__editable figure{max-width:100%;margin:20px 0}.post-editor__editable figcaption{margin-top:7px;color:#7b8d82;font-size:11px;text-align:center}.post-editor__save,.post-editor__top-save{transition:background .16s,opacity .16s}.post-editor__save:disabled,.post-editor__top-save:disabled{opacity:.6;cursor:wait}@media(max-width:1050px){.post-editor__form{grid-template-columns:minmax(0,1fr) 300px}}@media(max-width:850px){.post-editor__form{grid-template-columns:1fr}.post-editor__sidebar{position:static}.post-editor__actionbar{top:72px}}@media(max-width:620px){.post-editor__actionbar{align-items:stretch;flex-direction:column}.post-editor__actionbar>div:last-child{display:grid;grid-template-columns:1fr 1fr}.post-editor__preview,.post-editor__top-save{padding:0 9px}.post-editor__permalink>div{align-items:flex-start;flex-direction:column}.post-editor__permalink small{max-width:100%}}
 </style>
 @endpush
@@ -198,7 +226,7 @@
 
 @push('styles')
 <style>
-    .post-editor__toolbar #editor-font{min-width:105px}.post-editor__toolbar #editor-font-size{min-width:76px}.post-editor__upload-status{margin-left:auto;padding:0 5px;color:#0b7f42;font-size:10px;font-weight:800}.post-editor__upload-status.is-error{color:#b42318}.post-editor__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px}.post-editor__editable font[face="Georgia"],.post-editor__editable font[face="Times New Roman"]{line-height:1.75}@media(max-width:640px){.post-editor__toolbar #editor-font{min-width:88px}.post-editor__upload-status{width:100%;margin:3px 5px 0}}
+    .post-editor__toolbar #editor-font{min-width:105px}.post-editor__toolbar #editor-font-size{min-width:76px}.post-editor__toolbar #editor-image-layout{max-width:150px}.post-editor__toolbar .post-editor__list-icon{width:17px;height:17px}.post-editor__toolbar .post-editor__list-icon circle{fill:currentColor;stroke:none}.post-editor__toolbar .post-editor__list-icon text{fill:currentColor;stroke:none;font:700 7px Inter,Arial,sans-serif}.post-editor__editable ul{list-style:disc outside}.post-editor__editable ol{list-style:decimal outside}.post-editor__editable li{display:list-item;margin:.25em 0}.post-editor__upload-status{margin-left:auto;padding:0 5px;color:#0b7f42;font-size:10px;font-weight:800}.post-editor__upload-status.is-error{color:#b42318}.post-editor__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px;cursor:pointer}.post-editor__editable img.is-selected{outline:3px solid rgba(11,127,66,.3);outline-offset:3px}.post-editor__image-resizer{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:9px 11px;background:#f1f8f3;border-top:1px solid #d1ddd5}.post-editor__image-resizer[hidden]{display:none}.post-editor__image-resizer strong{color:#294b39;font-size:10px}.post-editor__image-resizer input{width:130px;accent-color:#0b7f42}.post-editor__image-resizer output{min-width:35px;color:#0b7f42;font-size:10px;font-weight:900}.post-editor__image-resizer>div{display:flex;gap:3px}.post-editor__image-resizer button{min-height:26px;padding:0 7px;color:#365145;background:#fff;border:1px solid #cbdcd1;border-radius:5px;font-size:9px;font-weight:800;cursor:pointer}.post-editor__image-resizer button:hover{color:#087841;border-color:#87b99b}.post-editor__image-resizer .post-editor__image-remove{margin-left:auto;color:#a12b23;border-color:#e5bbb7}.post-editor__editable font[face="Georgia"],.post-editor__editable font[face="Times New Roman"]{line-height:1.75}@media(max-width:640px){.post-editor__toolbar #editor-font{min-width:88px}.post-editor__toolbar #editor-image-layout{max-width:124px}.post-editor__upload-status{width:100%;margin:3px 5px 0}.post-editor__image-resizer input{width:100px}.post-editor__image-resizer .post-editor__image-remove{margin-left:0}}
 </style>
 @endpush
 
@@ -258,10 +286,15 @@
         const block = document.getElementById('editor-block');
         const font = document.getElementById('editor-font');
         const fontSize = document.getElementById('editor-font-size');
+        const imageLayout = document.getElementById('editor-image-layout');
         const imageButton = document.getElementById('editor-image-button');
         const imageInput = document.getElementById('editor-image-input');
         const uploadStatus = document.getElementById('editor-upload-status');
-        if (!form || !editor || !source || !block || !font || !fontSize || !imageButton || !imageInput || !uploadStatus) return;
+        const imageResizer = document.getElementById('editor-image-resizer');
+        const imageWidth = document.getElementById('editor-image-width');
+        const imageWidthOutput = document.getElementById('editor-image-width-output');
+        const imageRemove = document.getElementById('editor-image-remove');
+        if (!form || !editor || !source || !block || !font || !fontSize || !imageLayout || !imageButton || !imageInput || !uploadStatus || !imageResizer || !imageWidth || !imageWidthOutput || !imageRemove) return;
 
         const sync = () => { source.value = editor.innerHTML.trim(); };
         let savedRange = null;
@@ -282,6 +315,55 @@
         };
         editor.addEventListener('input', sync);
         ['keyup', 'mouseup', 'focus'].forEach((eventName) => editor.addEventListener(eventName, saveSelection));
+
+        let selectedImage = null;
+        const selectImage = (image) => {
+            selectedImage?.classList.remove('is-selected');
+            selectedImage = image;
+            selectedImage.classList.add('is-selected');
+            const width = Math.min(100, Math.max(20, parseInt(selectedImage.style.width, 10) || 100));
+            imageWidth.value = width;
+            imageWidthOutput.value = `${width}%`;
+            imageResizer.hidden = false;
+        };
+        const closeImageResizer = () => {
+            selectedImage?.classList.remove('is-selected');
+            selectedImage = null;
+            imageResizer.hidden = true;
+        };
+        const resizeImage = (width) => {
+            if (!selectedImage) return;
+            const percentage = Math.min(100, Math.max(20, Number(width)));
+            selectedImage.style.width = `${percentage}%`;
+            selectedImage.removeAttribute('width');
+            selectedImage.removeAttribute('height');
+            imageWidth.value = percentage;
+            imageWidthOutput.value = `${percentage}%`;
+            sync();
+        };
+        editor.addEventListener('click', (event) => {
+            if (event.target instanceof HTMLImageElement) {
+                if (event.target.closest('.article-gallery')) {
+                    closeImageResizer();
+                    uploadStatus.textContent = 'Ảnh thuộc bộ ảnh và tự căn theo bố cục.';
+                } else {
+                    selectImage(event.target);
+                }
+            } else {
+                closeImageResizer();
+            }
+        });
+        imageWidth.addEventListener('input', () => resizeImage(imageWidth.value));
+        imageResizer.querySelectorAll('[data-image-width]').forEach((button) => {
+            button.addEventListener('click', () => resizeImage(button.dataset.imageWidth));
+        });
+        imageRemove.addEventListener('click', () => {
+            if (!selectedImage) return;
+            selectedImage.remove();
+            closeImageResizer();
+            sync();
+            editor.focus();
+        });
 
         document.querySelectorAll('[data-editor-command]').forEach((button) => {
             button.addEventListener('mousedown', (event) => event.preventDefault());
@@ -328,32 +410,82 @@
         imageButton.addEventListener('mousedown', () => saveSelection());
         imageButton.addEventListener('click', () => imageInput.click());
         imageInput.addEventListener('change', async () => {
-            const file = imageInput.files[0];
-            if (!file) return;
+            const files = Array.from(imageInput.files);
+            if (!files.length) return;
+
+            const layout = imageLayout.value;
+            const expectedCounts = {single: 1, 'pair-portrait': 2, 'pair-landscape': 2, 'trio-left': 3, 'trio-top': 3, 'quad-grid': 4, 'quad-feature': 4, 'five-grid': 5};
+            const expectedCount = expectedCounts[layout];
+            if (files.length !== expectedCount) {
+                uploadStatus.classList.add('is-error');
+                uploadStatus.textContent = `Bố cục này cần đúng ${expectedCount} ảnh.`;
+                imageInput.value = '';
+                return;
+            }
 
             uploadStatus.classList.remove('is-error');
-            uploadStatus.textContent = 'Đang tải ảnh...';
+            uploadStatus.textContent = `Đang tải ${files.length} ảnh...`;
             imageButton.disabled = true;
-            const body = new FormData();
-            body.append('image', file);
 
             try {
-                const response = await fetch(@json(route('admin.posts.images.store')), {
-                    method: 'POST',
-                    headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())},
-                    body,
-                });
-                if (!response.ok) throw new Error('upload_failed');
-                const result = await response.json();
-                const alt = window.prompt('Mô tả ngắn cho ảnh', file.name.replace(/\.[^.]+$/, '')) || '';
-                restoreSelection();
-                document.execCommand('insertImage', false, result.url);
-                const insertedImage = Array.from(editor.querySelectorAll('img')).find((image) => image.getAttribute('src') === result.url);
-                if (insertedImage) insertedImage.alt = alt;
+                const uploads = await Promise.all(files.map(async (file) => {
+                    const body = new FormData();
+                    body.append('image', file);
+                    const response = await fetch(@json(route('admin.posts.images.store')), {
+                        method: 'POST',
+                        headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())},
+                        body,
+                    });
+                    if (!response.ok) throw new Error('upload_failed');
+                    return {file, result: await response.json()};
+                }));
+
+                if (layout === 'single') {
+                    const [{file, result}] = uploads;
+                    const alt = window.prompt('Mô tả ngắn cho ảnh', file.name.replace(/\.[^.]+$/, '')) || '';
+                    restoreSelection();
+                    document.execCommand('insertImage', false, result.url);
+                    const insertedImage = Array.from(editor.querySelectorAll('img')).find((image) => image.getAttribute('src') === result.url);
+                    if (insertedImage) {
+                        insertedImage.alt = alt;
+                        insertedImage.style.width = '100%';
+                        selectImage(insertedImage);
+                    }
+                } else {
+                    const gallery = document.createElement('div');
+                    gallery.className = `article-gallery article-gallery--${layout}`;
+                    gallery.style.display = 'grid';
+                    if (layout === 'pair-landscape') gallery.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
+                    if (layout === 'pair-portrait') gallery.style.gridTemplateColumns = 'minmax(0, 1fr)';
+                    uploads.forEach(({file, result}) => {
+                        const figure = document.createElement('figure');
+                        const image = document.createElement('img');
+                        image.src = result.url;
+                        image.alt = file.name.replace(/\.[^.]+$/, '');
+                        figure.append(image);
+                        gallery.append(figure);
+                    });
+
+                    restoreSelection();
+                    const selection = window.getSelection();
+                    const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
+                    const rangeNode = range?.commonAncestorContainer;
+                    const rangeElement = rangeNode?.nodeType === Node.ELEMENT_NODE ? rangeNode : rangeNode?.parentElement;
+                    const currentBlock = rangeElement?.closest('p,h2,h3,blockquote,ul,ol');
+                    if (currentBlock && editor.contains(currentBlock)) {
+                        currentBlock.insertAdjacentElement('afterend', gallery);
+                    } else {
+                        editor.append(gallery);
+                    }
+                    const spacer = document.createElement('p');
+                    spacer.innerHTML = '<br>';
+                    gallery.insertAdjacentElement('afterend', spacer);
+                    closeImageResizer();
+                }
                 editor.focus();
                 saveSelection();
                 sync();
-                uploadStatus.textContent = 'Đã chèn ảnh';
+                uploadStatus.textContent = `Đã chèn ${files.length} ảnh`;
             } catch (error) {
                 uploadStatus.classList.add('is-error');
                 uploadStatus.textContent = 'Không thể tải ảnh. Vui lòng thử lại.';

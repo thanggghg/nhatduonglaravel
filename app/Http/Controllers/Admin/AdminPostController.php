@@ -151,11 +151,12 @@ class AdminPostController extends Controller
         libxml_clear_errors();
         libxml_use_internal_errors($previousInternalErrors);
 
-        $allowedTags = ['a', 'b', 'blockquote', 'br', 'em', 'figcaption', 'figure', 'font', 'h2', 'h3', 'h4', 'img', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
+        $allowedTags = ['a', 'b', 'blockquote', 'br', 'div', 'em', 'figcaption', 'figure', 'font', 'h2', 'h3', 'h4', 'img', 'li', 'ol', 'p', 'strong', 'u', 'ul'];
         $allowedAttributes = [
             'a' => ['href', 'target', 'rel'],
+            'div' => ['class'],
             'font' => ['face', 'size'],
-            'img' => ['src', 'alt', 'width', 'height', 'loading'],
+            'img' => ['src', 'alt', 'width', 'height', 'loading', 'style'],
         ];
         $container = $document->getElementById('article-content');
         if (!$container) {
@@ -192,6 +193,21 @@ class AdminPostController extends Controller
                 }
             }
 
+            if ($element->tagName === 'div') {
+                $allowedGalleryClasses = [
+                    'article-gallery article-gallery--pair-portrait',
+                    'article-gallery article-gallery--pair-landscape',
+                    'article-gallery article-gallery--trio-left',
+                    'article-gallery article-gallery--trio-top',
+                    'article-gallery article-gallery--quad-grid',
+                    'article-gallery article-gallery--quad-feature',
+                    'article-gallery article-gallery--five-grid',
+                ];
+                if (!in_array($element->getAttribute('class'), $allowedGalleryClasses, true)) {
+                    $element->removeAttribute('class');
+                }
+            }
+
             if ($element->tagName === 'font') {
                 $allowedFaces = ['Inter', 'Arial', 'Georgia', 'Times New Roman', 'monospace'];
                 if (!in_array($element->getAttribute('face'), $allowedFaces, true)) {
@@ -209,6 +225,12 @@ class AdminPostController extends Controller
                     continue;
                 }
                 $element->setAttribute('loading', 'lazy');
+                if (preg_match('/(?:^|;)\s*width\s*:\s*(\d{1,3})%\s*;?/i', $element->getAttribute('style'), $width)) {
+                    $percentage = min(100, max(20, (int) $width[1]));
+                    $element->setAttribute('style', 'width: '.$percentage.'%;');
+                } else {
+                    $element->removeAttribute('style');
+                }
             }
         }
 
