@@ -75,6 +75,13 @@
     ][$locale];
     $tripPeriod = fn ($departure) => $departure->hour < 12 ? 'morning' : ($departure->hour < 18 ? 'afternoon' : 'evening');
     $tripTabs = ['discount' => 'discount_tab', 'points' => 'points_tab', 'reviews' => 'reviews_tab', 'policies' => 'policies_tab', 'images' => 'images_tab', 'amenities' => 'amenities_tab', 'operator_policy' => 'operator_policy_tab'];
+    $roundTripOutboundReference = request()->string('round_trip_outbound_reference')->value() ?: null;
+    $isReturnContinuation = $roundTripOutboundReference !== null;
+    $roundTripCopy = [
+        'vi' => ['return_step' => 'Chọn chuyến về', 'saved' => 'Chiều đi đã được ghi nhận', 'saved_help' => 'Chọn chuyến về để hoàn tất hành trình khứ hồi. Mỗi chiều có một mã đặt vé riêng.', 'preview' => 'Các chuyến về dự kiến. Bạn sẽ chọn chuyến và ghế sau khi hoàn tất chiều đi.'],
+        'en' => ['return_step' => 'Choose return departure', 'saved' => 'Outbound booking received', 'saved_help' => 'Choose a return departure to complete the round trip. Each direction has its own booking reference.', 'preview' => 'Available return departures. You will choose the departure and seats after completing the outbound booking.'],
+        'ru' => ['return_step' => 'Выберите обратный рейс', 'saved' => 'Бронирование туда принято', 'saved_help' => 'Выберите обратный рейс, чтобы завершить поездку. Для каждого направления создается отдельный номер.', 'preview' => 'Доступные обратные рейсы. Выбор рейса и места будет доступен после оформления поездки туда.'],
+    ][$locale];
 @endphp
 
 @section('content')
@@ -96,7 +103,7 @@
                     $day = $startDate->copy()->addDays($i);
                     $returnForDay = $isRoundTrip && $returnDate && $returnDate->gte($day) ? $returnDate : $day->copy()->addDay();
                 @endphp
-                <a class="booking-date {{ $day->isSameDay($date) ? 'is-active' : '' }}" href="{{ route('booking.search', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'departDate' => $day->format('d-m-Y'), 'is_round_trip' => $isRoundTrip ? 1 : 0, 'returnDate' => $isRoundTrip ? $returnForDay->format('d-m-Y') : null, 'seats' => $passengerCount, 'lang' => $locale]) }}" @if($day->isSameDay($date)) aria-current="date" @endif>
+                <a class="booking-date {{ $day->isSameDay($date) ? 'is-active' : '' }}" href="{{ route('booking.search', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'departDate' => $day->format('d-m-Y'), 'is_round_trip' => $isRoundTrip ? 1 : 0, 'returnDate' => $isRoundTrip ? $returnForDay->format('d-m-Y') : null, 'round_trip_outbound_reference' => $roundTripOutboundReference, 'seats' => $passengerCount, 'lang' => $locale]) }}" @if($day->isSameDay($date)) aria-current="date" @endif>
                     <span>{{ $weekdays[$day->dayOfWeek] }}</span><strong>{{ $day->format('d/m') }}</strong>
                 </a>
             @endfor
@@ -104,10 +111,11 @@
     </nav>
 
     <div class="booking-shell booking-content">
+        @if($isReturnContinuation)<div class="booking-round-trip-notice"><strong>{{ $roundTripCopy['saved'] }}</strong><span>{{ $roundTripCopy['saved_help'] }}</span><b>{{ $roundTripOutboundReference }}</b></div>@endif
         @if($apiError)<p class="booking-alert" role="alert">{{ $copy['api_error'] }}</p>@endif
 
         <section aria-labelledby="outbound-title">
-            <div class="booking-section-heading"><div><p>{{ $copy['outbound'] }}</p><h2 id="outbound-title">{{ $from }} {{ $copy['to'] }} {{ $to }}</h2></div><span>{{ $date->format('d/m/Y') }}</span></div>
+            <div class="booking-section-heading"><div><p>{{ $isReturnContinuation ? $roundTripCopy['return_step'] : $copy['outbound'] }}</p><h2 id="outbound-title">{{ $from }} {{ $copy['to'] }} {{ $to }}</h2></div><span>{{ $date->format('d/m/Y') }}</span></div>
             <div class="booking-confirm"><span aria-hidden="true">✓</span>{{ $filters['seat_map'] }}</div>
             <div class="departure-tools"><div class="departure-filters" role="group" aria-label="{{ $copy['departure'] }}"><button type="button" class="is-active" data-departure-filter="all">{{ $filters['all'] }}</button><button type="button" data-departure-filter="morning">{{ $filters['morning'] }}</button><button type="button" data-departure-filter="afternoon">{{ $filters['afternoon'] }}</button><button type="button" data-departure-filter="evening">{{ $filters['evening'] }}</button></div><span id="departure-filter-count" aria-live="polite"></span></div>
             <div class="departure-list">
@@ -128,7 +136,7 @@
                         </div>
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
                         <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small class="departure-action__usd">≈ ${{ $toUsd($trip['fare'] * $passengerCount) }} USD</small><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }} · ≈ ${{ $toUsd($trip['fare']) }}</small>
-                            @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
+                            @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'round_trip_stage' => $isRoundTrip ? 'outbound' : null, 'return_travel_date' => $isRoundTrip ? $returnDate?->toDateString() : null, 'round_trip_outbound_reference' => $roundTripOutboundReference, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
                         <div class="trip-info" data-trip-info data-loaded="false" data-loading-label="{{ $copy['loading_details'] }}" data-error-label="{{ $copy['details_error'] }}" data-url="{{ route('booking.trip.info', ['from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'fare' => $trip['fare'], 'original_fare' => $originalFare, 'utilities' => implode(',', $trip['utility_ids'] ?? []), 'display_usd' => 1, 'lang' => $locale]) }}">
                             <div class="trip-tabs" id="{{ $tabsId }}" role="tablist" aria-label="{{ $trip['vehicle_type'] }}">
@@ -156,6 +164,7 @@
         @if($isRoundTrip)
             <section class="booking-return" aria-labelledby="return-title">
                 <div class="booking-section-heading"><div><p>{{ $copy['return'] }}</p><h2 id="return-title">{{ $to }} {{ $copy['to'] }} {{ $from }}</h2></div><span>{{ $returnDate?->format('d/m/Y') }}</span></div>
+                <p class="booking-return-note">{{ $roundTripCopy['preview'] }}</p>
                 <div class="return-list">
                     @forelse($returnTrips as $trip)
                         <article class="return-preview"><strong>{{ $trip['departure']->format('H:i') }}</strong><span>{{ $trip['vehicle_type'] }}</span><span>{{ $duration($trip['duration']) }}</span><span>{{ $trip['available_seats'].' '.$copy['available'] }}</span><b>{{ number_format($trip['fare']) }} VND <small>≈ ${{ $toUsd($trip['fare']) }}</small></b></article>
@@ -179,6 +188,7 @@
 
 @push('styles')
 <style>
+    .booking-round-trip-notice{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 18px;align-items:center;padding:16px 18px;color:#315442;background:#fff8dc;border:1px solid #ead580;border-left:4px solid #0b7f42;border-radius:11px}.booking-round-trip-notice strong{color:#173d2b;font-size:14px}.booking-round-trip-notice span{font-size:12px;line-height:1.5}.booking-round-trip-notice b{grid-column:2;grid-row:1/3;padding:7px 9px;color:#fff;background:#075338;border-radius:7px;font-size:11px;letter-spacing:.05em}.booking-return-note{margin:-10px 0 16px;color:#667b6f;font-size:12px;line-height:1.55}@media(max-width:560px){.booking-round-trip-notice{grid-template-columns:1fr}.booking-round-trip-notice b{grid-column:auto;grid-row:auto;width:max-content}}
     @media (max-width: 640px) {
         .departure-image {
             height: 112px;

@@ -76,6 +76,15 @@ class BookingController extends Controller
         $date = $this->dateFromRequest($request->input('travel_date'), 'travel_date', 'Y-m-d');
         $passengerCount = min(6, max(1, $request->integer('passenger_count', 1)));
         $tripCode = $request->string('trip_code')->value();
+        $roundTripStage = $request->string('round_trip_stage')->value() === 'outbound' ? 'outbound' : null;
+        $returnDate = $roundTripStage ? $this->dateFromRequest($request->input('return_travel_date'), 'return_travel_date', 'Y-m-d') : null;
+        $roundTripOutboundReference = $request->string('round_trip_outbound_reference')->value() ?: null;
+        if ($roundTripOutboundReference && !Booking::where('reference', $roundTripOutboundReference)->exists()) {
+            throw ValidationException::withMessages(['round_trip_outbound_reference' => 'The outbound booking could not be found.']);
+        }
+        $roundTripPassenger = $roundTripOutboundReference
+            ? $request->session()->get('round_trip_passenger_'.$roundTripOutboundReference, [])
+            : [];
         [$fromId, $toId] = $this->providerAreaIds($request, $route);
         if (!$tripCode) {
             throw ValidationException::withMessages(['trip_code' => 'Please select a departure.']);
@@ -106,7 +115,7 @@ class BookingController extends Controller
         $this->syncCancelledProviderBookings($tripCode, $date);
         $reservedSeats = $this->reservedSeats($tripCode, $date);
 
-        return view('booking.checkout-live', compact('route', 'date', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions', 'fromId', 'toId'));
+        return view('booking.checkout-live', compact('route', 'date', 'returnDate', 'roundTripStage', 'roundTripOutboundReference', 'roundTripPassenger', 'passengerCount', 'locale', 'trip', 'reservedSeats', 'seatMap', 'seatError', 'pickupOptions', 'dropoffOptions', 'fromId', 'toId'));
     }
 
     public function liveSeats(Request $request): JsonResponse
@@ -253,6 +262,9 @@ class BookingController extends Controller
             'to_id' => 'nullable|integer|different:from_id',
             'trip_code' => 'required|string|max:100',
             'travel_date' => 'required|date_format:Y-m-d',
+            'round_trip_stage' => 'nullable|in:outbound',
+            'return_travel_date' => 'nullable|required_if:round_trip_stage,outbound|date_format:Y-m-d|after:travel_date',
+            'round_trip_outbound_reference' => 'nullable|exists:bookings,reference',
             'passenger_count' => 'required|integer|min:1|max:6',
             'passenger_name' => 'required|string|max:120',
             'passenger_email' => 'nullable|email:rfc,dns|max:120|required_without:passenger_phone',
@@ -395,6 +407,8 @@ class BookingController extends Controller
                     'arrival_at' => $trip['arrival'],
                     'vehicle_type' => $trip['vehicle_type'],
                     'travel_date' => $date->toDateString(),
+                    'return_travel_date' => ($validated['round_trip_stage'] ?? null) === 'outbound' ? $validated['return_travel_date'] : null,
+                    'round_trip_outbound_reference' => $validated['round_trip_outbound_reference'] ?? null,
                     'passenger_count' => $validated['passenger_count'],
                     'passenger_name' => $validated['passenger_name'],
                     'passenger_email' => $validated['passenger_email'] ?? null,
@@ -476,6 +490,27 @@ class BookingController extends Controller
             report($exception);
         }
 
+        if (($validated['round_trip_stage'] ?? null) === 'outbound') {
+            $request->session()->put('round_trip_passenger_'.$booking->reference, [
+                'name' => $validated['passenger_name'],
+                'email' => $validated['passenger_email'] ?? null,
+                'phone' => $validated['passenger_phone'] ?? null,
+            ]);
+
+            return redirect()->route('booking.search', [
+                'from_id' => $toId,
+                'to_id' => $fromId,
+                'departDate' => Carbon::parse($validated['return_travel_date'])->format('d-m-Y'),
+                'seats' => $validated['passenger_count'],
+                'round_trip_outbound_reference' => $booking->reference,
+                'lang' => $locale,
+            ])->with('success', 'Chiều đi đã được ghi nhận. Vui lòng chọn chuyến về để hoàn tất hành trình khứ hồi.');
+        }
+
+        if (filled($validated['round_trip_outbound_reference'] ?? null)) {
+            $request->session()->forget('round_trip_passenger_'.$validated['round_trip_outbound_reference']);
+        }
+
         $routeName = $booking->payment_provider === 'cash' ? 'booking.success' : 'booking.payment.show';
 
         return redirect()->route($routeName, ['booking' => $booking, 'lang' => $booking->locale]);
@@ -484,8 +519,11 @@ class BookingController extends Controller
     public function success(Booking $booking)
     {
         $booking->load(['route', 'schedule', 'returnSchedule']);
+        $outboundBooking = $booking->round_trip_outbound_reference
+            ? Booking::where('reference', $booking->round_trip_outbound_reference)->first()
+            : null;
 
-        return view('booking.success', ['booking' => $booking, 'locale' => $booking->locale]);
+        return view('booking.success', ['booking' => $booking, 'outboundBooking' => $outboundBooking, 'locale' => $booking->locale]);
     }
 
     private function searchContext(Request $request): array

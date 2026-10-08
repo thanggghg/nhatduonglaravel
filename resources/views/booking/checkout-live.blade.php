@@ -78,12 +78,26 @@
         'ru' => ['cabin' => 'Купе', 'modal_help' => 'Выберите тип купе и количество пассажиров.', 'cancel' => 'Отмена', 'room' => 'купе', 'passenger' => 'пасс.', 'select_rooms' => 'Выберите купе для каждого пассажира.', 'select_one' => 'Выберите хотя бы одно купе.', 'choose_options' => 'Выберите тип купе', 'max_passengers' => 'В одном бронировании может быть не более 6 пассажиров.', 'select_exactly' => 'Выберите купе ровно для :count пассажиров.', 'select_seats' => 'Выберите необходимое количество мест: :count.', 'seat_taken' => 'Выбранное место только что заняли. Выберите другое место.'],
     ][$locale];
     $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
+    $backUrl = route('booking.search', [
+        'route_id' => $route->id,
+        'from_id' => $fromId,
+        'to_id' => $toId,
+        'departDate' => $date->format('d-m-Y'),
+        'is_round_trip' => $roundTripStage ? 1 : 0,
+        'returnDate' => $returnDate?->format('d-m-Y'),
+        'round_trip_outbound_reference' => $roundTripOutboundReference,
+        'seats' => $passengerCount,
+        'lang' => $locale,
+    ]);
 @endphp
 
 @section('content')
 <section class="live-checkout"><div class="live-checkout__shell"><a class="live-checkout__back" href="{{ route('booking.search', ['route_id' => $route->id, 'departDate' => $date->format('d-m-Y'), 'seats' => $passengerCount, 'lang' => $locale]) }}">&larr; {{ $copy['back'] }}</a><div class="live-checkout__grid"><main><h1>{{ $copy['title'] }}</h1><form id="live-booking-form" method="POST" action="{{ route('booking.live.store') }}">@csrf<input type="hidden" name="route_id" value="{{ $route->id }}"><input type="hidden" name="trip_code" value="{{ $trip['code'] }}"><input type="hidden" name="travel_date" value="{{ $date->toDateString() }}"><input type="hidden" name="passenger_count" value="{{ $passengerCount }}"><input type="hidden" name="lang" value="{{ $locale }}"><fieldset><legend>{{ $copy['seat_map'] }}</legend><div class="live-seat-head"><div><strong id="seat-selection-count">{{ count($chosenSeats) }}/{{ $passengerCount }}</strong><span>{{ $copy['selected'] }}</span></div><p><b id="live-available-seats">{{ $availableCount }}</b> {{ $copy['available'] }}<small>{{ $copy['refresh'] }}</small></p></div>@if($seatError)<p class="live-checkout__error">{{ $copy['seat_error'] }}</p>@else<div class="live-seat-layout">@foreach($seatMap as $coach)<section class="live-seat-coach"><h2>{{ $coach['name'] ?: 'Coach '.$coach['number'] }}</h2><div class="live-seat-grid" style="grid-template-columns:repeat({{ max(1, $coach['columns']) }}, minmax(36px,1fr));">@foreach($coach['seats'] as $seat)@php $unavailable = !$seat['available'] || $seat['locked'] || in_array($seat['key'], $reservedSeats, true); @endphp<label class="live-seat {{ $unavailable ? 'is-unavailable' : '' }}" style="grid-column:{{ $seat['column'] }} / span {{ $seat['column_span'] }};grid-row:{{ $seat['row'] }} / span {{ $seat['row_span'] }};"><input type="checkbox" name="selected_seats[]" value="{{ $seat['key'] }}" @checked(in_array($seat['key'], $chosenSeats, true)) @disabled($unavailable)><span>{{ $seat['code'] }}</span></label>@endforeach</div></section>@endforeach</div>@endif<p id="seat-selection-error" class="live-checkout__error" hidden></p></fieldset><fieldset><legend>{{ $copy['passenger'] }}</legend><label>{{ $copy['name'] }}<input name="passenger_name" value="{{ old('passenger_name') }}" autocomplete="name" required></label><div class="live-checkout__two"><label>{{ $copy['email'] }}<input type="email" name="passenger_email" value="{{ old('passenger_email') }}" autocomplete="email"></label><label>{{ $copy['phone'] }}<input type="tel" name="passenger_phone" value="{{ old('passenger_phone') }}" autocomplete="tel"></label></div></fieldset><fieldset><legend>{{ $copy['trip'] }}</legend><div class="live-stop-grid"><div><h2>{{ $copy['pickup'] }}</h2>@foreach($pickupOptions as $point)<label class="live-stop-option"><input type="radio" name="pickup_point" value="{{ $point->name }}" @checked(old('pickup_point', $trip['pickup']) === $point->name) required><span><b>{{ $point->name }}</b>@if($point->time)<small>{{ $point->time }}</small>@endif</span></label>@endforeach</div><div><h2>{{ $copy['dropoff'] }}</h2>@foreach($dropoffOptions as $point)<label class="live-stop-option"><input type="radio" name="dropoff_point" value="{{ $point->name }}" @checked(old('dropoff_point', $trip['dropoff']) === $point->name) required><span><b>{{ $point->name }}</b>@if($point->time)<small>{{ $point->time }}</small>@endif</span></label>@endforeach</div></div><label>{{ $copy['notes'] }}<input name="notes" value="{{ old('notes') }}" maxlength="1500"></label></fieldset><label class="live-checkout__terms"><input type="checkbox" name="terms" value="1" required><span>{{ $copy['terms'] }}</span></label>@foreach($errors->all() as $error)<p class="live-checkout__error" role="alert">{{ $error }}</p>@endforeach<button type="submit" data-loading="{{ $copy['paying'] }}" @disabled($seatError)>{{ $copy['pay'] }}</button></form></main><aside><p>{{ $copy['trip'] }}</p><h2>{{ $trip['pickup'] }} → {{ $trip['dropoff'] }}</h2><dl><div><dt>{{ $date->format('d/m/Y') }}</dt><dd>{{ $trip['departure']->format('H:i') }} → {{ $trip['arrival']->format('H:i') }} · {{ $trip['vehicle_type'] }}</dd></div><div><dt>{{ $passengerCount }} {{ $copy['seats'] }}</dt><dd>{{ number_format($trip['fare']) }} VND</dd></div></dl><div class="live-checkout__total"><span>{{ $copy['total'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong></div></aside></div></div></section>
 <input type="hidden" name="from_id" value="{{ $fromId }}" form="live-booking-form">
 <input type="hidden" name="to_id" value="{{ $toId }}" form="live-booking-form">
+<input type="hidden" name="round_trip_stage" value="{{ $roundTripStage }}" form="live-booking-form">
+<input type="hidden" name="return_travel_date" value="{{ $returnDate?->toDateString() }}" form="live-booking-form">
+<input type="hidden" name="round_trip_outbound_reference" value="{{ $roundTripOutboundReference }}" form="live-booking-form">
 <div id="live-booking-loading" class="live-booking-loading" hidden><div class="live-booking-loading__card"><span class="live-booking-loading__spinner" aria-hidden="true"></span><strong>{{ $loadingCopy['title'] }}</strong><p>{{ $loadingCopy['text'] }}</p></div></div>
 @endsection
 
@@ -140,8 +154,18 @@
 @push('scripts')
 <script>
     (() => {
+        const backLink = document.querySelector('.live-checkout__back');
+        if (backLink) {
+            backLink.href = @json($backUrl);
+        }
+
         const form = document.getElementById('live-booking-form');
         if (!form) return;
+        const roundTripPassenger = @json($roundTripPassenger);
+        [['passenger_name', 'name'], ['passenger_email', 'email'], ['passenger_phone', 'phone']].forEach(([field, key]) => {
+            const input = form.elements.namedItem(field);
+            if (input && !input.value && roundTripPassenger[key]) input.value = roundTripPassenger[key];
+        });
 
         window.addEventListener('submit', (event) => {
             if (event.target !== form) return;

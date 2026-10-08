@@ -17,6 +17,11 @@
     $vehicle = fn ($item) => $item->vehicle_type ?: ($item->bus_type ?: $copy['vehicle']);
     $departure = $booking->schedule?->departure_time ?? $booking->departure_at;
     $vehicleType = $booking->schedule ? $vehicle($booking->schedule) : ($booking->vehicle_type ?: $copy['vehicle']);
+    $roundTripReferenceCopy = [
+        'vi' => ['outbound' => 'Mã chiều đi', 'return' => 'Mã chiều về'],
+        'en' => ['outbound' => 'Outbound reference', 'return' => 'Return reference'],
+        'ru' => ['outbound' => 'Номер туда', 'return' => 'Номер обратно'],
+    ][$locale];
 @endphp
 
 @section('content')
@@ -26,3 +31,17 @@
 @push('styles')
 <style>.booking-success{min-height:70vh;display:grid;place-items:center;padding:52px 16px;background:#f5faf4}.success-card{width:min(580px,100%);padding:34px;background:#fff;border:1px solid #d9e5dc;border-radius:17px;text-align:center;box-shadow:0 15px 35px rgba(11,127,66,.09)}.success-mark{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 16px;border-radius:50%;background:#0b7f42;color:#fff;font-size:14px;font-weight:900}.success-card h1{margin:0 0 9px;color:#173014;font-size:29px}.success-card>p:not(.success-mark){margin:0;color:#62735e;line-height:1.6;white-space:pre-line}.success-reference{margin:24px 0;padding:16px;background:#fef8e8;border:1px solid #edddb1;border-radius:10px}.success-reference span,.success-reference strong{display:block}.success-reference span{color:#725d14;font-size:12px;font-weight:800;text-transform:uppercase}.success-reference strong{margin-top:4px;color:#173014;font-size:22px;letter-spacing:.06em}.success-card dl{display:grid;gap:14px;margin:0;text-align:left}.success-card dl div{display:flex;justify-content:space-between;gap:16px;padding-bottom:13px;border-bottom:1px solid #e5eee7}.success-card dt{color:#62735e;font-size:13px}.success-card dd{margin:0;color:#173014;font-size:13px;font-weight:800;text-align:right}.success-actions{display:flex;justify-content:center;gap:10px;margin-top:25px}.success-actions a{padding:11px 15px;border:1px solid #0b7f42;border-radius:8px;color:#0b7f42;font-size:13px;font-weight:800;text-decoration:none}.success-actions a:first-child{background:#0b7f42;color:#fff}@media(max-width:480px){.success-card{padding:25px 18px}.success-card dl div{display:grid}.success-card dd{text-align:left}}</style>
 @endpush
+
+@if($outboundBooking ?? null)
+@push('scripts')
+<script>
+    (() => {
+        const reference = document.querySelector('.success-reference');
+        if (!reference) return;
+        const labels = @json($roundTripReferenceCopy);
+        reference.querySelector('span').textContent = labels.return;
+        reference.insertAdjacentHTML('beforeend', `<span class="success-round-trip-reference">${labels.outbound}: <b>{{ $outboundBooking->reference }}</b></span>`);
+    })();
+</script>
+@endpush
+@endif

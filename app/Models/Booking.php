@@ -25,6 +25,7 @@ class Booking extends Model
         'travel_date',
         'return_schedule_id',
         'return_travel_date',
+        'round_trip_outbound_reference',
         'passenger_count',
         'passenger_name',
         'passenger_email',
