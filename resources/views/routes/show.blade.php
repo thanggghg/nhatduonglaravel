@@ -62,6 +62,7 @@
         'TP. Hồ Chí Minh' => ['vi' => 'TP. Hồ Chí Minh', 'en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
         'Cam Ranh' => ['vi' => 'Cam Ranh', 'en' => 'Cam Ranh', 'ru' => 'Камрань'],
         'Nha Trang' => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
+        'Đà Nẵng' => ['vi' => 'Đà Nẵng', 'en' => 'Da Nang', 'ru' => 'Дананг'],
     ];
     $from = $locations[$route->from_location][$locale] ?? $route->from_location;
     $to = $locations[$route->to_location][$locale] ?? $route->to_location;
@@ -191,7 +192,7 @@
 
                 <aside class="route-booking" aria-label="Booking information">
                     <div class="route-booking__top">
-                        <div><p>{{ $copy['from_price'] }}</p><strong>{{ number_format($route->price_from) }} VND</strong></div>
+                        <div><p>{{ $copy['from_price'] }}</p><strong>{{ $route->price_from > 0 ? number_format($route->price_from).' VND' : $copy['availability'] }}</strong></div>
                         <span class="route-status">{{ $copy['availability'] }}</span>
                     </div>
                     <span class="route-booking__label">{{ $copy['book'] }}</span>
@@ -220,7 +221,7 @@
                     @if($duration)
                         <div class="route-stat"><dt>{{ $copy['duration'] }}</dt><dd>{{ $duration }}</dd></div>
                     @endif
-                    <div class="route-stat"><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($route->price_from) }} VND</dd></div>
+                    <div class="route-stat"><dt>{{ $copy['from_price'] }}</dt><dd>{{ $route->price_from > 0 ? number_format($route->price_from).' VND' : $copy['availability'] }}</dd></div>
                 </dl>
                 @if($route->description)
                     <div class="route-description">{!! nl2br(e($route->description)) !!}</div>

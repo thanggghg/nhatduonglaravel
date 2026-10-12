@@ -6,42 +6,42 @@
     $locale = in_array($locale, ['vi', 'en', 'ru'], true) ? $locale : 'vi';
     $copy = [
         'vi' => [
-            'home' => 'Trang chủ', 'crumb' => 'Tuyến xe', 'eyebrow' => 'MẠNG LƯỚI TUYẾN NHẬT DƯƠNG', 'title' => 'Kết nối Sài Gòn với biển xanh Khánh Hòa.',
-            'intro' => 'Di chuyển mỗi ngày giữa TP. Hồ Chí Minh, Nha Trang và Cam Ranh trên xe giường nằm tiện nghi, với lịch chạy rõ ràng và hỗ trợ đặt vé 24/7.', 'book' => 'Tìm chuyến phù hợp',
+            'home' => 'Trang chủ', 'crumb' => 'Tuyến xe', 'eyebrow' => 'MẠNG LƯỚI TUYẾN NHẬT DƯƠNG', 'title' => 'Kết nối Sài Gòn với biển xanh miền Trung.',
+            'intro' => 'Di chuyển mỗi ngày giữa TP. Hồ Chí Minh, Nha Trang, Đà Nẵng và Cam Ranh trên xe giường nằm tiện nghi, với lịch chạy rõ ràng và hỗ trợ đặt vé 24/7.', 'book' => 'Tìm chuyến phù hợp',
             'browse' => 'Xem các tuyến đang chạy', 'activeRoutes' => 'tuyến đang khai thác', 'support' => 'tư vấn và hỗ trợ đặt vé',
             'section' => 'Các tuyến đang phục vụ', 'sectionText' => 'Chọn chiều đi để xem lịch chạy và giá vé mới nhất.',
             'available' => 'Đang phục vụ', 'distance' => 'Quãng đường', 'duration' => 'Thời gian', 'fare' => 'Giá từ',
             'checkFare' => 'Xem lịch và giá', 'details' => 'Xem chuyến đi', 'emptyTitle' => 'Chưa có tuyến xe',
             'emptyText' => 'Vui lòng quay lại sau để xem các tuyến đang phục vụ.', 'helpTitle' => 'Chưa biết nên chọn chuyến nào?',
             'helpText' => 'Đội ngũ Nhật Dương sẽ hỗ trợ chọn tuyến, giờ chạy và điểm đón phù hợp.', 'call' => 'Gọi 1900 2879',
-            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Kết nối trực tiếp mỗi ngày', 'networkLabel' => 'Mạng lưới tuyến TP. Hồ Chí Minh, Nha Trang và Cam Ranh', 'overviewLabel' => 'Tổng quan dịch vụ', 'mapFoot' => 'NHẬT DƯƠNG · AN TÂM TRỌN HÀNH TRÌNH',
+            'contact' => 'Liên hệ hỗ trợ', 'connector' => 'đến', 'direct' => 'Kết nối trực tiếp mỗi ngày', 'networkLabel' => 'Mạng lưới tuyến TP. Hồ Chí Minh, Nha Trang, Đà Nẵng và Cam Ranh', 'overviewLabel' => 'Tổng quan dịch vụ', 'mapFoot' => 'NHẬT DƯƠNG · AN TÂM TRỌN HÀNH TRÌNH',
         ],
         'en' => [
             'home' => 'Home', 'crumb' => 'Routes', 'eyebrow' => 'NHAT DUONG ROUTE NETWORK', 'title' => 'Connecting Ho Chi Minh City with the Khanh Hoa coast.',
-            'intro' => 'Travel daily between Ho Chi Minh City, Nha Trang, and Cam Ranh in a comfortable sleeper bus, with clear schedules and 24/7 booking support.', 'book' => 'Find a suitable trip',
+            'intro' => 'Travel daily between Ho Chi Minh City, Nha Trang, Da Nang, and Cam Ranh in a comfortable sleeper bus, with clear schedules and 24/7 booking support.', 'book' => 'Find a suitable trip',
             'browse' => 'View active routes', 'activeRoutes' => 'routes in service', 'support' => 'booking advice and support',
             'section' => 'Routes in service', 'sectionText' => 'Choose a direction to see current departures and fares.',
             'available' => 'In service', 'distance' => 'Distance', 'duration' => 'Travel time', 'fare' => 'From',
             'checkFare' => 'View schedule & fare', 'details' => 'View departures', 'emptyTitle' => 'No routes available yet',
             'emptyText' => 'Please check back soon for available routes.', 'helpTitle' => 'Not sure which trip to choose?',
             'helpText' => 'The Nhat Duong team can help you choose a route, departure time, and pickup point.', 'call' => 'Call 1900 2879',
-            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct daily connections', 'networkLabel' => 'Ho Chi Minh City, Nha Trang and Cam Ranh route network', 'overviewLabel' => 'Service overview', 'mapFoot' => 'NHAT DUONG · PEACE OF MIND ALL THE WAY',
+            'contact' => 'Contact support', 'connector' => 'to', 'direct' => 'Direct daily connections', 'networkLabel' => 'Ho Chi Minh City, Nha Trang, Da Nang and Cam Ranh route network', 'overviewLabel' => 'Service overview', 'mapFoot' => 'NHAT DUONG · PEACE OF MIND ALL THE WAY',
         ],
         'ru' => [
             'home' => 'Главная', 'crumb' => 'Маршруты', 'eyebrow' => 'МАРШРУТНАЯ СЕТЬ NHAT DUONG', 'title' => 'Из Хошимина к побережью Кханьхоа.',
-            'intro' => 'Ежедневные поездки между Хошимином, Нячангом и Камранью на комфортабельных спальных автобусах с понятным расписанием и поддержкой бронирования 24/7.', 'book' => 'Найти подходящий рейс',
+            'intro' => 'Ежедневные поездки между Хошимином, Нячангом, Данангом и Камранью на комфортабельных спальных автобусах с понятным расписанием и поддержкой бронирования 24/7.', 'book' => 'Найти подходящий рейс',
             'browse' => 'Посмотреть маршруты', 'activeRoutes' => 'маршрутов доступно', 'support' => 'помощь с бронированием',
             'section' => 'Доступные маршруты', 'sectionText' => 'Выберите направление, чтобы увидеть актуальное расписание и цены.',
             'available' => 'Маршрут доступен', 'distance' => 'Расстояние', 'duration' => 'Время в пути', 'fare' => 'Цена от',
             'checkFare' => 'Расписание и цены', 'details' => 'Посмотреть рейсы', 'emptyTitle' => 'Маршрутов пока нет',
             'emptyText' => 'Пожалуйста, зайдите позже, чтобы увидеть доступные маршруты.', 'helpTitle' => 'Нужна помощь с выбором?',
             'helpText' => 'Команда Nhat Duong поможет выбрать маршрут, время отправления и место посадки.', 'call' => 'Позвонить: 1900 2879',
-            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Ежедневное прямое сообщение', 'networkLabel' => 'Сеть маршрутов Хошимин, Нячанг и Камрань', 'overviewLabel' => 'Обзор услуг', 'mapFoot' => 'NHAT DUONG · СПОКОЙСТВИЕ НА ВСЁМ ПУТИ',
+            'contact' => 'Связаться с нами', 'connector' => 'в', 'direct' => 'Ежедневное прямое сообщение', 'networkLabel' => 'Сеть маршрутов Хошимин, Нячанг, Дананг и Камрань', 'overviewLabel' => 'Обзор услуг', 'mapFoot' => 'NHAT DUONG · СПОКОЙСТВИЕ НА ВСЁМ ПУТИ',
         ],
     ][$locale];
     $places = [
         'TP. Hồ Chí Minh' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'], 'Sài Gòn' => ['en' => 'Ho Chi Minh City', 'ru' => 'Хошимин'],
-        'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань'],
+        'Nha Trang' => ['en' => 'Nha Trang', 'ru' => 'Нячанг'], 'Đà Nẵng' => ['en' => 'Da Nang', 'ru' => 'Дананг'], 'Cam Ranh' => ['en' => 'Cam Ranh', 'ru' => 'Камрань'],
     ];
     $place = fn (string $name) => $locale === 'vi' ? $name : ($places[$name][$locale] ?? $name);
     $duration = function (?string $value) use ($locale): string {
@@ -176,7 +176,7 @@
                 </div>
                 <div class="route-map" aria-label="{{ $copy['networkLabel'] }}">
                     <p class="route-map__label">{{ $copy['direct'] }}</p>
-                    <div class="route-map__stops"><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('TP. Hồ Chí Minh') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Nha Trang') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Cam Ranh') }}</span></div></div>
+                     <div class="route-map__stops"><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('TP. Hồ Chí Minh') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Nha Trang') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Đà Nẵng') }}</span></div><div class="route-map__stop"><span class="route-map__dot"></span><span>{{ $place('Cam Ranh') }}</span></div></div>
                     <span class="route-map__foot">{{ $copy['mapFoot'] }}</span>
                 </div>
             </div>

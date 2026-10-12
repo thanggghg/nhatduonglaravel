@@ -550,11 +550,18 @@ class BookingController extends Controller
                 throw ValidationException::withMessages(['route' => 'Please select valid departure and arrival locations.']);
             }
 
-            $forward = $fromPosition < $toPosition;
             $route = BusRoute::where('status', true)
-                ->where('from_location', $forward ? 'TP. Hồ Chí Minh' : 'Nha Trang')
-                ->where('to_location', $forward ? 'Nha Trang' : 'TP. Hồ Chí Minh')
+                ->where('from_location', $this->vexere->areaName($fromId))
+                ->where('to_location', $this->vexere->areaName($toId))
                 ->first();
+
+            if (!$route) {
+                $forward = $fromPosition < $toPosition;
+                $route = BusRoute::where('status', true)
+                    ->where('from_location', $forward ? 'TP. Hồ Chí Minh' : 'Nha Trang')
+                    ->where('to_location', $forward ? 'Nha Trang' : 'TP. Hồ Chí Minh')
+                    ->first();
+            }
         }
         if (!$route && $from && $to) {
             $route = BusRoute::where('status', true)->where('from_location', $from)->where('to_location', $to)->first();

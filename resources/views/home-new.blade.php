@@ -311,8 +311,6 @@
   .hn-why__intro h2 span,.hn-why__intro h2 em { display:block; }
   .hn-why__intro h2 em { color:#f3b814; font-style:normal; }
   .hn-why__lead { max-width:420px; margin:0; color:#78807e; font-size:15px; line-height:1.55; }
-  .hn-why__signature { position:absolute; top:330px; left:2px; z-index:2; width:160px; color:#315d5a; font-family:"Brush Script MT","Segoe Script",cursive; font-size:27px; line-height:1.02; text-align:center; transform:rotate(-6deg); }
-  .hn-why__signature:after { display:block; width:104px; height:4px; margin:8px 0 0 28px; background:#f2c418; content:''; transform:skewX(-24deg); }
   .hn-why__bus { position:absolute; right:-14px; bottom:-20px; left:-42px; height:278px; overflow:hidden; clip-path:polygon(0 16%,32% 1%,100% 12%,100% 100%,0 100%); }
   .hn-why__bus:after { position:absolute; inset:0; background:linear-gradient(to top,rgba(255,252,242,.18),transparent 30%); content:''; }
   .hn-why__bus img { width:100%; height:100%; object-fit:cover; object-position:center; }
@@ -343,7 +341,7 @@
     .hn-why__intro h2 span,.hn-why__intro h2 em { display:inline; }
     .hn-why__intro h2 em { margin:0 .16em; }
     .hn-why__lead { max-width:720px; }
-    .hn-why__signature,.hn-why__bus { display:none; }
+    .hn-why__bus { display:none; }
     .hn-why__card,.hn-why__content { min-height:255px; }
   }
   .hn-faq details { padding:0; }
@@ -899,10 +897,9 @@
     .hn-vehicle-card dl div:nth-child(2) { padding-right:0; }
     .hn-vehicle-card dl div:nth-child(3) { grid-column:1/-1; margin-top:10px; padding:10px 0 0; border-top:1px solid var(--hn-line); border-left:0; }
   }
-  /* FAQ mirrors the reference: editorial story panel beside a compact accordion. */
-  #help { width:min(1280px,calc(100% - 40px)); margin:70px auto; padding:42px; background-image:linear-gradient(90deg,rgba(255,250,240,.42) 0,rgba(255,250,240,.76) 36%,rgba(246,248,241,.96) 58%,rgba(241,247,242,.98) 100%),linear-gradient(180deg,rgba(255,250,240,.94) 0,rgba(255,250,240,.3) 42%,rgba(246,248,241,.12) 100%),var(--hn-faq-bg); background-color:#f5f7ef; background-position:center; background-size:cover; border-color:#e8dfc8; border-radius:28px; box-shadow:0 24px 64px rgba(65,54,26,.1); }
-  #help:before { top:-90px; right:-55px; z-index:-1; width:330px; height:190px; background:linear-gradient(145deg,rgba(249,223,18,.2),rgba(16,105,67,.12)); border:0; border-radius:0 0 0 100%; box-shadow:none; transform:rotate(8deg); }
-  #help:after { position:absolute; bottom:-100px; left:-85px; z-index:-1; width:300px; height:210px; background:linear-gradient(135deg,rgba(16,105,67,.1),rgba(249,223,18,.25)); border-radius:0 100% 0 0; content:''; transform:rotate(-8deg); }
+  /* FAQ pairs the new vehicle image with a compact accordion. */
+  #help { width:min(1280px,calc(100% - 40px)); margin:70px auto; padding:42px; background:#f7f8f2; border-color:#e1e7df; border-radius:28px; box-shadow:0 24px 64px rgba(34,65,49,.1); }
+  #help:before,#help:after { display:none; }
   .hn-faq-layout { display:grid; grid-template-columns:minmax(330px,.8fr) minmax(0,1.2fr); gap:34px; }
   .hn-faq-intro { display:flex; min-width:0; min-height:628px; flex-direction:column; }
   #help .hn-section-heading { max-width:510px; margin:0; }
@@ -911,8 +908,8 @@
   #help .hn-section-heading h2 span { position:relative; z-index:1; }
   #help .hn-section-heading h2 span:after { position:absolute; right:0; bottom:3px; left:0; z-index:-1; height:9px; background:#f9df12; content:''; transform:skewX(-17deg) rotate(-1deg); }
   .hn-faq-intro__text { max-width:450px; margin:0; color:#68746e; font-size:15px; line-height:1.7; }
-  .hn-faq-background-signature { align-self:flex-end; margin:auto 34px 4px 0; color:#173f39; font-family:"Brush Script MT","Segoe Script",cursive; font-size:29px; line-height:1.05; text-align:center; text-shadow:0 1px 12px rgba(255,255,255,.85); transform:rotate(-5deg); }
-  .hn-faq-background-signature:after { display:block; width:92px; height:4px; margin:7px auto 0; background:#f2c418; content:''; transform:skewX(-22deg); }
+  .hn-faq-intro__image { min-height:300px; flex:1; overflow:hidden; margin-top:28px; background:#dfe8e2; border:1px solid #d7e1da; border-radius:18px; box-shadow:0 14px 32px rgba(29,62,45,.12); }
+  .hn-faq-intro__image img { width:100%; height:100%; object-fit:cover; object-position:center; }
   .hn-faq { align-content:start; gap:11px; }
   .hn-faq details { --faq-accent:#c58a09; --faq-soft:#fff3c2; padding:0 15px; border-color:#e4dece; border-radius:15px; box-shadow:0 8px 22px rgba(58,49,26,.055); }
   .hn-faq details:nth-child(3n+2) { --faq-accent:#b95543; --faq-soft:#fde5df; }
@@ -928,18 +925,19 @@
   .hn-faq details[open] summary>b { color:var(--faq-accent); background:transparent; }
   .hn-faq details p { margin:0 2px 16px 104px; padding:14px 16px; font-size:12px; line-height:1.65; }
   @media(max-width:900px) {
-    #help { padding:34px; background-image:linear-gradient(120deg,rgba(255,250,240,.94),rgba(242,248,243,.96)),var(--hn-faq-bg); }
+    #help { padding:34px; }
     .hn-faq-layout { grid-template-columns:1fr; }
     .hn-faq-intro { min-height:0; }
+    .hn-faq-intro__image { height:360px; flex:none; }
     #help .hn-section-heading { max-width:720px; }
     #help .hn-section-heading h2 { max-width:650px; }
-    .hn-faq-background-signature { display:none; }
   }
   @media(max-width:620px) {
     #help { width:min(100% - 28px,1280px); margin:42px auto; padding:26px 14px 18px; border-radius:20px; }
     #help .hn-section-heading .hn-eyebrow { margin-bottom:15px; }
     #help .hn-section-heading h2 { margin-bottom:12px; font-size:36px; }
     .hn-faq-intro__text { font-size:14px; }
+    .hn-faq-intro__image { height:230px; min-height:0; margin-top:20px; border-radius:14px; }
     .hn-faq-layout { gap:24px; }
     .hn-faq details { padding:0 11px; }
     .hn-faq summary { grid-template-columns:42px 24px minmax(0,1fr) 32px; gap:8px; min-height:72px; }
@@ -1200,10 +1198,10 @@
     .hn-trust { gap:7px; }
     .hn-trust li { min-height:34px; padding:0 10px; }
   }
-  /* News and closing CTA share the coastal journey art direction. */
+  /* Keep the news backdrop quiet so article artwork stays visually distinct. */
   .hn-news { isolation:isolate; padding:64px 0 72px; background:linear-gradient(180deg,#fffaf0,#f7f8ef 58%,#fffbed); border-top:1px solid #eee2c7; }
-  .hn-news:before { position:absolute; inset:0 0 auto; z-index:0; width:auto; height:330px; background-image:linear-gradient(90deg,#fffaf0 0,rgba(255,250,240,.9) 31%,rgba(255,250,240,.24) 64%,rgba(255,250,240,.08)),var(--hn-news-coast); background-position:center; background-size:cover; border:0; border-radius:0; box-shadow:none; content:''; }
-  .hn-news:after { position:absolute; top:0; right:0; z-index:0; width:min(37vw,530px); height:330px; background-image:linear-gradient(90deg,rgba(255,250,240,.96),rgba(255,250,240,.08) 35%),var(--hn-news-bus); background-position:center; background-size:cover; clip-path:polygon(19% 0,100% 0,100% 100%,0 83%); content:''; opacity:.72; }
+  .hn-news:before { position:absolute; inset:0 0 auto; z-index:0; width:auto; height:330px; background:radial-gradient(circle at 85% 18%,rgba(249,223,18,.2),transparent 28%),radial-gradient(circle at 68% 75%,rgba(11,84,56,.09),transparent 31%),linear-gradient(120deg,#fffaf0,#f1f6ed 68%,#fff7c9); border:0; border-radius:0; box-shadow:none; content:''; }
+  .hn-news:after { display:none; }
   .hn-news .hn-shell { position:relative; z-index:1; }
   .hn-news .hn-section-heading { min-height:185px; align-items:start; margin-bottom:22px; }
   .hn-news-heading>div { max-width:670px; }
@@ -1221,7 +1219,7 @@
   .hn-final { width:min(1360px,calc(100% - 40px)); margin:0 auto 36px; padding:0; background-image:linear-gradient(90deg,rgba(3,61,42,.98) 0,rgba(3,61,42,.94) 53%,rgba(3,61,42,.34) 100%),var(--hn-final-bg); background-position:center; background-size:cover; border:0; border-radius:22px; box-shadow:0 20px 48px rgba(3,49,33,.2); }
   .hn-final:before { inset:0 auto 0 0; width:29%; height:auto; background:radial-gradient(circle at 0 50%,rgba(249,223,18,.16),transparent 68%); border:0; border-radius:0; box-shadow:none; }
   .hn-final__content { display:grid; grid-template-columns:250px minmax(0,1fr) auto; min-height:180px; gap:34px; align-items:center; }
-  .hn-final__signature { color:#fff; font-family:"Brush Script MT","Segoe Script",cursive; font-size:28px; line-height:1.05; text-align:center; transform:rotate(-5deg); }
+  .hn-final__signature { color:#fff; font-family:'Be Vietnam Pro',Inter,sans-serif; font-size:22px; font-weight:700; line-height:1.35; letter-spacing:-.025em; text-align:center; }
   .hn-final__signature:after { display:block; width:110px; height:4px; margin:8px auto 0; background:#f9df12; content:''; transform:skewX(-22deg); }
   .hn-final__content>div:nth-child(2) h2 { margin:0 0 8px; font-size:34px; }
   .hn-final__content>div:nth-child(2) p { font-size:14px; }
@@ -1229,14 +1227,14 @@
   .hn-final .hn-contact { min-height:46px; padding:0 18px; border:1px solid rgba(255,255,255,.5); border-radius:10px; text-decoration:none; }
   @media(max-width:900px) {
     .hn-news:after { display:none; }
-    .hn-news:before { opacity:.55; }
+    .hn-news:before { opacity:1; }
     .hn-news .hn-section-heading { min-height:0; }
     .hn-final__content { grid-template-columns:1fr auto; padding:34px 0; }
     .hn-final__signature { display:none; }
   }
   @media(max-width:620px) {
     .hn-news { padding:48px 0; }
-    .hn-news:before { height:285px; background-image:linear-gradient(180deg,rgba(255,250,240,.86),rgba(255,250,240,.96)),var(--hn-news-coast); }
+    .hn-news:before { height:285px; background:radial-gradient(circle at 86% 15%,rgba(249,223,18,.18),transparent 34%),linear-gradient(150deg,#fffaf0,#f1f6ed 72%,#fff7c9); }
     .hn-news-heading { gap:18px; }
     .hn-news-heading h2 { font-size:38px; }
     .hn-news-heading h2 span,.hn-news-heading h2 em { display:inline; }
@@ -1349,6 +1347,7 @@
     159 => ['vi' => 'Phan Thiết', 'en' => 'Phan Thiet', 'ru' => 'Фантхьет'],
     32 => ['vi' => 'Khánh Hòa', 'en' => 'Khanh Hoa', 'ru' => 'Кханьхоа'],
     417 => ['vi' => 'Nha Trang', 'en' => 'Nha Trang', 'ru' => 'Нячанг'],
+    15 => ['vi' => 'Đà Nẵng', 'en' => 'Da Nang', 'ru' => 'Дананг'],
   ];
   $directionLabels = [
     'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' → '.($locations[417][$locale] ?? 'Nha Trang'),
@@ -1509,7 +1508,11 @@
     ['name' => $officeLabels['nha_trang'], 'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, P. Nam Nha Trang, Khánh Hoà'],
     ['name' => $officeLabels['cam_ranh'], 'address' => '44 Huỳnh Thúc Kháng, P. Cam Ranh, Khánh Hoà'],
   ];
-  $officeImages = [$heroImage, $vehicleFallbackImage, asset('storage/image/03bf4.jpg')];
+  $officeImages = [
+    asset('images/offices/office-ho-chi-minh.jpg').'?v=20261012-2',
+    asset('images/offices/office-nha-trang.jpg').'?v=20261012-2',
+    asset('images/offices/office-cam-ranh.jpg').'?v=20261012-2',
+  ];
   $officePins = [$iconAsset('pin-hcm.png'), $iconAsset('pin-nhatrang.png'), $iconAsset('pin-camranh.png')];
   $homeTripTabs = [
     'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
@@ -1547,7 +1550,12 @@
     'ru' => ['featured' => 'Популярное', 'all' => 'Все (15)', 'comfort' => 'Комфорт', 'service' => 'Сервис', 'safety' => 'Безопасность'],
   ][$locale];
   $amenityTabsLabel = ['vi' => 'Lọc tiện ích', 'en' => 'Filter amenities', 'ru' => 'Фильтр удобств'][$locale];
-  $fleetTrips = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->unique('vehicle_type')->take(3);
+  $fleetCandidates = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->values();
+  $fleetTrips = $fleetCandidates->unique('vehicle_type')->take(3)->values();
+  if ($fleetTrips->count() === 1) {
+    $firstTrip = $fleetTrips->first();
+    $fleetTrips->push($fleetCandidates->first(fn ($trip) => ($trip['code'] ?? null) !== ($firstTrip['code'] ?? null)) ?? $firstTrip);
+  }
   $fleetFromId = $selectedDirection === 'nt_sg' ? 417 : 29;
   $fleetToId = $selectedDirection === 'nt_sg' ? 29 : 417;
   $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
@@ -1657,6 +1665,7 @@
               <span class="hn-booking-tools__label"><img src="{{ $iconAsset('img-map.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['routes'] }}</span>
               <button class="hn-booking-tool" type="button" data-quick-route data-from="29" data-to="417" aria-pressed="true">{{ $locations[29][$locale] }} → {{ $locations[417][$locale] }}</button>
               <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="29" aria-pressed="false">{{ $locations[417][$locale] }} → {{ $locations[29][$locale] }}</button>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="15" aria-pressed="false">{{ $locations[417][$locale] }} → {{ $locations[15][$locale] }}</button>
             </div>
             <div class="hn-booking-tools__group">
               <span class="hn-booking-tools__label"><img src="{{ $iconAsset('icon-calendar.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['dates'] }}</span>
@@ -1820,7 +1829,6 @@
         <p class="hn-eyebrow">{{ $whyChoose['kicker'] }}</p>
         <h2 id="why-title"><span>{{ $whyChoose['title_before'] }}</span><em>{{ $whyChoose['title_accent'] }}</em><span>{{ $whyChoose['title_after'] }}</span></h2>
         <p class="hn-why__lead">{{ $whyChoose['text'] }}</p>
-        <div class="hn-why__signature" aria-hidden="true">{!! implode('<br>', array_map('e', $whyChoose['signature'])) !!}</div>
         <div class="hn-why__bus" aria-hidden="true"><img src="{{ $vehicleFallbackImage }}" alt=""></div>
       </div>
       <div class="hn-why__grid">
@@ -1842,11 +1850,11 @@
     </div>
   </section>
 
-  <section id="help" class="hn-section hn-shell" aria-labelledby="faq-title" style="--hn-faq-bg:url('{{ $vehicleFallbackImage }}')">
+  <section id="help" class="hn-section hn-shell" aria-labelledby="faq-title">
     <div class="hn-faq-layout">
       <div class="hn-faq-intro">
         <div class="hn-section-heading"><p class="hn-eyebrow hn-eyebrow--green">{{ $faqUi['kicker'] }}</p><h2 id="faq-title"><span>{{ $copy['faq_title'] }}</span></h2><p class="hn-faq-intro__text">{{ $faqUi['intro'] }}</p></div>
-        <span class="hn-faq-background-signature" aria-hidden="true">{!! implode('<br>', array_map('e', $whyChoose['signature'])) !!}</span>
+        <div class="hn-faq-intro__image" aria-hidden="true"><img src="{{ asset('images/faq-bus.jpg') }}?v=20261012" alt="" loading="lazy"></div>
       </div>
       <div class="hn-faq">
         @foreach($faqItems as $index => [$question, $answer])
@@ -1857,7 +1865,7 @@
   </section>
 
   @if($latestPosts->isNotEmpty())
-  <section class="hn-section hn-section--mist hn-news" aria-labelledby="news-title" style="--hn-news-coast:url('{{ $routeImage }}');--hn-news-bus:url('{{ $vehicleFallbackImage }}')">
+  <section class="hn-section hn-section--mist hn-news" aria-labelledby="news-title">
     <div class="hn-shell">
       <div class="hn-section-heading hn-news-heading">
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['news_kicker'] }}</p><h2 id="news-title"><span>{{ $newsUi['title_before'] }}</span><em>{{ $newsUi['title_accent'] }}</em></h2><p>{{ $copy['news_text'] }}</p></div>

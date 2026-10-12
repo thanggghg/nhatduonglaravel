@@ -50,6 +50,7 @@ return [
             'Phan Thiết' => 159,
             'Khánh Hòa' => 32,
             'Nha Trang' => 417,
+            'Đà Nẵng' => 15,
             'Cam Ranh' => 413,
         ],
     ],
