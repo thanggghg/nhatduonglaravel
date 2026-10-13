@@ -1542,12 +1542,12 @@
     '<svg viewBox="0 0 24 24"><path d="M6 5h12v14H6zM9 5V3h6v2M9 10h6M9 14h4"/></svg>',
   ];
   $amenityGroups = ['service', 'service', 'comfort', 'comfort', 'safety', 'service', 'comfort', 'safety', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'comfort', 'service'];
-  $featuredAmenities = [2, 5, 8, 9, 12, 13];
-  $fleetAmenityIndexes = [6, 2, 13, 12, 8, 9];
+  $featuredAmenities = [2, 5, 9, 10, 12, 13];
+  $fleetAmenityIndexes = [6, 2, 13, 12, 5, 9];
   $amenityTabs = [
-    'vi' => ['featured' => 'Nổi bật', 'all' => 'Tất cả (15)', 'comfort' => 'Tiện nghi', 'service' => 'Dịch vụ', 'safety' => 'An toàn'],
-    'en' => ['featured' => 'Featured', 'all' => 'All (15)', 'comfort' => 'Comfort', 'service' => 'Service', 'safety' => 'Safety'],
-    'ru' => ['featured' => 'Популярное', 'all' => 'Все (15)', 'comfort' => 'Комфорт', 'service' => 'Сервис', 'safety' => 'Безопасность'],
+    'vi' => ['featured' => 'Nổi bật', 'all' => 'Tất cả (14)', 'comfort' => 'Tiện nghi', 'service' => 'Dịch vụ', 'safety' => 'An toàn'],
+    'en' => ['featured' => 'Featured', 'all' => 'All (14)', 'comfort' => 'Comfort', 'service' => 'Service', 'safety' => 'Safety'],
+    'ru' => ['featured' => 'Популярное', 'all' => 'Все (14)', 'comfort' => 'Комфорт', 'service' => 'Сервис', 'safety' => 'Безопасность'],
   ][$locale];
   $amenityTabsLabel = ['vi' => 'Lọc tiện ích', 'en' => 'Filter amenities', 'ru' => 'Фильтр удобств'][$locale];
   $fleetCandidates = collect($selectedSchedules)->filter(fn ($schedule) => filled($schedule['vehicle_type'] ?? null))->values();

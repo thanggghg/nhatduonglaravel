@@ -5,6 +5,7 @@
 </div>
 <ul class="hn-amenity-list" data-amenity-list>
   @foreach($homeUi['amenities'] as $amenity)
+    @continue($loop->index === 8)
     @php $featured = in_array($loop->index, $featuredAmenities, true); @endphp
     <li data-amenity-group="{{ $amenityGroups[$loop->index] }}" data-amenity-featured="{{ $featured ? 'true' : 'false' }}" @if(!$featured) hidden @endif>
       <span class="hn-amenity-icon" aria-hidden="true">{!! $amenityIcons[$loop->index] !!}</span>{{ $amenity }}
