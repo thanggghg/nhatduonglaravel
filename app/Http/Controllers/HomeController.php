@@ -66,6 +66,8 @@ class HomeController extends Controller
                     $direction->where('from_location', 'TP. Hồ Chí Minh')->where('to_location', 'Nha Trang');
                 })->orWhere(function ($direction) {
                     $direction->where('from_location', 'Nha Trang')->where('to_location', 'TP. Hồ Chí Minh');
+                })->orWhere(function ($direction) {
+                    $direction->where('from_location', 'Nha Trang')->where('to_location', 'Đà Nẵng');
                 });
             })
             ->with([
@@ -73,13 +75,20 @@ class HomeController extends Controller
                 'dropoffPoints' => fn ($query) => $query->orderBy('sort_order'),
             ])
             ->get()
-            ->mapWithKeys(fn (Route $route) => [
-                $route->from_location === 'Nha Trang' ? 'nt_sg' : 'sg_nt' => $route,
-            ]);
+            ->mapWithKeys(function (Route $route) {
+                $direction = match ([$route->from_location, $route->to_location]) {
+                    ['TP. Hồ Chí Minh', 'Nha Trang'] => 'sg_nt',
+                    ['Nha Trang', 'TP. Hồ Chí Minh'] => 'nt_sg',
+                    ['Nha Trang', 'Đà Nẵng'] => 'nt_dn',
+                    default => null,
+                };
+
+                return $direction ? [$direction => $route] : [];
+            });
         $ntRoute = $homeRoutes->get('sg_nt');
         $liveTravelDate = today()->addDays(2);
 
-        $cacheKey = 'home.schedules:'.$locale.':'.$liveTravelDate->toDateString();
+        $cacheKey = 'home.schedules:v2:'.$locale.':'.$liveTravelDate->toDateString();
         $liveSchedulesByRoute = Cache::get($cacheKey);
         if (is_array($liveSchedulesByRoute)) {
             foreach ($liveSchedulesByRoute as $direction => &$schedules) {
@@ -104,6 +113,7 @@ class HomeController extends Controller
                 $liveSchedulesByRoute = $this->vexere->searchMany([
                     'sg_nt' => ['from' => 'TP. Hồ Chí Minh', 'to' => 'Nha Trang'],
                     'nt_sg' => ['from' => 'Nha Trang', 'to' => 'TP. Hồ Chí Minh'],
+                    'nt_dn' => ['from' => 'Nha Trang', 'to' => 'Đà Nẵng'],
                 ], $liveTravelDate, $locale);
                 $liveSchedulesByRoute = collect($liveSchedulesByRoute)->mapWithKeys(fn (array $trips, string $direction) => [
                     $direction => $this->homeTrips($trips, $homeRoutes->get($direction), $locale),
@@ -123,7 +133,7 @@ class HomeController extends Controller
             } catch (\Throwable $exception) {
                 report($exception);
                 $liveSchedules = [];
-                $liveSchedulesByRoute = ['sg_nt' => [], 'nt_sg' => []];
+                $liveSchedulesByRoute = ['sg_nt' => [], 'nt_sg' => [], 'nt_dn' => []];
             }
         }
 

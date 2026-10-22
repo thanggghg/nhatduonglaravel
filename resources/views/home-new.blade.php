@@ -202,6 +202,8 @@
   .hn-route-summary__icon img { width:42px; height:34px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(25,52,39,.18)); }
   .hn-route-summary .hn-eyebrow { margin-bottom:4px; }
   .hn-route-summary h2 { margin:0; font-size:clamp(18px,1.55vw,23px); white-space:nowrap; }
+  .hn-route-summary__new-route { display:inline-flex; align-items:center; gap:7px; margin-top:7px; color:var(--hn-green); font-size:12px; font-weight:850; text-decoration:none; }
+  .hn-route-summary__new-route small { padding:3px 6px; color:#5a4900; background:#f9df12; border-radius:999px; font-size:8px; font-weight:900; letter-spacing:.05em; text-transform:uppercase; }
   .hn-route-summary dl { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:0; }
   .hn-route-summary dl>div { display:flex; min-width:0; min-height:54px; align-items:center; gap:10px; padding:4px 14px; border-left:1px solid var(--hn-line); }
   .hn-route-summary dl>div>div { min-width:0; }
@@ -607,7 +609,7 @@
   .hn-stop-card>a:first-of-type { margin-top:auto; }
   .hn-stop-card:nth-child(2)>a { color:#765400; border-color:#ead394; }
   .hn-stop-card:nth-child(3)>a { color:#315f88; border-color:#bfd5e5; }
-  .hn-stops__grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .hn-stops__grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
   .hn-stop-support { grid-column:1/-1; display:grid; grid-template-columns:minmax(190px,.65fr) minmax(260px,1fr) auto; gap:24px; align-items:center; min-height:auto; }
   .hn-stop-support>div:first-child { display:grid; gap:4px; }
   .hn-stop-support>div:nth-child(2) { display:grid; gap:4px; }
@@ -1258,7 +1260,7 @@
   $copy = [
     'vi' => [
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
-      'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
+      'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang · Nha Trang → Đà Nẵng', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
       'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'official_site' => 'Website chính thức của Nhà xe Nhật Dương', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'return_date' => 'Ngày về (Khứ Hồi)', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
@@ -1266,7 +1268,7 @@
        'view_departures' => 'Xem giờ khởi hành', 'route_details' => 'Xem chi tiết tuyến', 'daily' => 'Khởi hành mỗi ngày', 'luggage' => 'Hành lý theo quy định', 'support' => 'Hỗ trợ đặt vé',
       'schedule_kicker' => 'Chọn giờ phù hợp', 'schedule_title' => 'Các giờ khởi hành hằng ngày', 'schedule_text' => 'Giờ chạy, loại xe và giá vé được hiển thị trước khi bạn đặt.',
        'departure' => 'Khởi hành', 'vehicle' => 'Loại xe', 'vehicle_default' => 'Xe phòng', 'price' => 'Giá vé', 'seats' => 'chỗ còn lại', 'choose' => 'Chọn chuyến', 'choose_direction' => 'Chọn chiều đi', 'live_unavailable' => 'Lịch chạy trực tuyến đang tạm thời không khả dụng.', 'no_departures' => 'Chưa có chuyến mở bán cho chiều này hôm nay.',
-      'pickup_kicker' => 'Hệ thống văn phòng', 'pickup_title' => 'Ba điểm hỗ trợ trên hành trình', 'pickup_text' => 'Ghé văn phòng Nhật Dương tại TP. Hồ Chí Minh, Nha Trang hoặc Cam Ranh để được hỗ trợ đặt vé và xác nhận thông tin chuyến đi.',
+      'pickup_kicker' => 'Hệ thống văn phòng', 'pickup_title' => 'Bốn điểm hỗ trợ trên hành trình', 'pickup_text' => 'Ghé văn phòng Nhật Dương tại TP. Hồ Chí Minh, Nha Trang, Cam Ranh hoặc Đà Nẵng để được hỗ trợ đặt vé và xác nhận thông tin chuyến đi.',
       'pickup_1_title' => 'Điểm đón rõ ràng', 'pickup_1_text' => 'Nhận địa chỉ và giờ tập trung trong xác nhận đặt vé.',
       'pickup_2_title' => 'Hỗ trợ hành trình', 'pickup_2_text' => 'Liên hệ hỗ trợ nếu cần điều chỉnh thông tin trước giờ khởi hành.',
       'pickup_3_title' => 'Đến sớm', 'pickup_3_text' => 'Nên có mặt trước giờ khởi hành để hoàn tất lên xe thuận tiện.',
@@ -1278,11 +1280,11 @@
       'faq_3_q' => 'Tôi nhận xác nhận đặt vé ở đâu?', 'faq_3_a' => 'Thông tin xác nhận sẽ được gửi theo phương thức đặt vé của bạn.',
       'news_kicker' => 'Tin tức mới', 'news_title' => 'Cập nhật cho hành trình tiếp theo', 'news_text' => 'Ưu đãi, thông tin dịch vụ và kinh nghiệm di chuyển từ Nhật Dương.', 'read_news' => 'Xem tất cả tin tức', 'read_article' => 'Đọc bài viết',
       'final_title' => 'Sẵn sàng chọn chuyến đi?', 'final_text' => 'Xem giờ chạy phù hợp và hoàn tất đặt vé trực tuyến.', 'contact' => 'Liên hệ hỗ trợ',
-      'footer' => 'Tuyến vận chuyển hành khách Sài Gòn - Nha Trang.',
+      'footer' => 'Tuyến Sài Gòn - Nha Trang và Nha Trang - Đà Nẵng.',
     ],
     'en' => [
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
-      'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
+      'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang · Nha Trang → Da Nang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
       'hero_text' => 'Comfortable space – attentive service', 'official_site' => 'Official website of Nhat Duong Bus', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'return_date' => 'Return date (Round trip)', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
@@ -1290,7 +1292,7 @@
        'view_departures' => 'View departures', 'route_details' => 'View route details', 'daily' => 'Daily departures', 'luggage' => 'Luggage policy available', 'support' => 'Booking support',
       'schedule_kicker' => 'Choose a suitable time', 'schedule_title' => 'Available daily departures', 'schedule_text' => 'Departure time, vehicle type, and fare are visible before you book.',
        'departure' => 'Departure', 'vehicle' => 'Vehicle', 'vehicle_default' => 'Sleeper cabin', 'price' => 'Fare', 'seats' => 'seats remaining', 'choose' => 'Select departure', 'choose_direction' => 'Choose direction', 'live_unavailable' => 'Live departures are temporarily unavailable.', 'no_departures' => 'No departures are on sale for this direction today.',
-      'pickup_kicker' => 'Office network', 'pickup_title' => 'Three offices along your journey', 'pickup_text' => 'Visit a Nhat Duong office in Ho Chi Minh City, Nha Trang, or Cam Ranh for booking assistance and trip confirmation.',
+      'pickup_kicker' => 'Office network', 'pickup_title' => 'Four offices along your journey', 'pickup_text' => 'Visit a Nhat Duong office in Ho Chi Minh City, Nha Trang, Cam Ranh, or Da Nang for booking assistance and trip confirmation.',
       'pickup_1_title' => 'Clear boarding point', 'pickup_1_text' => 'Your confirmation includes the address and meeting time.',
       'pickup_2_title' => 'Trip assistance', 'pickup_2_text' => 'Contact support if you need to clarify your details before travel.',
       'pickup_3_title' => 'Arrive early', 'pickup_3_text' => 'Please arrive early for a smooth check-in and boarding process.',
@@ -1302,11 +1304,11 @@
       'faq_3_q' => 'Where will I receive my confirmation?', 'faq_3_a' => 'Your confirmation is sent through the booking method you use.',
       'news_kicker' => 'Latest news', 'news_title' => 'Updates for your next journey', 'news_text' => 'Offers, service updates, and practical travel guidance from Nhat Duong.', 'read_news' => 'View all news', 'read_article' => 'Read article',
       'final_title' => 'Ready to choose your departure?', 'final_text' => 'See available times and complete your booking online.', 'contact' => 'Contact support',
-      'footer' => 'Passenger service between Ho Chi Minh City and Nha Trang.',
+      'footer' => 'Ho Chi Minh City - Nha Trang and Nha Trang - Da Nang services.',
     ],
     'ru' => [
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
-      'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
+      'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг · Нячанг → Дананг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
       'hero_text' => 'Комфорт в пути – заботливый сервис', 'official_site' => 'Официальный сайт автобусной компании Nhat Duong', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'return_date' => 'Дата возвращения (туда-обратно)', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
@@ -1314,7 +1316,7 @@
        'view_departures' => 'Посмотреть рейсы', 'route_details' => 'Подробнее о маршруте', 'daily' => 'Рейсы каждый день', 'luggage' => 'Правила багажа доступны', 'support' => 'Помощь с бронированием',
       'schedule_kicker' => 'Выберите удобное время', 'schedule_title' => 'Ежедневные рейсы', 'schedule_text' => 'Время отправления, тип автобуса и цена видны до бронирования.',
        'departure' => 'Отправление', 'vehicle' => 'Автобус', 'vehicle_default' => 'Спальный салон', 'price' => 'Цена', 'seats' => 'мест осталось', 'choose' => 'Выбрать рейс', 'choose_direction' => 'Выберите направление', 'live_unavailable' => 'Актуальное расписание временно недоступно.', 'no_departures' => 'Сегодня рейсы в этом направлении ещё не открыты для продажи.',
-      'pickup_kicker' => 'Сеть офисов', 'pickup_title' => 'Три офиса по маршруту', 'pickup_text' => 'Обратитесь в офис Nhat Duong в Хошимине, Нячанге или Камрани для помощи с бронированием и подтверждения деталей поездки.',
+      'pickup_kicker' => 'Сеть офисов', 'pickup_title' => 'Четыре офиса по маршруту', 'pickup_text' => 'Обратитесь в офис Nhat Duong в Хошимине, Нячанге, Камрани или Дананге для помощи с бронированием и подтверждения деталей поездки.',
       'pickup_1_title' => 'Точное место посадки', 'pickup_1_text' => 'Адрес и время встречи указаны в подтверждении.',
       'pickup_2_title' => 'Помощь в поездке', 'pickup_2_text' => 'Свяжитесь с поддержкой, если нужно уточнить детали до поездки.',
       'pickup_3_title' => 'Приезжайте заранее', 'pickup_3_text' => 'Приезжайте заранее для спокойной регистрации и посадки.',
@@ -1326,7 +1328,7 @@
       'faq_3_q' => 'Где я получу подтверждение?', 'faq_3_a' => 'Подтверждение отправляется способом, выбранным при бронировании.',
       'news_kicker' => 'Новые материалы', 'news_title' => 'Обновления для следующей поездки', 'news_text' => 'Предложения, новости сервиса и полезные советы от Nhat Duong.', 'read_news' => 'Все новости', 'read_article' => 'Читать статью',
       'final_title' => 'Готовы выбрать рейс?', 'final_text' => 'Посмотрите доступное время и завершите бронирование онлайн.', 'contact' => 'Связаться с поддержкой',
-      'footer' => 'Пассажирские перевозки между Хошимином и Нячангом.',
+      'footer' => 'Маршруты Хошимин - Нячанг и Нячанг - Дананг.',
     ],
   ][$locale];
 
@@ -1352,15 +1354,20 @@
   $directionLabels = [
     'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' → '.($locations[417][$locale] ?? 'Nha Trang'),
     'nt_sg' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[29][$locale] ?? 'Ho Chi Minh City'),
+    'nt_dn' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[15][$locale] ?? 'Da Nang'),
   ];
+  $directionAreaIds = ['sg_nt' => [29, 417], 'nt_sg' => [417, 29], 'nt_dn' => [417, 15]];
   [$heroName, $heroSpecs] = array_pad(explode(' • ', $copy['hero_title'], 2), 2, '');
-  $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
+  $directionSchedules = array_replace(['sg_nt' => [], 'nt_sg' => [], 'nt_dn' => []], $liveSchedulesByRoute ?? ['sg_nt' => $liveSchedules]);
   $requestedDirection = request('direction');
   $selectedDirection = is_string($requestedDirection) && array_key_exists($requestedDirection, $directionSchedules)
     ? $requestedDirection
     : (array_key_first(array_filter($directionSchedules)) ?? 'sg_nt');
   $hasLiveSchedules = collect($directionSchedules)->contains(fn ($schedules) => !empty($schedules));
   $selectedSchedules = $directionSchedules[$selectedDirection] ?? [];
+  $newRoute = $homeRoutes->get('nt_dn');
+  $newRouteUrl = $newRoute ? route('routes.show', ['slug' => $newRoute->slug, 'lang' => $locale]) : route('routes.index', ['lang' => $locale]);
+  $newRouteLabel = ['vi' => 'Tuyến mới', 'en' => 'New route', 'ru' => 'Новый маршрут'][$locale];
   $faqItems = [
     'vi' => [
       ['Có được nằm 3 người trên một giường không?', 'Không. Vì lý do an toàn và đảm bảo sự thoải mái trong suốt hành trình, mỗi giường được bố trí tối đa 2 hành khách. Nhà xe không áp dụng hình thức 3 người sử dụng chung một giường, kể cả khi có trẻ em đi cùng.'],
@@ -1499,21 +1506,23 @@
     'ru' => ['kicker' => 'ВСЁ ПОНЯТНО ДО ПОЕЗДКИ', 'intro' => 'Проверьте свободные места, пункты посадки и подтверждение оплаты до отправления.'],
   ][$locale];
   $officeLabels = [
-    'vi' => ['label' => 'Văn phòng', 'hcm' => 'VP TP. HỒ CHÍ MINH', 'nha_trang' => 'VP NHA TRANG', 'cam_ranh' => 'VP CAM RANH'],
-    'en' => ['label' => 'Office', 'hcm' => 'HO CHI MINH CITY OFFICE', 'nha_trang' => 'NHA TRANG OFFICE', 'cam_ranh' => 'CAM RANH OFFICE'],
-    'ru' => ['label' => 'Офис', 'hcm' => 'ОФИС В ХОШИМИНЕ', 'nha_trang' => 'ОФИС В НЯЧАНГЕ', 'cam_ranh' => 'ОФИС В КАМРАНИ'],
+    'vi' => ['label' => 'Văn phòng', 'hcm' => 'VP TP. HỒ CHÍ MINH', 'nha_trang' => 'VP NHA TRANG', 'cam_ranh' => 'VP CAM RANH', 'da_nang' => 'VP ĐÀ NẴNG'],
+    'en' => ['label' => 'Office', 'hcm' => 'HO CHI MINH CITY OFFICE', 'nha_trang' => 'NHA TRANG OFFICE', 'cam_ranh' => 'CAM RANH OFFICE', 'da_nang' => 'DA NANG OFFICE'],
+    'ru' => ['label' => 'Офис', 'hcm' => 'ОФИС В ХОШИМИНЕ', 'nha_trang' => 'ОФИС В НЯЧАНГЕ', 'cam_ranh' => 'ОФИС В КАМРАНИ', 'da_nang' => 'ОФИС В ДАНАНГЕ'],
   ][$locale];
   $offices = [
     ['name' => $officeLabels['hcm'], 'address' => '99 Nguyễn Cư Trinh, P. Cầu Ông Lãnh, TP. HCM'],
     ['name' => $officeLabels['nha_trang'], 'address' => '45-26 Thích Quảng Đức, KĐT Hà Quang 2, P. Nam Nha Trang, Khánh Hoà'],
     ['name' => $officeLabels['cam_ranh'], 'address' => '44 Huỳnh Thúc Kháng, P. Cam Ranh, Khánh Hoà'],
+    ['name' => $officeLabels['da_nang'], 'address' => '709 Nguyễn Tất Thành, P. Thanh Khê, TP. Đà Nẵng'],
   ];
   $officeImages = [
     asset('images/offices/office-ho-chi-minh.jpg').'?v=20261012-2',
     asset('images/offices/office-nha-trang.jpg').'?v=20261012-2',
     asset('images/offices/office-cam-ranh.jpg').'?v=20261012-2',
+    asset('images/faq-bus.jpg').'?v=20261012',
   ];
-  $officePins = [$iconAsset('pin-hcm.png'), $iconAsset('pin-nhatrang.png'), $iconAsset('pin-camranh.png')];
+  $officePins = [$iconAsset('pin-hcm.png'), $iconAsset('pin-nhatrang.png'), $iconAsset('pin-camranh.png'), asset('nhat-duong-icon-assets/icon-location.png')];
   $homeTripTabs = [
     'vi' => ['discount' => 'Giảm giá', 'points' => 'Đón/Trả', 'reviews' => 'Đánh giá', 'images' => 'Hình ảnh', 'amenities' => 'Tiện ích', 'operator_policy' => 'Chính sách nhà xe'],
     'en' => ['discount' => 'Discount', 'points' => 'Pickup/Drop-off', 'reviews' => 'Reviews', 'images' => 'Images', 'amenities' => 'Amenities', 'operator_policy' => 'Operator policy'],
@@ -1556,9 +1565,9 @@
     $firstTrip = $fleetTrips->first();
     $fleetTrips->push($fleetCandidates->first(fn ($trip) => ($trip['code'] ?? null) !== ($firstTrip['code'] ?? null)) ?? $firstTrip);
   }
-  $fleetFromId = $selectedDirection === 'nt_sg' ? 417 : 29;
-  $fleetToId = $selectedDirection === 'nt_sg' ? 29 : 417;
-  $startingFare = collect($directionSchedules)->flatten(1)->min('fare') ?: ($route?->price_from ?? 0);
+  [$fleetFromId, $fleetToId] = $directionAreaIds[$selectedDirection];
+  $startingFare = collect($selectedSchedules)->min('fare') ?: ($homeRoutes->get($selectedDirection)?->price_from ?? 0);
+  $summaryStartingFare = collect($directionSchedules['sg_nt'])->min('fare') ?: ($route?->price_from ?? 0);
   $vndPerUsd = max(1, (int) config('services.currency.vnd_per_usd', 26000));
   $toUsd = fn (int|float $amount): string => number_format($amount / $vndPerUsd, 0);
   $weekdays = [
@@ -1690,10 +1699,10 @@
     <div class="hn-shell hn-route-summary__inner">
       <div class="hn-route-summary__route">
         <span class="hn-route-summary__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/route.png') }}" alt=""></span>
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2></div>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2><a class="hn-route-summary__new-route" href="{{ $newRouteUrl }}"><small>{{ $newRouteLabel }}</small>{{ $locations[417][$locale] }} → {{ $locations[15][$locale] }}</a></div>
       </div>
       <dl>
-        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/wallet.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($startingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($startingFare) }}</small></dd></div></div>
+        <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/wallet.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($summaryStartingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($summaryStartingFare) }}</small></dd></div></div>
         <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/time.png') }}" alt=""></span><div><dt>{{ $copy['duration'] }}</dt><dd>{{ $routeDuration }}</dd></div></div>
         <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/calendar.png') }}" alt=""></span><div><dt>{{ $copy['daily'] }}</dt><dd>{{ $homeUi['frequency'] }}</dd></div></div>
       </dl>
@@ -1714,8 +1723,9 @@
           <div class="hn-schedule-list">
             @forelse($directionTrips as $schedule)
               @php
-                $departurePoint = $schedule['pickup'] ?: ($direction === 'nt_sg' ? $locations[417][$locale] : $locations[29][$locale]);
-                $arrivalPoint = $schedule['dropoff'] ?: ($direction === 'nt_sg' ? $locations[29][$locale] : $locations[417][$locale]);
+                [$directionFromId, $directionToId] = $directionAreaIds[$direction];
+                $departurePoint = $schedule['pickup'] ?: $locations[$directionFromId][$locale];
+                $arrivalPoint = $schedule['dropoff'] ?: $locations[$directionToId][$locale];
                 $discountPercent = max(0, (int) ($schedule['discount_percent'] ?? 0));
               @endphp
               <article class="hn-departure-card" data-departure-hour="{{ $schedule['departure']->format('G') }}" data-departure-time="{{ $schedule['departure']->format('Hi') }}" data-departure-fare="{{ $schedule['fare'] }}">

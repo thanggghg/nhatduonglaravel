@@ -49,6 +49,19 @@
                                 <option value="h3">Tiêu đề vừa</option>
                                 <option value="blockquote">Trích dẫn</option>
                             </select>
+                            <select id="editor-font" aria-label="Phông chữ">
+                                <option value="Inter">Inter</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="monospace">Monospace</option>
+                            </select>
+                            <select id="editor-font-size" aria-label="Cỡ chữ">
+                                <option value="2">Nhỏ</option>
+                                <option value="3" selected>Vừa</option>
+                                <option value="4">Lớn</option>
+                                <option value="5">Rất lớn</option>
+                            </select>
                             <span></span>
                             <button type="button" data-editor-command="bold" aria-label="In đậm"><b>B</b></button>
                             <button type="button" data-editor-command="italic" aria-label="In nghiêng"><i>I</i></button>
@@ -57,12 +70,37 @@
                             <button type="button" data-editor-command="insertUnorderedList" aria-label="Danh sách dấu đầu dòng" title="Danh sách dấu đầu dòng"><svg class="post-create__list-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="4" cy="6" r="1.25"/><circle cx="4" cy="12" r="1.25"/><circle cx="4" cy="18" r="1.25"/><path d="M9 6h11M9 12h11M9 18h11"/></svg></button>
                             <button type="button" data-editor-command="insertOrderedList" aria-label="Danh sách đánh số" title="Danh sách đánh số"><svg class="post-create__list-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10"/><text x="1.2" y="8.1">1</text><text x="1.2" y="14.1">2</text><text x="1.2" y="20.1">3</text></svg></button>
                             <button type="button" data-editor-command="createLink" aria-label="Chèn liên kết"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.2 1.2M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.2-1.2"/></svg></button>
+                            <select id="editor-image-layout" aria-label="Bố cục ảnh" title="Chọn bố cục trước khi tải ảnh">
+                                <option value="single">1 ảnh</option>
+                                <option value="pair-portrait">2 ảnh xếp dọc</option>
+                                <option value="pair-landscape">2 ảnh xếp ngang</option>
+                                <option value="trio-left">3 ảnh · lớn bên trái</option>
+                                <option value="trio-top">3 ảnh · lớn phía trên</option>
+                                <option value="quad-grid">4 ảnh · lưới vuông</option>
+                                <option value="quad-feature">4 ảnh · 1 trên, 3 dưới</option>
+                                <option value="five-grid">5 ảnh · 2 trên, 3 dưới</option>
+                            </select>
+                            <button id="editor-image-button" type="button" aria-label="Chèn ảnh hoặc bộ ảnh" title="Tải ảnh theo bố cục đã chọn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 5-5 4 4 3-3 4 4M8 8h.01M5 21h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z"/></svg></button>
                             <button type="button" data-editor-command="removeFormat" aria-label="Xóa định dạng"><svg viewBox="0 0 24 24"><path d="m4 6 16 12M14 5h6M5 19h6"/></svg></button>
+                            <input id="editor-image-input" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+                            <small id="editor-upload-status" class="post-create__upload-status" aria-live="polite"></small>
                         </div>
-                        <div id="content-editor" class="post-create__editable" contenteditable="true" role="textbox" aria-multiline="true" spellcheck="true">{!! old('content') !!}</div>
+                        <div id="content-editor" class="post-create__editable" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Nội dung bài viết" spellcheck="true">{!! old('content') !!}</div>
+                        <div id="editor-image-resizer" class="post-create__image-resizer" hidden>
+                            <strong>Kích thước ảnh</strong>
+                            <input id="editor-image-width" type="range" min="20" max="100" step="5" value="100" aria-label="Chiều rộng ảnh">
+                            <output id="editor-image-width-output">100%</output>
+                            <div aria-label="Kích thước nhanh">
+                                <button type="button" data-image-width="25">25%</button>
+                                <button type="button" data-image-width="50">50%</button>
+                                <button type="button" data-image-width="75">75%</button>
+                                <button type="button" data-image-width="100">100%</button>
+                            </div>
+                            <button id="editor-image-remove" type="button" class="post-create__image-remove">Xóa ảnh</button>
+                        </div>
                     </div>
                     <input id="content" type="hidden" name="content" value="{{ old('content') }}">
-                    <p class="post-create__hint">Dùng tiêu đề, danh sách và liên kết để nội dung dễ đọc hơn.</p>
+                    <p class="post-create__hint">Dùng thanh công cụ để chỉnh phông, cỡ chữ, chèn ảnh, danh sách và liên kết.</p>
                     @error('content')<p class="post-create__error">{{ $message }}</p>@enderror
                 </div>
             </section>
@@ -134,6 +172,11 @@
 @push('styles')
 <style>
     .post-create__toolbar .post-create__list-icon{width:17px;height:17px}.post-create__toolbar .post-create__list-icon circle{fill:currentColor;stroke:none}.post-create__toolbar .post-create__list-icon text{fill:currentColor;stroke:none;font:700 7px Inter,Arial,sans-serif}.post-create__editable ul{list-style:disc outside}.post-create__editable ol{list-style:decimal outside}.post-create__editable li{display:list-item;margin:.25em 0}
+    .post-create__toolbar #editor-font{min-width:105px}.post-create__toolbar #editor-font-size{min-width:76px}.post-create__toolbar #editor-image-layout{max-width:150px}.post-create__upload-status{margin-left:auto;padding:0 5px;color:#0b7f42;font-size:10px;font-weight:800}.post-create__upload-status.is-error{color:#b42318}
+    .post-create__editable{font:500 14px/1.7 Inter,ui-sans-serif,system-ui,sans-serif}.post-create__editable img{display:block;max-width:100%;height:auto;margin:18px auto;border-radius:9px;cursor:pointer}.post-create__editable img.is-selected{outline:3px solid rgba(11,127,66,.3);outline-offset:3px}.post-create__editable font[face="Georgia"],.post-create__editable font[face="Times New Roman"]{line-height:1.75}
+    .post-create__image-resizer{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:9px 11px;background:#f1f8f3;border-top:1px solid #d1ddd5}.post-create__image-resizer[hidden]{display:none}.post-create__image-resizer strong{color:#294b39;font-size:10px}.post-create__image-resizer input{width:130px;accent-color:#0b7f42}.post-create__image-resizer output{min-width:35px;color:#0b7f42;font-size:10px;font-weight:900}.post-create__image-resizer>div{display:flex;gap:3px}.post-create__image-resizer button{min-height:26px;padding:0 7px;color:#365145;background:#fff;border:1px solid #cbdcd1;border-radius:5px;font-size:9px;font-weight:800;cursor:pointer}.post-create__image-resizer button:hover{color:#087841;border-color:#87b99b}.post-create__image-resizer .post-create__image-remove{margin-left:auto;color:#a12b23;border-color:#e5bbb7}
+    .post-create__editable .article-gallery{display:grid!important;gap:8px;width:100%;margin:20px 0}.post-create__editable .article-gallery figure{min-width:0;overflow:hidden;margin:0;background:#e8efe9;border-radius:9px}.post-create__editable .article-gallery img{display:block;width:100%!important;height:100%;margin:0;object-fit:cover;border-radius:0;cursor:pointer}.post-create__editable .article-gallery--pair-portrait{grid-template-columns:minmax(0,1fr)!important}.post-create__editable .article-gallery--pair-portrait figure{aspect-ratio:2/1}.post-create__editable .article-gallery--pair-landscape{grid-template-columns:repeat(2,minmax(0,1fr))!important}.post-create__editable .article-gallery--pair-landscape figure{aspect-ratio:4/3}.post-create__editable .article-gallery--trio-left{grid-template-columns:1.05fr .95fr;grid-template-rows:repeat(2,155px)}.post-create__editable .article-gallery--trio-left figure:first-child{grid-row:1/3}.post-create__editable .article-gallery--trio-top{grid-template-columns:repeat(2,1fr)}.post-create__editable .article-gallery--trio-top figure:first-child{grid-column:1/3;aspect-ratio:2/1}.post-create__editable .article-gallery--trio-top figure:not(:first-child){aspect-ratio:1/1}.post-create__editable .article-gallery--quad-grid{grid-template-columns:repeat(2,1fr)}.post-create__editable .article-gallery--quad-grid figure{aspect-ratio:1/1}.post-create__editable .article-gallery--quad-feature{grid-template-columns:repeat(3,1fr)}.post-create__editable .article-gallery--quad-feature figure:first-child{grid-column:1/4;aspect-ratio:2/1}.post-create__editable .article-gallery--quad-feature figure:not(:first-child){aspect-ratio:1/1}.post-create__editable .article-gallery--five-grid{grid-template-columns:repeat(6,1fr)}.post-create__editable .article-gallery--five-grid figure:nth-child(-n+2){grid-column:span 3;aspect-ratio:4/3}.post-create__editable .article-gallery--five-grid figure:nth-child(n+3){grid-column:span 2;aspect-ratio:1/1}
+    @media(max-width:640px){.post-create__toolbar #editor-font{min-width:88px}.post-create__toolbar #editor-image-layout{max-width:120px}.post-create__editable .article-gallery--trio-left{grid-template-rows:repeat(2,100px)}}
 </style>
 @endpush
 
@@ -144,14 +187,92 @@
         const editor = document.getElementById('content-editor');
         const source = document.getElementById('content');
         const block = document.getElementById('editor-block');
-        if (!form || !editor || !source || !block) return;
+        const font = document.getElementById('editor-font');
+        const fontSize = document.getElementById('editor-font-size');
+        const imageLayout = document.getElementById('editor-image-layout');
+        const imageButton = document.getElementById('editor-image-button');
+        const editorImageInput = document.getElementById('editor-image-input');
+        const uploadStatus = document.getElementById('editor-upload-status');
+        const imageResizer = document.getElementById('editor-image-resizer');
+        const imageWidth = document.getElementById('editor-image-width');
+        const imageWidthOutput = document.getElementById('editor-image-width-output');
+        const imageRemove = document.getElementById('editor-image-remove');
+        if (!form || !editor || !source || !block || !font || !fontSize || !imageLayout || !imageButton || !editorImageInput || !uploadStatus || !imageResizer || !imageWidth || !imageWidthOutput || !imageRemove) return;
 
         const sync = () => { source.value = editor.innerHTML.trim(); };
+        let savedRange = null;
+        const saveSelection = () => {
+            const selection = window.getSelection();
+            if (!selection?.rangeCount) return;
+            const range = selection.getRangeAt(0);
+            if (editor.contains(range.commonAncestorContainer)) savedRange = range.cloneRange();
+        };
+        const restoreSelection = () => {
+            if (!savedRange) {
+                editor.focus();
+                return;
+            }
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(savedRange);
+        };
         editor.addEventListener('input', sync);
+        ['keyup', 'mouseup', 'focus'].forEach((eventName) => editor.addEventListener(eventName, saveSelection));
+
+        let selectedImage = null;
+        const closeImageResizer = () => {
+            selectedImage?.classList.remove('is-selected');
+            selectedImage = null;
+            imageResizer.hidden = true;
+        };
+        const selectImage = (image) => {
+            selectedImage?.classList.remove('is-selected');
+            selectedImage = image;
+            selectedImage.classList.add('is-selected');
+            const width = Math.min(100, Math.max(20, parseInt(selectedImage.style.width, 10) || 100));
+            imageWidth.value = width;
+            imageWidthOutput.value = `${width}%`;
+            imageResizer.hidden = false;
+        };
+        const resizeImage = (width) => {
+            if (!selectedImage) return;
+            const percentage = Math.min(100, Math.max(20, Number(width)));
+            selectedImage.style.width = `${percentage}%`;
+            selectedImage.removeAttribute('width');
+            selectedImage.removeAttribute('height');
+            imageWidth.value = percentage;
+            imageWidthOutput.value = `${percentage}%`;
+            sync();
+        };
+        editor.addEventListener('click', (event) => {
+            if (event.target instanceof HTMLImageElement) {
+                if (event.target.closest('.article-gallery')) {
+                    closeImageResizer();
+                    uploadStatus.textContent = 'Ảnh thuộc bộ ảnh và tự căn theo bố cục.';
+                } else {
+                    selectImage(event.target);
+                }
+            } else {
+                closeImageResizer();
+            }
+        });
+        imageWidth.addEventListener('input', () => resizeImage(imageWidth.value));
+        imageResizer.querySelectorAll('[data-image-width]').forEach((button) => {
+            button.addEventListener('click', () => resizeImage(button.dataset.imageWidth));
+        });
+        imageRemove.addEventListener('click', () => {
+            if (!selectedImage) return;
+            selectedImage.remove();
+            closeImageResizer();
+            sync();
+            editor.focus();
+        });
+
         document.querySelectorAll('[data-editor-command]').forEach((button) => {
             button.addEventListener('mousedown', (event) => event.preventDefault());
             button.addEventListener('click', () => {
                 const command = button.dataset.editorCommand;
+                restoreSelection();
                 if (command === 'createLink') {
                     const url = window.prompt('Dán liên kết (https://...)');
                     if (!url) return;
@@ -160,10 +281,119 @@
                     document.execCommand(command, false, null);
                 }
                 editor.focus();
+                saveSelection();
                 sync();
             });
         });
-        block.addEventListener('change', () => { document.execCommand('formatBlock', false, block.value); editor.focus(); sync(); });
+        block.addEventListener('change', () => {
+            restoreSelection();
+            document.execCommand('formatBlock', false, block.value);
+            editor.focus();
+            saveSelection();
+            sync();
+        });
+        font.addEventListener('change', () => {
+            restoreSelection();
+            document.execCommand('fontName', false, font.value);
+            editor.focus();
+            saveSelection();
+            sync();
+        });
+        fontSize.addEventListener('change', () => {
+            restoreSelection();
+            document.execCommand('fontSize', false, fontSize.value);
+            editor.focus();
+            saveSelection();
+            sync();
+        });
+
+        imageButton.addEventListener('mousedown', () => saveSelection());
+        imageButton.addEventListener('click', () => editorImageInput.click());
+        editorImageInput.addEventListener('change', async () => {
+            const files = Array.from(editorImageInput.files);
+            if (!files.length) return;
+
+            const layout = imageLayout.value;
+            const expectedCounts = {single: 1, 'pair-portrait': 2, 'pair-landscape': 2, 'trio-left': 3, 'trio-top': 3, 'quad-grid': 4, 'quad-feature': 4, 'five-grid': 5};
+            const expectedCount = expectedCounts[layout];
+            if (files.length !== expectedCount) {
+                uploadStatus.classList.add('is-error');
+                uploadStatus.textContent = `Bố cục này cần đúng ${expectedCount} ảnh.`;
+                editorImageInput.value = '';
+                return;
+            }
+
+            uploadStatus.classList.remove('is-error');
+            uploadStatus.textContent = `Đang tải ${files.length} ảnh...`;
+            imageButton.disabled = true;
+
+            try {
+                const uploads = await Promise.all(files.map(async (file) => {
+                    const body = new FormData();
+                    body.append('image', file);
+                    const response = await fetch(@json(route('admin.posts.images.store')), {
+                        method: 'POST',
+                        headers: {'Accept': 'application/json', 'X-CSRF-TOKEN': @json(csrf_token())},
+                        body,
+                    });
+                    if (!response.ok) throw new Error('upload_failed');
+                    return {file, result: await response.json()};
+                }));
+
+                if (layout === 'single') {
+                    const [{file, result}] = uploads;
+                    const alt = window.prompt('Mô tả ngắn cho ảnh', file.name.replace(/\.[^.]+$/, '')) || '';
+                    restoreSelection();
+                    document.execCommand('insertImage', false, result.url);
+                    const insertedImage = Array.from(editor.querySelectorAll('img')).find((image) => image.getAttribute('src') === result.url);
+                    if (insertedImage) {
+                        insertedImage.alt = alt;
+                        insertedImage.style.width = '100%';
+                        selectImage(insertedImage);
+                    }
+                } else {
+                    const gallery = document.createElement('div');
+                    gallery.className = `article-gallery article-gallery--${layout}`;
+                    gallery.style.display = 'grid';
+                    if (layout === 'pair-landscape') gallery.style.gridTemplateColumns = 'repeat(2, minmax(0, 1fr))';
+                    if (layout === 'pair-portrait') gallery.style.gridTemplateColumns = 'minmax(0, 1fr)';
+                    uploads.forEach(({file, result}) => {
+                        const figure = document.createElement('figure');
+                        const image = document.createElement('img');
+                        image.src = result.url;
+                        image.alt = file.name.replace(/\.[^.]+$/, '');
+                        figure.append(image);
+                        gallery.append(figure);
+                    });
+
+                    restoreSelection();
+                    const selection = window.getSelection();
+                    const range = selection?.rangeCount ? selection.getRangeAt(0) : null;
+                    const rangeNode = range?.commonAncestorContainer;
+                    const rangeElement = rangeNode?.nodeType === Node.ELEMENT_NODE ? rangeNode : rangeNode?.parentElement;
+                    const currentBlock = rangeElement?.closest('p,h2,h3,blockquote,ul,ol');
+                    if (currentBlock && editor.contains(currentBlock)) {
+                        currentBlock.insertAdjacentElement('afterend', gallery);
+                    } else {
+                        editor.append(gallery);
+                    }
+                    const spacer = document.createElement('p');
+                    spacer.innerHTML = '<br>';
+                    gallery.insertAdjacentElement('afterend', spacer);
+                    closeImageResizer();
+                }
+                editor.focus();
+                saveSelection();
+                sync();
+                uploadStatus.textContent = `Đã chèn ${files.length} ảnh`;
+            } catch (error) {
+                uploadStatus.classList.add('is-error');
+                uploadStatus.textContent = 'Không thể tải ảnh. Vui lòng thử lại.';
+            } finally {
+                imageButton.disabled = false;
+                editorImageInput.value = '';
+            }
+        });
 
         ['title', 'summary'].forEach((id) => {
             const input = document.getElementById(id);
