@@ -2189,5 +2189,6 @@
     fromLocation.dispatchEvent(new Event('change'));
   })();
 </script>
+@include('partials.analytics')
 </body>
 </html>

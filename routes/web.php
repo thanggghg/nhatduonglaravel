@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminFaqController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AdminContactController;
+use App\Http\Controllers\AnalyticsPageViewController;
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -44,6 +45,7 @@ Route::get('/lich-trinh', [ScheduleController::class, 'index'])->name('schedules
 // Contact
 Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
 Route::post('/lien-he', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
+Route::post('/api/analytics/page-view', AnalyticsPageViewController::class)->middleware('throttle:120,1')->name('analytics.page-view');
 
 // Booking and internal endpoints must never appear in search results.
 Route::middleware('noindex')->group(function () {

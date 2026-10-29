@@ -63,5 +63,6 @@
     </div>
 
     @stack('scripts')
+    @include('partials.analytics')
 </body>
 </html>
