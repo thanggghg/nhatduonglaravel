@@ -125,6 +125,9 @@
                         $period = $tripPeriod($trip['departure']);
                         $originalFare = max($trip['fare'], (int) ($trip['original_fare'] ?? $trip['fare']));
                         $discountPercent = $originalFare > $trip['fare'] ? (int) round((1 - ($trip['fare'] / $originalFare)) * 100) : 0;
+                        $totalFare = $trip['fare'] * $passengerCount;
+                        $originalTotal = $originalFare * $passengerCount;
+                        $savedTotal = $originalTotal - $totalFare;
                         $tabsId = 'trip-tabs-'.$loop->index;
                     @endphp
                     <article class="departure-card {{ $canBook ? '' : 'is-unavailable' }}" data-departure-period="{{ $period }}">
@@ -135,7 +138,14 @@
                             <div class="departure-time"><strong>{{ $trip['arrival']->format('H:i') }}</strong><span>{{ $copy['arrival'] }}</span></div>
                         </div>
                         <div class="departure-meta"><strong>{{ $trip['vehicle_type'] }}</strong></div>
-                        <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><span class="departure-action__label">{{ $copy['fare'] }}</span><strong>{{ number_format($trip['fare'] * $passengerCount) }} VND</strong><small class="departure-action__usd">≈ ${{ $toUsd($trip['fare'] * $passengerCount) }} USD</small><small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }} · ≈ ${{ $toUsd($trip['fare']) }}</small>
+                        <div class="departure-action"><div class="departure-availability"><span>{{ $copy['available'] }}</span><strong>{{ $trip['available_seats'] }}</strong></div><div class="departure-price {{ $discountPercent > 0 ? 'has-discount' : '' }}">
+                                <div class="departure-price__head"><span class="departure-action__label">{{ $discountPercent > 0 ? $copy['sale_fare'] : $copy['fare'] }}</span>@if($discountPercent > 0)<b>-{{ $discountPercent }}%</b>@endif</div>
+                                @if($discountPercent > 0)<del>{{ number_format($originalTotal) }} VND <small>≈ ${{ $toUsd($originalTotal) }}</small></del>@endif
+                                <strong>{{ number_format($totalFare) }} VND</strong>
+                                <small class="departure-action__usd">≈ ${{ $toUsd($totalFare) }} USD</small>
+                                @if($discountPercent > 0)<span class="departure-price__saving">{{ $copy['save'] }} {{ number_format($savedTotal) }} VND · ≈ ${{ $toUsd($savedTotal) }}</span>@endif
+                                <small>{{ number_format($trip['fare']) }} {{ $copy['per_person'] }} · ≈ ${{ $toUsd($trip['fare']) }}</small>
+                            </div>
                             @if($canBook)<a href="{{ route('booking.live.checkout', ['route_id' => $route->id, 'from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'travel_date' => $date->toDateString(), 'passenger_count' => $passengerCount, 'round_trip_stage' => $isRoundTrip ? 'outbound' : null, 'return_travel_date' => $isRoundTrip ? $returnDate?->toDateString() : null, 'round_trip_outbound_reference' => $roundTripOutboundReference, 'lang' => $locale]) }}">{{ $copy['continue'] }} <b aria-hidden="true">→</b></a>@else <em>{{ $copy['sold_out'] }}</em>@endif
                         </div>
                         <div class="trip-info" data-trip-info data-loaded="false" data-loading-label="{{ $copy['loading_details'] }}" data-error-label="{{ $copy['details_error'] }}" data-url="{{ route('booking.trip.info', ['from_id' => $fromId, 'to_id' => $toId, 'trip_code' => $trip['code'], 'fare' => $trip['fare'], 'original_fare' => $originalFare, 'utilities' => implode(',', $trip['utility_ids'] ?? []), 'display_usd' => 1, 'lang' => $locale]) }}">
@@ -211,9 +221,11 @@
 @push('styles')
 <style>
     .departure-action__usd { margin-top:3px; color:#8b6814!important; font-size:11px!important; font-weight:900!important; }
+    .departure-price{display:grid;gap:3px}.departure-price__head{display:flex;align-items:center;justify-content:space-between;gap:8px}.departure-price__head b{padding:4px 7px;color:#fff;background:#d84a22;border-radius:999px;font-size:11px;line-height:1}.departure-price>del{color:#7c8b83;font-size:12px;font-weight:700}.departure-price>del small{font-size:9px}.departure-price>strong{color:#087841;font-size:21px;letter-spacing:-.025em}.departure-price__saving{width:max-content;max-width:100%;margin:4px 0 2px;padding:5px 7px;color:#805800;background:#fff1bf;border-radius:7px;font-size:10px;font-weight:900;line-height:1.35}.departure-price.has-discount{width:100%;padding:10px;border:1px solid #efd98c;border-radius:10px;background:linear-gradient(145deg,#fffdf6,#fff8dc)}
     .trip-price-grid .price-usd { display:block; color:#80651e; font-size:10px; font-weight:800; letter-spacing:0; text-transform:none; }
     .trip-price-save .price-usd { display:inline; margin-left:4px; color:#80651e; }
     .return-preview b small { display:block; margin-top:3px; color:#80651e; font-size:10px; font-weight:800; }
+    @media(max-width:640px){.departure-price{grid-column:1}.departure-price.has-discount{padding:9px}.departure-action a,.departure-action em{grid-row:1/5}.departure-price__saving{white-space:normal}}
 </style>
 @endpush
 
