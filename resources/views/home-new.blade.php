@@ -1125,6 +1125,28 @@
   .hn-stop-card>p:before { top:17px; left:14px; }
   .hn-stop-card>a { width:max-content; min-height:44px; }
   .hn-stop-support { min-height:118px; background:radial-gradient(circle at 67% 120%,rgba(249,223,18,.12),transparent 34%),linear-gradient(110deg,#063c2a,#032d20); border-radius:16px; }
+  .hn-stops__shell { width:min(1480px,calc(100% - 48px)); }
+  .hn-stops .hn-section-heading--split { display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,.72fr); gap:64px; max-width:none; align-items:end; margin:0 0 34px; text-align:left; }
+  .hn-stops .hn-section-heading--split>div { max-width:760px; }
+  .hn-stops .hn-section-heading--split>p { max-width:560px; margin:0 0 5px; font-size:16px; text-align:left; }
+  .hn-stops__grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; }
+  .hn-stop-card { min-height:420px; padding:0 20px 20px; }
+  .hn-stop-card>*:not(.hn-stop-card__photo) { width:auto; }
+  .hn-stop-card__photo { position:relative; top:auto; right:auto; bottom:auto; order:-1; width:calc(100% + 40px); height:176px; margin:0 -20px 20px; border-bottom:1px solid rgba(6,45,28,.1); }
+  .hn-stop-card__photo:after,.hn-stop-card:nth-child(2) .hn-stop-card__photo:after,.hn-stop-card:nth-child(3) .hn-stop-card__photo:after { background:linear-gradient(180deg,transparent 52%,rgba(6,45,28,.18)); }
+  .hn-stop-card__photo img { object-position:center 48%; }
+  .hn-stop-card__head { min-height:58px; align-items:center; }
+  .hn-stop-card__pin { width:42px; height:42px; }
+  .hn-stop-card h3 { font-size:17px; }
+  .hn-stop-card>p { min-height:82px; margin:16px 0 14px; }
+  .hn-stop-card>a { margin-top:auto; }
+  .hn-stop-card:nth-child(4) { background:linear-gradient(145deg,#fff 20%,#f3f0fb 100%); }
+  .hn-stop-card:nth-child(4):before { background:linear-gradient(90deg,#5b4a91,#9b8acc); }
+  .hn-stop-card:nth-child(4) .hn-stop-card__head span { color:#594889; background:#ece7f8; }
+  .hn-stop-card:nth-child(4)>p { border-color:#d9d0ee; }
+  .hn-stop-card:nth-child(4)>p:before { background:#66539a; box-shadow:0 0 0 3px #e5def4; }
+  .hn-stop-card:nth-child(4)>a { color:#594889; border-color:#d2c8e8; }
+  .hn-stop-support { grid-column:1/-1; grid-template-columns:minmax(210px,.6fr) minmax(420px,1.4fr) auto; padding:22px 26px; }
   @media(hover:hover) and (pointer:fine) {
     .hn-stop-card:hover .hn-stop-card__photo img { transform:scale(1.045); }
     .hn-proof__transfer>a:hover { background:#e5cd00; transform:translateY(-1px); }
@@ -1138,6 +1160,12 @@
     .hn-proof__visual img { width:56px; height:56px; }
     .hn-proof__transfer { grid-template-columns:auto 1fr; }
     .hn-proof__transfer>a { grid-column:1/-1; justify-self:start; }
+    .hn-stops__shell { width:min(100% - 32px,1480px); }
+    .hn-stops .hn-section-heading--split { grid-template-columns:1fr; gap:12px; }
+    .hn-stops .hn-section-heading--split>p { max-width:720px; margin:0; }
+    .hn-stops__grid { grid-template-columns:1fr 1fr; }
+    .hn-stop-card:nth-child(3) { grid-column:auto; }
+    .hn-stop-support { grid-template-columns:1fr 1fr; }
   }
   @media(max-width:620px) {
     .hn-proof { padding:36px 0 22px; }
@@ -1156,9 +1184,11 @@
     .hn-proof__transfer { grid-template-columns:auto minmax(0,1fr); padding:14px; }
     .hn-proof__transfer>a { width:100%; justify-content:center; }
     .hn-stops { padding:42px 0 54px; }
-    .hn-stop-card>*:not(.hn-stop-card__photo) { width:auto; }
-    .hn-stop-card__photo { display:none; }
+    .hn-stops__shell { width:min(100% - 28px,1480px); }
+    .hn-stop-card { min-height:auto; padding:0 18px 18px; }
+    .hn-stop-card__photo { display:block; width:calc(100% + 36px); height:160px; margin:0 -18px 18px; }
     .hn-stop-card>p { min-height:0; }
+    .hn-stop-support { grid-column:auto; }
   }
   /* The booking form stays intact while the hero gains a vehicle-led travel scene. */
   .hn-hero { min-height:680px; background:#073b2b; }
@@ -1814,7 +1844,7 @@
   </section>
 
   <section id="pickup" class="hn-section hn-stops" aria-labelledby="stops-title">
-    <div class="hn-shell">
+    <div class="hn-shell hn-stops__shell">
       <div class="hn-section-heading hn-section-heading--split">
         <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['pickup_kicker'] }}</p><h2 id="stops-title">{{ $copy['pickup_title'] }}</h2></div>
         <p>{{ $copy['pickup_text'] }}</p>
