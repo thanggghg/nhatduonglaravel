@@ -94,6 +94,19 @@ class BookingController extends Controller
         try {
             $details = $this->vexere->tripDetails($fromId, $toId, $tripCode, $locale);
             $trip = $details['trip'];
+            if (($trip['original_fare'] ?? $trip['fare']) <= $trip['fare']) {
+                try {
+                    $searchTrip = $this->vexere->findTrip($fromId, $toId, $date, $locale, $tripCode);
+                    if ($searchTrip) {
+                        $trip['original_fare'] = max($trip['fare'], (int) ($searchTrip['original_fare'] ?? $trip['fare']));
+                        $trip['discount_percent'] = $trip['original_fare'] > $trip['fare']
+                            ? (int) round((1 - ($trip['fare'] / $trip['original_fare'])) * 100)
+                            : 0;
+                    }
+                } catch (\Throwable $exception) {
+                    report($exception);
+                }
+            }
             if ($trip['available_seats'] < $passengerCount) {
                 throw ValidationException::withMessages(['trip_code' => 'This departure is no longer available.']);
             }
@@ -105,7 +118,7 @@ class BookingController extends Controller
             throw $validationException;
         } catch (\Throwable $exception) {
             report($exception);
-            $trip = ['code' => $tripCode, 'fare' => 0, 'available_seats' => 0, 'departure' => null, 'arrival' => null, 'vehicle_type' => '', 'duration' => 0, 'pickup' => '', 'dropoff' => '', 'image' => null, 'booking_from_id' => null, 'booking_to_id' => null];
+            $trip = ['code' => $tripCode, 'fare' => 0, 'original_fare' => 0, 'discount_percent' => 0, 'available_seats' => 0, 'departure' => null, 'arrival' => null, 'vehicle_type' => '', 'duration' => 0, 'pickup' => '', 'dropoff' => '', 'image' => null, 'booking_from_id' => null, 'booking_to_id' => null];
             $seatMap = [];
             $seatError = true;
             $pickupOptions = collect();
