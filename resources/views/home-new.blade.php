@@ -1260,7 +1260,7 @@
   $copy = [
     'vi' => [
       'nav_routes' => 'Tuyến xe', 'nav_schedule' => 'Lịch chạy', 'nav_news' => 'Tin tức', 'nav_about' => 'Về chúng tôi', 'nav_contact' => 'Liên hệ',
-      'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang · Nha Trang → Đà Nẵng', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
+      'book' => 'Đặt vé', 'hero_kicker' => 'Sài Gòn ⇄ Nha Trang · Nha Trang ⇄ Đà Nẵng', 'hero_title' => 'Limousine Luxury • 22 phòng • WC trên xe',
       'hero_text' => 'Không gian thoải mái – dịch vụ tận tâm', 'official_site' => 'Website chính thức của Nhà xe Nhật Dương', 'one_way' => 'Một chiều', 'round_trip' => 'Khứ hồi',
       'from' => 'Điểm đi', 'to' => 'Điểm đến', 'date' => 'Ngày đi', 'return_date' => 'Ngày về (Khứ Hồi)', 'passengers' => 'Số khách', 'search' => 'Tìm chuyến',
       'trust_1' => 'Xác nhận đặt vé', 'trust_2' => 'Xe phòng tiện nghi', 'trust_3' => 'Thông tin rõ ràng',
@@ -1284,7 +1284,7 @@
     ],
     'en' => [
       'nav_routes' => 'Routes', 'nav_schedule' => 'Schedule', 'nav_news' => 'News', 'nav_about' => 'About', 'nav_contact' => 'Contact',
-      'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang · Nha Trang → Da Nang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
+      'book' => 'Book now', 'hero_kicker' => 'Ho Chi Minh City ⇄ Nha Trang · Nha Trang ⇄ Da Nang', 'hero_title' => 'Luxury Limousine • 22 cabins • Onboard WC',
       'hero_text' => 'Comfortable space – attentive service', 'official_site' => 'Official website of Nhat Duong Bus', 'one_way' => 'One way', 'round_trip' => 'Round trip',
       'from' => 'From', 'to' => 'To', 'date' => 'Departure date', 'return_date' => 'Return date (Round trip)', 'passengers' => 'Passengers', 'search' => 'Find departures',
       'trust_1' => 'Booking confirmation', 'trust_2' => 'Comfortable sleeper cabin', 'trust_3' => 'Clear trip details',
@@ -1308,7 +1308,7 @@
     ],
     'ru' => [
       'nav_routes' => 'Маршруты', 'nav_schedule' => 'Расписание', 'nav_news' => 'Новости', 'nav_about' => 'О компании', 'nav_contact' => 'Контакты',
-      'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг · Нячанг → Дананг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
+      'book' => 'Забронировать', 'hero_kicker' => 'Хошимин ⇄ Нячанг · Нячанг ⇄ Дананг', 'hero_title' => 'Luxury Limousine • 22 купе • туалет в автобусе',
       'hero_text' => 'Комфорт в пути – заботливый сервис', 'official_site' => 'Официальный сайт автобусной компании Nhat Duong', 'one_way' => 'В одну сторону', 'round_trip' => 'Туда и обратно',
       'from' => 'Откуда', 'to' => 'Куда', 'date' => 'Дата поездки', 'return_date' => 'Дата возвращения (туда-обратно)', 'passengers' => 'Пассажиры', 'search' => 'Найти рейсы',
       'trust_1' => 'Подтверждение бронирования', 'trust_2' => 'Комфортный спальный салон', 'trust_3' => 'Понятные условия поездки',
@@ -1352,9 +1352,9 @@
     15 => ['vi' => 'Đà Nẵng', 'en' => 'Da Nang', 'ru' => 'Дананг'],
   ];
   $directionLabels = [
-    'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' → '.($locations[417][$locale] ?? 'Nha Trang'),
-    'nt_sg' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[29][$locale] ?? 'Ho Chi Minh City'),
-    'nt_dn' => ($locations[417][$locale] ?? 'Nha Trang').' → '.($locations[15][$locale] ?? 'Da Nang'),
+    'sg_nt' => ($locations[29][$locale] ?? 'Ho Chi Minh City').' ⇄ '.($locations[417][$locale] ?? 'Nha Trang'),
+    'nt_sg' => ($locations[417][$locale] ?? 'Nha Trang').' ⇄ '.($locations[29][$locale] ?? 'Ho Chi Minh City'),
+    'nt_dn' => ($locations[417][$locale] ?? 'Nha Trang').' ⇄ '.($locations[15][$locale] ?? 'Da Nang'),
   ];
   $directionAreaIds = ['sg_nt' => [29, 417], 'nt_sg' => [417, 29], 'nt_dn' => [417, 15]];
   [$heroName, $heroSpecs] = array_pad(explode(' • ', $copy['hero_title'], 2), 2, '');
@@ -1672,9 +1672,9 @@
           <div class="hn-booking-tools" aria-label="{{ $bookingToolsUi['routes'] }}">
             <div class="hn-booking-tools__group">
               <span class="hn-booking-tools__label"><img src="{{ $iconAsset('img-map.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['routes'] }}</span>
-              <button class="hn-booking-tool" type="button" data-quick-route data-from="29" data-to="417" aria-pressed="true">{{ $locations[29][$locale] }} → {{ $locations[417][$locale] }}</button>
-              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="29" aria-pressed="false">{{ $locations[417][$locale] }} → {{ $locations[29][$locale] }}</button>
-              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="15" aria-pressed="false">{{ $locations[417][$locale] }} → {{ $locations[15][$locale] }}</button>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="29" data-to="417" aria-pressed="true">{{ $locations[29][$locale] }} ⇄ {{ $locations[417][$locale] }}</button>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="29" aria-pressed="false">{{ $locations[417][$locale] }} ⇄ {{ $locations[29][$locale] }}</button>
+              <button class="hn-booking-tool" type="button" data-quick-route data-from="417" data-to="15" aria-pressed="false">{{ $locations[417][$locale] }} ⇄ {{ $locations[15][$locale] }}</button>
             </div>
             <div class="hn-booking-tools__group">
               <span class="hn-booking-tools__label"><img src="{{ $iconAsset('icon-calendar.png') }}" alt="" aria-hidden="true">{{ $bookingToolsUi['dates'] }}</span>
@@ -1699,7 +1699,7 @@
     <div class="hn-shell hn-route-summary__inner">
       <div class="hn-route-summary__route">
         <span class="hn-route-summary__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/route.png') }}" alt=""></span>
-        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇔ {{ $locations[417][$locale] }}</h2><a class="hn-route-summary__new-route" href="{{ $newRouteUrl }}"><small>{{ $newRouteLabel }}</small>{{ $locations[417][$locale] }} → {{ $locations[15][$locale] }}</a></div>
+        <div><p class="hn-eyebrow hn-eyebrow--green">{{ $copy['route_kicker'] }}</p><h2 id="route-title">{{ $locations[29][$locale] }} ⇄ {{ $locations[417][$locale] }}</h2><a class="hn-route-summary__new-route" href="{{ $newRouteUrl }}"><small>{{ $newRouteLabel }}</small>{{ $locations[417][$locale] }} ⇄ {{ $locations[15][$locale] }}</a></div>
       </div>
       <dl>
         <div><span class="hn-route-stat__icon" aria-hidden="true"><img src="{{ $iconAsset('summary/wallet.png') }}" alt=""></span><div><dt>{{ $copy['from_price'] }}</dt><dd>{{ number_format($summaryStartingFare) }} VND<small class="hn-usd-hint">≈ ${{ $toUsd($summaryStartingFare) }}</small></dd></div></div>
