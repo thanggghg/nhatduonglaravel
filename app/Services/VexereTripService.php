@@ -96,22 +96,31 @@ class VexereTripService
                     'seat_group' => $seat['seat_group'] ?? null,
                     'seat_group_english' => $seat['seat_group_english'] ?? null,
                     'fare' => $seat['fare'] ?? 0,
+                    'fares' => $seat['fares'] ?? [],
                     'seat_color' => $seat['seat_color'] ?? null,
                 ]])->map(function (array $group) use ($locale) {
+                    $fare = (int) ($group['fare'] ?? 0);
+                    $originalFare = max($fare, (int) data_get($group, 'fares.original', $fare));
+                    $roomLabel = implode(' ', array_filter([
+                        $group['seat_group_code'] ?? null,
+                        $group['seat_group'] ?? null,
+                        $group['seat_group_english'] ?? null,
+                    ]));
+
                     return [
                         'id' => is_numeric($group['seat_group_id'] ?? null) ? (int) $group['seat_group_id'] : null,
                         'code' => $group['seat_group_code'] ?? null,
                         'name' => $locale !== 'vi' && filled($group['seat_group_english'] ?? null)
                             ? $group['seat_group_english']
                             : ($group['seat_group'] ?? null),
-                        'fare' => (int) ($group['fare'] ?? 0),
+                        'fare' => $fare,
+                        'original_fare' => $originalFare,
+                        'discount_percent' => $originalFare > $fare ? (int) round((1 - ($fare / $originalFare)) * 100) : 0,
+                        'customer_amount' => preg_match('/\bdoi\b|đôi|double|couple/iu', $roomLabel) ? 2 : 1,
                         'color' => $group['seat_color'] ?? null,
                     ];
                 })->values();
-                $lowestRoomFare = $roomOptions->min('fare');
-                $roomOptions = $roomOptions->map(fn (array $group) => $group + [
-                    'customer_amount' => $group['fare'] === $lowestRoomFare ? 1 : 2,
-                ])->all();
+                $roomOptions = $roomOptions->all();
                 $selectedRoom = collect($roomOptions)->firstWhere('code', $seat['seat_group_code'] ?? null) ?? $roomOptions[0] ?? [];
                 $roomName = $selectedRoom['name'] ?? null;
                 $roomCode = $seat['seat_group_code'] ?? '';
