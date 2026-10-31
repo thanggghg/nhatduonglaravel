@@ -24,10 +24,11 @@ class ContactFormTest extends TestCase
                     && $sourceUrl === route('contact', ['lang' => 'vi']));
         });
 
-        $response = $this->post(route('contact.store'), [
+        $response = $this->withSession(['contact_captcha_answer' => 7])->post(route('contact.store'), [
             'lang' => 'vi',
             'name' => 'Nguyễn Văn An',
             'phone' => '0901234567',
+            'captcha' => 7,
         ]);
 
         $response->assertRedirect();
@@ -37,6 +38,19 @@ class ContactFormTest extends TestCase
             'phone' => '0901234567',
             'message' => '',
         ]);
+    }
+
+    public function test_contact_is_rejected_when_captcha_is_incorrect(): void
+    {
+        $response = $this->withSession(['contact_captcha_answer' => 7])->post(route('contact.store'), [
+            'lang' => 'vi',
+            'name' => 'Nguyễn Văn An',
+            'phone' => '0901234567',
+            'captcha' => 8,
+        ]);
+
+        $response->assertSessionHasErrors('captcha');
+        $this->assertDatabaseCount('contacts', 0);
     }
 
     public function test_contact_email_uses_admin_recipients_and_its_own_template(): void

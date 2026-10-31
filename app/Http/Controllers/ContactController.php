@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Services\ContactEmailService;
 use App\Support\Seo;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
 {
@@ -23,12 +24,28 @@ class ContactController extends Controller
         $seoAlternates = Seo::alternates('contact');
 
         $settings = Setting::pluck('value', 'key');
+        $captchaLeft = random_int(2, 9);
+        $captchaRight = random_int(1, 9);
+        $request->session()->put('contact_captcha_answer', $captchaLeft + $captchaRight);
+        $captchaQuestion = $captchaLeft.' + '.$captchaRight.' = ?';
 
-        return view('contact.index', compact('locale', 'settings', 'seoAlternates'));
+        return view('contact.index', compact('locale', 'settings', 'seoAlternates', 'captchaQuestion'));
     }
 
     public function store(Request $request, ContactEmailService $emailService)
     {
+        $locale = $this->locale($request);
+        $captchaMessages = [
+            'vi' => 'Kết quả CAPTCHA chưa đúng. Vui lòng tính lại phép tính.',
+            'en' => 'The CAPTCHA answer is incorrect. Please solve the calculation again.',
+            'ru' => 'Неверный ответ CAPTCHA. Решите пример ещё раз.',
+        ];
+        $expectedCaptcha = $request->session()->get('contact_captcha_answer');
+
+        if (!is_numeric($request->input('captcha')) || !is_int($expectedCaptcha) || (int) $request->input('captcha') !== $expectedCaptcha) {
+            throw ValidationException::withMessages(['captcha' => $captchaMessages[$locale]]);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
@@ -36,7 +53,7 @@ class ContactController extends Controller
             'message' => 'nullable|string|max:1000',
         ]);
 
-        $locale = $this->locale($request);
+        $request->session()->forget('contact_captcha_answer');
         $validated['message'] = $validated['message'] ?? '';
         $contact = Contact::create($validated);
 
