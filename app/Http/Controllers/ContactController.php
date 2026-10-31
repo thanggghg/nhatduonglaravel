@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Services\ContactEmailService;
 use App\Support\Seo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
@@ -24,36 +25,50 @@ class ContactController extends Controller
         $seoAlternates = Seo::alternates('contact');
 
         $settings = Setting::pluck('value', 'key');
-        $captchaLeft = random_int(2, 9);
-        $captchaRight = random_int(1, 9);
-        $request->session()->put('contact_captcha_answer', $captchaLeft + $captchaRight);
-        $captchaQuestion = $captchaLeft.' + '.$captchaRight.' = ?';
+        $turnstileSiteKey = config('services.turnstile.site_key');
 
-        return view('contact.index', compact('locale', 'settings', 'seoAlternates', 'captchaQuestion'));
+        return view('contact.index', compact('locale', 'settings', 'seoAlternates', 'turnstileSiteKey'));
     }
 
     public function store(Request $request, ContactEmailService $emailService)
     {
         $locale = $this->locale($request);
-        $captchaMessages = [
-            'vi' => 'Kết quả CAPTCHA chưa đúng. Vui lòng tính lại phép tính.',
-            'en' => 'The CAPTCHA answer is incorrect. Please solve the calculation again.',
-            'ru' => 'Неверный ответ CAPTCHA. Решите пример ещё раз.',
+        $turnstileMessages = [
+            'vi' => 'Không thể xác minh CAPTCHA. Vui lòng thử lại.',
+            'en' => 'CAPTCHA verification failed. Please try again.',
+            'ru' => 'Не удалось пройти проверку CAPTCHA. Попробуйте ещё раз.',
         ];
-        $expectedCaptcha = $request->session()->get('contact_captcha_answer');
-
-        if (!is_numeric($request->input('captcha')) || !is_int($expectedCaptcha) || (int) $request->input('captcha') !== $expectedCaptcha) {
-            throw ValidationException::withMessages(['captcha' => $captchaMessages[$locale]]);
-        }
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'message' => 'nullable|string|max:1000',
+            'cf-turnstile-response' => 'required|string|max:2048',
         ]);
 
-        $request->session()->forget('contact_captcha_answer');
+        $turnstileToken = $validated['cf-turnstile-response'];
+        unset($validated['cf-turnstile-response']);
+
+        try {
+            $turnstileResponse = Http::asForm()
+                ->acceptJson()
+                ->connectTimeout(3)
+                ->timeout(8)
+                ->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                    'secret' => config('services.turnstile.secret_key'),
+                    'response' => $turnstileToken,
+                    'remoteip' => $request->ip(),
+                ]);
+        } catch (\Throwable $exception) {
+            report($exception);
+            throw ValidationException::withMessages(['cf-turnstile-response' => $turnstileMessages[$locale]]);
+        }
+
+        if (!$turnstileResponse->successful() || !$turnstileResponse->json('success')) {
+            throw ValidationException::withMessages(['cf-turnstile-response' => $turnstileMessages[$locale]]);
+        }
+
         $validated['message'] = $validated['message'] ?? '';
         $contact = Contact::create($validated);
 

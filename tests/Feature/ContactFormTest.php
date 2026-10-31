@@ -16,6 +16,10 @@ class ContactFormTest extends TestCase
 
     public function test_message_is_optional_and_a_notification_is_requested(): void
     {
+        config(['services.turnstile.secret_key' => 'test-secret']);
+        Http::fake([
+            'challenges.cloudflare.com/turnstile/v0/siteverify' => Http::response(['success' => true]),
+        ]);
         $this->mock(ContactEmailService::class, function (MockInterface $mock): void {
             $mock->shouldReceive('sendNotification')
                 ->once()
@@ -24,11 +28,11 @@ class ContactFormTest extends TestCase
                     && $sourceUrl === route('contact', ['lang' => 'vi']));
         });
 
-        $response = $this->withSession(['contact_captcha_answer' => 7])->post(route('contact.store'), [
+        $response = $this->post(route('contact.store'), [
             'lang' => 'vi',
             'name' => 'Nguyễn Văn An',
             'phone' => '0901234567',
-            'captcha' => 7,
+            'cf-turnstile-response' => 'valid-token',
         ]);
 
         $response->assertRedirect();
@@ -40,16 +44,21 @@ class ContactFormTest extends TestCase
         ]);
     }
 
-    public function test_contact_is_rejected_when_captcha_is_incorrect(): void
+    public function test_contact_is_rejected_when_turnstile_verification_fails(): void
     {
-        $response = $this->withSession(['contact_captcha_answer' => 7])->post(route('contact.store'), [
+        config(['services.turnstile.secret_key' => 'test-secret']);
+        Http::fake([
+            'challenges.cloudflare.com/turnstile/v0/siteverify' => Http::response(['success' => false]),
+        ]);
+
+        $response = $this->post(route('contact.store'), [
             'lang' => 'vi',
             'name' => 'Nguyễn Văn An',
             'phone' => '0901234567',
-            'captcha' => 8,
+            'cf-turnstile-response' => 'invalid-token',
         ]);
 
-        $response->assertSessionHasErrors('captcha');
+        $response->assertSessionHasErrors('cf-turnstile-response');
         $this->assertDatabaseCount('contacts', 0);
     }
 
