@@ -3,7 +3,41 @@
 @section('title', 'Dashboard')
 @section('page-title', 'Dashboard')
 
+@push('styles')
+<style>
+    .ads-mode{margin-bottom:32px;overflow:hidden;background:#fff;border:1px solid #d1ddd5;border-radius:12px;box-shadow:0 4px 16px rgba(11,127,66,.1)}
+    .ads-mode.is-active{background:#fff9e8;border-color:#e7c85d}.ads-mode__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px}.ads-mode__copy{display:flex;align-items:flex-start;gap:16px}.ads-mode__icon{display:grid;width:48px;height:48px;flex:none;place-items:center;color:#0b7f42;background:#e8f8ef;border-radius:8px}.ads-mode.is-active .ads-mode__icon{color:#5c4500;background:#fbb116}.ads-mode__icon svg{width:24px;height:24px}.ads-mode__heading{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px}.ads-mode__heading h2{margin:0;color:#062d1c;font-size:18px;font-weight:800}.ads-mode__status{padding:4px 10px;color:#0b7f42;background:#e8f8ef;border-radius:999px;font-size:11px;font-weight:800}.ads-mode.is-active .ads-mode__status{color:#5c4500;background:#fbb116}.ads-mode__copy p{max-width:720px;margin:0;color:#718278;font-size:13px;line-height:1.6}.ads-mode__form{display:flex;align-items:center;gap:12px;flex:none}.ads-mode__toggle{display:flex;align-items:center;gap:9px;color:#365145;font-size:13px;font-weight:700;cursor:pointer}.ads-mode__toggle input{width:20px;height:20px;accent-color:#e6a000}.ads-mode__form button{padding:10px 16px;color:#fff;background:#062d1c;border:0;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer}.ads-mode__form button:hover{background:#0b7f42}@media(max-width:800px){.ads-mode__inner{align-items:stretch;flex-direction:column}.ads-mode__form{justify-content:flex-end}}@media(max-width:520px){.ads-mode__copy{display:grid}.ads-mode__form{align-items:stretch;flex-direction:column}.ads-mode__form button{width:100%}}
+</style>
+@endpush
+
 @section('content')
+<section class="ads-mode {{ $adsBookingMode ? 'is-active' : '' }}">
+    <div class="ads-mode__inner">
+        <div class="ads-mode__copy">
+            <span class="ads-mode__icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.99 3.99 0 01-1.564-.317z"></path></svg>
+            </span>
+            <div>
+                <div class="ads-mode__heading">
+                    <h2>Chế độ chạy quảng cáo</h2>
+                    <span class="ads-mode__status">{{ $adsBookingMode ? 'ĐANG BẬT' : 'ĐANG TẮT' }}</span>
+                </div>
+                <p>Khi bật, yêu cầu đặt vé chỉ được lưu để chăm sóc khách hàng và gửi email cho khách cùng t0972199672@gmail.com. Hệ thống không tạo đơn, không giữ ghế trên API và không chuyển khách sang thanh toán.</p>
+            </div>
+        </div>
+        <form method="POST" action="{{ route('admin.dashboard.ads-booking-mode') }}" class="ads-mode__form">
+            @csrf
+            @method('PATCH')
+            <input type="hidden" name="ads_booking_mode" value="0">
+            <label class="ads-mode__toggle">
+                <input type="checkbox" name="ads_booking_mode" value="1" @checked($adsBookingMode)>
+                Chạy quảng cáo
+            </label>
+            <button type="submit">Lưu trạng thái</button>
+        </form>
+    </div>
+</section>
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-24 mb-32">
     <!-- Stats Cards -->
     <div class="bg-canvas-white rounded-lg shadow-md p-24">

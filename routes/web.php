@@ -80,6 +80,7 @@ Route::prefix('admin')->name('admin.')->middleware('noindex')->group(function ()
     // Protected admin routes
     Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::patch('/dashboard/ads-booking-mode', [DashboardController::class, 'updateAdsBookingMode'])->name('dashboard.ads-booking-mode');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
         // Content

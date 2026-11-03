@@ -8,20 +8,28 @@ use RuntimeException;
 
 class BookingEmailService
 {
-    public function sendConfirmation(Booking $booking, string $sourceUrl): void
+    public function sendConfirmation(Booking $booking, string $sourceUrl, bool $adsMode = false): void
     {
         $apiKey = config('services.smtp2go.api_key');
         $cc = config('services.smtp2go.cc', []);
         $customerEmail = $booking->passenger_email;
-        $to = $customerEmail ? [$customerEmail] : array_slice($cc, 0, 1);
+        if ($adsMode) {
+            $to = array_values(array_unique(array_filter([
+                $customerEmail,
+                config('services.smtp2go.ads_recipient'),
+            ])));
+            $cc = [];
+        } else {
+            $to = $customerEmail ? [$customerEmail] : array_slice($cc, 0, 1);
+        }
 
         if (!$apiKey || !$to) {
             return;
         }
 
-        if (!$customerEmail) {
+        if (!$adsMode && !$customerEmail) {
             $cc = array_slice($cc, 1);
-        } else {
+        } elseif (!$adsMode) {
             $cc = array_values(array_diff($cc, [$customerEmail]));
         }
 
@@ -31,7 +39,9 @@ class BookingEmailService
 
         $booking->loadMissing('route');
         $html = view('emails.booking-confirmation', compact('booking', 'sourceUrl'))->render();
-        $paymentMethod = $booking->payment_provider === 'cash' ? 'Tiền mặt khi lên xe' : 'Chuyển khoản ngân hàng';
+        $paymentMethod = $booking->ads_mode
+            ? 'Nhân viên liên hệ xác nhận'
+            : ($booking->payment_provider === 'cash' ? 'Tiền mặt khi lên xe' : 'Chuyển khoản ngân hàng');
         $text = implode("\n", [
             'Có 1 đặt vé mới:',
             '- Mã đặt vé: '.$booking->reference,

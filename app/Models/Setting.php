@@ -17,4 +17,9 @@ class Setting extends Model
         $setting = self::where('key', $key)->first();
         return $setting ? $setting->value : $default;
     }
+
+    public static function adsBookingMode(): bool
+    {
+        return self::get('ads_booking_mode', '0') === '1';
+    }
 }

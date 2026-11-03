@@ -6,7 +6,7 @@
         'en' => ['title' => 'Your ticket payment is confirmed', 'text' => 'Your payment has been recorded. The operator will send boarding details before departure.', 'reference' => 'Booking reference', 'status' => 'Status', 'pending' => 'Pending confirmation', 'paid' => 'Paid', 'trip' => 'Outbound', 'return' => 'Return', 'total' => 'Total paid', 'home' => 'Back to home', 'help' => 'Need to change details?', 'vehicle' => 'Sleeper bus'],
         'ru' => ['title' => 'Оплата билета подтверждена', 'text' => 'Ваш платеж получен. Перевозчик пришлет информацию о посадке до отправления.', 'reference' => 'Номер заявки', 'status' => 'Статус', 'pending' => 'Ожидает подтверждения', 'paid' => 'Оплачено', 'trip' => 'Туда', 'return' => 'Обратно', 'total' => 'Сумма оплаты', 'home' => 'На главную', 'help' => 'Нужно изменить данные?', 'vehicle' => 'Спальный автобус'],
     ][$locale];
-    if ($booking->payment_provider === 'cash') {
+    if ($booking->ads_mode || $booking->payment_provider === 'cash') {
         $cashCopy = [
             'vi' => ['title' => 'Đặt vé thành công', 'text' => "Thông tin đặt vé đã được ghi nhận. Nhân viên Nhật Dương sẽ liên hệ để xác nhận toàn bộ thông tin và hướng dẫn quý khách thanh toán.\nTrân trọng cảm ơn!", 'pending' => 'Chờ nhà xe xác nhận', 'total' => 'Tổng tiền cần thanh toán'],
             'en' => ['title' => 'Booking received', 'text' => "Your booking information has been received. A Nhat Duong representative will contact you to confirm all details and guide you through the payment process.\nThank you sincerely!", 'total' => 'Amount due'],

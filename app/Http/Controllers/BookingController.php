@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingSeat;
 use App\Models\Route as BusRoute;
 use App\Models\Schedule;
+use App\Models\Setting;
 use App\Services\BookingEmailService;
 use App\Services\NhatDuongPublicBookingService;
 use App\Services\VexereTripService;
@@ -409,9 +410,11 @@ class BookingController extends Controller
 
         $reference = $this->reference();
         $idempotencyKey = 'web-live-'.$reference;
+        $adsMode = Setting::adsBookingMode();
+        $quotedAmount = collect($apiSeats)->sum('expectedFare');
 
         try {
-            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale, $pickupPoint, $dropoffPoint, $reference, $idempotencyKey) {
+            $booking = DB::transaction(function () use ($route, $trip, $date, $validated, $selectedSeats, $locale, $pickupPoint, $dropoffPoint, $reference, $idempotencyKey, $adsMode, $quotedAmount) {
                 $booking = Booking::create([
                     'reference' => $reference,
                     'route_id' => $route->id,
@@ -431,15 +434,16 @@ class BookingController extends Controller
                     'seat_preference' => $validated['seat_preference'] ?? 'any',
                     'selected_seats' => $selectedSeats,
                     'notes' => $validated['notes'] ?? null,
-                    // The provider supplies the amount after it has held the selected seats.
-                    'outbound_fare' => 0,
-                    'total_amount' => 0,
-                    'status' => 'external_pending',
-                    'payment_code' => $validated['payment_method'] === 'cash' ? null : $this->paymentCode(),
-                    'payment_status' => 'awaiting_external_order',
+                    // In normal mode, the provider supplies the authoritative amount after holding the seats.
+                    'outbound_fare' => $adsMode ? $quotedAmount : 0,
+                    'total_amount' => $adsMode ? $quotedAmount : 0,
+                    'status' => $adsMode ? 'pending' : 'external_pending',
+                    'payment_code' => $adsMode || $validated['payment_method'] === 'cash' ? null : $this->paymentCode(),
+                    'payment_status' => $adsMode ? 'ads_pending' : 'awaiting_external_order',
                     'payment_provider' => $validated['payment_method'] === 'cash' ? 'cash' : 'sepay',
-                    'public_booking_idempotency_key' => $idempotencyKey,
+                    'public_booking_idempotency_key' => $adsMode ? null : $idempotencyKey,
                     'locale' => $locale,
+                    'ads_mode' => $adsMode,
                 ]);
 
                 return $booking;
@@ -448,48 +452,50 @@ class BookingController extends Controller
             throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
         }
 
-        try {
-            $order = $this->publicBooking->createOrder($orderPayload, $idempotencyKey);
-        } catch (\Throwable $exception) {
-            $booking->update([
-                'status' => 'failed',
-                'payment_status' => 'external_order_failed',
-            ]);
-            report($exception);
+        if (!$adsMode) {
+            try {
+                $order = $this->publicBooking->createOrder($orderPayload, $idempotencyKey);
+            } catch (\Throwable $exception) {
+                $booking->update([
+                    'status' => 'failed',
+                    'payment_status' => 'external_order_failed',
+                ]);
+                report($exception);
 
-            throw ValidationException::withMessages(['trip_code' => 'Unable to reserve the selected seats. Please choose another departure or try again.']);
-        }
+                throw ValidationException::withMessages(['trip_code' => 'Unable to reserve the selected seats. Please choose another departure or try again.']);
+            }
 
-        try {
-            DB::transaction(function () use ($booking, $order, $selectedSeats, $trip, $date) {
-                BookingSeat::insert(collect($selectedSeats)->map(fn (string $seat) => [
-                    'booking_id' => $booking->id,
-                    'trip_code' => $trip['code'],
-                    'travel_date' => $date->toDateString(),
-                    'seat' => $seat,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ])->all());
+            try {
+                DB::transaction(function () use ($booking, $order, $selectedSeats, $trip, $date) {
+                    BookingSeat::insert(collect($selectedSeats)->map(fn (string $seat) => [
+                        'booking_id' => $booking->id,
+                        'trip_code' => $trip['code'],
+                        'travel_date' => $date->toDateString(),
+                        'seat' => $seat,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ])->all());
 
-            Booking::lockForUpdate()->findOrFail($booking->id)->update([
-                'public_booking_order_id' => $order['order_id'],
-                'public_booking_status' => $order['status'],
-                'public_booking_ticket_codes' => $order['ticket_codes'],
-                'public_booking_codes' => $order['booking_codes'],
-                'outbound_fare' => $order['amount'],
-                'total_amount' => $order['amount'],
-                'currency' => $order['currency'],
-                'status' => 'pending',
-                'payment_status' => $booking->payment_provider === 'cash' ? 'cash_pending' : 'awaiting_payment',
-            ]);
-            });
-        } catch (QueryException) {
-            $booking->update([
-                'status' => 'failed',
-                'payment_status' => 'external_order_conflict',
-            ]);
+                    Booking::lockForUpdate()->findOrFail($booking->id)->update([
+                        'public_booking_order_id' => $order['order_id'],
+                        'public_booking_status' => $order['status'],
+                        'public_booking_ticket_codes' => $order['ticket_codes'],
+                        'public_booking_codes' => $order['booking_codes'],
+                        'outbound_fare' => $order['amount'],
+                        'total_amount' => $order['amount'],
+                        'currency' => $order['currency'],
+                        'status' => 'pending',
+                        'payment_status' => $booking->payment_provider === 'cash' ? 'cash_pending' : 'awaiting_payment',
+                    ]);
+                });
+            } catch (QueryException) {
+                $booking->update([
+                    'status' => 'failed',
+                    'payment_status' => 'external_order_conflict',
+                ]);
 
-            throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
+                throw ValidationException::withMessages(['selected_seats' => 'One or more selected seats were just taken. Please choose again.']);
+            }
         }
 
         $booking->refresh();
@@ -498,6 +504,7 @@ class BookingController extends Controller
             $this->bookingEmail->sendConfirmation(
                 $booking->load('route'),
                 (string) $request->headers->get('referer', route('booking.live.checkout')),
+                $adsMode,
             );
         } catch (\Throwable $exception) {
             report($exception);
@@ -524,7 +531,7 @@ class BookingController extends Controller
             $request->session()->forget('round_trip_passenger_'.$validated['round_trip_outbound_reference']);
         }
 
-        $routeName = $booking->payment_provider === 'cash' ? 'booking.success' : 'booking.payment.show';
+        $routeName = $adsMode || $booking->payment_provider === 'cash' ? 'booking.success' : 'booking.payment.show';
 
         return redirect()->route($routeName, ['booking' => $booking, 'lang' => $booking->locale]);
     }

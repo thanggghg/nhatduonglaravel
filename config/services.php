@@ -88,6 +88,7 @@ return [
     'smtp2go' => [
         'api_key' => env('SMTP2GO_API_KEY'),
         'sender' => env('SMTP2GO_SENDER', 'no-reply@nhaxenhatduong.com'),
+        'ads_recipient' => env('SMTP2GO_ADS_RECIPIENT', 't0972199672@gmail.com'),
         'cc' => array_values(array_filter(array_map('trim', explode(',', (string) env(
             'SMTP2GO_CC',
             't0972199672@gmail.com,binhminhbusaigon@gmail.com,binhminhbus@gmail.com,binhminhbusnhatrang@gmail.com,Buihuyentrang.lvd@gmail.com,nhatduongbmb@gmail.com'

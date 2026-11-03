@@ -7,7 +7,9 @@
 </head>
 <body style="margin:0;background:#f3f7f4;color:#173014;font-family:Arial,sans-serif">
     @php
-        $paymentMethod = $booking->payment_provider === 'cash' ? 'Tiền mặt khi lên xe' : 'Chuyển khoản ngân hàng';
+        $paymentMethod = $booking->ads_mode
+            ? 'Nhân viên liên hệ xác nhận'
+            : ($booking->payment_provider === 'cash' ? 'Tiền mặt khi lên xe' : 'Chuyển khoản ngân hàng');
         $departure = optional($booking->departure_at);
     @endphp
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f7f4;padding:28px 12px">

@@ -48,6 +48,7 @@ class Booking extends Model
         'payment_payload',
         'paid_at',
         'locale',
+        'ads_mode',
     ];
 
     protected $casts = [
@@ -64,6 +65,7 @@ class Booking extends Model
         'public_booking_codes' => 'array',
         'payment_payload' => 'array',
         'paid_at' => 'datetime',
+        'ads_mode' => 'boolean',
     ];
 
     public function getRouteKeyName(): string
