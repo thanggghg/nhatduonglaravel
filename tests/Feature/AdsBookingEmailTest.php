@@ -16,7 +16,7 @@ class AdsBookingEmailTest extends TestCase
         config([
             'services.smtp2go.api_key' => 'test-key',
             'services.smtp2go.sender' => 'sender@example.com',
-            'services.smtp2go.ads_recipient' => 't0972199672@gmail.com',
+            'services.smtp2go.ads_recipients' => ['t0972199672@gmail.com', 'ngothien9163@gmail.com'],
             'services.smtp2go.cc' => ['other@example.com'],
         ]);
         Http::fake([
@@ -47,7 +47,7 @@ class AdsBookingEmailTest extends TestCase
         Http::assertSent(function ($request): bool {
             $payload = $request->data();
 
-            return $payload['to'] === ['customer@example.com', 't0972199672@gmail.com']
+            return $payload['to'] === ['customer@example.com', 't0972199672@gmail.com', 'ngothien9163@gmail.com']
                 && $payload['cc'] === []
                 && $payload['subject'] === '[Nhật Dương] Xác nhận đặt vé ND-TEST-ADS';
         });

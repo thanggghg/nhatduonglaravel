@@ -14,10 +14,10 @@ class BookingEmailService
         $cc = config('services.smtp2go.cc', []);
         $customerEmail = $booking->passenger_email;
         if ($adsMode) {
-            $to = array_values(array_unique(array_filter([
-                $customerEmail,
-                config('services.smtp2go.ads_recipient'),
-            ])));
+            $to = array_values(array_unique(array_filter(array_merge(
+                [$customerEmail],
+                config('services.smtp2go.ads_recipients', []),
+            ))));
             $cc = [];
         } else {
             $to = $customerEmail ? [$customerEmail] : array_slice($cc, 0, 1);
