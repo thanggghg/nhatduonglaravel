@@ -11,8 +11,10 @@ class ContactEmailService
     public function sendNotification(Contact $contact, string $sourceUrl): void
     {
         $apiKey = config('services.smtp2go.api_key');
-        $recipients = config('services.smtp2go.cc', []);
-        $to = array_slice($recipients, 0, 1);
+        $recipients = $contact->ads_mode
+            ? config('services.smtp2go.ads_recipients', [])
+            : config('services.smtp2go.cc', []);
+        $to = $contact->ads_mode ? $recipients : array_slice($recipients, 0, 1);
 
         if (!$apiKey || !$to) {
             return;
@@ -42,7 +44,7 @@ class ContactEmailService
             ->post('https://api.smtp2go.com/v3/email/send', [
                 'api_key' => $apiKey,
                 'to' => $to,
-                'cc' => array_slice($recipients, 1),
+                'cc' => $contact->ads_mode ? [] : array_slice($recipients, 1),
                 'sender' => config('services.smtp2go.sender'),
                 'subject' => '[Nhật Dương] Yêu cầu liên hệ mới #'.$contact->id.' - '.$name,
                 'text_body' => $text,

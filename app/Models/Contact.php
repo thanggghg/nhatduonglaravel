@@ -13,10 +13,12 @@ class Contact extends Model
         'subject',
         'message',
         'status',
+        'ads_mode',
         'replied_at',
     ];
 
     protected $casts = [
         'replied_at' => 'datetime',
+        'ads_mode' => 'boolean',
     ];
 }

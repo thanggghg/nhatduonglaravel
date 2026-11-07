@@ -70,6 +70,7 @@ class ContactController extends Controller
         }
 
         $validated['message'] = $validated['message'] ?? '';
+        $validated['ads_mode'] = Setting::adsBookingMode();
         $contact = Contact::create($validated);
 
         try {

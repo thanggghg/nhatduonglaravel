@@ -22,7 +22,7 @@
                     <h2>Chế độ chạy quảng cáo</h2>
                     <span class="ads-mode__status">{{ $adsBookingMode ? 'ĐANG BẬT' : 'ĐANG TẮT' }}</span>
                 </div>
-                <p>Khi bật, yêu cầu đặt vé chỉ được lưu để chăm sóc khách hàng và gửi email cho khách cùng t0972199672@gmail.com, ngothien9163@gmail.com. Hệ thống không tạo đơn, không giữ ghế trên API và không chuyển khách sang thanh toán.</p>
+                <p>Khi bật, yêu cầu đặt vé không tạo đơn hoặc giữ ghế trên API. Email đặt vé gửi cho khách và hai địa chỉ quảng cáo; email liên hệ chỉ gửi tới t0972199672@gmail.com và ngothien9163@gmail.com thay vì danh sách nội bộ thông thường.</p>
             </div>
         </div>
         <form method="POST" action="{{ route('admin.dashboard.ads-booking-mode') }}" class="ads-mode__form">
