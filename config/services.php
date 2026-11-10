@@ -90,7 +90,7 @@ return [
         'sender' => env('SMTP2GO_SENDER', 'no-reply@nhaxenhatduong.com'),
         'ads_recipients' => array_values(array_filter(array_map('trim', explode(',', (string) env(
             'SMTP2GO_ADS_RECIPIENTS',
-            't0972199672@gmail.com,ngothien9163@gmail.com'
+            't0972199672@gmail.com'
         ))))),
         'cc' => array_values(array_filter(array_map('trim', explode(',', (string) env(
             'SMTP2GO_CC',

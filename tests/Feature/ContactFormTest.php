@@ -123,7 +123,7 @@ class ContactFormTest extends TestCase
         config([
             'services.smtp2go.api_key' => 'test-key',
             'services.smtp2go.sender' => 'no-reply@example.com',
-            'services.smtp2go.ads_recipients' => ['t0972199672@gmail.com', 'ngothien9163@gmail.com'],
+            'services.smtp2go.ads_recipients' => ['t0972199672@gmail.com'],
             'services.smtp2go.cc' => ['primary@example.com', 'team@example.com'],
         ]);
         Http::fake([
@@ -142,7 +142,7 @@ class ContactFormTest extends TestCase
         Http::assertSent(function (Request $request): bool {
             $data = $request->data();
 
-            return $data['to'] === ['t0972199672@gmail.com', 'ngothien9163@gmail.com']
+            return $data['to'] === ['t0972199672@gmail.com']
                 && $data['cc'] === [];
         });
     }
